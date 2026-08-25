@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>5학년 수학 학습 포털</title>
@@ -184,32 +183,6 @@
 </div>
 
 <script>
-import { AdMob, BannerAdPosition, BannerAdSize } from '@capacitor-community/admob';
-
-async function initAdMob() {
-  try {
-    // 1. 애드몹 초기화 및 아동용 보안 설정
-    await AdMob.initialize({
-      requestTrackingAuthorization: true,
-      tagForChildDirectedTreatment: true, // 아동 대상 앱 설정 (성인 광고 차단)
-    });
-
-    // 2. 하단 배너 광고 띄우기 (구글 공식 테스트용 ID)
-    await AdMob.showBanner({
-      adId: 'ca-app-pub-3940256099942544/6300978111',
-      adSize: BannerAdSize.BANNER,
-      position: BannerAdPosition.BOTTOM_CENTER,
-      margin: 0
-    });
-  } catch (e) {
-    console.log("AdMob 오류:", e);
-  }
-}
-
-// 화면 로딩 완료 시 광고 실행
-document.addEventListener('DOMContentLoaded', () => {
-  initAdMob();
-});
 let userName = "";
 let selectedCategory = "";
 let currentSubTitle = "";
