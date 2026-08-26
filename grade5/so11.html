@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>초등 사회 5-2 스피드 퀴즈</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    body {
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 480px;
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      padding: 32px 24px;
+      text-align: center;
+      position: relative;
+    }
+
+    /* 상단 네비게이션 버튼 */
+    .top-nav {
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 16px;
+    }
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background-color: #f1f5f9;
+      color: #475569;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .nav-btn:hover {
+      background-color: #e2e8f0;
+      color: #0f172a;
+    }
+
+    h1 {
+      font-size: 22px;
+      color: #1e293b;
+      margin-bottom: 24px;
+      line-height: 1.4;
+    }
+
+    .badge {
+      display: inline-block;
+      background-color: #e0f2fe;
+      color: #0369a1;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: #475569;
+      margin-bottom: 8px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 16px;
+      outline: none;
+      transition: all 0.2s ease;
+      background-color: #fff;
+    }
+
+    input:focus {
+      border-color: #0284c7;
+      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 16px;
+      background-color: #0284c7;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .btn-primary:hover {
+      background-color: #0369a1;
+    }
+
+    .btn-secondary {
+      width: 100%;
+      padding: 14px;
+      background-color: #f1f5f9;
+      color: #334155;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .btn-secondary:hover {
+      background-color: #e2e8f0;
+      color: #0f172a;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* 카운트다운 화면 */
+    #countdown-screen h2 {
+      font-size: 84px;
+      color: #0284c7;
+      margin: 30px 0;
+      font-weight: 800;
+    }
+
+    /* 퀴즈 화면 */
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+
+    .question-box {
+      font-size: 18px;
+      font-weight: 700;
+      color: #0f172a;
+      margin: 20px 0 24px 0;
+      word-break: keep-all;
+      line-height: 1.6;
+      text-align: left;
+      background-color: #f8fafc;
+      padding: 20px;
+      border-radius: 14px;
+      border-left: 5px solid #0284c7;
+      min-height: 110px;
+      display: flex;
+      align-items: center;
+    }
+
+    /* 결과 화면 */
+    .result-card {
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 20px;
+      margin: 24px 0;
+      text-align: left;
+    }
+
+    .result-card p {
+      font-size: 15px;
+      color: #334155;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .result-card p:last-child {
+      margin-bottom: 0;
+    }
+
+    .result-card strong {
+      color: #0f172a;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- 1. 첫 화면: 이름 입력 -->
+    <div id="start-screen">
+      <div class="top-nav">
+        <a href="../index.html" class="nav-btn">🏠 메인 목록</a>
+      </div>
+      <div class="badge">초등 사회 5-2 1단원</div>
+      <h1>선사 시대와 고조선<br>스피드 퀴즈 도전기</h1>
+      <div class="form-group">
+        <label for="user-name">도전자 이름</label>
+        <input type="text" id="user-name" placeholder="이름을 입력하세요" autocomplete="off">
+      </div>
+      <button class="btn-primary" onclick="prepareQuiz()">시작하기</button>
+    </div>
+
+    <!-- 2. 카운트다운 화면 -->
+    <div id="countdown-screen" class="hidden">
+      <div class="top-nav">
+        <button onclick="confirmGoStart()" class="nav-btn">🏠 처음으로</button>
+      </div>
+      <p style="font-size: 18px; color: #64748b; font-weight: 600;">준비하세요!</p>
+      <h2 id="countdown-number">3</h2>
+    </div>
+
+    <!-- 3. 퀴즈 실행 화면 -->
+    <div id="quiz-screen" class="hidden">
+      <div class="quiz-header">
+        <button onclick="confirmGoStart()" class="nav-btn" style="font-size: 12px; padding: 4px 8px;">🏠 처음으로</button>
+        <span id="progress-display">1 / 10</span>
+      </div>
+      <div class="question-box" id="question-text"></div>
+      <div class="form-group">
+        <input type="text" id="user-answer" placeholder="정답을 입력하세요" autocomplete="off">
+      </div>
+      <button class="btn-primary" onclick="submitAnswer()">정답 제출</button>
+    </div>
+
+    <!-- 4. 성공 결과 화면 -->
+    <div id="result-screen" class="hidden">
+      <div class="top-nav">
+        <button onclick="resetQuiz()" class="nav-btn">🏠 처음으로</button>
+      </div>
+      <h1 style="color: #16a34a; margin-bottom: 8px;">🎉 미션 성공! 🎉</h1>
+      <p style="color: #64748b; font-size: 15px;">10문제를 모두 올바르게 맞추셨습니다!</p>
+      
+      <div class="result-card">
+        <p><strong>도전자:</strong> <span id="res-name"></span></p>
+        <p><strong>완료 시간:</strong> <span id="res-date"></span></p>
+        <p><strong>소요 시간:</strong> <span id="res-time"></span>초</p>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn-primary" onclick="resetQuiz()">🔄 다시 도전하기 (처음으로)</button>
+        <a href="../index.html" class="btn-secondary">🏠 메인 목록으로</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 24문항 문제 데이터 (질문, 정답, 간단한 해설 추가)
+    const quizData = [
+      { question: "한반도와 그 주변 지역에 사람이 살기 시작한 약 70만 년 전 시기를 무엇이라고 합니까?", answer: ["구석기 시대", "구석기시대", "구석기"], explanation: "구석기 시대는 약 70만 년 전부터 뗀석기를 사용하며 이동 생활을 했던 시기입니다." },
+      { question: "구석기 시대에 돌을 깨뜨리거나 떼어서 만든 도구를 무엇이라고 합니까?", answer: ["뗀석기"], explanation: "주먹도끼, 슴베찌르개처럼 돌을 깨뜨리거나 떼어 내어 만든 도구를 뗀석기라고 합니다." },
+      { question: "구석기 시대 사람들이 정착하지 않고 이동하면서 한데에 간단히 지어 살았던 집을 무엇이라고 합니까?", answer: ["막집"], explanation: "구석기인들은 사냥과 채집을 위해 이동 생활을 하며 동굴이나 막집에서 살았습니다." },
+      { question: "구석기 시대 사람들이 추위와 사나운 짐승으로부터 몸을 보호하고 음식을 익혀 먹기 위해 사용한 것은 무엇입니까?", answer: ["불"], explanation: "불을 이용하여 추위와 사나운 짐승을 막고, 음식을 익혀 먹을 수 있게 되었습니다." },
+      { question: "약 1만 년 전 전후에 돌을 갈고 다듬어 정교하게 만들어 사용한 도구를 무엇이라고 합니까?", answer: ["간석기"], explanation: "신석기 시대에는 돌을 떼어내는 것에서 발전해 돌을 쓱쓱 갈아 정교하게 만든 간석기를 썼습니다." },
+      { question: "신석기 시대에 실을 뽑을 때 사용한 도구는 무엇입니까?", answer: ["가락바퀴"], explanation: "가락바퀴는 가운데 구멍에 막대를 끼워 회전시켜 실을 뽑아내던 도구입니다." },
+      { question: "신석기 시대에 가락바퀴로 뽑은 실을 이용해 옷을 만들어 입을 때 사용한 바늘은 무엇입니까?", answer: ["뼈바늘"], explanation: "동물의 뼈로 만든 바늘로, 실을 이용해 옷이나 그물을 짓는 데 사용했습니다." },
+      { question: "신석기 시대에 진흙을 빚어 불에 구워 만들어 음식을 보관하거나 조리하는 데 사용한 도구를 통틀어 무엇이라고 합니까?", answer: ["토기", "빗살무늬 토기", "빗살무늬토기"], explanation: "신석기 시대에는 진흙을 불에 구운 토기(빗살무늬 토기 등)에 곡식을 저장하거나 조리했습니다." },
+      { question: "신석기 시대 사람들이 땅을 파고 그 위에 지붕을 덮어 강가나 바닷가에 만들어 생활한 집을 무엇이라고 합니까?", answer: ["움집"], explanation: "농경과 정착 생활이 시작되면서 강가나 바닷가에 땅을 움푹 파고 움집을 지어 살았습니다." },
+      { question: "기원전 2000년~1500년경 구리에 주석이나 납을 섞어 만든 금속 도구를 사용하기 시작한 시기를 무엇이라고 합니까?", answer: ["청동기 시대", "청동기시대", "청동기"], explanation: "구리에 주석이나 납을 섞어 단단하게 만든 청동기를 무기나 장신구로 사용하던 시기입니다." },
+      { question: "청동기 시대에 겉면에 무늬를 그리지 않고 만들어 사용한 토기는 무엇입니까?", answer: ["민무늬 토기", "민무늬토기"], explanation: "청동기 시대를 대표하는 토기로, 빗살무늬 없이 무늬가 없는 것이 특징입니다." },
+      { question: "청동기 시대에 농사를 지어 곡식을 수확할 때 사용한 반달 모양의 돌 도구는 무엇입니까?", answer: ["반달돌칼"], explanation: "청동기 시대에도 청동이 귀하여 농기구는 반달돌칼 같은 석기나 목기를 사용했습니다." },
+      { question: "청동기 시대 일부 지역에서 새로 시작된 대표적인 곡식 농사는 무엇입니까?", answer: ["벼농사", "벼 농사", "벼"], explanation: "청동기 시대에 벼농사가 시작되어 식량이 더욱 풍족해지고 정착 생활이 강화되었습니다." },
+      { question: "청동기 시대에 재산의 차이가 생기고 다른 세력과의 전쟁을 이끌면서 등장한 권력을 가진 사람을 무엇이라고 합니까?", answer: ["지배자", "군장"], explanation: "생산량 증가로 사유재산과 계급이 발생하면서 그룹을 다스리는 지배자(군장)가 등장했습니다." },
+      { question: "청동기 시대에 지배자나 큰 권력을 가진 사람이 죽었을 때 만들었던 거대한 돌 무덤은 무엇입니까?", answer: ["고인돌"], explanation: "거대한 덮개돌을 올리기 위해 수많은 인력이 동원된 청동기 지배자의 무덤입니다." },
+      { question: "청동기 문화를 바탕으로 한반도 북부와 중국 동북 지역을 중심으로 세워진 우리 역사 최초의 국가 이름은 무엇입니까?", answer: ["고조선"], explanation: "단군왕검이 청동기 문화를 바탕으로 건국한 우리 역사 최초의 국가입니다." },
+      { question: "고조선 건국 이야기에서 바람, 비, 구름을 다스리는 신하를 거느리고 인간 세상에 내려온 하늘의 자손은 누구입니까?", answer: ["환웅"], explanation: "환웅은 하늘의 신 환인의 아들로 풍백, 우사, 운사를 거느리고 태백산으로 내려왔습니다." },
+      { question: "고조선 건국 이야기에서 환웅을 찾아와 사람이 되기를 원했던 두 동물은 무엇입니까?", answer: ["곰, 호랑이", "곰 호랑이", "곰,호랑이", "곰과 호랑이", "곰과호랑이"], explanation: "동굴에서 쑥과 마늘을 먹으며 견딘 곰이 사람(웅녀)으로 변했습니다." },
+      { question: "쑥과 마늘을 먹고 사람이 된 웅녀와 환웅 사이에서 태어나 고조선을 건국한 인물은 누구입니까?", answer: ["단군왕검", "단군"], explanation: "단군왕검은 제사장(단군)과 정치적 지도자(왕검)의 의미를 모두 지닌 건국자입니다." },
+      { question: "고조선의 문화 범위(영토 세력권)를 짐작할 수 있게 해 주는 대표적인 유물 1가지와 유적 1가지는 무엇입니까?", answer: ["비파형 동검, 탁자식 고인돌", "비파형동검, 탁자식고인돌", "비파형 동검 탁자식 고인돌", "비파형동검,탁자식고인돌", "비파형동검 탁자식고인돌"], explanation: "비파형 동검과 탁자식 고인돌이 출토되는 지역이 고조선의 문화 영향권과 일치합니다." },
+      { question: "고조선에서 사회 질서를 유지하기 위해 만들었던 법 제도는 몇 조법입니까?", answer: ["8조법", "팔조법", "8조"], explanation: "고조선에는 백성들의 생명, 재산, 신분 질서를 유지하기 위한 8조법이 있었습니다." },
+      { question: "고조선 8조법 중 '사람을 죽인 사람은 사형에 처한다'라는 내용에서 당시 고조선 사회가 무엇을 매우 중시했음을 알 수 있습니까?", answer: ["생명"], explanation: "사람의 생명을 매우 귀중하게 여겼음을 알 수 있습니다." },
+      { question: "고조선 8조법 중 '남의 물건을 훔친 사람은 노비로 삼는다'라는 내용에서 계급이 존재하는 어떤 사회였음을 알 수 있습니까?", answer: ["신분제 사회", "신분제사회", "신분제"], explanation: "노비라는 계급이 존재했던 신분제 사회이자 개인의 재산을 보호했음을 보여줍니다." },
+      { question: "고조선 8조법 중 '남을 다치게 한 사람은 곡식으로 갚는다'라는 내용에서 사람들이 주로 무슨 산업에 종사하며 노동력을 중시했음을 알 수 있습니까?", answer: ["농경", "농사", "농업"], explanation: "배상 수단으로 곡식을 사용한 것으로 보아 농업 중심 사회였음을 알 수 있습니다." }
+    ];
+
+    let currentQuestions = [];
+    let currentQuestionIndex = 0;
+    let userName = "";
+    let startTime = 0;
+    let countdownTimer = null;
+
+    window.onload = function() {
+      document.getElementById('user-answer').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') submitAnswer();
+      });
+      
+      document.getElementById('user-name').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') prepareQuiz();
+      });
+    };
+
+    function prepareQuiz() {
+      userName = document.getElementById('user-name').value.trim();
+
+      if (!userName) {
+        alert("이름을 입력해주세요.");
+        return;
+      }
+
+      if (!quizData || quizData.length < 10) {
+        alert("문제가 부족합니다. (최소 10문제 필요)");
+        return;
+      }
+
+      // 24개 문제 중 랜덤 10개 추출
+      currentQuestions = [...quizData]
+        .sort(() => Math.random() - 0.5)
+        .slice(0, 10);
+
+      currentQuestionIndex = 0;
+
+      showScreen('countdown-screen');
+      startCountdown();
+    }
+
+    function startCountdown() {
+      let count = 3;
+      const countEl = document.getElementById('countdown-number');
+      countEl.textContent = count;
+
+      if (countdownTimer) clearInterval(countdownTimer);
+
+      countdownTimer = setInterval(() => {
+        count--;
+        if (count > 0) {
+          countEl.textContent = count;
+        } else {
+          clearInterval(countdownTimer);
+          startQuiz();
+        }
+      }, 1000);
+    }
+
+    function startQuiz() {
+      showScreen('quiz-screen');
+      startTime = new Date().getTime();
+      loadQuestion();
+    }
+
+    function loadQuestion() {
+      const q = currentQuestions[currentQuestionIndex];
+      document.getElementById('progress-display').textContent = `${currentQuestionIndex + 1} / 10`;
+      document.getElementById('question-text').textContent = q.question;
+      
+      const inputEl = document.getElementById('user-answer');
+      inputEl.value = "";
+      inputEl.focus();
+    }
+
+    function normalize(str) {
+      return str.toString().replace(/\s+/g, '').toLowerCase();
+    }
+
+    function submitAnswer() {
+      const inputEl = document.getElementById('user-answer');
+      const userAns = normalize(inputEl.value);
+
+      if (!userAns) {
+        alert("정답을 입력해주세요.");
+        return;
+      }
+
+      const q = currentQuestions[currentQuestionIndex];
+
+      let isCorrect = false;
+      if (Array.isArray(q.answer)) {
+        isCorrect = q.answer.some(ans => normalize(ans) === userAns);
+      } else {
+        isCorrect = normalize(q.answer) === userAns;
+      }
+
+      // 오답 처리 시 해설 출력 후 처음으로 리셋
+      if (!isCorrect) {
+        const correctStr = Array.isArray(q.answer) ? q.answer.join(" 또는 ") : q.answer;
+        const expStr = q.explanation || "해설이 없습니다.";
+        
+        alert(`❌ 아쉽네요! 오답입니다.\n\n• 내가 입력한 답: ${inputEl.value}\n• 정답: ${correctStr}\n\n💡 [간단 해설]\n${expStr}\n\n처음 화면으로 돌아갑니다.`);
+        resetQuiz();
+        return;
+      }
+
+      currentQuestionIndex++;
+
+      if (currentQuestionIndex < 10) {
+        loadQuestion();
+      } else {
+        showSuccess();
+      }
+    }
+
+    // 홈(처음으로) 버튼 클릭 시 확인 후 초기화
+    function confirmGoStart() {
+      if (confirm("퀴즈를 중단하고 처음 시작 화면으로 돌아가시겠습니까?")) {
+        resetQuiz();
+      }
+    }
+
+    function showSuccess() {
+      const endTime = new Date().getTime();
+      const timeTaken = ((endTime - startTime) / 1000).toFixed(1);
+      const now = new Date();
+      
+      const timeString = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+
+      document.getElementById('res-name').textContent = userName;
+      document.getElementById('res-date').textContent = timeString;
+      document.getElementById('res-time').textContent = timeTaken;
+
+      showScreen('result-screen');
+    }
+
+    function resetQuiz() {
+      if (countdownTimer) clearInterval(countdownTimer);
+      document.getElementById('user-answer').value = "";
+      showScreen('start-screen');
+    }
+
+    function showScreen(screenId) {
+      const screens = ['start-screen', 'countdown-screen', 'quiz-screen', 'result-screen'];
+      screens.forEach(id => {
+        document.getElementById(id).classList.add('hidden');
+      });
+      document.getElementById(screenId).classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>
