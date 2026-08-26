@@ -11,69 +11,26 @@
       font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
       background-color: #f7f9fc;
       color: #333;
+      word-break: keep-all;
     }
 
-    /* 헤더 및 로고 영역 */
+    /* 헤더 영역 */
     header {
       background: linear-gradient(135deg, #4a90e2, #67b26f);
       color: white;
-      padding: 1.5rem 2rem;
+      padding: 1.5rem 1rem;
       box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      text-align: center;
     }
     .logo-group h1 { font-size: 1.8rem; font-weight: 800; letter-spacing: -0.5px; }
     .logo-group h1 a { color: white; text-decoration: none; }
-    .logo-group p { font-size: 0.85rem; opacity: 0.9; margin-top: 2px; }
+    .logo-group p { font-size: 0.85rem; opacity: 0.9; margin-top: 4px; }
 
-    /* 드롭다운 네비게이션 메인 메뉴 */
-    nav .main-menu { list-style: none; display: flex; gap: 15px; }
-    .dropdown { position: relative; }
-    .dropdown > a {
-      color: white;
-      text-decoration: none;
-      font-weight: 600;
-      padding: 10px 18px;
-      border-radius: 20px;
-      transition: background 0.2s;
-      display: block;
-    }
-    .dropdown:hover > a { background: rgba(255, 255, 255, 0.2); }
-
-    /* 서브 메뉴 (과목) */
-    .sub-menu {
-      display: none;
-      position: absolute;
-      top: 100%;
-      left: 0;
-      background: white;
-      list-style: none;
-      border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-      min-width: 150px;
-      padding: 8px 0;
-      z-index: 100;
-    }
-    .sub-menu li a {
-      color: #444;
-      text-decoration: none;
-      padding: 10px 16px;
-      display: block;
-      font-size: 0.95rem;
-      font-weight: 500;
-      transition: background 0.2s, color 0.2s;
-    }
-    .sub-menu li a:hover { background: #f0f4f9; color: #4a90e2; }
-    .dropdown:hover .sub-menu { display: block; }
-
-    /* 비활성화 메뉴/링크 전용 스타일 */
-    .sub-menu li.disabled a,
+    /* 비활성화 링크 스타일 */
     .subject-list a.disabled-link {
       color: #aaa !important;
       cursor: not-allowed;
     }
-    .sub-menu li.disabled a:hover,
     .subject-list a.disabled-link:hover {
       background: transparent !important;
       color: #aaa !important;
@@ -83,39 +40,34 @@
     /* 메인 히어로 섹션 */
     .hero {
       text-align: center;
-      padding: 3rem 1rem 2rem;
+      padding: 2.5rem 1rem 1.8rem;
       background: white;
       border-bottom: 1px solid #eef2f5;
     }
-    .hero h2 { font-size: 2rem; color: #2c3e50; margin-bottom: 0.5rem; }
-    .hero p { color: #666; font-size: 1.05rem; }
+    .hero h2 { font-size: 1.6rem; color: #2c3e50; margin-bottom: 0.5rem; }
+    .hero p { color: #666; font-size: 0.95rem; line-height: 1.4; }
 
     /* 학년별 빠른 선택 카드 그리드 */
-    .container { max-width: 1100px; margin: 2.5rem auto; padding: 0 1rem; }
-    .grid-title { font-size: 1.3rem; margin-bottom: 1.2rem; color: #333; font-weight: 700; }
+    .container { max-width: 1100px; margin: 2rem auto; padding: 0 1rem; }
+    .grid-title { font-size: 1.2rem; margin-bottom: 1rem; color: #333; font-weight: 700; }
     
     .grade-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 20px;
+      gap: 16px;
     }
     .card {
       background: white;
       border-radius: 16px;
-      padding: 1.5rem;
+      padding: 1.25rem;
       border: 1px solid #e8ecef;
       box-shadow: 0 4px 6px rgba(0,0,0,0.02);
       transition: transform 0.2s, box-shadow 0.2s;
-      position: relative;
-    }
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.08);
     }
     .card h3 {
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       color: #4a90e2;
-      margin-bottom: 1rem;
+      margin-bottom: 0.8rem;
       padding-bottom: 8px;
       border-bottom: 2px solid #f0f4f9;
       display: flex;
@@ -132,23 +84,33 @@
     }
 
     .subject-list { list-style: none; }
-    .subject-list li { margin-bottom: 8px; }
+    .subject-list li { margin-bottom: 4px; }
     .subject-list a {
       color: #555;
       text-decoration: none;
       display: block;
-      padding: 6px 10px;
+      padding: 10px 12px;
       border-radius: 8px;
+      font-size: 0.95rem;
       transition: background 0.2s;
     }
     .subject-list a:hover { background: #eef5ff; color: #2b6cb0; font-weight: 600; }
 
-    /* 전체 준비중 카드(3, 4, 6학년) 디자인 */
+    /* 전체 준비중 카드 디자인 */
     .card.disabled-card {
       background-color: #fafafa;
-      opacity: 0.75;
+      opacity: 0.8;
     }
     .card.disabled-card h3 { color: #888; }
+
+    /* 모바일 최적화 (768px 이하) */
+    @media (max-width: 768px) {
+      header { padding: 1.2rem 1rem; }
+      .hero { padding: 2rem 1rem 1.5rem; }
+      .hero h2 { font-size: 1.35rem; }
+      .hero p { font-size: 0.9rem; }
+      .grade-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -159,48 +121,6 @@
       <h1><a href="index.html">Back100</a></h1>
       <p>초등수업 종합 복습</p>
     </div>
-
-    <!-- 학년/과목 상단 드롭다운 메뉴 -->
-    <nav>
-      <ul class="main-menu">
-        <li class="dropdown">
-          <a href="#">3학년 (준비중)</a>
-          <ul class="sub-menu">
-            <li class="disabled"><a href="#">📐 수학 (준비중)</a></li>
-            <li class="disabled"><a href="#">🌏 사회 (준비중)</a></li>
-            <li class="disabled"><a href="#">🔬 과학 (준비중)</a></li>
-            <li class="disabled"><a href="#">🔤 영어 (준비중)</a></li>
-          </ul>
-        </li>
-        <li class="dropdown">
-          <a href="#">4학년 (준비중)</a>
-          <ul class="sub-menu">
-            <li class="disabled"><a href="#">📐 수학 (준비중)</a></li>
-            <li class="disabled"><a href="#">🌏 사회 (준비중)</a></li>
-            <li class="disabled"><a href="#">🔬 과학 (준비중)</a></li>
-            <li class="disabled"><a href="#">🔤 영어 (준비중)</a></li>
-          </ul>
-        </li>
-        <li class="dropdown">
-          <a href="#">5학년</a>
-          <ul class="sub-menu">
-            <li><a href="grade5/math.html">📐 수학</a></li>
-            <li><a href="grade5/social.html">🌏 사회</a></li>
-            <li class="disabled"><a href="#">🔬 과학 (준비중)</a></li>
-            <li class="disabled"><a href="#">🔤 영어 (준비중)</a></li>
-          </ul>
-        </li>
-        <li class="dropdown">
-          <a href="#">6학년 (준비중)</a>
-          <ul class="sub-menu">
-            <li class="disabled"><a href="#">📐 수학 (준비중)</a></li>
-            <li class="disabled"><a href="#">🌏 사회 (준비중)</a></li>
-            <li class="disabled"><a href="#">🔬 과학 (준비중)</a></li>
-            <li class="disabled"><a href="#">🔤 영어 (준비중)</a></li>
-          </ul>
-        </li>
-      </ul>
-    </nav>
   </header>
 
   <!-- 메인 안내 문구 -->
