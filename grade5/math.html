@@ -210,7 +210,6 @@
   <h2>게임 종료!</h2>
   <p id="result-text"></p>
   <button onclick="resetGame()">다시 도전</button>
-  <button onclick="goHome()" class="btn-secondary">단원 선택으로 돌아가기</button>
 </div>
 
 <script>
@@ -460,10 +459,12 @@ function nextQuestion() {
   if (currentQuestion >= totalQuestions) {
     endTime = new Date().getTime();
     let totalTime = ((endTime - startTime) / 1000).toFixed(1);
+    let now = new Date().toLocaleString('ko-KR');
+    
     document.getElementById("quiz-screen").classList.add("hidden");
     document.getElementById("result-screen").classList.remove("hidden");
     
-    document.getElementById("result-text").innerHTML = `[${currentSubTitle} 완료]<br><b>${userName}</b>님의 총 소요 시간:<br><h1 style="color:#27ae60; margin:15px 0;">${totalTime}초</h1>`;
+    document.getElementById("result-text").innerHTML = `[${currentSubTitle} 완료]<br><span style="font-size:0.85rem; color:#7f8c8d;">완료 시간: ${now}</span><br><br><b>${userName}</b>님의 총 소요 시간:<br><h1 style="color:#27ae60; margin:15px 0;">${totalTime}초</h1>`;
     return;
   }
   
