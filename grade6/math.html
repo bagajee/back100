@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>6학년 2학기 수학 학습 포털</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      word-break: keep-all;
+    }
+    body {
+      font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: #eef2f7;
+      margin: 0;
+      padding: 16px;
+    }
+    .card {
+      background: white;
+      padding: 1.8rem 1.5rem;
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      width: 100%;
+      max-width: 480px;
+      text-align: center;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+    }
+    .hidden { display: none; }
+    
+    /* 상단 네비게이션 헤더 */
+    .nav-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .btn-home {
+      width: auto !important;
+      padding: 6px 12px !important;
+      margin: 0 !important;
+      background: #eef2f7 !important;
+      color: #2c3e50 !important;
+      font-size: 0.85rem !important;
+      border-radius: 8px !important;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .btn-home:active { background: #dbe3ed !important; }
+
+    button {
+      width: 100%;
+      padding: 12px 10px;
+      margin: 4px 0;
+      border: none;
+      border-radius: 10px;
+      background: #4a90e2;
+      color: white;
+      font-size: 0.95rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      touch-action: manipulation;
+    }
+    button:active { transform: scale(0.98); }
+    button.btn-sub { background: #27ae60; text-align: left; padding-left: 14px; }
+    button.btn-total { background: #e67e22; text-align: left; padding-left: 14px; font-weight: 800; }
+    button.btn-secondary { background: #95a5a6; margin-top: 10px; }
+    
+    input {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 14px;
+      border: 2px solid #e0e0e0;
+      border-radius: 12px;
+      font-size: 1.05rem;
+      text-align: center;
+      outline: none;
+    }
+    
+    .chapter-title {
+      margin: 18px 0 6px 0;
+      text-align: left;
+      color: #2c3e50;
+      font-size: 1.05rem;
+      border-bottom: 2px solid #eef2f7;
+      padding-bottom: 4px;
+    }
+    
+    .question-box {
+      min-height: 120px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 15px 0 20px 0;
+      gap: 8px;
+    }
+    .question-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      background: #e8f8f0; 
+      color: #27ae60; 
+      border: 1px solid #27ae60;
+    }
+    
+    .question-main-text {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #2c3e50;
+      line-height: 1.5;
+    }
+    
+    .options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+    .options button {
+      margin: 0;
+      font-size: 1.1rem;
+      padding: 16px 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .progress-bar { background: #eee; height: 10px; border-radius: 5px; margin-bottom: 15px; overflow: hidden; }
+    .progress-fill { background: #4a90e2; height: 100%; width: 0%; transition: width 0.3s; }
+    .timer-red { color: #e74c3c; font-weight: bold; font-size: 0.95rem; margin-top: 15px; }
+    
+    /* 분수 가독성 개선 스타일 */
+    .frac-container {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      font-weight: bold;
+    }
+    .frac-whole {
+      font-size: 1.15em;
+      line-height: 1;
+      padding-right: 1px;
+    }
+    .frac {
+      display: inline-flex;
+      flex-direction: column;
+      vertical-align: middle;
+      text-align: center;
+      font-size: 0.9em;
+      line-height: 1.1;
+      padding: 0 3px;
+    }
+    .frac > span { display: block; padding: 1px 2px; }
+    .frac span.bottom { border-top: 2px solid currentColor; }
+    
+    .eq-row {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 1.2rem;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card" id="home-screen">
+  <h2 style="margin-top:0; color:#2c3e50;">🎓 6학년 2학기 수학 교실</h2>
+  <p style="color:#7f8c8d; font-size: 0.88rem; margin-bottom:15px;">학습할 세부 단원을 선택하세요! (각 20문제)</p>
+  
+  <div class="chapter-title">01단원. 분수의 나눗셈</div>
+  <button class="btn-sub" onclick="openSetup('1-1', '1) (분수) ÷ (분수)')">🟢 1) (분수) ÷ (분수)</button>
+  <button class="btn-sub" onclick="openSetup('1-2', '2) (자연수) ÷ (분수)')">🟢 2) (자연수) ÷ (분수)</button>
+  <button class="btn-sub" onclick="openSetup('1-3', '3) (대분수) ÷ (분수)')">🟢 3) (대분수) ÷ (분수)</button>
+  <button class="btn-total" onclick="openSetup('1-all', '🏆 01단원 종합 테스트')">🏆 [단원정리] 01. 분수의 나눗셈</button>
+
+  <div class="chapter-title">02단원. 소수의 나눗셈</div>
+  <button class="btn-sub" onclick="openSetup('2-1', '1) (소수 한 자리 수) ÷ (소수 한 자리 수)')">🟢 1) (소수 한 자리) ÷ (소수 한 자리)</button>
+  <button class="btn-sub" onclick="openSetup('2-2', '2) (소수 두 자리 수) ÷ (소수 두 자리 수)')">🟢 2) (소수 두 자리) ÷ (소수 두 자리)</button>
+  <button class="btn-sub" onclick="openSetup('2-3', '3) (소수 두 자리 수) ÷ (소수 한 자리 수)')">🟢 3) (소수 두 자리) ÷ (소수 한 자리)</button>
+  <button class="btn-sub" onclick="openSetup('2-4', '4) (자연수) ÷ (소수)')">🟢 4) (자연수) ÷ (소수)</button>
+  <button class="btn-total" onclick="openSetup('2-all', '🏆 02단원 종합 테스트')">🏆 [단원정리] 02. 소수의 나눗셈</button>
+
+  <div class="chapter-title">04단원. 비례식과 비례배분</div>
+  <button class="btn-sub" onclick="openSetup('4-1', '1) 비의 성질')">🟢 1) 비의 성질</button>
+  <button class="btn-sub" onclick="openSetup('4-2', '2) 간단한 자연수의 비')">🟢 2) 간단한 자연수의 비</button>
+  <button class="btn-sub" onclick="openSetup('4-3', '3) 비례배분')">🟢 3) 비례배분</button>
+  <button class="btn-total" onclick="openSetup('4-all', '🏆 04단원 종합 테스트')">🏆 [단원정리] 04. 비례식과 비례배분</button>
+
+  <div class="chapter-title">05단원. 원의 둘레와 넓이</div>
+  <button class="btn-sub" onclick="openSetup('5-1', '1) 원주와 지름')">🟢 1) 원주와 지름 (원주 구하기)</button>
+  <button class="btn-sub" onclick="openSetup('5-2', '2) 원의 넓이')">🟢 2) 원의 넓이 구하기</button>
+  <button class="btn-total" onclick="openSetup('5-all', '🏆 05단원 종합 테스트')">🏆 [단원정리] 05. 원의 둘레와 넓이</button>
+</div>
+
+<div class="card hidden" id="setup-screen">
+  <div class="nav-header">
+    <button class="btn-home" onclick="goHome()">🏠 홈으로</button>
+  </div>
+  <h3 style="margin-top:0; color:#333;" id="setup-title">수학 퀴즈</h3>
+  <p style="color:#777; font-size:0.9rem;">20문제가 출제됩니다.</p>
+  <input type="text" id="username" placeholder="이름을 입력하세요" autocomplete="off">
+  <button onclick="startCountDown()">게임 시작</button>
+  <button onclick="goHome()" class="btn-secondary">메인으로 돌아가기</button>
+</div>
+
+<div class="card hidden" id="countdown-screen">
+  <h1 id="countdown-text" style="font-size: 4.5rem; color:#4a90e2; margin: 20px 0;">3</h1>
+</div>
+
+<div class="card hidden" id="quiz-screen">
+  <div class="nav-header">
+    <button class="btn-home" onclick="confirmGoHome()">🏠 홈으로</button>
+    <div style="font-size: 0.9rem; color: #777;"><span id="progress">1</span> / 20 문제</div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+  
+  <div class="question-box">
+    <div class="question-badge">[올바른 정답 찾기]</div>
+    <div id="question-text" class="question-main-text">문제가 여기에 표시됩니다</div>
+  </div>
+
+  <div class="options" id="options-box"></div>
+  <p id="penalty-msg" class="timer-red hidden">오답! 5초 후 다음 문제로 넘어갑니다...</p>
+</div>
+
+<div class="card hidden" id="result-screen">
+  <div class="nav-header">
+    <button class="btn-home" onclick="goHome()">🏠 홈으로</button>
+  </div>
+  <h2>게임 종료!</h2>
+  <p id="result-text"></p>
+  <button onclick="resetGame()">다시 도전</button>
+</div>
+
+<script>
+let userName = "";
+let selectedCategory = "";
+let currentSubTitle = "";
+let currentQuestion = 0;
+const totalQuestions = 20;
+let startTime, endTime;
+let isPenalty = false;
+let penaltyTimer = null;
+
+function gcd(a, b) { return b === 0 ? a : gcd(b, a % b); }
+
+function goHome() {
+  if (penaltyTimer) clearTimeout(penaltyTimer);
+  document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
+  document.getElementById('home-screen').classList.remove('hidden');
+}
+
+function confirmGoHome() {
+  if (confirm("진행 중인 퀴즈가 초기화됩니다.\n홈으로 돌아가시겠습니까?")) {
+    goHome();
+  }
+}
+
+function openSetup(catKey, subTitle) {
+  selectedCategory = catKey;
+  currentSubTitle = subTitle;
+  document.getElementById('home-screen').classList.add('hidden');
+  document.getElementById('setup-screen').classList.remove('hidden');
+  document.getElementById('setup-title').innerText = subTitle;
+}
+
+function startCountDown() {
+  userName = document.getElementById("username").value.trim();
+  if(!userName) { alert("이름을 입력해주세요!"); return; }
+  
+  currentQuestion = 0;
+  document.getElementById("setup-screen").classList.add("hidden");
+  document.getElementById("countdown-screen").classList.remove("hidden");
+  
+  let count = 3;
+  document.getElementById("countdown-text").innerText = count;
+  let timer = setInterval(() => {
+    count--;
+    if(count > 0) {
+      document.getElementById("countdown-text").innerText = count;
+    } else {
+      clearInterval(timer);
+      document.getElementById("countdown-screen").classList.add("hidden");
+      document.getElementById("quiz-screen").classList.remove("hidden");
+      startTime = new Date().getTime();
+      nextQuestion();
+    }
+  }, 1000);
+}
+
+// 분수 객체 -> HTML 변환 (보기 버튼 및 정답 표시용)
+function formatFracHTML(num, denom) {
+  let g = gcd(num, denom);
+  num /= g; denom /= g;
+  if (denom === 1) return `<span>${num}</span>`;
+  if (num > denom) {
+    let m = Math.floor(num / denom);
+    let r = num % denom;
+    return renderFracHTML(m, r, denom);
+  }
+  return renderFracHTML(0, num, denom);
+}
+
+// HTML 표시용 분수 UI 태그 생성
+function renderFracHTML(m, n, d) {
+  let fracPart = `<div class="frac"><span>${n}</span><span class="bottom">${d}</span></div>`;
+  if (m > 0) return `<div class="frac-container"><span class="frac-whole">${m}</span>${fracPart}</div>`;
+  return `<div class="frac-container">${fracPart}</div>`;
+}
+
+// 개별 문제 생성 로직 (6학년 2학기)
+function generateSingleQuestion(cat) {
+  let q = "", answer = "", options = [];
+
+  // 01단원: 분수의 나눗셈
+  if (cat.startsWith('1-')) {
+    let n1, d1, m1=0, n2, d2, m2=0;
+    if (cat === '1-1') { // (분수) ÷ (분수)
+      d1 = Math.floor(Math.random() * 6) + 3; n1 = Math.floor(Math.random() * (d1 - 1)) + 1;
+      d2 = Math.floor(Math.random() * 6) + 2; n2 = Math.floor(Math.random() * (d2 - 1)) + 1;
+      q = `<div class="eq-row">${renderFracHTML(0,n1,d1)} <span>÷</span> ${renderFracHTML(0,n2,d2)} <span>= ?</span></div>`;
+      answer = formatFracHTML(n1 * d2, d1 * n2);
+    } else if (cat === '1-2') { // (자연수) ÷ (분수)
+      let k = Math.floor(Math.random() * 8) + 2;
+      d2 = Math.floor(Math.random() * 6) + 2; n2 = Math.floor(Math.random() * (d2 - 1)) + 1;
+      q = `<div class="eq-row"><span>${k} ÷ </span> ${renderFracHTML(0,n2,d2)} <span>= ?</span></div>`;
+      answer = formatFracHTML(k * d2, n2);
+    } else if (cat === '1-3') { // (대분수) ÷ (분수)
+      d1 = Math.floor(Math.random() * 4) + 2; n1 = Math.floor(Math.random() * (d1 - 1)) + 1; m1 = Math.floor(Math.random() * 2) + 1;
+      d2 = Math.floor(Math.random() * 5) + 2; n2 = Math.floor(Math.random() * (d2 - 1)) + 1;
+      let totalN1 = m1 * d1 + n1;
+      q = `<div class="eq-row">${renderFracHTML(m1,n1,d1)} <span>÷</span> ${renderFracHTML(0,n2,d2)} <span>= ?</span></div>`;
+      answer = formatFracHTML(totalN1 * d2, d1 * n2);
+    }
+    
+    options = [answer];
+    let dummyOffset = 1;
+    while(options.length < 4) {
+      let dummy = formatFracHTML((n1||2)*d2 + dummyOffset, (d1||3)*(n2||1));
+      if (!options.includes(dummy)) options.push(dummy);
+      dummyOffset += 2;
+    }
+  }
+
+  // 02단원: 소수의 나눗셈
+  else if (cat.startsWith('2-')) {
+    if (cat === '2-1') { // (소수 한 자리) ÷ (소수 한 자리)
+      let divisor = (Math.floor(Math.random() * 8) + 2) / 10; // 0.2 ~ 0.9
+      let quotient = Math.floor(Math.random() * 15) + 2; // 2 ~ 16
+      let dividend = Number((divisor * quotient).toFixed(1));
+      q = `<b>${dividend} ÷ ${divisor.toFixed(1)}</b> 계산 결과는?`;
+      answer = quotient.toString();
+    } else if (cat === '2-2') { // (소수 두 자리) ÷ (소수 두 자리)
+      let divisor = (Math.floor(Math.random() * 25) + 5) / 100; // 0.05 ~ 0.29
+      let quotient = Math.floor(Math.random() * 18) + 2;
+      let dividend = Number((divisor * quotient).toFixed(2));
+      q = `<b>${dividend} ÷ ${divisor.toFixed(2)}</b> 계산 결과는?`;
+      answer = quotient.toString();
+    } else if (cat === '2-3') { // (소수 두 자리) ÷ (소수 한 자리)
+      let divisor = (Math.floor(Math.random() * 8) + 2) / 10;
+      let quotient = (Math.floor(Math.random() * 40) + 11) / 10; // 예: 1.2
+      let dividend = Number((divisor * quotient).toFixed(2));
+      q = `<b>${dividend} ÷ ${divisor.toFixed(1)}</b> 계산 결과는?`;
+      answer = quotient.toString();
+    } else if (cat === '2-4') { // (자연수) ÷ (소수)
+      let divisor = (Math.floor(Math.random() * 8) + 2) / 10; // 0.2 ~ 0.9
+      let quotient = (Math.floor(Math.random() * 20) + 5) * 5; // 25, 30 ...
+      let dividend = Math.round(divisor * quotient);
+      q = `<b>${dividend} ÷ ${divisor.toFixed(1)}</b> 계산 결과는?`;
+      answer = quotient.toString();
+    }
+
+    options = [answer];
+    let numAns = parseFloat(answer);
+    while(options.length < 4) {
+      let diff = (options.length % 2 === 1) ? options.length : -options.length;
+      let w = Number((numAns + diff * (numAns % 1 !== 0 ? 0.3 : 2)).toFixed(1)).toString();
+      if (parseFloat(w) > 0 && !options.includes(w)) options.push(w);
+    }
+  }
+
+  // 04단원: 비례식과 비례배분
+  else if (cat.startsWith('4-')) {
+    if (cat === '4-1') { // 비의 성질
+      let a = Math.floor(Math.random() * 5) + 2;
+      let b = Math.floor(Math.random() * 7) + 3;
+      while(gcd(a,b) > 1) { b++; }
+      let mult = Math.floor(Math.random() * 4) + 2;
+      let isUnknownA = Math.random() < 0.5;
+      
+      if(isUnknownA) {
+        q = `<b>${a} : ${b} = □ : ${b * mult}</b> 에서 <b>□</b>에 들어갈 수는?`;
+        answer = (a * mult).toString();
+      } else {
+        q = `<b>${a} : ${b} = ${a * mult} : □</b> 에서 <b>□</b>에 들어갈 수는?`;
+        answer = (b * mult).toString();
+      }
+    } else if (cat === '4-2') { // 간단한 자연수의 비
+      let baseA = Math.floor(Math.random() * 6) + 2;
+      let baseB = Math.floor(Math.random() * 6) + 2;
+      while(baseA === baseB || gcd(baseA, baseB) > 1) { baseB = Math.floor(Math.random() * 6) + 2; }
+      let k = Math.floor(Math.random() * 5) + 2;
+      
+      q = `비 <b>${baseA * k} : ${baseB * k}</b>를 가장 간단한 자연수의 비로 나타내면?`;
+      answer = `${baseA} : ${baseB}`;
+    } else if (cat === '4-3') { // 비례배분
+      let m = Math.floor(Math.random() * 4) + 2;
+      let n = Math.floor(Math.random() * 4) + 2;
+      while(m === n) n++;
+      let totalParts = m + n;
+      let unit = (Math.floor(Math.random() * 8) + 2) * 100;
+      let totalValue = unit * totalParts;
+
+      q = `<b>${totalValue}</b>를 <b>${m} : ${n}</b>으로 비례배분할 때, 더 큰 값은?`;
+      answer = (Math.max(m, n) * unit).toString();
+    }
+
+    options = [answer];
+    while(options.length < 4) {
+      if (cat === '4-2') {
+        let dummyA = Math.floor(Math.random() * 5) + 1;
+        let dummyB = Math.floor(Math.random() * 5) + 1;
+        let dummyStr = `${dummyA} : ${dummyB}`;
+        if (!options.includes(dummyStr)) options.push(dummyStr);
+      } else {
+        let numAns = parseInt(answer);
+        let dummyVal = numAns + (options.length * 5 - 2);
+        if (dummyVal > 0 && !options.includes(dummyVal.toString())) options.push(dummyVal.toString());
+      }
+    }
+  }
+
+  // 05단원: 원의 둘레와 넓이 (원주율 = 3.14)
+  else if (cat.startsWith('5-')) {
+    let pi = 3.14;
+    let r = Math.floor(Math.random() * 8) + 2; // 반지름 2 ~ 9
+    
+    if (cat === '5-1') { // 원주 구하기 (원주 = 지름 * 원주율)
+      let d = r * 2;
+      q = `반지름이 <b>${r}cm</b>인 원의 둘레(원주)는 몇 cm일까요?<br><span style="font-size:0.85rem; color:#777;">(원주율: 3.14)</span>`;
+      answer = (d * pi).toFixed(2);
+    } else if (cat === '5-2') { // 원의 넓이 (넓이 = 반지름 * 반지름 * 원주율)
+      q = `반지름이 <b>${r}cm</b>인 원의 넓이는 몇 cm²일까요?<br><span style="font-size:0.85rem; color:#777;">(원주율: 3.14)</span>`;
+      answer = (r * r * pi).toFixed(2);
+    }
+
+    options = [answer];
+    let numAns = parseFloat(answer);
+    while(options.length < 4) {
+      let offset = (options.length % 2 === 1) ? options.length * 3.14 : -options.length * 3.14;
+      let dummyVal = Number((numAns + offset).toFixed(2)).toString();
+      if (parseFloat(dummyVal) > 0 && !options.includes(dummyVal)) options.push(dummyVal);
+    }
+  }
+
+  options.sort(() => Math.random() - 0.5);
+  return { q, answer, opts: options };
+}
+
+// 메인 문제 생성기 (종합 단원 포함)
+function generateQuestion(cat) {
+  if (cat === '1-all') {
+    let subCats = ['1-1', '1-2', '1-3'];
+    return generateSingleQuestion(subCats[Math.floor(Math.random() * subCats.length)]);
+  } else if (cat === '2-all') {
+    let subCats = ['2-1', '2-2', '2-3', '2-4'];
+    return generateSingleQuestion(subCats[Math.floor(Math.random() * subCats.length)]);
+  } else if (cat === '4-all') {
+    let subCats = ['4-1', '4-2', '4-3'];
+    return generateSingleQuestion(subCats[Math.floor(Math.random() * subCats.length)]);
+  } else if (cat === '5-all') {
+    let subCats = ['5-1', '5-2'];
+    return generateSingleQuestion(subCats[Math.floor(Math.random() * subCats.length)]);
+  } else {
+    return generateSingleQuestion(cat);
+  }
+}
+
+let qData = {};
+
+function nextQuestion() {
+  if (currentQuestion >= totalQuestions) {
+    endTime = new Date().getTime();
+    let totalTime = ((endTime - startTime) / 1000).toFixed(1);
+    let now = new Date().toLocaleString('ko-KR');
+    
+    document.getElementById("quiz-screen").classList.add("hidden");
+    document.getElementById("result-screen").classList.remove("hidden");
+    
+    document.getElementById("result-text").innerHTML = `[${currentSubTitle} 완료]<br><span style="font-size:0.85rem; color:#7f8c8d;">완료 시간: ${now}</span><br><br><b>${userName}</b>님의 총 소요 시간:<br><h1 style="color:#27ae60; margin:15px 0;">${totalTime}초</h1>`;
+    return;
+  }
+  
+  isPenalty = false;
+  document.getElementById("penalty-msg").classList.add("hidden");
+  currentQuestion++;
+  document.getElementById("progress").innerText = currentQuestion;
+  document.getElementById("progress-fill").style.width = (currentQuestion / totalQuestions * 100) + "%";
+  
+  qData = generateQuestion(selectedCategory);
+  document.getElementById("question-text").innerHTML = qData.q;
+  
+  let optsBox = document.getElementById("options-box");
+  optsBox.innerHTML = "";
+  qData.opts.forEach(val => {
+    let btn = document.createElement("button");
+    btn.innerHTML = val;
+    btn.onclick = () => checkAnswer(val);
+    optsBox.appendChild(btn);
+  });
+}
+
+function checkAnswer(selected) {
+  if (isPenalty) return;  
+  if (selected === qData.answer) {
+    nextQuestion();
+  } else {
+    isPenalty = true;
+    document.getElementById("penalty-msg").classList.remove("hidden");
+    penaltyTimer = setTimeout(() => {
+      nextQuestion();
+    }, 5000);
+  }
+}
+
+function resetGame() {
+  document.getElementById("result-screen").classList.add("hidden");
+  document.getElementById("setup-screen").classList.remove("hidden");
+}
+</script>
+
+</body>
+</html>
