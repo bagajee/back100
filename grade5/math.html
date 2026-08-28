@@ -71,6 +71,7 @@
     }
     button:active { transform: scale(0.98); }
     button.btn-sub { background: #27ae60; text-align: left; padding-left: 14px; }
+    button.btn-total { background: #e67e22; text-align: left; padding-left: 14px; font-weight: 800; }
     button.btn-secondary { background: #95a5a6; margin-top: 10px; }
     
     input {
@@ -152,6 +153,7 @@
   <div class="chapter-title">1. 수의 범위와 어림하기</div>
   <button class="btn-sub" onclick="openSetup('1-1', '1) 이상과 이하, 초과와 미만')">🟢 1) 이상·이하, 초과·미만, 수의 범위</button>
   <button class="btn-sub" onclick="openSetup('1-2', '2) 올림, 버림, 반올림')">🟢 2) 올림, 버림, 반올림</button>
+  <button class="btn-total" onclick="openSetup('1-all', '🏆 1단원 종합 테스트')">🏆 [단원정리] 1. 수의 범위와 어림하기</button>
 
   <div class="chapter-title">2. 분수의 곱셈</div>
   <button class="btn-sub" onclick="openSetup('2-1', '1) (진분수) × (자연수)')">🟢 1) (진분수) × (자연수)</button>
@@ -160,12 +162,14 @@
   <button class="btn-sub" onclick="openSetup('2-4', '4) (자연수) × (대분수)')">🟢 4) (자연수) × (대분수)</button>
   <button class="btn-sub" onclick="openSetup('2-5', '5) (진분수) × (진분수)')">🟢 5) (진분수) × (진분수)</button>
   <button class="btn-sub" onclick="openSetup('2-6', '6) (대분수) × (대분수)')">🟢 6) (대분수) × (대분수)</button>
+  <button class="btn-total" onclick="openSetup('2-all', '🏆 2단원 종합 테스트')">🏆 [단원정리] 2. 분수의 곱셈</button>
 
   <div class="chapter-title">4. 소수의 곱셈</div>
   <button class="btn-sub" onclick="openSetup('4-1', '1) (소수) × (자연수)')">🟢 1) (소수) × (자연수)</button>
   <button class="btn-sub" onclick="openSetup('4-2', '2) (자연수) × (소수)')">🟢 2) (자연수) × (소수)</button>
   <button class="btn-sub" onclick="openSetup('4-3', '3) (소수) × (소수)')">🟢 3) (소수) × (소수)</button>
   <button class="btn-sub" onclick="openSetup('4-4', '4) 곱의 소수점 위치')">🟢 4) 곱의 소수점 위치</button>
+  <button class="btn-total" onclick="openSetup('4-all', '🏆 4단원 종합 테스트')">🏆 [단원정리] 4. 소수의 곱셈</button>
 </div>
 
 <!-- 게임 설정 화면 -->
@@ -297,11 +301,10 @@ function getRandomDecimal(digits) {
   }
 }
 
-// 문제 생성 엔진
-function generateQuestion(cat) {
+// 개별 문제 생성 로직 함수
+function generateSingleQuestion(cat) {
   let q = "", answer = "", options = [];
   
-  // 1-1. 이상/이하/초과/미만
   if (cat === '1-1') {
     let min = Math.floor(Math.random() * 20) + 10;
     let max = min + Math.floor(Math.random() * 10) + 5;
@@ -320,61 +323,103 @@ function generateQuestion(cat) {
       if (!isInside(w) && !options.includes(w.toString()) && w > 0) options.push(w.toString());
     }
   } 
-  // 1-2. 올림, 버림, 반올림
   else if (cat === '1-2') {
     let mList = ["올림", "버림", "반올림"];
     let m = mList[Math.floor(Math.random() * 3)];
-    let uList = [{n: "십의 자리", d: 10}, {n: "백의 자리", d: 100}];
-    let u = uList[Math.floor(Math.random() * 2)];
-    let base = (Math.floor(Math.random() * 70) + 10) * u.d;
-    let target = base + Math.floor(Math.random() * (u.d - 1)) + 1;
-    
-    let rem = target % u.d;
-    let ansVal = target;
-    if (m === "올림") ansVal = rem === 0 ? target : target - rem + u.d;
-    else if (m === "버림") ansVal = target - rem;
-    else if (m === "반올림") ansVal = rem >= (u.d/2) ? target - rem + u.d : target - rem;
-    
-    q = `<b>${target}</b>을(를) <b>${m}</b>하여<br><b>${u.n}</b>까지 나타낸 값은?`;
-    answer = ansVal.toString();
-    options = [answer];
-    let wCandidates = [ansVal + u.d, ansVal - u.d, target];
-    for (let w of wCandidates) if (w > 0 && !options.includes(w.toString())) options.push(w.toString());
-    while (options.length < 4) {
-      let r = ansVal + (Math.floor(Math.random()*5)-2)*u.d;
-      if (r > 0 && !options.includes(r.toString())) options.push(r.toString());
+    let isDecimal = Math.random() < 0.2;
+
+    if (isDecimal) {
+      let uList = [
+        { name: "소수 첫째 자리", factor: 10 },
+        { name: "소수 둘째 자리", factor: 100 }
+      ];
+      let u = uList[Math.floor(Math.random() * 2)];
+      let rawInt = Math.floor(Math.random() * 8999) + 1001;
+      let target = rawInt / 1000;
+      
+      let ansVal = 0;
+      if (u.factor === 10) {
+        if (m === "올림") ansVal = Math.ceil(target * 10) / 10;
+        else if (m === "버림") ansVal = Math.floor(target * 10) / 10;
+        else if (m === "반올림") ansVal = Math.round(target * 10) / 10;
+      } else {
+        if (m === "올림") ansVal = Math.ceil(target * 100) / 100;
+        else if (m === "버림") ansVal = Math.floor(target * 100) / 100;
+        else if (m === "반올림") ansVal = Math.round(target * 100) / 100;
+      }
+
+      q = `<b>${target}</b>을(를) <b>${m}</b>하여<br><b>${u.name}까지</b> 나타낸 값은?`;
+      let decDigits = u.factor === 10 ? 1 : 2;
+      answer = ansVal.toFixed(decDigits);
+      options = [answer];
+
+      let step = u.factor === 10 ? 0.1 : 0.01;
+      let wCandidates = [
+        (ansVal + step).toFixed(decDigits),
+        (ansVal - step).toFixed(decDigits),
+        (target).toString()
+      ];
+
+      for (let w of wCandidates) {
+        if (parseFloat(w) > 0 && !options.includes(w)) options.push(w);
+      }
+      while (options.length < 4) {
+        let dummy = (ansVal + (Math.floor(Math.random() * 5) - 2) * step).toFixed(decDigits);
+        if (parseFloat(dummy) > 0 && !options.includes(dummy)) options.push(dummy);
+      }
+    } else {
+      let uList = [{n: "십의 자리", d: 10}, {n: "백의 자리", d: 100}];
+      let u = uList[Math.floor(Math.random() * 2)];
+      let base = (Math.floor(Math.random() * 70) + 10) * u.d;
+      let target = base + Math.floor(Math.random() * (u.d - 1)) + 1;
+      
+      let rem = target % u.d;
+      let ansVal = target;
+      if (m === "올림") ansVal = rem === 0 ? target : target - rem + u.d;
+      else if (m === "버림") ansVal = target - rem;
+      else if (m === "반올림") ansVal = rem >= (u.d/2) ? target - rem + u.d : target - rem;
+      
+      q = `<b>${target}</b>을(를) <b>${m}</b>하여<br><b>${u.n}까지</b> 나타낸 값은?`;
+      answer = ansVal.toString();
+      options = [answer];
+      
+      let wCandidates = [ansVal + u.d, ansVal - u.d, target];
+      for (let w of wCandidates) if (w > 0 && !options.includes(w.toString())) options.push(w.toString());
+      while (options.length < 4) {
+        let r = ansVal + (Math.floor(Math.random()*5)-2)*u.d;
+        if (r > 0 && !options.includes(r.toString())) options.push(r.toString());
+      }
     }
   }
-  // 2-1~2-6. 분수의 곱셈 시리즈
   else if (cat.startsWith('2-')) {
     let n1, d1, m1=0, n2, d2, m2=0;
     
-    if (cat === '2-1') { // 진분수 * 자연수
+    if (cat === '2-1') {
       d1 = Math.floor(Math.random()*8)+3; n1 = Math.floor(Math.random()*(d1-1))+1;
       let k = Math.floor(Math.random()*6)+2;
       q = `<div style="display:flex;align-items:center;justify-content:center;gap:4px;">${renderFracHTML(0,n1,d1)} <span>× ${k} = ?</span></div>`;
       answer = formatFracObj(n1*k, d1);
-    } else if (cat === '2-2') { // 대분수 * 자연수
+    } else if (cat === '2-2') {
       d1 = Math.floor(Math.random()*5)+3; n1 = Math.floor(Math.random()*(d1-1))+1; m1 = Math.floor(Math.random()*2)+1;
       let k = Math.floor(Math.random()*5)+2;
       q = `<div style="display:flex;align-items:center;justify-content:center;gap:4px;">${renderFracHTML(m1,n1,d1)} <span>× ${k} = ?</span></div>`;
       answer = formatFracObj((m1*d1+n1)*k, d1);
-    } else if (cat === '2-3') { // 자연수 * 진분수
+    } else if (cat === '2-3') {
       d2 = Math.floor(Math.random()*8)+3; n2 = Math.floor(Math.random()*(d2-1))+1;
       let k = Math.floor(Math.random()*6)+2;
       q = `<div style="display:flex;align-items:center;justify-content:center;gap:4px;"><span>${k} × </span> ${renderFracHTML(0,n2,d2)} <span>= ?</span></div>`;
       answer = formatFracObj(k*n2, d2);
-    } else if (cat === '2-4') { // 자연수 * 대분수
+    } else if (cat === '2-4') {
       d2 = Math.floor(Math.random()*5)+3; n2 = Math.floor(Math.random()*(d2-1))+1; m2 = Math.floor(Math.random()*2)+1;
       let k = Math.floor(Math.random()*5)+2;
       q = `<div style="display:flex;align-items:center;justify-content:center;gap:4px;"><span>${k} × </span> ${renderFracHTML(m2,n2,d2)} <span>= ?</span></div>`;
       answer = formatFracObj(k*(m2*d2+n2), d2);
-    } else if (cat === '2-5') { // 진분수 * 진분수
+    } else if (cat === '2-5') {
       d1 = Math.floor(Math.random()*6)+3; n1 = Math.floor(Math.random()*(d1-1))+1;
       d2 = Math.floor(Math.random()*6)+3; n2 = Math.floor(Math.random()*(d2-1))+1;
       q = `<div style="display:flex;align-items:center;justify-content:center;gap:4px;">${renderFracHTML(0,n1,d1)} <span>×</span> ${renderFracHTML(0,n2,d2)} <span>= ?</span></div>`;
       answer = formatFracObj(n1*n2, d1*d2);
-    } else if (cat === '2-6') { // 대분수 * 대분수
+    } else if (cat === '2-6') {
       d1 = Math.floor(Math.random()*4)+2; n1 = Math.floor(Math.random()*(d1-1))+1; m1 = Math.floor(Math.random()*2)+1;
       d2 = Math.floor(Math.random()*4)+2; n2 = Math.floor(Math.random()*(d2-1))+1; m2 = Math.floor(Math.random()*2)+1;
       q = `<div style="display:flex;align-items:center;justify-content:center;gap:4px;">${renderFracHTML(m1,n1,d1)} <span>×</span> ${renderFracHTML(m2,n2,d2)} <span>= ?</span></div>`;
@@ -389,40 +434,36 @@ function generateQuestion(cat) {
       dummyCount++;
     }
   }
-  // 4-1~4-4. 소수의 곱셈 시리즈 (소수점 이하 2자리 혼합 적용)
   else if (cat.startsWith('4-')) {
-    if (cat === '4-1') { // 소수 * 자연수 (소수 1자리 또는 2자리)
+    if (cat === '4-1') {
       let digits = Math.random() < 0.5 ? 1 : 2;
       let dec = getRandomDecimal(digits);
       let k = Math.floor(Math.random()*8)+2;
       q = `<b>${dec} × ${k}</b> 계산 결과는?`;
-      
       let rawVal = (parseFloat(dec) * k).toFixed(digits);
-      answer = Number(rawVal).toString(); // 불필요한 0 제거
-    } else if (cat === '4-2') { // 자연수 * 소수 (소수 1자리 또는 2자리)
+      answer = Number(rawVal).toString();
+    } else if (cat === '4-2') {
       let digits = Math.random() < 0.5 ? 1 : 2;
       let dec = getRandomDecimal(digits);
       let k = Math.floor(Math.random()*8)+2;
       q = `<b>${k} × ${dec}</b> 계산 결과는?`;
-      
       let rawVal = (k * parseFloat(dec)).toFixed(digits);
       answer = Number(rawVal).toString();
-    } else if (cat === '4-3') { // 소수 * 소수 (소수 1~2자리 조합)
+    } else if (cat === '4-3') {
       let d1Digits = Math.random() < 0.5 ? 1 : 2;
       let d2Digits = Math.random() < 0.5 ? 1 : 2;
       let d1 = getRandomDecimal(d1Digits);
       let d2 = getRandomDecimal(d2Digits);
       q = `<b>${d1} × ${d2}</b> 계산 결과는?`;
-      
       let totalDigits = d1Digits + d2Digits;
       let rawVal = (parseFloat(d1) * parseFloat(d2)).toFixed(totalDigits);
       answer = Number(rawVal).toString();
-    } else if (cat === '4-4') { // 곱의 소수점 위치
+    } else if (cat === '4-4') {
       let baseA = Math.floor(Math.random()*35)+12;
       let baseB = Math.floor(Math.random()*25)+3;
       let baseProd = baseA * baseB;
-      let shift1 = Math.floor(Math.random()*2)+1; // 1 or 2
-      let shift2 = Math.floor(Math.random()*2)+1; // 1 or 2
+      let shift1 = Math.floor(Math.random()*2)+1;
+      let shift2 = Math.floor(Math.random()*2)+1;
       
       let dec1 = (baseA / Math.pow(10, shift1)).toFixed(shift1);
       let dec2 = (baseB / Math.pow(10, shift2)).toFixed(shift2);
@@ -451,6 +492,25 @@ function generateQuestion(cat) {
 
   options.sort(() => Math.random() - 0.5);
   return { q, answer, opts: options };
+}
+
+// 메인 문제 생성기 (종합 단원 포함)
+function generateQuestion(cat) {
+  if (cat === '1-all') {
+    let subCats = ['1-1', '1-2'];
+    let picked = subCats[Math.floor(Math.random() * subCats.length)];
+    return generateSingleQuestion(picked);
+  } else if (cat === '2-all') {
+    let subCats = ['2-1', '2-2', '2-3', '2-4', '2-5', '2-6'];
+    let picked = subCats[Math.floor(Math.random() * subCats.length)];
+    return generateSingleQuestion(picked);
+  } else if (cat === '4-all') {
+    let subCats = ['4-1', '4-2', '4-3', '4-4'];
+    let picked = subCats[Math.floor(Math.random() * subCats.length)];
+    return generateSingleQuestion(picked);
+  } else {
+    return generateSingleQuestion(cat);
+  }
 }
 
 let qData = {};
