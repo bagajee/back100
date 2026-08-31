@@ -26,34 +26,22 @@
     .logo-group h1 a { color: white; text-decoration: none; }
     .logo-group p { font-size: 0.85rem; opacity: 0.9; margin-top: 4px; }
 
-    /* 비활성화 링크 스타일 */
-    .subject-list a.disabled-link {
-      color: #aaa !important;
-      cursor: not-allowed;
-    }
-    .subject-list a.disabled-link:hover {
-      background: transparent !important;
-      color: #aaa !important;
-      font-weight: normal !important;
-    }
-
     /* 메인 히어로 섹션 */
     .hero {
       text-align: center;
-      padding: 2.5rem 1rem 1.8rem;
+      padding: 2.2rem 1rem 1.6rem;
       background: white;
       border-bottom: 1px solid #eef2f5;
     }
-    .hero h2 { font-size: 1.6rem; color: #2c3e50; margin-bottom: 0.5rem; }
+    .hero h2 { font-size: 1.5rem; color: #2c3e50; margin-bottom: 0.4rem; }
     .hero p { color: #666; font-size: 0.95rem; line-height: 1.4; }
 
-    /* 학년별 빠른 선택 카드 그리드 */
+    /* 학년별 카드 그리드 레이아웃 */
     .container { max-width: 1100px; margin: 2rem auto; padding: 0 1rem; }
-    .grid-title { font-size: 1.2rem; margin-bottom: 1rem; color: #333; font-weight: 700; }
     
     .grade-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 16px;
     }
     .card {
@@ -62,12 +50,11 @@
       padding: 1.25rem;
       border: 1px solid #e8ecef;
       box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-      transition: transform 0.2s, box-shadow 0.2s;
     }
     .card h3 {
       font-size: 1.2rem;
       color: #4a90e2;
-      margin-bottom: 0.8rem;
+      margin-bottom: 1rem;
       padding-bottom: 8px;
       border-bottom: 2px solid #f0f4f9;
       display: flex;
@@ -83,33 +70,92 @@
       font-weight: normal;
     }
 
-    .subject-list { list-style: none; }
-    .subject-list li { margin-bottom: 4px; }
-    .subject-list a {
-      color: #555;
-      text-decoration: none;
-      display: block;
-      padding: 10px 12px;
-      border-radius: 8px;
-      font-size: 0.95rem;
-      transition: background 0.2s;
+    /* 과목 아이템 및 학기 버튼 스타일 */
+    .subject-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
-    .subject-list a:hover { background: #eef5ff; color: #2b6cb0; font-weight: 600; }
+    .subject-item {
+      background: #f8fafc;
+      border: 1px solid #edf2f7;
+      border-radius: 10px;
+      padding: 10px;
+    }
+    .subject-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 8px;
+    }
+    .semester-buttons {
+      display: flex;
+      gap: 6px;
+    }
+    .sem-btn {
+      flex: 1;
+      text-align: center;
+      padding: 8px 0;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border-radius: 6px;
+      text-decoration: none;
+      background-color: #e0f2fe;
+      color: #0369a1;
+      transition: all 0.2s ease;
+    }
+    .sem-btn:hover {
+      background-color: #0284c7;
+      color: #ffffff;
+    }
 
-    /* 전체 준비중 카드 디자인 */
+    /* 준비중 버튼 전용 스타일 */
+    .sem-btn.disabled {
+      background-color: #f1f5f9;
+      color: #aaa;
+      cursor: not-allowed;
+    }
+    .sem-btn.disabled:hover {
+      background-color: #f1f5f9;
+      color: #aaa;
+    }
+
+    /* 준비중 학년 전체 비활성화 카드 */
     .card.disabled-card {
       background-color: #fafafa;
       opacity: 0.8;
     }
     .card.disabled-card h3 { color: #888; }
 
+    /* 푸터 영역 스타일 */
+    footer {
+      background-color: white;
+      border-top: 1px solid #eef2f5;
+      padding: 1.5rem 1rem;
+      margin-top: 3rem;
+      text-align: center;
+      color: #718096;
+      font-size: 0.85rem;
+      line-height: 1.6;
+    }
+    footer a {
+      color: #4a90e2;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+
     /* 모바일 최적화 (768px 이하) */
     @media (max-width: 768px) {
       header { padding: 1.2rem 1rem; }
-      .hero { padding: 2rem 1rem 1.5rem; }
-      .hero h2 { font-size: 1.35rem; }
-      .hero p { font-size: 0.9rem; }
+      .hero { padding: 1.8rem 1rem 1.3rem; }
+      .hero h2 { font-size: 1.3rem; }
+      .hero p { font-size: 0.88rem; }
       .grade-grid { grid-template-columns: 1fr; }
+      footer { padding: 1.2rem 1rem; margin-top: 2rem; }
     }
   </style>
 </head>
@@ -125,23 +171,39 @@
 
   <!-- 메인 안내 문구 -->
   <section class="hero">
-    <h2>매일 조금씩 체계적인 복습 습관!</h2>
-    <p>원하는 학년과 과목을 선택하여 복습 학습을 시작해 보세요.</p>
+    <h2>매일 조금씩 체계적인 학습 습관!</h2>
+    <p>원하는 학년과 과목, 학기를 선택하여 학습을 시작해 보세요.</p>
   </section>
 
   <!-- 학년별 카드 레이아웃 -->
   <main class="container">
-    <h3 class="grid-title">학년별 과목 한눈에 보기</h3>
     <div class="grade-grid">
       
       <!-- 3학년 (준비중) -->
       <div class="card disabled-card">
         <h3>3학년 <span class="badge">준비중</span></h3>
         <ul class="subject-list">
-          <li><a href="#" class="disabled-link" onclick="alert('3학년 과정은 현재 준비 중입니다.'); return false;">📐 수학 복습</a></li>
-          <li><a href="#" class="disabled-link" onclick="alert('3학년 과정은 현재 준비 중입니다.'); return false;">🌏 사회 복습</a></li>
-          <li><a href="#" class="disabled-link" onclick="alert('3학년 과정은 현재 준비 중입니다.'); return false;">🔬 과학 복습</a></li>
-          <li><a href="#" class="disabled-link" onclick="alert('3학년 과정은 현재 준비 중입니다.'); return false;">🔤 영어 복습</a></li>
+          <li class="subject-item">
+            <div class="subject-title">📐 수학</div>
+            <div class="semester-buttons">
+              <a href="#" class="sem-btn disabled" onclick="alert('3학년 수학은 현재 준비 중입니다.'); return false;">1학기</a>
+              <a href="#" class="sem-btn disabled" onclick="alert('3학년 수학은 현재 준비 중입니다.'); return false;">2학기</a>
+            </div>
+          </li>
+          <li class="subject-item">
+            <div class="subject-title">🌏 사회</div>
+            <div class="semester-buttons">
+              <a href="#" class="sem-btn disabled" onclick="alert('3학년 사회는 현재 준비 중입니다.'); return false;">1학기</a>
+              <a href="#" class="sem-btn disabled" onclick="alert('3학년 사회는 현재 준비 중입니다.'); return false;">2학기</a>
+            </div>
+          </li>
+          <li class="subject-item">
+            <div class="subject-title">🔬 과학</div>
+            <div class="semester-buttons">
+              <a href="#" class="sem-btn disabled" onclick="alert('3학년 과학은 현재 준비 중입니다.'); return false;">1학기</a>
+              <a href="#" class="sem-btn disabled" onclick="alert('3학년 과학은 현재 준비 중입니다.'); return false;">2학기</a>
+            </div>
+          </li>
         </ul>
       </div>
 
@@ -149,37 +211,94 @@
       <div class="card disabled-card">
         <h3>4학년 <span class="badge">준비중</span></h3>
         <ul class="subject-list">
-          <li><a href="#" class="disabled-link" onclick="alert('4학년 과정은 현재 준비 중입니다.'); return false;">📐 수학 복습</a></li>
-          <li><a href="#" class="disabled-link" onclick="alert('4학년 과정은 현재 준비 중입니다.'); return false;">🌏 사회 복습</a></li>
-          <li><a href="#" class="disabled-link" onclick="alert('4학년 과정은 현재 준비 중입니다.'); return false;">🔬 과학 복습</a></li>
-          <li><a href="#" class="disabled-link" onclick="alert('4학년 과정은 현재 준비 중입니다.'); return false;">🔤 영어 복습</a></li>
+          <li class="subject-item">
+            <div class="subject-title">📐 수학</div>
+            <div class="semester-buttons">
+              <a href="#" class="sem-btn disabled" onclick="alert('4학년 수학은 현재 준비 중입니다.'); return false;">1학기</a>
+              <a href="#" class="sem-btn disabled" onclick="alert('4학년 수학은 현재 준비 중입니다.'); return false;">2학기</a>
+            </div>
+          </li>
+          <li class="subject-item">
+            <div class="subject-title">🌏 사회</div>
+            <div class="semester-buttons">
+              <a href="#" class="sem-btn disabled" onclick="alert('4학년 사회는 현재 준비 중입니다.'); return false;">1학기</a>
+              <a href="#" class="sem-btn disabled" onclick="alert('4학년 사회는 현재 준비 중입니다.'); return false;">2학기</a>
+            </div>
+          </li>
+          <li class="subject-item">
+            <div class="subject-title">🔬 과학</div>
+            <div class="semester-buttons">
+              <a href="#" class="sem-btn disabled" onclick="alert('4학년 과학은 현재 준비 중입니다.'); return false;">1학기</a>
+              <a href="#" class="sem-btn disabled" onclick="alert('4학년 과학은 현재 준비 중입니다.'); return false;">2학기</a>
+            </div>
+          </li>
         </ul>
       </div>
 
-      <!-- 5학년 (수학, 사회만 활성화) -->
+      <!-- 5학년 -->
       <div class="card">
         <h3>5학년</h3>
         <ul class="subject-list">
-          <li><a href="grade5/math.html">📐 수학 복습</a></li>
-          <li><a href="grade5/social.html">🌏 사회 복습</a></li>
-          <li><a href="#" class="disabled-link" onclick="alert('5학년 과학은 현재 준비 중입니다.'); return false;">🔬 과학 복습 (준비중)</a></li>
-          <li><a href="#" class="disabled-link" onclick="alert('5학년 영어는 현재 준비 중입니다.'); return false;">🔤 영어 복습 (준비중)</a></li>
+          <li class="subject-item">
+            <div class="subject-title">📐 수학</div>
+            <div class="semester-buttons">
+              <a href="grade5/se1/math.html" class="sem-btn">1학기</a>
+              <a href="grade5/se2/math.html" class="sem-btn">2학기</a>
+            </div>
+          </li>
+          <li class="subject-item">
+            <div class="subject-title">🌏 사회</div>
+            <div class="semester-buttons">
+              <a href="grade5/se1/social.html" class="sem-btn">1학기</a>
+              <a href="grade5/se2/social.html" class="sem-btn">2학기</a>
+            </div>
+          </li>
+          <li class="subject-item">
+            <div class="subject-title">🔬 과학</div>
+            <div class="semester-buttons">
+              <a href="#" class="sem-btn disabled" onclick="alert('5학년 과학은 현재 준비 중입니다.'); return false;">1학기</a>
+              <a href="#" class="sem-btn disabled" onclick="alert('5학년 과학은 현재 준비 중입니다.'); return false;">2학기</a>
+            </div>
+          </li>
         </ul>
       </div>
 
-      <!-- 6학년 (수학 활성화) -->
+      <!-- 6학년 -->
       <div class="card">
         <h3>6학년</h3>
         <ul class="subject-list">
-          <li><a href="grade6/math.html">📐 수학 복습</a></li>
-          <li><a href="#" class="disabled-link" onclick="alert('6학년 사회는 현재 준비 중입니다.'); return false;">🌏 사회 복습 (준비중)</a></li>
-          <li><a href="#" class="disabled-link" onclick="alert('6학년 과학은 현재 준비 중입니다.'); return false;">🔬 과학 복습 (준비중)</a></li>
-          <li><a href="#" class="disabled-link" onclick="alert('6학년 영어는 현재 준비 중입니다.'); return false;">🔤 영어 복습 (준비중)</a></li>
+          <li class="subject-item">
+            <div class="subject-title">📐 수학</div>
+            <div class="semester-buttons">
+              <a href="grade6/se1/math.html" class="sem-btn">1학기</a>
+              <a href="grade6/se2/math.html" class="sem-btn">2학기</a>
+            </div>
+          </li>
+          <li class="subject-item">
+            <div class="subject-title">🌏 사회</div>
+            <div class="semester-buttons">
+              <a href="grade6/se1/social.html" class="sem-btn">1학기</a>
+              <a href="grade6/se2/social.html" class="sem-btn">2학기</a>
+            </div>
+          </li>
+          <li class="subject-item">
+            <div class="subject-title">🔬 과학</div>
+            <div class="semester-buttons">
+              <a href="#" class="sem-btn disabled" onclick="alert('6학년 과학은 현재 준비 중입니다.'); return false;">1학기</a>
+              <a href="#" class="sem-btn disabled" onclick="alert('6학년 과학은 현재 준비 중입니다.'); return false;">2학기</a>
+            </div>
+          </li>
         </ul>
       </div>
 
     </div>
   </main>
+
+  <!-- 하단 푸터 영역 -->
+  <footer>
+    <p>최종 수정일: 2026. 08. 31.</p>
+    <p>문의사항: <a href="mailto:psyssam80@gmail.com">psyssam80@gmail.com</a></p>
+  </footer>
 
 </body>
 </html>

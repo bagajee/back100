@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>초등 사회 5-2 스피드 퀴즈 - 조선</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    body {
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 480px;
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      padding: 32px 24px;
+      text-align: center;
+      position: relative;
+    }
+
+    .top-nav {
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 16px;
+    }
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background-color: #f1f5f9;
+      color: #475569;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .nav-btn:hover {
+      background-color: #e2e8f0;
+      color: #0f172a;
+    }
+
+    h1 {
+      font-size: 22px;
+      color: #1e293b;
+      margin-bottom: 24px;
+      line-height: 1.4;
+    }
+
+    .badge {
+      display: inline-block;
+      background-color: #e0f2fe;
+      color: #0369a1;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: #475569;
+      margin-bottom: 8px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 16px;
+      outline: none;
+      transition: all 0.2s ease;
+      background-color: #fff;
+    }
+
+    input:focus {
+      border-color: #0284c7;
+      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 16px;
+      background-color: #0284c7;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .btn-primary:hover {
+      background-color: #0369a1;
+    }
+
+    .btn-secondary {
+      width: 100%;
+      padding: 14px;
+      background-color: #f1f5f9;
+      color: #334155;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .btn-secondary:hover {
+      background-color: #e2e8f0;
+      color: #0f172a;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    #countdown-screen h2 {
+      font-size: 84px;
+      color: #0284c7;
+      margin: 30px 0;
+      font-weight: 800;
+    }
+
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+
+    .question-box {
+      font-size: 18px;
+      font-weight: 700;
+      color: #0f172a;
+      margin: 20px 0 24px 0;
+      word-break: keep-all;
+      line-height: 1.6;
+      text-align: left;
+      background-color: #f8fafc;
+      padding: 20px;
+      border-radius: 14px;
+      border-left: 5px solid #0284c7;
+      min-height: 110px;
+      display: flex;
+      align-items: center;
+    }
+
+    .result-card {
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 20px;
+      margin: 24px 0;
+      text-align: left;
+    }
+
+    .result-card p {
+      font-size: 15px;
+      color: #334155;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .result-card p:last-child {
+      margin-bottom: 0;
+    }
+
+    .result-card strong {
+      color: #0f172a;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- 1. 첫 화면 -->
+    <div id="start-screen">
+      <div class="top-nav">
+        <a href="../index.html" class="nav-btn">🏠 메인 목록</a>
+      </div>
+      <div class="badge">[초등 사회 5-2]</div>
+      <h1>조선 전기 핵심 개념<br>스피드 퀴즈</h1>
+      <div class="form-group">
+        <label for="user-name">도전자 이름</label>
+        <input type="text" id="user-name" placeholder="이름을 입력하세요" autocomplete="off">
+      </div>
+      <button class="btn-primary" onclick="prepareQuiz()">시작하기</button>
+    </div>
+
+    <!-- 2. 카운트다운 화면 -->
+    <div id="countdown-screen" class="hidden">
+      <div class="top-nav">
+        <button onclick="confirmGoStart()" class="nav-btn">🏠 처음으로</button>
+      </div>
+      <p style="font-size: 18px; color: #64748b; font-weight: 600;">준비하세요!</p>
+      <h2 id="countdown-number">3</h2>
+    </div>
+
+    <!-- 3. 퀴즈 실행 화면 -->
+    <div id="quiz-screen" class="hidden">
+      <div class="quiz-header">
+        <button onclick="confirmGoStart()" class="nav-btn" style="font-size: 12px; padding: 4px 8px;">🏠 처음으로</button>
+        <span id="progress-display">1 / 10</span>
+      </div>
+      <div class="question-box" id="question-text"></div>
+      <div class="form-group">
+        <input type="text" id="user-answer" placeholder="정답을 입력하세요" autocomplete="off">
+      </div>
+      <button class="btn-primary" onclick="submitAnswer()">정답 제출</button>
+    </div>
+
+    <!-- 4. 성공 결과 화면 -->
+    <div id="result-screen" class="hidden">
+      <div class="top-nav">
+        <button onclick="resetQuiz()" class="nav-btn">🏠 처음으로</button>
+      </div>
+      <h1 style="color: #16a34a; margin-bottom: 8px;">🎉 미션 성공! 🎉</h1>
+      <p style="color: #64748b; font-size: 15px;">10문제를 모두 올바르게 맞추셨습니다!</p>
+      
+      <div class="result-card">
+        <p><strong>도전자:</strong> <span id="res-name"></span></p>
+        <p><strong>완료 시간:</strong> <span id="res-date"></span></p>
+        <p><strong>소요 시간:</strong> <span id="res-time"></span>초</p>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn-primary" onclick="resetQuiz()">🔄 다시 도전하기 (처음으로)</button>
+        <a href="../index.html" class="btn-secondary">🏠 메인 목록으로</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 조선시대_유교문화_30문제_고가독성.xlsx 기반 데이터 (총 30문항)
+    const quizData = [
+      {
+            "question": "고려 말 사회 문제를 해결하고 조선을 건국한 두 핵심 세력(인물)은 누구인가요?",
+            "answer": [
+                  "이성계, 신진 사대부",
+                  "이성계, 신진사대부",
+                  "이성계 신진사대부",
+                  "이성계,신진사대부"
+            ],
+            "explanation": "고려 말 외적 침입과 지배층 횡포, 불교 부패를 해결하고자 이성계와 신진 사대부가 조선을 건국했습니다."
+      },
+      {
+            "question": "조선의 새로운 수도로 정해진 곳은 어디인가요?",
+            "answer": [
+                  "한양"
+            ],
+            "explanation": "조선은 도읍을 한양으로 정하고 유교 사상을 바탕으로 국가를 다스렸습니다."
+      },
+      {
+            "question": "조선이 한양을 설계할 때 유교 정신('인의예지')을 반영하여 이름을 붙인 대표적인 대문 중 하나를 쓰시오.",
+            "answer": [
+                  "숭례문",
+                  "흥인지문",
+                  "돈의문"
+            ],
+            "explanation": "유교의 기본 덕목인 '인의예지'를 반영하여 한양의 대문 이름을 지었습니다."
+      },
+      {
+            "question": "조선 시대 한양에 설치된 최고 유교 교육 기관은 어디인가요?",
+            "answer": [
+                  "성균관"
+            ],
+            "explanation": "성균관은 한양에 설치된 조선 시대 최고의 유교 교육 기관입니다."
+      },
+      {
+            "question": "조선 시대 지방에 설치된 유교 교육 기관은 어디인가요?",
+            "answer": [
+                  "향교"
+            ],
+            "explanation": "향교는 조선 시대 지방 백성들과 양반 자제들을 위해 지방에 세운 국립 유교 교육 기관입니다."
+      },
+      {
+            "question": "글을 모르는 백성을 위해 그림과 함께 충신, 효자, 열녀 이야기를 실은 책은 무엇인가요?",
+            "answer": [
+                  "삼강행실도"
+            ],
+            "explanation": "삼강행실도는 글을 모르는 백성도 쉽게 이해할 수 있도록 그림을 함께 실어 유교 예절을 가르쳤습니다."
+      },
+      {
+            "question": "유교 중심의 통치 질서를 확립하기 위해 편찬한 조선의 기본 법전은 무엇인가요?",
+            "answer": [
+                  "경국대전"
+            ],
+            "explanation": "경국대전은 유교 중심의 통치 질서와 백성의 일상생활 규범을 정리한 조선의 기본 법전입니다."
+      },
+      {
+            "question": "조선 시대 관례, 혼례, 상례, 제사를 통틀어 부르는 유교 예절 용어는 무엇인가요?",
+            "answer": [
+                  "관혼상제"
+            ],
+            "explanation": "조선은 관례, 혼례, 상례, 제사를 관혼상제라 부르며 유교식 집안 행사의 핵심 예절로 다루었습니다."
+      },
+      {
+            "question": "조선 시대 유교 예절 중 성인식을 뜻하는 말은 무엇인가요?",
+            "answer": [
+                  "관례"
+            ],
+            "explanation": "관례는 어른이 되었음을 상징하는 조선 시대 유교식 성인식입니다."
+      },
+      {
+            "question": "조선 시대 법적으로 구분된 두 신분은 무엇인가요?",
+            "answer": [
+                  "양인, 천인",
+                  "양인,천인",
+                  "양인 천인"
+            ],
+            "explanation": "조선은 경국대전에 따라 법적으로 백성을 양인과 천인 두 신분으로 구분했습니다."
+      },
+      {
+            "question": "조선 시대 실제 신분 중 공부를 하거나 나랏일에 참여했던 신분은 무엇인가요?",
+            "answer": [
+                  "양반"
+            ],
+            "explanation": "양반은 유교 경전을 공부하여 과거에 응시하고 나랏일에 참여한 최고 신분층입니다."
+      },
+      {
+            "question": "조선 시대 높은 관리를 돕거나 전문적인 일을 맡았던 신분은 무엇인가요?",
+            "answer": [
+                  "중인"
+            ],
+            "explanation": "중인은 의학, 통역, 관청 행정 등 전문적인 일을 맡거나 높은 관리를 도왔습니다."
+      },
+      {
+            "question": "조선 시대 농사를 짓거나 물건을 팔던 일반 백성 신분은 무엇인가요?",
+            "answer": [
+                  "상민"
+            ],
+            "explanation": "상민은 농사, 상업, 손기술 등에 종사하며 세금을 부담한 일반 백성입니다."
+      },
+      {
+            "question": "조선 시대 대부분 노비로 구성되어 허드렛일을 하던 신분은 무엇인가요?",
+            "answer": [
+                  "천민"
+            ],
+            "explanation": "천민은 대다수가 노비로 개인이나 관청에 속해 허드렛일을 담당했습니다."
+      },
+      {
+            "question": "조선 전기에는 아들과 딸이 균등하게 물려받았던 것은 무엇인가요?",
+            "answer": [
+                  "재산"
+            ],
+            "explanation": "조선 전기에는 남녀 구분 없이 아들과 딸에게 재산을 균등하게 물려주었습니다."
+      },
+      {
+            "question": "조선 후기 여성에게 강요된 규범으로 아버지, 남편, 아들의 뜻을 따라야 한다는 가르침은 무엇인가요?",
+            "answer": [
+                  "삼종지도"
+            ],
+            "explanation": "조선 후기 유교 질서가 강화되면서 여성이 평생 따라야 하는 도리로 삼종지도가 강조되었습니다."
+      },
+      {
+            "question": "세종 대에 조선의 환경에 맞는 농사법을 정리하여 펴낸 책은 무엇인가요?",
+            "answer": [
+                  "농사직설"
+            ],
+            "explanation": "세종 때 우리 기후와 환경에 맞는 농사법을 정리하여 백성에게 보급한 농서입니다."
+      },
+      {
+            "question": "세종 대에 제작된 대표적인 천문 관측 기구는 무엇인가요?",
+            "answer": [
+                  "혼천의"
+            ],
+            "explanation": "혼천의는 천체의 위치를 관측하기 위해 세종 대에 제작된 과학 기구입니다."
+      },
+      {
+            "question": "세종 대에 제작된 물시계의 이름은 무엇인가요?",
+            "answer": [
+                  "자격루"
+            ],
+            "explanation": "자격루는 정해진 시간에 종과 북을 울려 시각을 알려주는 자동 물시계입니다."
+      },
+      {
+            "question": "세종 대에 제작된 백성을 위한 오목해시계의 이름은 무엇인가요?",
+            "answer": [
+                  "앙부일구"
+            ],
+            "explanation": "앙부일구는 백성들이 쉽게 시간을 확인할 수 있도록 만든 오목한 모양의 해시계입니다."
+      },
+      {
+            "question": "세종이 백성이 쉽게 읽고 쓸 수 있도록 창제한 글자의 이름은 무엇인가요?",
+            "answer": [
+                  "훈민정음"
+            ],
+            "explanation": "세종은 글을 몰라 어려움을 겪는 백성을 위해 훈민정음을 창제했습니다."
+      },
+      {
+            "question": "조선 전기에 친선 관계를 유지하며 선진 문물을 받아들인 국가는 어디인가요?",
+            "answer": [
+                  "명"
+            ],
+            "explanation": "조선 전기에는 명나라와 친선 관계를 유지하며 선진 문물을 적극적으로 받아들였습니다."
+      },
+      {
+            "question": "세종 때 왜구의 침략을 막기 위해 공격하여 항복을 받은 일본의 섬은 어디인가요?",
+            "answer": [
+                  "쓰시마섬"
+            ],
+            "explanation": "세종 때 이종무 등을 보내 쓰시마섬을 정벌하여 왜구의 침략을 제압했습니다."
+      },
+      {
+            "question": "세종 때 북쪽 여진족을 몰아내고 영토를 확장하기 위해 설치한 지역은 무엇인가요?",
+            "answer": [
+                  "4군 6진",
+                  "4군6진",
+                  "사군육진",
+                  "사군 6진",
+                  "4군 육진"
+            ],
+            "explanation": "세종 때 최윤덕과 김종서를 파견해 여진을 몰아내고 압록강·두만강 영역에 4군 6진을 설치했습니다."
+      },
+      {
+            "question": "조선 건국 약 200년 후 일본의 침략으로 시작된 전쟁은 무엇인가요?",
+            "answer": [
+                  "임진왜란"
+            ],
+            "explanation": "조선 건국 후 약 200년이 지난 1592년, 일본의 침략으로 임진왜란이 일어났습니다."
+      },
+      {
+            "question": "임진왜란 때 일본군이 사용한 신무기는 무엇인가요?",
+            "answer": [
+                  "조총"
+            ],
+            "explanation": "일본군은 조총이라는 신무기를 바탕으로 초기 전투에서 우세를 점했습니다."
+      },
+      {
+            "question": "임진왜란 당시 바다에서 수군을 이끌며 큰 승리를 거둔 장군은 누구인가요?",
+            "answer": [
+                  "이순신"
+            ],
+            "explanation": "이순신 장군은 학익진 등 뛰어난 전술로 바다에서 왜군을 크게 무찔렀습니다."
+      },
+      {
+            "question": "여진족이 청으로 나라 이름을 바꾼 뒤 조선에 요구한 관계는 무엇인가요?",
+            "answer": [
+                  "군신 관계",
+                  "군신관계",
+                  "임금과 신하의 관계",
+                  "임금과 신하의 관계 (군신 관계)",
+                  "임금과신하의관계"
+            ],
+            "explanation": "여진족이 세운 청나라는 힘이 강해진 후 조선에 군신 관계를 요구했습니다."
+      },
+      {
+            "question": "병자호란 당시 인조가 피신하여 청군에 저항했던 성은 어디인가요?",
+            "answer": [
+                  "남한산성"
+            ],
+            "explanation": "인조는 청나라의 갑작스러운 침략을 피해 남한산성으로 들어가 항전했습니다."
+      },
+      {
+            "question": "병자호란의 결과 조선은 명나라 대신 어느 나라의 영향을 받게 되었나요?",
+            "answer": [
+                  "청"
+            ],
+            "explanation": "병자호란에서 항복한 이후 조선은 명나라 대신 청나라의 영향권 아래 놓이게 되었습니다."
+      }
+];
+
+    let currentQuestions = [];
+    let currentQuestionIndex = 0;
+    let userName = "";
+    let startTime = 0;
+    let countdownTimer = null;
+
+    window.onload = function() {
+      document.getElementById('user-answer').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') submitAnswer();
+      });
+      
+      document.getElementById('user-name').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') prepareQuiz();
+      });
+    };
+
+    function prepareQuiz() {
+      userName = document.getElementById('user-name').value.trim();
+
+      if (!userName) {
+        alert("이름을 입력해주세요.");
+        return;
+      }
+
+      if (!quizData || quizData.length < 10) {
+        alert("문제가 부족합니다. (최소 10문제 필요)");
+        return;
+      }
+
+      // 지정 규칙 반영:
+      // 1. 시작 문제를 랜덤으로 선정 (0 ~ quizData.length - 1)
+      const startIndex = Math.floor(Math.random() * quizData.length);
+      
+      // 2. 5~10 사이의 간격을 랜덤으로 선정
+      const step = Math.floor(Math.random() * 6) + 5; // 5, 6, 7, 8, 9, 10 중 하나
+
+      // 3. 시작 문제 위치부터 step 간격으로 10문제 추출
+      currentQuestions = [];
+      for (let i = 0; i < 10; i++) {
+        const idx = (startIndex + i * step) % quizData.length;
+        currentQuestions.push(quizData[idx]);
+      }
+
+      currentQuestionIndex = 0;
+
+      showScreen('countdown-screen');
+      startCountdown();
+    }
+
+    function startCountdown() {
+      let count = 3;
+      const countEl = document.getElementById('countdown-number');
+      countEl.textContent = count;
+
+      if (countdownTimer) clearInterval(countdownTimer);
+
+      countdownTimer = setInterval(() => {
+        count--;
+        if (count > 0) {
+          countEl.textContent = count;
+        } else {
+          clearInterval(countdownTimer);
+          startQuiz();
+        }
+      }, 1000);
+    }
+
+    function startQuiz() {
+      showScreen('quiz-screen');
+      startTime = new Date().getTime();
+      loadQuestion();
+    }
+
+    function loadQuestion() {
+      const q = currentQuestions[currentQuestionIndex];
+      document.getElementById('progress-display').textContent = `${currentQuestionIndex + 1} / 10`;
+      document.getElementById('question-text').textContent = q.question;
+      
+      const inputEl = document.getElementById('user-answer');
+      inputEl.value = "";
+      inputEl.focus();
+    }
+
+    function normalize(str) {
+      return str.toString().replace(/\s+/g, '').toLowerCase();
+    }
+
+    function submitAnswer() {
+      const inputEl = document.getElementById('user-answer');
+      const userAns = normalize(inputEl.value);
+
+      if (!userAns) {
+        alert("정답을 입력해주세요.");
+        return;
+      }
+
+      const q = currentQuestions[currentQuestionIndex];
+
+      let isCorrect = false;
+      if (Array.isArray(q.answer)) {
+        isCorrect = q.answer.some(ans => normalize(ans) === userAns);
+      } else {
+        isCorrect = normalize(q.answer) === userAns;
+      }
+
+      if (!isCorrect) {
+        const correctStr = Array.isArray(q.answer) ? q.answer.join(" 또는 ") : q.answer;
+        const expStr = q.explanation || "해설이 없습니다.";
+        
+        alert(`❌ 아쉽네요! 오답입니다.\n\n• 내가 입력한 답: ${inputEl.value}\n• 정답: ${correctStr}\n\n💡 [간단 해설]\n${expStr}\n\n처음 화면으로 돌아갑니다.`);
+        resetQuiz();
+        return;
+      }
+
+      currentQuestionIndex++;
+
+      if (currentQuestionIndex < 10) {
+        loadQuestion();
+      } else {
+        showSuccess();
+      }
+    }
+
+    function confirmGoStart() {
+      if (confirm("퀴즈를 중단하고 처음 시작 화면으로 돌아가시겠습니까?")) {
+        resetQuiz();
+      }
+    }
+
+    function showSuccess() {
+      const endTime = new Date().getTime();
+      const timeTaken = ((endTime - startTime) / 1000).toFixed(1);
+      const now = new Date();
+      
+      const timeString = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+
+      document.getElementById('res-name').textContent = userName;
+      document.getElementById('res-date').textContent = timeString;
+      document.getElementById('res-time').textContent = timeTaken;
+
+      showScreen('result-screen');
+    }
+
+    function resetQuiz() {
+      if (countdownTimer) clearInterval(countdownTimer);
+      document.getElementById('user-answer').value = "";
+      showScreen('start-screen');
+    }
+
+    function showScreen(screenId) {
+      const screens = ['start-screen', 'countdown-screen', 'quiz-screen', 'result-screen'];
+      screens.forEach(id => {
+        document.getElementById(id).classList.add('hidden');
+      });
+      document.getElementById(screenId).classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>

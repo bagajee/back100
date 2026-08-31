@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>6학년 2학기 사회 학습 포털</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+        }
+
+        body {
+            background-color: #e9ecef;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .menu-card {
+            background: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 480px;
+            padding: 30px 24px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .header h1 {
+            font-size: 1.6rem;
+            color: #1b4332;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            font-size: 0.9rem;
+            color: #888888;
+        }
+
+        .unit-group {
+            margin-bottom: 24px;
+        }
+
+        .unit-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #495057;
+            margin-bottom: 12px;
+        }
+
+        .btn-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .sub-btn {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 14px 18px;
+            background: linear-gradient(135deg, #2ea055 0%, #27ae60 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: 30px;
+            font-size: 0.98rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: left;
+            transition: transform 0.1s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 10px rgba(39, 174, 96, 0.25);
+        }
+
+        .sub-btn::before {
+            content: '';
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            background-color: #a8e6cf;
+            border-radius: 50%;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .sub-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(39, 174, 96, 0.35);
+        }
+
+        .sub-btn:active {
+            transform: translateY(0);
+        }
+
+        /* 스크롤바 디자인 */
+        .menu-card::-webkit-scrollbar {
+            width: 6px;
+        }
+        .menu-card::-webkit-scrollbar-thumb {
+            background-color: #cccccc;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="menu-card">
+    <div class="header">
+        <h1>🎓 6학년 2학기 사회 교실</h1>
+        <p>학습할 세부 단원을 선택하세요! (각 20문제)</p>
+    </div>
+
+    <!-- 1. 세계의 자연 환경 -->
+    <div class="unit-group">
+        <div class="unit-title">1. 세계의 자연 환경</div>
+        <div class="btn-list">
+            <button class="sub-btn" onclick="selectChapter('ch1_1')">1) 다양한 자연 경관과 생활 모습</button>
+            <button class="sub-btn" onclick="selectChapter('ch1_2')">2) 다양한 기후와 생활 모습</button>
+        </div>
+    </div>
+
+    <!-- 2. 시장경제와 국가 간 거래 -->
+    <div class="unit-group">
+        <div class="unit-title">2. 시장경제와 국가 간 거래</div>
+        <div class="btn-list">
+            <button class="sub-btn" onclick="selectChapter('ch2_1')">1) 우리 나라 시장경제의 특징</button>
+            <button class="sub-btn" onclick="selectChapter('ch2_2')">2) 경제성장과 우리 생활</button>
+            <button class="sub-btn" onclick="selectChapter('ch2_3')">3) 세계 속의 무역</button>
+        </div>
+    </div>
+
+    <!-- 3. 지구촌 사람들 -->
+    <div class="unit-group">
+        <div class="unit-title">3. 지구촌 사람들</div>
+        <div class="btn-list">
+            <button class="sub-btn" onclick="selectChapter('ch3_1')">1) 세계의 인구 분포</button>
+            <button class="sub-btn" onclick="selectChapter('ch3_2')">2) 지구촌의 문제와 지속가능한 미래</button>
+        </div>
+    </div>
+</div>
+
+<script>
+function selectChapter(chapterId) {
+    const pageMap = {
+        "ch1_1": "so11.html",
+        "ch1_2": "so12.html",
+        "ch2_1": "so21.html",
+        "ch2_2": "so22.html",
+        "ch2_3": "so23.html",
+        "ch3_1": "so31.html",
+        "ch3_2": "so32.html"
+    };
+    const target = pageMap[chapterId];
+    if (target) {
+        location.href = encodeURI(target);
+    } else {
+        alert("연결된 파일이 없습니다: " + chapterId);
+    }
+}
+</script>
+
+</body>
+</html>

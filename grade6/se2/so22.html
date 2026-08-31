@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>사회 6-2 경제성장과 우리 생활 퀴즈</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Pretendard', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+    body {
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 12px;
+      color: #333;
+    }
+    .card {
+      background: white;
+      width: 100%;
+      max-width: 480px;
+      border-radius: 20px;
+      padding: 24px 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      text-align: center;
+      position: relative;
+    }
+    .top-nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      background-color: #e2e8f0;
+      color: #475569;
+      text-decoration: none;
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 13px;
+      transition: background-color 0.2s;
+      flex: 1;
+    }
+    .nav-btn:active {
+      background-color: #cbd5e1;
+    }
+    h1 {
+      font-size: 22px;
+      color: #2b6cb0;
+      margin-bottom: 8px;
+    }
+    .sub-title {
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 24px;
+    }
+    .input-group {
+      margin-bottom: 20px;
+    }
+    .input-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #334155;
+      font-size: 15px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 14px;
+      border: 2px solid #cbd5e1;
+      border-radius: 12px;
+      font-size: 16px;
+      text-align: center;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input[type="text"]:focus {
+      border-color: #3182ce;
+    }
+    .btn-group {
+      display: flex;
+      gap: 10px;
+    }
+    .btn {
+      flex: 1;
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.1s, background-color 0.2s;
+    }
+    .btn:active {
+      transform: scale(0.98);
+    }
+    .btn-primary {
+      background-color: #3182ce;
+      color: white;
+    }
+    .btn-secondary {
+      background-color: #94a3b8;
+      color: white;
+    }
+    .btn-success {
+      background-color: #38a169;
+      color: white;
+    }
+
+    /* 카운트다운 화면 */
+    #countdown-screen {
+      display: none;
+      padding: 40px 0;
+    }
+    .countdown-number {
+      font-size: 80px;
+      font-weight: 900;
+      color: #dd6b20;
+      animation: pulse 0.8s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(0.8); opacity: 0.5; }
+      50% { transform: scale(1.1); opacity: 1; }
+      100% { transform: scale(1); opacity: 0.8; }
+    }
+
+    /* 퀴즈 화면 */
+    #quiz-screen {
+      display: none;
+      text-align: left;
+    }
+    .progress-bar-container {
+      width: 100%;
+      background-color: #e2e8f0;
+      height: 10px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background-color: #3182ce;
+      transition: width 0.3s ease;
+    }
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 12px;
+      font-weight: bold;
+    }
+    .badge {
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 12px;
+    }
+    .badge-mcq { background: #ebf8ff; color: #2b6cb0; }
+    .badge-sa { background: #feebc8; color: #c05621; }
+
+    .question-box {
+      font-size: 17px;
+      font-weight: bold;
+      line-height: 1.5;
+      color: #1e293b;
+      margin-bottom: 20px;
+      min-height: 60px;
+    }
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .option-btn {
+      width: 100%;
+      padding: 14px 16px;
+      background-color: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      text-align: left;
+      font-size: 15px;
+      color: #334155;
+      cursor: pointer;
+      line-height: 1.4;
+      transition: all 0.2s;
+    }
+    .option-btn:active {
+      background-color: #ebf8ff;
+      border-color: #3182ce;
+      color: #2b6cb0;
+    }
+
+    .sa-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* 오답 화면 */
+    #wrong-screen {
+      display: none;
+      background-color: #fff5f5;
+      border: 2px solid #feb2b2;
+      border-radius: 16px;
+      padding: 20px;
+      margin-top: 10px;
+      text-align: center;
+    }
+    .wrong-title {
+      color: #e53e3e;
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .explanation-box {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      border-left: 4px solid #e53e3e;
+      text-align: left;
+      font-size: 14px;
+      color: #4a5568;
+      line-height: 1.5;
+      margin-bottom: 15px;
+    }
+
+    /* 성공 화면 */
+    #success-screen {
+      display: none;
+    }
+    .trophy {
+      font-size: 60px;
+      margin-bottom: 10px;
+    }
+    .success-title {
+      font-size: 24px;
+      color: #2f855a;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    .result-info {
+      background-color: #f0fff4;
+      border: 1px solid #c6f6d5;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: left;
+      margin-bottom: 20px;
+    }
+    .result-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+    .result-item:last-child {
+      margin-bottom: 0;
+    }
+    .result-label {
+      color: #4a5568;
+      font-weight: bold;
+    }
+    .result-value {
+      color: #22543d;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    
+    <!-- 1. 처음 화면 -->
+    <div id="start-screen">
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+        <a href="../social.html" class="nav-btn">📚 단원 선택</a>
+      </div>
+      <h1>사회 6-2 스피드 퀴즈</h1>
+      <p class="sub-title">2-(2) 경제성장과 우리 생활 (10문제 도전)</p>
+
+      <div class="input-group">
+        <label for="userName">도전자의 이름을 입력하세요</label>
+        <input type="text" id="userName" placeholder="이름 입력 (예: 홍길동)" autocomplete="off">
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-secondary" onclick="resetForm()">재도전 (초기화)</button>
+        <button class="btn btn-primary" onclick="startQuizProcess()">시작하기</button>
+      </div>
+    </div>
+
+    <!-- 2. 카운트다운 화면 -->
+    <div id="countdown-screen">
+      <h2 style="color: #4a5568; margin-bottom: 20px;">곧 퀴즈가 시작됩니다!</h2>
+      <div class="countdown-number" id="countdown-timer">3</div>
+    </div>
+
+    <!-- 3. 퀴즈 진행 화면 -->
+    <div id="quiz-screen">
+      <div class="progress-bar-container">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      
+      <div class="quiz-header">
+        <span id="question-number">문제 1 / 10</span>
+        <span id="question-type-badge" class="badge badge-mcq">객관식</span>
+      </div>
+
+      <div class="question-box" id="question-text"></div>
+
+      <!-- 객관식 영역 -->
+      <div class="options-container" id="options-container"></div>
+
+      <!-- 단답식 영역 -->
+      <div class="sa-container" id="sa-container" style="display: none;">
+        <input type="text" id="sa-input" placeholder="정답을 입력하세요" onkeydown="if(event.key==='Enter') submitSAAnswer()">
+        <button class="btn btn-primary" onclick="submitSAAnswer()">정답 제출</button>
+      </div>
+    </div>
+
+    <!-- 4. 오답 화면 -->
+    <div id="wrong-screen">
+      <div class="wrong-title">❌ 틀렸습니다!</div>
+      <div class="explanation-box">
+        <strong>💡 핵심 해설:</strong>
+        <p id="explanation-text" style="margin-top: 5px;"></p>
+      </div>
+      <button class="btn btn-primary" style="width: 100%;" onclick="returnToStart()">처음 단계로 돌아가기</button>
+    </div>
+
+    <!-- 5. 성공 축하 화면 -->
+    <div id="success-screen">
+      <div class="trophy">🏆</div>
+      <div class="success-title">축하합니다! 10문제 모두 맞추셨습니다!</div>
+      
+      <div class="result-info">
+        <div class="result-item">
+          <span class="result-label">도전자 Name</span>
+          <span class="result-value" id="result-name">-</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">총 걸린 시간</span>
+          <span class="result-value" id="result-time">-</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">완료 시각</span>
+          <span class="result-value" id="result-date">-</span>
+        </div>
+      </div>
+
+      <div class="top-nav" style="margin-bottom: 12px;">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+        <a href="../social.html" class="nav-btn">📚 단원 선택</a>
+      </div>
+      <button class="btn btn-success" style="width: 100%;" onclick="returnToStart()">다시 도전하기</button>
+    </div>
+
+  </div>
+
+  <script>
+    // ----------------------------------------------------
+    // 문제 은행 데이터 (제시된 학습지 이미지 내용 100% 반영)
+    // ----------------------------------------------------
+
+    // 객관식 문제 은행 (21문제)
+    const mcqBank = [
+      {
+        q: "우리나라가 빠른 경제성장을 이룰 수 있도록 함께 노력한 주체로 학습지에 제시된 세 주체는 무엇인가요?",
+        options: ["가계, 기업, 정부", "학교, 병원, 은행", "시민단체, 언론, 군대", "외국 정부, 국제기구, 학자"],
+        ans: 0,
+        exp: "우리나라는 일제의 식민 통치와 6·25 전쟁의 어려움을 가계, 기업, 정부가 함께 노력하여 극복했습니다."
+      },
+      {
+        q: "6·25 전쟁 직후 우리나라의 경제적 상황을 가장 잘 설명한 것은 무엇인가요?",
+        options: [
+          "산업 시설이 폐허가 되고 자본이나 자원도 거의 없는 상태였다.",
+          "첨단 기술이 발달하여 수출이 크게 늘어난 상태였다.",
+          "중화학 공업이 발달하여 경제가 풍요로웠다.",
+          "OECD에 가입하여 선진국으로 인정받고 있었다."
+        ],
+        ans: 0,
+        exp: "6·25 전쟁 직후에는 산업 시설이 폐허가 되고 자본이나 자원이 거의 없었습니다."
+      },
+      {
+        q: "1960년대에 경제 개발 5개년 계획을 추진하면서 주로 수출했던 제품은 어떤 공업 제품인가요?",
+        options: ["경공업 제품", "중화학 공업 제품", "첨단 정보 기술 제품", "우주 항공 제품"],
+        ans: 0,
+        exp: "1960년대에는 경제 개발 5개년 계획을 추진하며 경공업 제품을 수출했습니다."
+      },
+      {
+        q: "1970년대에 발달하며 우리나라 경제가 빠르게 성장하기 시작하도록 이끈 공업은 무엇인가요?",
+        options: ["중화학 공업", "경공업", "수공업", "농업"],
+        ans: 0,
+        exp: "1970년대에는 중화학 공업이 발달하며 경제가 빠르게 성장하기 시작했습니다."
+      },
+      {
+        q: "1988년에 개최되어 우리나라가 경제적으로 선진국에 진입하는 계기를 마련한 국제 행사는 무엇인가요?",
+        options: ["제24회 서울 올림픽 대회", "OECD 회원국 정상회의", "세계 박람회", "아시안 게임"],
+        ans: 0,
+        exp: "1988년 제24회 서울 올림픽 대회를 개최하며 선진국 진입 계기를 마련했습니다."
+      },
+      {
+        q: "1996년 12월 우리나라가 세계에서 29번째로 가입하며 선진국으로서 인정받게 된 국제기구는 무엇인가요?",
+        options: [
+          "경제 협력 개발 기구(OECD)",
+          "세계 보건 기구(WHO)",
+          "국제 연합(UN)",
+          "세계 무역 기구(WTO)"
+        ],
+        ans: 0,
+        exp: "1996년 12월 경제 협력 개발 기구(OECD)에 29번째로 가입했습니다."
+      },
+      {
+        q: "경제성장으로 국민 소득이 증가하고 사람들의 생활이 풍족해지면서 발달하게 된 산업 분야는 무엇인가요?",
+        options: ["문화 관련 산업", "농어업 산업", "전통 수공업", "폐기물 매립 산업"],
+        ans: 0,
+        exp: "국민 소득이 증가하고 생활이 풍족해지면서 문화와 관련한 산업이 발달합니다."
+      },
+      {
+        q: "경제성장이 우리 생활에 미친 영향으로 올바르지 않은 것은 무엇인가요?",
+        options: [
+          "수준 높은 의료 혜택이 줄어들어 기대 수명이 감소했다.",
+          "생산 속도가 빨라지고 생산량이 늘어났다.",
+          "더 좋은 교육 시설과 다양한 학습 기회가 마련되었다.",
+          "새로운 일자리가 많이 생기고 소득이 증가했다."
+        ],
+        ans: 0,
+        exp: "경제성장으로 수준 높은 의료 혜택을 받고 사람들의 기대 수명이 늘어났습니다."
+      },
+      {
+        q: "자연의 무분별한 개발, 오염 물질과 쓰레기 증가 등으로 발생한 경제성장의 문제는 무엇인가요?",
+        options: ["환경 문제", "빈부 격차 문제", "과소비 문제", "노사 갈등 문제"],
+        ans: 0,
+        exp: "자연의 무분별한 개발과 배출 오염 물질/쓰레기 증가는 환경 문제를 일으킵니다."
+      },
+      {
+        q: "임금이나 복지 혜택 등을 두고 근로자와 기업 간에 갈등이 늘어나는 문제는 무엇인가요?",
+        options: ["저임금과 노사 갈등 문제", "환경 오염 문제", "자원 낭비 문제", "선진국 진입 문제"],
+        ans: 0,
+        exp: "임금이나 복지 혜택 등을 두고 발생하는 갈등은 저임금과 노사 갈등 문제에 해당합니다."
+      },
+      {
+        q: "빠른 경제성장으로 발생한 문제를 해결하기 위해 시민 단체와 개인이 기울이는 노력으로 알맞은 것은 무엇인가요?",
+        options: ["환경 보호 및 에너지 절약", "제도와 법률 직접 제정", "기업 간 소통 차단", "생산 시설 폐쇄"],
+        ans: 0,
+        exp: "시민 단체와 개인은 환경 보호, 에너지 절약 등 여러 분야에서 노력을 기울입니다."
+      },
+      {
+        q: "빠른 경제성장의 문제를 해결하기 위해 기업과 근로자가 함께 노력해야 하는 부분은 무엇인가요?",
+        options: [
+          "서로 소통하며 더 나은 근로 환경 만들기",
+          "다양한 법률 제도 직접 만들기",
+          "생산량을 강제로 축소하기",
+          "자연을 무분별하게 추가 개발하기"
+        ],
+        ans: 0,
+        exp: "기업과 근로자는 서로 소통하며 더 나은 근로 환경을 만들기 위해 노력해야 합니다."
+      },
+      {
+        q: "빠른 경제성장 문제를 해결하기 위해 다양한 제도와 정책을 만드는 주체는 누구인가요?",
+        options: ["정부", "개인", "시민 단체", "외국 기업"],
+        ans: 0,
+        exp: "정부는 문제를 해결하기 위해 다양한 제도와 정책을 만듭니다."
+      },
+      {
+        q: "시장에서 가격이 정해지는 원리로 알맞은 것은 무엇인가요?",
+        options: [
+          "필요로 하는 상품의 양과 기업이 제공하는 상품의 양에 따라 정해진다.",
+          "정부가 일방적으로 정하여 강제한다.",
+          "가계의 인원수에 따라서만 달라진다.",
+          "어떤 경우에도 절대 변하지 않는다."
+        ],
+        ans: 0,
+        exp: "가격은 사람들이 필요로 하는 상품의 양과 기업에서 제공하는 상품의 양에 따라 결정됩니다."
+      },
+      {
+        q: "가계가 기업의 생산 활동에 참여한 대가로 얻게 되는 것은 무엇인가요?",
+        options: ["소득", "이윤", "세금", "환경 오염"],
+        ans: 0,
+        exp: "가계는 기업의 생산 활동에 참여한 대가로 소득을 얻습니다."
+      },
+      {
+        q: "기업이 시장에서 물건이나 서비스를 생산·판매하여 얻고자 하는 대가는 무엇인가요?",
+        options: ["이윤", "급여", "소득", "근로 조건"],
+        ans: 0,
+        exp: "기업은 물건이나 서비스를 생산하고 판매하여 그 대가로 이윤을 얻습니다."
+      },
+      {
+        q: "근로자의 안정적인 생활을 위해 임금의 최저 수준을 정해 보호하는 제도는 무엇인가요?",
+        options: ["최저 임금 제도", "육아 휴직 제도", "경제 개발 5개년 계획", "합리적 결정 제도"],
+        ans: 0,
+        exp: "근로자의 안정적인 생활을 위해 임금의 최저 수준을 정하는 것은 최저 임금 제도입니다."
+      },
+      {
+        q: "시장에서 이루어지는 자유로운 경쟁이 우리 생활에 주는 도움이 아닌 것은 무엇인가요?",
+        options: [
+          "모든 물건을 공짜로 제공받는다.",
+          "자신의 재능과 능력을 발전시킬 수 있다.",
+          "품질이 좋은 상품을 적절한 가격에 살 수 있다.",
+          "더 나은 서비스를 제공받을 수 있다."
+        ],
+        ans: 0,
+        exp: "자유로운 경쟁은 능력 발전, 좋은 품질의 상품 구입, 더 나은 서비스 제공에 도움을 줍니다."
+      },
+      {
+        q: "근로자가 자녀 양육을 위해 일정 기간 휴직할 수 있도록 법으로 보장하는 제도는 무엇인가요?",
+        options: ["육아 휴직 제도", "최저 임금 제도", "노사 협의 제도", "생산량 조정 제도"],
+        ans: 0,
+        exp: "자녀 양육을 위해 휴직할 수 있도록 하는 것은 육아 휴직 제도입니다."
+      },
+      {
+        q: "기업이 더 많은 이윤을 얻기 위해 생산량을 늘리려고 행하는 대표적인 노력은 무엇인가요?",
+        options: ["생산 시설에 투자한다.", "생산 활동을 완전히 중단한다.", "근로자 수를 무작정 줄인다.", "가계의 소비를 금지한다."],
+        ans: 0,
+        exp: "기업은 생산량을 늘리기 위해 생산 시설에 투자합니다."
+      },
+      {
+        q: "시장경제에서 기업의 역할로 옳지 않은 것은 무엇인가요?",
+        options: [
+          "가계의 소득을 차압하여 압수한다.",
+          "가계에 일자리를 제공한다.",
+          "근로자에게 급여를 지급한다.",
+          "물건이나 서비스를 생산하고 판매한다."
+        ],
+        ans: 0,
+        exp: "기업은 가계에 일자리를 제공하고 급여를 지급하며 상품을 생산해 판매합니다."
+      }
+    ];
+
+    // 단답식 문제 은행 (9문제 - 지정된 9개 정답어 정확히 반영)
+    const saBank = [
+      {
+        q: "국가의 전체적인 생산 수준이나 국민 소득이 증가하여 이것이 커지는 것을 경제성장이라고 합니다. 이것은 무엇인가요?",
+        ansList: ["경제 규모", "경제규모"],
+        exp: "경제성장이란 국가의 전체적인 생산 수준이나 국민 소득이 증가하여 (경제 규모)가 커지는 것입니다."
+      },
+      {
+        q: "우리나라가 경제 개발 5개년 계획을 추진하며 경공업 제품을 주로 수출했던 시기는 몇 년대인가요?",
+        ansList: ["1960년대", "1960 년대"],
+        exp: "(1960년대)에는 경제 개발 5개년 계획을 추진하며 경공업 제품을 수출했습니다."
+      },
+      {
+        q: "우리나라에서 중화학 공업이 발달하며 경제가 빠르게 성장하기 시작했던 시기는 몇 년대인가요?",
+        ansList: ["1970년대", "1970 년대"],
+        exp: "(1970년대)에는 중화학 공업이 발달하며 경제가 빠르게 성장하기 시작했습니다."
+      },
+      {
+        q: "우리나라가 제24회 서울 올림픽 대회를 개최하며 경제적으로 선진국에 진입하는 계기를 마련한 해는 몇 년인가요?",
+        ansList: ["1988년", "1988 년"],
+        exp: "(1988년)에는 제24회 서울 올림픽 대회를 개최하여 선진국 진입 계기를 마련했습니다."
+      },
+      {
+        q: "우리나라가 12월에 경제 협력 개발 기구(OECD)에 세계에서 29번째로 가입하며 선진국으로 인정받은 해는 몇 년인가요?",
+        ansList: ["1996년", "1996 년"],
+        exp: "(1996년) 12월 경제 협력 개발 기구(OECD)에 세계에서 29번째로 가입했습니다."
+      },
+      {
+        q: "이것이 발전하면서 물건이나 서비스를 생산하는 속도가 빨라지고 생산량이 늘어나게 되었습니다. 이것은 무엇인가요?",
+        ansList: ["첨단 기술", "첨단기술"],
+        exp: "(첨단 기술)이 발전하면서 물건이나 서비스를 생산하는 속도가 빨라지고 생산량이 늘어납니다."
+      },
+      {
+        q: "경제성장으로 수준 높은 의료 혜택을 받게 되면서 사람들의 이것이 늘어났습니다. 이것은 무엇인가요?",
+        ansList: ["기대 수명", "기대수명"],
+        exp: "수준 높은 의료 혜택을 받을 수 있게 되면서 사람들의 (기대 수명)이 늘어납니다."
+      },
+      {
+        q: "빠른 경제성장 과정에서 사람들의 소득에 차이가 생기면서 나타난 문제점을 무엇이라고 하나요?",
+        ansList: ["빈부 격차", "빈부격차"],
+        exp: "사람들의 소득 차이로 인해 나타나는 문제를 (빈부 격차) 문제라고 합니다."
+      },
+      {
+        q: "사람들의 소득이 늘어나면서 필요한 것보다 더 많은 돈과 자원을 쓰면서 나타나는 문제를 이것과 자원 낭비 문제라고 합니다. 이것은 무엇인가요?",
+        ansList: ["과소비"],
+        exp: "필요한 것보다 더 많은 돈과 자원을 쓰는 문제를 (과소비)와 자원 낭비 문제라고 합니다."
+      }
+    ];
+
+    // ----------------------------------------------------
+    // 게임 전역 상태 관리
+    // ----------------------------------------------------
+    let userName = "";
+    let quizQueue = [];
+    let currentIdx = 0;
+    let startTime = null;
+
+    // DOM 요소
+    const startScreen = document.getElementById("start-screen");
+    const countdownScreen = document.getElementById("countdown-screen");
+    const quizScreen = document.getElementById("quiz-screen");
+    const wrongScreen = document.getElementById("wrong-screen");
+    const successScreen = document.getElementById("success-screen");
+
+    // 초기화 버튼
+    function resetForm() {
+      document.getElementById("userName").value = "";
+    }
+
+    // 배열 셔플 함수
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    // 퀴즈 시작 프로세스
+    function startQuizProcess() {
+      const nameInput = document.getElementById("userName").value.trim();
+      if (!nameInput) {
+        alert("이름을 입력해 주세요!");
+        return;
+      }
+      userName = nameInput;
+
+      // 화면 전환 -> 카운트다운
+      startScreen.style.display = "none";
+      wrongScreen.style.display = "none";
+      successScreen.style.display = "none";
+      countdownScreen.style.display = "block";
+
+      let count = 3;
+      const countEl = document.getElementById("countdown-timer");
+      countEl.textContent = count;
+
+      const timer = setInterval(() => {
+        count--;
+        if (count > 0) {
+          countEl.textContent = count;
+        } else {
+          clearInterval(timer);
+          countdownScreen.style.display = "none";
+          initQuizData();
+        }
+      }, 1000);
+    }
+
+    // 퀴즈 데이터 생성 (1~7번: 객관식 7개, 8~10번: 단답식 3개)
+    function initQuizData() {
+      const selectedMCQs = shuffleArray(mcqBank).slice(0, 7);
+      const selectedSAs = shuffleArray(saBank).slice(0, 3);
+
+      // 객관식 문제 처리 (선택지 셔플)
+      const formattedMCQs = selectedMCQs.map(item => {
+        const correctText = item.options[item.ans];
+        const shuffledOptions = shuffleArray(item.options);
+        const newAnsIdx = shuffledOptions.indexOf(correctText);
+        return {
+          type: "MCQ",
+          q: item.q,
+          options: shuffledOptions,
+          ans: newAnsIdx,
+          exp: item.exp
+        };
+      });
+
+      // 단답식 문제 처리
+      const formattedSAs = selectedSAs.map(item => ({
+        type: "SA",
+        q: item.q,
+        ansList: item.ansList,
+        exp: item.exp
+      }));
+
+      quizQueue = [...formattedMCQs, ...formattedSAs];
+      currentIdx = 0;
+      startTime = Date.now();
+
+      quizScreen.style.display = "block";
+      renderQuestion();
+    }
+
+    // 문제 렌더링
+    function renderQuestion() {
+      const qData = quizQueue[currentIdx];
+      
+      // 진행률 바
+      const progressPercent = ((currentIdx + 1) / 10) * 100;
+      document.getElementById("progress-bar").style.width = progressPercent + "%";
+      document.getElementById("question-number").textContent = `문제 ${currentIdx + 1} / 10`;
+
+      // Badge & Type
+      const badge = document.getElementById("question-type-badge");
+      const optionsBox = document.getElementById("options-container");
+      const saBox = document.getElementById("sa-container");
+
+      document.getElementById("question-text").textContent = `${currentIdx + 1}. ${qData.q}`;
+
+      if (qData.type === "MCQ") {
+        badge.textContent = "객관식";
+        badge.className = "badge badge-mcq";
+        optionsBox.style.display = "flex";
+        saBox.style.display = "none";
+
+        optionsBox.innerHTML = "";
+        qData.options.forEach((optText, idx) => {
+          const btn = document.createElement("button");
+          btn.className = "option-btn";
+          btn.textContent = `${idx + 1} ${optText}`;
+          btn.onclick = () => checkMCQAnswer(idx);
+          optionsBox.appendChild(btn);
+        });
+      } else {
+        badge.textContent = "단답식";
+        badge.className = "badge badge-sa";
+        optionsBox.style.display = "none";
+        saBox.style.display = "flex";
+
+        const saInput = document.getElementById("sa-input");
+        saInput.value = "";
+        saInput.focus();
+      }
+    }
+
+    // 객관식 정답 검사
+    function checkMCQAnswer(selectedIdx) {
+      const qData = quizQueue[currentIdx];
+      if (selectedIdx === qData.ans) {
+        nextQuestion();
+      } else {
+        showWrongScreen(qData.exp);
+      }
+    }
+
+    // 단답식 정답 검사
+    function submitSAAnswer() {
+      const qData = quizQueue[currentIdx];
+      const userInput = document.getElementById("sa-input").value.trim().replace(/\s+/g, "");
+      
+      // 띄어쓰기 예외 처리 포함 비교
+      const isCorrect = qData.ansList.some(targetAns => {
+        return targetAns.replace(/\s+/g, "") === userInput;
+      });
+
+      if (isCorrect) {
+        nextQuestion();
+      } else {
+        showWrongScreen(qData.exp);
+      }
+    }
+
+    // 다음 문제로 이동
+    function nextQuestion() {
+      currentIdx++;
+      if (currentIdx < 10) {
+        renderQuestion();
+      } else {
+        finishQuiz();
+      }
+    }
+
+    // 오답 화면
+    function showWrongScreen(explanationText) {
+      quizScreen.style.display = "none";
+      wrongScreen.style.display = "block";
+      document.getElementById("explanation-text").textContent = explanationText;
+    }
+
+    // 시작 화면으로 복귀
+    function returnToStart() {
+      wrongScreen.style.display = "none";
+      successScreen.style.display = "none";
+      quizScreen.style.display = "none";
+      startScreen.style.display = "block";
+    }
+
+    // 퀴즈 완등 (성공)
+    function finishQuiz() {
+      const endTime = Date.now();
+      const elapsedSeconds = Math.floor((endTime - startTime) / 1000);
+      
+      const mins = Math.floor(elapsedSeconds / 60);
+      const secs = elapsedSeconds % 60;
+      const timeStr = mins > 0 ? `${mins}분 ${secs}초` : `${secs}초`;
+
+      const now = new Date();
+      const dateStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+
+      document.getElementById("result-name").textContent = userName;
+      document.getElementById("result-time").textContent = timeStr;
+      document.getElementById("result-date").textContent = dateStr;
+
+      quizScreen.style.display = "none";
+      successScreen.style.display = "block";
+    }
+  </script>
+</body>
+</html>

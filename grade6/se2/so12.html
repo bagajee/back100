@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>사회 6-2 세계의 기후 스피드 퀴즈</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Pretendard', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+    body {
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 12px;
+      color: #333;
+    }
+    .card {
+      background: white;
+      width: 100%;
+      max-width: 480px;
+      border-radius: 20px;
+      padding: 24px 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      text-align: center;
+      position: relative;
+    }
+    .top-nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      background-color: #e2e8f0;
+      color: #475569;
+      text-decoration: none;
+      padding: 8px 12px;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 13px;
+      transition: background-color 0.2s;
+      flex: 1;
+    }
+    .nav-btn:active {
+      background-color: #cbd5e1;
+    }
+    h1 {
+      font-size: 22px;
+      color: #2b6cb0;
+      margin-bottom: 8px;
+    }
+    .sub-title {
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 24px;
+    }
+    .input-group {
+      margin-bottom: 20px;
+    }
+    .input-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #334155;
+      font-size: 15px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 14px;
+      border: 2px solid #cbd5e1;
+      border-radius: 12px;
+      font-size: 16px;
+      text-align: center;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input[type="text"]:focus {
+      border-color: #3182ce;
+    }
+    .btn-group {
+      display: flex;
+      gap: 10px;
+    }
+    .btn {
+      flex: 1;
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.1s, background-color 0.2s;
+    }
+    .btn:active {
+      transform: scale(0.98);
+    }
+    .btn-primary {
+      background-color: #3182ce;
+      color: white;
+    }
+    .btn-secondary {
+      background-color: #94a3b8;
+      color: white;
+    }
+    .btn-success {
+      background-color: #38a169;
+      color: white;
+    }
+
+    /* 카운트다운 화면 */
+    #countdown-screen {
+      display: none;
+      padding: 40px 0;
+    }
+    .countdown-number {
+      font-size: 80px;
+      font-weight: 900;
+      color: #dd6b20;
+      animation: pulse 0.8s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(0.8); opacity: 0.5; }
+      50% { transform: scale(1.1); opacity: 1; }
+      100% { transform: scale(1); opacity: 0.8; }
+    }
+
+    /* 퀴즈 화면 */
+    #quiz-screen {
+      display: none;
+      text-align: left;
+    }
+    .progress-bar-container {
+      width: 100%;
+      background-color: #e2e8f0;
+      height: 10px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background-color: #3182ce;
+      transition: width 0.3s ease;
+    }
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 12px;
+      font-weight: bold;
+    }
+    .badge {
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 12px;
+    }
+    .badge-mcq { background: #ebf8ff; color: #2b6cb0; }
+    .badge-sa { background: #feebc8; color: #c05621; }
+
+    .question-box {
+      font-size: 17px;
+      font-weight: bold;
+      line-height: 1.5;
+      color: #1e293b;
+      margin-bottom: 20px;
+      min-height: 60px;
+    }
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .option-btn {
+      width: 100%;
+      padding: 14px 16px;
+      background-color: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      text-align: left;
+      font-size: 15px;
+      color: #334155;
+      cursor: pointer;
+      line-height: 1.4;
+      transition: all 0.2s;
+    }
+    .option-btn:active {
+      background-color: #ebf8ff;
+      border-color: #3182ce;
+      color: #2b6cb0;
+    }
+
+    .sa-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* 오답 화면 */
+    #wrong-screen {
+      display: none;
+      background-color: #fff5f5;
+      border: 2px solid #feb2b2;
+      border-radius: 16px;
+      padding: 20px;
+      margin-top: 10px;
+      text-align: center;
+    }
+    .wrong-title {
+      color: #e53e3e;
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .explanation-box {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      border-left: 4px solid #e53e3e;
+      text-align: left;
+      font-size: 14px;
+      color: #4a5568;
+      line-height: 1.5;
+      margin-bottom: 15px;
+    }
+
+    /* 성공 화면 */
+    #success-screen {
+      display: none;
+    }
+    .trophy {
+      font-size: 60px;
+      margin-bottom: 10px;
+    }
+    .success-title {
+      font-size: 24px;
+      color: #2f855a;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    .result-info {
+      background-color: #f0fff4;
+      border: 1px solid #c6f6d5;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: left;
+      margin-bottom: 20px;
+    }
+    .result-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+    .result-item:last-child {
+      margin-bottom: 0;
+    }
+    .result-label {
+      color: #4a5568;
+      font-weight: bold;
+    }
+    .result-value {
+      color: #22543d;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    
+    <!-- 1. 처음 화면 -->
+    <div id="start-screen">
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+        <a href="../social.html" class="nav-btn">📚 단원 선택</a>
+      </div>
+      <h1>사회 6-2 스피드 퀴즈</h1>
+      <p class="sub-title">1-(2). 세계의 기후와 다양한 생활 모습</p>
+
+      <div class="input-group">
+        <label for="userName">도전자의 이름을 입력하세요</label>
+        <input type="text" id="userName" placeholder="이름 입력 (예: 홍길동)" autocomplete="off">
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-secondary" onclick="resetForm()">재도전 (초기화)</button>
+        <button class="btn btn-primary" onclick="startQuizProcess()">시작하기</button>
+      </div>
+    </div>
+
+    <!-- 2. 카운트다운 화면 -->
+    <div id="countdown-screen">
+      <h2 style="color: #4a5568; margin-bottom: 20px;">곧 퀴즈가 시작됩니다!</h2>
+      <div class="countdown-number" id="countdown-timer">3</div>
+    </div>
+
+    <!-- 3. 퀴즈 진행 화면 -->
+    <div id="quiz-screen">
+      <div class="progress-bar-container">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      
+      <div class="quiz-header">
+        <span id="question-number">문제 1 / 10</span>
+        <span id="question-type-badge" class="badge badge-mcq">객관식</span>
+      </div>
+
+      <div class="question-box" id="question-text"></div>
+
+      <!-- 객관식 영역 -->
+      <div class="options-container" id="options-container"></div>
+
+      <!-- 단답식 영역 -->
+      <div class="sa-container" id="sa-container" style="display: none;">
+        <input type="text" id="sa-input" placeholder="정답을 입력하세요" onkeydown="if(event.key==='Enter') submitSAAnswer()">
+        <button class="btn btn-primary" onclick="submitSAAnswer()">정답 제출</button>
+      </div>
+    </div>
+
+    <!-- 4. 오답 화면 -->
+    <div id="wrong-screen">
+      <div class="wrong-title">❌ 틀렸습니다!</div>
+      <div class="explanation-box">
+        <strong>💡 핵심 해설:</strong>
+        <p id="explanation-text" style="margin-top: 5px;"></p>
+      </div>
+      <button class="btn btn-primary" style="width: 100%;" onclick="returnToStart()">처음 단계로 돌아가기</button>
+    </div>
+
+    <!-- 5. 성공 축하 화면 -->
+    <div id="success-screen">
+      <div class="trophy">🏆</div>
+      <div class="success-title">축하합니다! 10문제 모두 맞추셨습니다!</div>
+      
+      <div class="result-info">
+        <div class="result-item">
+          <span class="result-label">도전자 Name</span>
+          <span class="result-value" id="result-name">-</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">총 걸린 시간</span>
+          <span class="result-value" id="result-time">-</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">완료 시각</span>
+          <span class="result-value" id="result-date">-</span>
+        </div>
+      </div>
+
+      <div class="top-nav" style="margin-bottom: 12px;">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+        <a href="../social.html" class="nav-btn">📚 단원 선택</a>
+      </div>
+      <button class="btn btn-success" style="width: 100%;" onclick="returnToStart()">다시 도전하기</button>
+    </div>
+
+  </div>
+
+  <script>
+    // ----------------------------------------------------
+    // 문제 은행 데이터 (제시된 2장 이미지 학습지 내용 100% 반영)
+    // ----------------------------------------------------
+
+    // 객관식 문제 은행 (21문제)
+    const mcqBank = [
+      {
+        q: "대체로 적도에서 극지방으로 가면서 나타나는 세계 기후의 차례로 알맞은 것은 무엇인가요?",
+        options: ["열대 - 건조 - 온대 - 냉대 - 한대", "한대 - 냉대 - 온대 - 건조 - 열대", "온대 - 열대 - 건조 - 한대 - 냉대", "건조 - 열대 - 온대 - 한대 - 냉대"],
+        ans: 0,
+        exp: "대체로 적도에서 극지방으로 가면서 열대 기후, 건조 기후, 온대 기후, 냉대 기후, 한대 기후가 차례로 나타납니다."
+      },
+      {
+        q: "열대 기후 지역의 가옥 특징으로 올바른 것은 무엇인가요?",
+        options: ["창을 크게 만들고 기둥을 세워 바닥을 땅에서 띄운다.", "벽을 두껍게 만들고 창문을 매우 작게 만든다.", "나무로 통나무집을 짓고 입구를 막는다.", "얼음 블록을 쌓아 집을 만든다."],
+        ans: 0,
+        exp: "열대 기후 지역에서는 창을 크게 만들고 기둥을 세워 바닥을 땅에서 띄운 집을 짓습니다."
+      },
+      {
+        q: "열대 기후 지역에서 전통적으로 카사바, 얌, 옥수수 등을 재배했던 농업 방식은 무엇인가요?",
+        options: ["화전 농업", "낙농업", "벼농사", "유목"],
+        ans: 0,
+        exp: "열대 기후 지역에서는 전통적으로 화전 농업을 통해 카사바, 얌, 옥수수 등을 재배했습니다."
+      },
+      {
+        q: "오늘날 열대 기후 지역에서 대규모로 재배하는 작물로 학습지에 언급된 것이 아닌 것은 무엇인가요?",
+        options: ["밀", "천연고무", "카카오", "바나나"],
+        ans: 0,
+        exp: "오늘날 열대 기후 지역에서는 천연고무, 카카오, 바나나, 커피 등을 대규모로 재배합니다."
+      },
+      {
+        q: "건조 기후 중 사막 지역 사람들의 옷차림 특징으로 올바른 것은 무엇인가요?",
+        options: ["강한 햇볕과 모래바람을 막기 위해 온몸을 감싸는 옷을 입는다.", "얇고 바람이 잘 통하는 옷을 입는다.", "두꺼운 털옷과 털모자를 착용한다.", "여러 겹의 옷을 입고 망토를 두른다."],
+        ans: 0,
+        exp: "사막 지역 사람들은 온몸을 감싸는 옷을 입고 생활합니다."
+      },
+      {
+        q: "건조 기후의 사막 지역에서 짓는 집의 특징으로 옳은 것은 무엇인가요?",
+        options: ["벽이 두껍고 창문이 작은 흙벽돌 집", "바닥을 땅에서 띄운 고상 가옥", "목재를 이용한 통나무집", "창문이 크고 넓은 집"],
+        ans: 0,
+        exp: "사막 지역에서는 벽이 두껍고 창문이 작은 흙벽돌로 만든 집에서 생활합니다."
+      },
+      {
+        q: "건조 기후의 초원 지역에서 가축을 이끌고 이동하며 살아가는 생활 모습은 무엇인가요?",
+        options: ["유목", "낙농업", "화전 농업", "생태 관광"],
+        ans: 0,
+        exp: "초원 지역에서는 유목 생활을 하며 가축의 털이나 가축으로 만든 이동식 가옥에서 생활합니다."
+      },
+      {
+        q: "온대 기후 지역 중 여름이 서늘하고 겨울이 따뜻하며 연중 강수량이 고른 지역은 어디인가요?",
+        options: ["서부 유럽", "지중해 주변", "우리나라", "북극 주변"],
+        ans: 0,
+        exp: "서부 유럽은 여름이 서늘하고 겨울이 따뜻하며 연중 강수량이 고릅니다."
+      },
+      {
+        q: "연중 강수량이 고른 서부 유럽에서 많이 재배하는 대표적인 작물과 발달한 농업은 무엇인가요?",
+        options: ["밀 재배 - 낙농업", "벼 재배 - 화전 농업", "올리브 재배 - 유목", "옥수수 재배 - 광업"],
+        ans: 0,
+        exp: "연중 강수량이 고른 서부 유럽에서는 밀을 많이 재배하며 낙농업이 발달했습니다."
+      },
+      {
+        q: "지중해 주변 온대 기후 지역의 기후 특징으로 알맞은 것은 무엇인가요?",
+        options: ["여름은 덥고 건조하며 겨울은 따뜻하고 강수량이 많다.", "일 년 내내 기온이 높고 비가 많이 내린다.", "여름이 서늘하고 연중 강수량이 고르다.", "겨울이 길고 기온이 매우 낮다."],
+        ans: 0,
+        exp: "지중해 주변 지역은 덥고 건조한 여름에 비해 겨울이 따뜻하고 강수량이 많습니다."
+      },
+      {
+        q: "여름이 건조한 지중해 주변 지역에서 주로 많이 재배하는 작물로 짝지어진 것은 무엇인가요?",
+        options: ["올리브, 포도", "카카오, 바나나", "밀, 옥수수", "카사바, 얌"],
+        ans: 0,
+        exp: "여름이 건조한 지중해 주변에서는 올리브나 포도를 많이 재배합니다."
+      },
+      {
+        q: "우리나라처럼 여름에 덥고 비가 많이 내리는 아시아 온대 기후 지역에서 주로 짓는 농사는 무엇인가요?",
+        options: ["벼 농사", "밀 농사", "대추야자 농사", "카카오 농사"],
+        ans: 0,
+        exp: "여름에 강수량이 집중하는 아시아에서는 벼 농사를 많이 짓습니다."
+      },
+      {
+        q: "냉대 기후가 주로 널리 나타나는 분포 지역은 어디인가요?",
+        options: ["북반구의 중위도와 고위도 지역", "적도 주변의 저위도 지역", "남극과 북극 주변 지역", "해발 고도가 매우 높은 산지"],
+        ans: 0,
+        exp: "냉대 기후는 북반구의 중위도와 고위도 지역에서 널리 나타납니다."
+      },
+      {
+        q: "냉대 기후 지역에서 넓게 발달하여 목재와 펄프 생산의 바탕이 되는 숲은 무엇인가요?",
+        options: ["침엽수림", "열대 우림", "사막 초원", "이끼 지대"],
+        ans: 0,
+        exp: "냉대 기후 지역에는 침엽수림이 넓게 발달하여 목재와 펄프 생산이 활발합니다."
+      },
+      {
+        q: "냉대 기후 지역에서 주민들이 주로 짓고 생활하는 집의 형태는 무엇인가요?",
+        options: ["통나무집", "흙벽돌 집", "바닥을 띄운 집", "이동식 가옥"],
+        ans: 0,
+        exp: "냉대 기후 지역에서는 주로 통나무집을 짓고 생활합니다."
+      },
+      {
+        q: "한대 기후 지역의 주민들이 여름에 자라는 이끼와 풀을 찾아 이동하며 기르는 대표적인 가축은 무엇인가요?",
+        options: ["순록", "알파카", "라마", "낙타"],
+        ans: 0,
+        exp: "한대 기후 지역에서는 여름에 자라는 이끼와 풀을 찾아 이동하며 순록을 기르는 유목 생활을 합니다."
+      },
+      {
+        q: "최근 한대 기후 지역에서 이용되는 대표적인 관광 산업 자원은 무엇인가요?",
+        options: ["오로라와 빙하", "사파리 관광", "수상 시장", "피오르 해안"],
+        ans: 0,
+        exp: "한대 기후 지역에서는 오로라와 빙하를 이용한 관광 산업이 발달했습니다."
+      },
+      {
+        q: "고산 기후 지역 사람들이 강한 햇빛을 막기 위해 주로 착용하는 모자의 특징은 무엇인가요?",
+        options: ["챙이 넓고 둥근 모자", "두꺼운 털모자", "깃털 장식 모자", "삼각 짚모자"],
+        ans: 0,
+        exp: "고산 기후 지역에서는 강한 햇빛을 막기 위해 챙이 넓고 둥근 모자를 씁니다."
+      },
+      {
+        q: "고산 기후 지역 사람들이 낮과 밤의 큰 기온 차이에 적응하기 위해 입는 옷차림은 무엇인가요?",
+        options: ["옷을 여러 겹 입고 망토를 두른다.", "온몸을 감싸는 기다란 흰 옷을 입는다.", "얇고 바람이 잘 통하는 옷을 입는다.", "두꺼운 털옷 한 벌만 입는다."],
+        ans: 0,
+        exp: "낮과 밤의 기온 차이가 큰 기후에 적응하려고 옷을 여러 겹 입고 망토를 두릅니다."
+      },
+      {
+        q: "고산 기후 지역에서 주로 재배하는 대표적인 작물로 짝지어진 것은 무엇인가요?",
+        options: ["감자와 옥수수", "밀과 올리브", "벼와 바나나", "카카오와 커피"],
+        ans: 0,
+        exp: "고산 기후 지역에서는 감자와 옥수수 등을 재배합니다."
+      },
+      {
+        q: "고산 기후 지역에서 주로 기르는 동물로 알맞게 짝지어진 것은 무엇인가요?",
+        options: ["알파카와 라마", "순록과 낙타", "양과 소", "말과 개"],
+        ans: 0,
+        exp: "고산 기후 지역에서는 알파카와 라마를 기릅니다."
+      }
+    ];
+
+    // 단답식 문제 은행 (9문제 - 지정해 주신 정답어에 맞춤)
+    const saBank = [
+      {
+        q: "적도 지방에서 극지방으로 갈수록 기온이 낮아지는 데 영향을 주는 주요 요인으로, 위치에 따라 햇볕을 받는 양이 달라지게 하는 이것은 무엇인가요?",
+        ansList: ["위도"],
+        exp: "(위도)에 따라 햇볕을 받는 양이 달라 대체로 적도 지방에서 극지방으로 갈수록 기온이 낮아집니다."
+      },
+      {
+        q: "세계의 여러 지역에서 기온과 강수량을 기준으로 구분하며, 위치와 지형 등에 따라 다양하게 나타나는 종합적인 날씨 상태를 무엇이라고 하나요?",
+        ansList: ["기후"],
+        exp: "세계의 (기후)는 주로 기온과 강수량을 기준으로 구분합니다."
+      },
+      {
+        q: "해발 고도가 높은 산지 지역에서 나타나며, 적도 주변 지역에서는 일 년 내내 서늘한 날씨가 이어지는 기후는 무엇인가요?",
+        ansList: ["고산 기후", "고산기후"],
+        exp: "매우 높은 산지에서는 (고산 기후)가 나타납니다."
+      },
+      {
+        q: "적도 주변의 저위도 지역에 주로 나타나며, 일 년 내내 기온이 높고 기온의 변화가 거의 없는 기후는 무엇인가요?",
+        ansList: ["열대 기후", "열대기후"],
+        exp: "(열대 기후)는 적도 주변의 저위도 지역에 나타나며 일 년 내내 기온이 높습니다."
+      },
+      {
+        q: "일 년 내내 비가 많이 내려 열대 우림을 이루거나, 건기와 우기가 번갈아 나타나 넓은 초원이 펼쳐지는 기후는 무엇인가요?",
+        ansList: ["열대 기후", "열대기후"],
+        exp: "(열대 기후)는 일 년 내내 비가 많이 내리는 열대 우림을 이루거나 건기와 우기가 번갈아 나타납니다."
+      },
+      {
+        q: "열대 기후가 주로 분포하는 저위도 지역의 중심이 되는 이 기준선 주변 지역은 어디인가요?",
+        ansList: ["적도"],
+        exp: "열대 기후는 (적도) 주변의 저위도 지역에 나타납니다."
+      },
+      {
+        q: "저위도와 중위도 지역 중 연중 강수량이 적어 사막이나 넓은 초원이 나타나는 기후는 무엇인가요?",
+        ansList: ["건조 기후", "건조기후"],
+        exp: "(건조 기후)는 저위도 지역과 중위도 지역의 연중 강수량이 적은 곳에 주로 나타납니다."
+      },
+      {
+        q: "세계의 기후를 구분할 때 기온과 함께 기준이 되는 요소로, 비나 눈이 내리는 양을 뜻하는 이것은 무엇인가요?",
+        ansList: ["강수량"],
+        exp: "세계의 기후는 주로 기온과 (강수량)을 기준으로 구분합니다."
+      },
+      {
+        q: "건조 기후의 사막 지역에서 물을 얻을 수 있어 밀이나 대추야자를 재배하며 사람들이 살아가는 장소는 어디인가요?",
+        ansList: ["오아시스"],
+        exp: "사막의 (오아시스)나 강 주변에서는 밀이나 대추야자를 재배합니다."
+      }
+    ];
+
+    // ----------------------------------------------------
+    // 게임 전역 상태 관리
+    // ----------------------------------------------------
+    let userName = "";
+    let quizQueue = [];
+    let currentIdx = 0;
+    let startTime = null;
+
+    // DOM 요소
+    const startScreen = document.getElementById("start-screen");
+    const countdownScreen = document.getElementById("countdown-screen");
+    const quizScreen = document.getElementById("quiz-screen");
+    const wrongScreen = document.getElementById("wrong-screen");
+    const successScreen = document.getElementById("success-screen");
+
+    // 초기화 버튼
+    function resetForm() {
+      document.getElementById("userName").value = "";
+    }
+
+    // 배열 셔플 함수
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    // 퀴즈 시작 프로세스
+    function startQuizProcess() {
+      const nameInput = document.getElementById("userName").value.trim();
+      if (!nameInput) {
+        alert("이름을 입력해 주세요!");
+        return;
+      }
+      userName = nameInput;
+
+      // 화면 전환 -> 카운트다운
+      startScreen.style.display = "none";
+      wrongScreen.style.display = "none";
+      successScreen.style.display = "none";
+      countdownScreen.style.display = "block";
+
+      let count = 3;
+      const countEl = document.getElementById("countdown-timer");
+      countEl.textContent = count;
+
+      const timer = setInterval(() => {
+        count--;
+        if (count > 0) {
+          countEl.textContent = count;
+        } else {
+          clearInterval(timer);
+          countdownScreen.style.display = "none";
+          initQuizData();
+        }
+      }, 1000);
+    }
+
+    // 퀴즈 데이터 생성 (1~7번: 객관식 7개, 8~10번: 단답식 3개)
+    function initQuizData() {
+      const selectedMCQs = shuffleArray(mcqBank).slice(0, 7);
+      const selectedSAs = shuffleArray(saBank).slice(0, 3);
+
+      // 객관식 문제 처리 (선택지 셔플)
+      const formattedMCQs = selectedMCQs.map(item => {
+        const correctText = item.options[item.ans];
+        const shuffledOptions = shuffleArray(item.options);
+        const newAnsIdx = shuffledOptions.indexOf(correctText);
+        return {
+          type: "MCQ",
+          q: item.q,
+          options: shuffledOptions,
+          ans: newAnsIdx,
+          exp: item.exp
+        };
+      });
+
+      // 단답식 문제 처리
+      const formattedSAs = selectedSAs.map(item => ({
+        type: "SA",
+        q: item.q,
+        ansList: item.ansList,
+        exp: item.exp
+      }));
+
+      quizQueue = [...formattedMCQs, ...formattedSAs];
+      currentIdx = 0;
+      startTime = Date.now();
+
+      quizScreen.style.display = "block";
+      renderQuestion();
+    }
+
+    // 문제 렌더링
+    function renderQuestion() {
+      const qData = quizQueue[currentIdx];
+      
+      // 진행률 바
+      const progressPercent = ((currentIdx + 1) / 10) * 100;
+      document.getElementById("progress-bar").style.width = progressPercent + "%";
+      document.getElementById("question-number").textContent = `문제 ${currentIdx + 1} / 10`;
+
+      // Badge & Type
+      const badge = document.getElementById("question-type-badge");
+      const optionsBox = document.getElementById("options-container");
+      const saBox = document.getElementById("sa-container");
+
+      document.getElementById("question-text").textContent = `${currentIdx + 1}. ${qData.q}`;
+
+      if (qData.type === "MCQ") {
+        badge.textContent = "객관식";
+        badge.className = "badge badge-mcq";
+        optionsBox.style.display = "flex";
+        saBox.style.display = "none";
+
+        optionsBox.innerHTML = "";
+        qData.options.forEach((optText, idx) => {
+          const btn = document.createElement("button");
+          btn.className = "option-btn";
+          btn.textContent = `${idx + 1} ${optText}`;
+          btn.onclick = () => checkMCQAnswer(idx);
+          optionsBox.appendChild(btn);
+        });
+      } else {
+        badge.textContent = "단답식";
+        badge.className = "badge badge-sa";
+        optionsBox.style.display = "none";
+        saBox.style.display = "flex";
+
+        const saInput = document.getElementById("sa-input");
+        saInput.value = "";
+        saInput.focus();
+      }
+    }
+
+    // 객관식 정답 검사
+    function checkMCQAnswer(selectedIdx) {
+      const qData = quizQueue[currentIdx];
+      if (selectedIdx === qData.ans) {
+        nextQuestion();
+      } else {
+        showWrongScreen(qData.exp);
+      }
+    }
+
+    // 단답식 정답 검사
+    function submitSAAnswer() {
+      const qData = quizQueue[currentIdx];
+      const userInput = document.getElementById("sa-input").value.trim().replace(/\s+/g, "");
+      
+      // 공백 무시 비교
+      const isCorrect = qData.ansList.some(targetAns => {
+        return targetAns.replace(/\s+/g, "") === userInput;
+      });
+
+      if (isCorrect) {
+        nextQuestion();
+      } else {
+        showWrongScreen(qData.exp);
+      }
+    }
+
+    // 다음 문제로 이동
+    function nextQuestion() {
+      currentIdx++;
+      if (currentIdx < 10) {
+        renderQuestion();
+      } else {
+        finishQuiz();
+      }
+    }
+
+    // 오답 화면
+    function showWrongScreen(explanationText) {
+      quizScreen.style.display = "none";
+      wrongScreen.style.display = "block";
+      document.getElementById("explanation-text").textContent = explanationText;
+    }
+
+    // 시작 화면으로 복귀
+    function returnToStart() {
+      wrongScreen.style.display = "none";
+      successScreen.style.display = "none";
+      quizScreen.style.display = "none";
+      startScreen.style.display = "block";
+    }
+
+    // 퀴즈 완등 (성공)
+    function finishQuiz() {
+      const endTime = Date.now();
+      const elapsedSeconds = Math.floor((endTime - startTime) / 1000);
+      
+      const mins = Math.floor(elapsedSeconds / 60);
+      const secs = elapsedSeconds % 60;
+      const timeStr = mins > 0 ? `${mins}분 ${secs}초` : `${secs}초`;
+
+      const now = new Date();
+      const dateStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+
+      document.getElementById("result-name").textContent = userName;
+      document.getElementById("result-time").textContent = timeStr;
+      document.getElementById("result-date").textContent = dateStr;
+
+      quizScreen.style.display = "none";
+      successScreen.style.display = "block";
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>사회 6-1 평화 통일 스피드 퀴즈</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Pretendard', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+    body {
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 12px;
+      color: #333;
+    }
+    .card {
+      background: white;
+      width: 100%;
+      max-width: 480px;
+      border-radius: 20px;
+      padding: 24px 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      text-align: center;
+      position: relative;
+    }
+    .top-nav {
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 15px;
+    }
+    .home-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background-color: #e2e8f0;
+      color: #475569;
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 14px;
+      transition: background-color 0.2s;
+    }
+    .home-btn:active {
+      background-color: #cbd5e1;
+    }
+    h1 {
+      font-size: 22px;
+      color: #2b6cb0;
+      margin-bottom: 8px;
+    }
+    .sub-title {
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 20px;
+    }
+    .input-group {
+      margin-bottom: 20px;
+    }
+    .input-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #334155;
+      font-size: 15px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 14px;
+      border: 2px solid #cbd5e1;
+      border-radius: 12px;
+      font-size: 16px;
+      text-align: center;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input[type="text"]:focus {
+      border-color: #3182ce;
+    }
+    .btn-group {
+      display: flex;
+      gap: 10px;
+    }
+    .btn {
+      flex: 1;
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.1s, background-color 0.2s;
+    }
+    .btn:active {
+      transform: scale(0.98);
+    }
+    .btn-primary {
+      background-color: #3182ce;
+      color: white;
+    }
+    .btn-secondary {
+      background-color: #94a3b8;
+      color: white;
+    }
+    .btn-success {
+      background-color: #38a169;
+      color: white;
+    }
+
+    /* 카운트다운 화면 */
+    #countdown-screen {
+      display: none;
+      padding: 40px 0;
+    }
+    .countdown-number {
+      font-size: 80px;
+      font-weight: 900;
+      color: #dd6b20;
+      animation: pulse 0.8s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(0.8); opacity: 0.5; }
+      50% { transform: scale(1.1); opacity: 1; }
+      100% { transform: scale(1); opacity: 0.8; }
+    }
+
+    /* 퀴즈 화면 */
+    #quiz-screen {
+      display: none;
+      text-align: left;
+    }
+    .progress-bar-container {
+      width: 100%;
+      background-color: #e2e8f0;
+      height: 10px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background-color: #3182ce;
+      transition: width 0.3s ease;
+    }
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 12px;
+      font-weight: bold;
+    }
+    .badge {
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 12px;
+    }
+    .badge-mcq { background: #ebf8ff; color: #2b6cb0; }
+    .badge-sa { background: #feebc8; color: #c05621; }
+
+    .question-box {
+      font-size: 17px;
+      font-weight: bold;
+      line-height: 1.5;
+      color: #1e293b;
+      margin-bottom: 20px;
+      min-height: 60px;
+    }
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .option-btn {
+      width: 100%;
+      padding: 14px 16px;
+      background-color: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      text-align: left;
+      font-size: 15px;
+      color: #334155;
+      cursor: pointer;
+      line-height: 1.4;
+      transition: all 0.2s;
+    }
+    .option-btn:active {
+      background-color: #ebf8ff;
+      border-color: #3182ce;
+      color: #2b6cb0;
+    }
+
+    .sa-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* 틀렸을 때 모달/화면 */
+    #wrong-screen {
+      display: none;
+      background-color: #fff5f5;
+      border: 2px solid #feb2b2;
+      border-radius: 16px;
+      padding: 20px;
+      margin-top: 10px;
+      text-align: center;
+    }
+    .wrong-title {
+      color: #e53e3e;
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .explanation-box {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      border-left: 4px solid #e53e3e;
+      text-align: left;
+      font-size: 14px;
+      color: #4a5568;
+      line-height: 1.5;
+      margin-bottom: 15px;
+    }
+
+    /* 성공 화면 */
+    #success-screen {
+      display: none;
+    }
+    .trophy {
+      font-size: 60px;
+      margin-bottom: 10px;
+    }
+    .success-title {
+      font-size: 24px;
+      color: #2f855a;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    .result-info {
+      background-color: #f0fff4;
+      border: 1px solid #c6f6d5;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: left;
+      margin-bottom: 20px;
+    }
+    .result-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+    .result-item:last-child {
+      margin-bottom: 0;
+    }
+    .result-label {
+      color: #4a5568;
+      font-weight: bold;
+    }
+    .result-value {
+      color: #22543d;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    
+    <!-- 1. 처음 화면 -->
+    <div id="start-screen">
+      <div class="top-nav">
+        <a href="../social.html" class="home-btn">🏠 홈으로</a>
+      </div>
+      <h1>사회 6-1 단원 정리 퀴즈</h1>
+      <p class="sub-title">평화 통일을 위한 노력 (총 10문제)</p>
+
+      <div class="input-group">
+        <label for="userName">도전자의 이름을 입력하세요</label>
+        <input type="text" id="userName" placeholder="이름 입력 (예: 홍길동)" autocomplete="off">
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-secondary" onclick="resetForm()">재도전 (초기화)</button>
+        <button class="btn btn-primary" onclick="startQuizProcess()">시작하기</button>
+      </div>
+    </div>
+
+    <!-- 2. 카운트다운 화면 -->
+    <div id="countdown-screen">
+      <h2 style="color: #4a5568; margin-bottom: 20px;">곧 퀴즈가 시작됩니다!</h2>
+      <div class="countdown-number" id="countdown-timer">3</div>
+    </div>
+
+    <!-- 3. 퀴즈 진행 화면 -->
+    <div id="quiz-screen">
+      <div class="progress-bar-container">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      
+      <div class="quiz-header">
+        <span id="question-number">문제 1 / 10</span>
+        <span id="question-type-badge" class="badge badge-mcq">객관식</span>
+      </div>
+
+      <div class="question-box" id="question-text"></div>
+
+      <!-- 객관식 영역 -->
+      <div class="options-container" id="options-container"></div>
+
+      <!-- 단답식 영역 -->
+      <div class="sa-container" id="sa-container" style="display: none;">
+        <input type="text" id="sa-input" placeholder="정답을 입력하세요" onkeydown="if(event.key==='Enter') submitSAAnswer()">
+        <button class="btn btn-primary" onclick="submitSAAnswer()">정답 제출</button>
+      </div>
+    </div>
+
+    <!-- 4. 틀렸을 때 화면 -->
+    <div id="wrong-screen">
+      <div class="wrong-title">❌ 아쉽습니다! 틀렸습니다.</div>
+      <div class="explanation-box">
+        <strong>💡 핵심 해설:</strong>
+        <p id="explanation-text" style="margin-top: 5px;"></p>
+      </div>
+      <button class="btn btn-primary" style="width: 100%;" onclick="returnToStart()">처음 단계로 돌아가기</button>
+    </div>
+
+    <!-- 5. 성공 축하 화면 (10문제 완등) -->
+    <div id="success-screen">
+      <div class="trophy">🎉</div>
+      <div class="success-title">미션 성공! 만점입니다!</div>
+      
+      <div class="result-info">
+        <div class="result-item">
+          <span class="result-label">도전자 Name</span>
+          <span class="result-value" id="result-name">-</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">총 걸린 시간</span>
+          <span class="result-value" id="result-time">-</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">완료 시각</span>
+          <span class="result-value" id="result-date">-</span>
+        </div>
+      </div>
+
+      <div class="btn-group">
+        <a href="../social.html" class="home-btn" style="flex:1; justify-content:center; text-align:center;">🏠 홈으로</a>
+        <button class="btn btn-success" style="flex:1;" onclick="returnToStart()">다시 도전하기</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // 객관식 문제 은행 (21문제)
+    const mcqBank = [
+      {
+        q: "광복 이후 대한민국 정부와 북한 정권이 각각 수립되면서 나타난 결과로 옳은 것은 무엇인가요?",
+        options: ["남한과 북한으로 분단되었다.", "남북이 즉시 통일되었다.", "외국의 직접 통치가 시작되었다.", "단일 정부가 통합 수립되었다."],
+        ans: 0,
+        exp: "광복 이후 대한민국 정부와 북한 정권이 각각 수립되며 남한과 북한으로 분단되었습니다."
+      },
+      {
+        q: "광복 이후 남한과 북한으로 분단된 상태가 더욱 굳어지게 된 계기가 된 사건은 무엇인가요?",
+        options: ["7·4 남북 공동 성명", "6·25 전쟁", "금강산 관광 사업", "개성 공업 단지 운영 사업"],
+        ans: 1,
+        exp: "6·25 전쟁을 겪으면서 남북 분단이 더욱 굳어졌습니다."
+      },
+      {
+        q: "분단으로 인해 나타난 문제점으로 올바르지 않은 것은 무엇인가요?",
+        options: ["실향민과 이산가족의 아픔이 지속된다.", "남북의 언어와 생활 방식 차이가 커진다.", "국방비 지출이 크게 감소하였다.", "한반도에 전쟁의 긴장감이 계속된다."],
+        ans: 2,
+        exp: "분단으로 인해 남북 모두 많은 국방비를 지출하고 있습니다."
+      },
+      {
+        q: "고향에 가지 못하는 사람과 가족과 헤어진 사람을 일컫는 말로 바르게 짝지어진 것은 무엇인가요?",
+        options: ["실향민 - 이산가족", "피란민 - 연합군", "학도병 - 실향민", "이산가족 - 학도병"],
+        ans: 0,
+        exp: "고향에 가지 못하는 사람을 '실향민', 가족과 헤어진 사람을 '이산가족'이라고 합니다."
+      },
+      {
+        q: "6·25 전쟁 중 남쪽으로 피란을 왔다가 돌아가지 못한 사람들이 모여 살면서 만들어진 장소는 어디인가요?",
+        options: ["아바이 마을", "백마고지 전적지", "오산 죽미령 평화 공원", "DMZ 평화의 길"],
+        ans: 0,
+        exp: "아바이 마을은 피란을 왔다가 돌아가지 못한 사람들이 모여 살면서 만들어졌습니다."
+      },
+      {
+        q: "백마고지 전적지에 기념관과 기념비가 세워진 목적은 무엇인가요?",
+        options: ["백마고지 전투에서 희생된 군인들을 기리기 위해", "피란을 온 실향민들을 격려하기 위해", "학생 신분으로 참전한 군인을 추모하기 위해", "국제 연합군의 첫 전투 승리를 기념하기 위해"],
+        ans: 0,
+        exp: "백마고지 전적지에는 백마고지 전투에서 희생된 군인들을 기리는 기념관과 기념비가 세워져 있습니다."
+      },
+      {
+        q: "장사 상륙 작전 전승 기념관은 어떤 신분으로 참전했던 군인들을 추모하는 곳인가요?",
+        options: ["학생", "농부", "공무원", "외국군"],
+        ans: 0,
+        exp: "장사 상륙 작전 전승 기념관은 학생 신분으로 참전했던 군인들을 추모하는 기념관입니다."
+      },
+      {
+        q: "비무장 지대(DMZ) 일부 구간을 남과 북의 합의로 개방하여 사람들이 관람할 수 있도록 만든 장소는 무엇인가요?",
+        options: ["DMZ 평화의 길", "오산 죽미령 평화 공원", "개성 공업 단지", "아바이 마을"],
+        ans: 0,
+        exp: "DMZ 평화의 길은 비무장 지대 일부 구간을 남북 합의로 개방하여 관람하도록 만든 장소입니다."
+      },
+      {
+        q: "6·25 전쟁 중 국제 연합군의 첫 전투가 벌어진 곳을 평화의 공간으로 조성한 곳은 어디인가요?",
+        options: ["오산 죽미령 평화 공원", "백마고지 전적지", "DMZ 평화의 길", "개성 만월대"],
+        ans: 0,
+        exp: "오산 죽미령 평화 공원은 6·25 전쟁 중 국제 연합군의 첫 전투가 벌어진 역사적 장소입니다."
+      },
+      {
+        q: "인터넷으로 분단 관련 장소를 답사할 때 가장 먼저 해야 하는 순서는 무엇인가요?",
+        options: ["답사하고 싶은 장소를 선택한다.", "선택한 장소를 인터넷으로 답사한다.", "의미와 일어났던 사건을 살펴본다.", "답사하며 알게 된 내용을 정리한다."],
+        ans: 0,
+        exp: "인터넷 답사의 첫 번째 단계는 '답사하고 싶은 장소를 선택한다'입니다."
+      },
+      {
+        q: "1972년 분단 이후 처음으로 통일 원칙에 관한 합의를 담아 발표한 성명은 무엇인가요?",
+        options: ["7·4 남북 공동 성명", "남북 기본 합의서", "남북 정상 회담", "겨레말큰사전"],
+        ans: 0,
+        exp: "1972년 분단 이후 처음으로 통일 원칙에 관한 합의를 담은 7·4 남북 공동 성명을 발표했습니다."
+      },
+      {
+        q: "1991년 남북 화해, 평화, 교류와 협력 등의 내용이 담겨 채택된 합의서는 무엇인가요?",
+        options: ["남북 기본 합의서", "7·4 남북 공동 성명", "남북 정상 회담", "금강산 관광 사업"],
+        ans: 0,
+        exp: "1991년 남북 화해, 평화, 교류와 협력 등의 내용이 담긴 '남북 기본 합의서'를 채택했습니다."
+      },
+      {
+        q: "2000년과 2007년 평양, 2018년 판문점과 평양에서 총 다섯 차례 열린 것은 무엇인가요?",
+        options: ["남북 정상 회담", "남북 경제 회담", "남북 학술 회담", "남북 체육 회담"],
+        ans: 0,
+        exp: "2000년, 2007년, 2018년에 걸쳐 총 다섯 차례 남북 정상 회담이 개최되었습니다."
+      },
+      {
+        q: "남북 학자들이 북한에 있는 문화유산을 함께 발굴한 대표적인 사회·문화적 노력은 무엇인가요?",
+        options: ["개성 만월대 남북 공동 발굴", "금강산 관광 사업", "겨레말큰사전 편찬", "남북 철도·도로 연결 사업"],
+        ans: 0,
+        exp: "개성 만월대 남북 공동 발굴은 함께 문화유산을 발굴한 대표적 사례입니다."
+      },
+      {
+        q: "국제 대회에서 남북이 평화를 나타내기 위해 함께한 활동으로 옳게 설명한 것은 무엇인가요?",
+        options: ["단일팀을 구성하여 출전하거나 동시에 입장했다.", "개별적으로만 참가하여 항상 경쟁했다.", "응원단만 통합하여 단일 응원전을 펼쳤다.", "개최국으로만 번갈아 참전했다."],
+        ans: 0,
+        exp: "각종 국제 대회에 단일팀을 구성하거나 동시에 입장하였습니다."
+      },
+      {
+        q: "남북의 국어학자들이 통일된 국어사전을 함께 만들기 위해 진행 중인 사업은 무엇인가요?",
+        options: ["겨레말큰사전", "우리말대사전", "표준통일사전", "한글큰사전"],
+        ans: 0,
+        exp: "남북 국어학자들이 통일된 국어사전인 『겨레말큰사전』을 함께 만들고 있습니다."
+      },
+      {
+        q: "1998년부터 추진된 평화 통일을 위한 경제적 노력 사업은 무엇인가요?",
+        options: ["금강산 관광 사업", "개성 공업 단지 운영 사업", "남북 철도·도로 연결 사업", "DMZ 평화의 길 조성"],
+        ans: 0,
+        exp: "1998년 금강산 일대를 관광할 수 있는 금강산 관광 사업을 추진했습니다."
+      },
+      {
+        q: "2005년 개성 공업 단지 운영 사업에서 서로 결합된 남한과 북한의 요소는 무엇인가요?",
+        options: ["남한의 자본과 기술 + 북한의 노동력", "북한의 자본과 기술 + 남한의 노동력", "남한의 노동력 + 외국의 자본", "북한의 자본 + 남한의 자본"],
+        ans: 0,
+        exp: "개성 공업 단지 사업은 남한의 자본과 기술, 북한의 노동력을 합해 상품을 생산했습니다."
+      },
+      {
+        q: "2018년 남북이 서로 연결하고 낡은 시설을 개선하려고 노력한 경제 협력 사업은 무엇인가요?",
+        options: ["남북 철도·도로 연결 사업", "금강산 관광 사업", "개성 공업 단지 운영 사업", "DMZ 평화의 길 사업"],
+        ans: 0,
+        exp: "2018년 남북을 잇는 철도와 도로를 연결하고 낡은 시설을 개선하기 위해 노력했습니다."
+      },
+      {
+        q: "일상생활에서 평화 통일을 위해 할 수 있는 일로 옳지 않은 것은 무엇인가요?",
+        options: ["상대방에 대한 군사적 위협을 가한다.", "평화 통일을 바라는 마음을 키운다.", "평화 통일에 관해 올바른 인식을 갖는다.", "어려움을 겪는 북한 주민을 돕는다."],
+        ans: 0,
+        exp: "군사적 위협은 분단의 긴장감을 키우므로 옳지 않은 행동입니다."
+      },
+      {
+        q: "일상생활에서 평화 통일을 위해 우리가 항상 관심을 가져야 할 대상은 무엇인가요?",
+        options: ["북한", "주변 강대국", "국제 연합군", "해외 동포"],
+        ans: 0,
+        exp: "일상생활에서 (북한)에 관심을 가지는 행동이 필요합니다."
+      }
+    ];
+
+    // 지정해주신 정답 9가지에 맞춘 단답식 문제 은행
+    const saBank = [
+      {
+        q: "1945년 일제의 강점으로부터 벗어나 나라와 주권을 되찾은 사건으로, 이후 남한과 북한에 각각 정부가 수립되는 계기가 된 것은 무엇인가요?",
+        ansList: ["광복"],
+        exp: "광복 이후 대한민국 정부와 북한 정권이 각각 수립되면서 남한과 북한으로 분단되었습니다."
+      },
+      {
+        q: "1950년에 일어난 남북 간의 전쟁으로, 이 사건을 겪으면서 남한과 북한의 분단 상태가 더욱 굳어지게 된 전쟁의 명칭을 쓰세요.",
+        ansList: ["6.25전쟁", "6·25 전쟁", "6.25 전쟁", "6·25전쟁"],
+        exp: "6·25 전쟁을 겪으면서 남북 분단이 더욱 굳어졌습니다."
+      },
+      {
+        q: "분단으로 인해 가족과 헤어져 서로 만나지 못하고 그리움과 아픔 속에 살아가는 사람들을 무엇이라고 하나요?",
+        ansList: ["이산가족", "이산 가족"],
+        exp: "분단으로 인해 고향을 떠난 실향민과 가족과 헤어진 이산가족이 아픔을 안고 살아가고 있습니다."
+      },
+      {
+        q: "6·25 전쟁 이후 한반도를 가로지르도록 설치되어 남한과 북한을 나누고 있는 경계선의 명칭을 쓰세요.",
+        ansList: ["휴전선"],
+        exp: "전쟁 이후 한반도를 가로지르는 휴전선이 설치되었습니다."
+      },
+      {
+        q: "남북이 군사적으로 대립하고 전쟁의 긴장감이 지속되면서, 남한과 북한 모두 국가 안전을 위해 많이 지출하고 있는 비용은 무엇인가요?",
+        ansList: ["국방비"],
+        exp: "분단으로 인해 남북 모두 많은 국방비를 지출하고 있습니다."
+      },
+      {
+        q: "6·25 전쟁 중 남쪽으로 피란을 왔다가 고향으로 돌아가지 못한 사람들이 모여 살면서 만들어진 강원도 속초의 마을 이름을 쓰세요.",
+        ansList: ["아바이 마을", "아바이마을"],
+        exp: "아바이 마을은 피란을 왔다가 돌아가지 못한 실향민들이 모여 살면서 형성된 마을입니다."
+      },
+      {
+        q: "남북 간의 합의를 통해 일부 구간을 '평화의 길'로 개방한, 휴전선을 중심으로 군사적 무장이 금지된 구역(DMZ)을 무엇이라고 하나요?",
+        ansList: ["비무장 지대", "비무장지대", "DMZ"],
+        exp: "비무장 지대(DMZ) 일부 구간을 남북 합의로 개방하여 'DMZ 평화의 길'을 조성하였습니다."
+      },
+      {
+        q: "2000년, 2007년, 2018년에 평양과 판문점 등에서 총 다섯 차례 열린 남북 최고 지도자 간의 회담은 무엇인가요?",
+        ansList: ["남북 정상 회담", "남북정상회담", "남북 정상회담"],
+        exp: "평화 통일을 위한 정치적 노력으로 총 다섯 차례 남북 정상 회담이 개최되었습니다."
+      },
+      {
+        q: "1998년부터 추진된 평화 통일을 위한 경제적 노력으로, 북한의 이 아름다운 산 일대를 관광할 수 있도록 개발했던 사업의 대상 지역은 어디인가요?",
+        ansList: ["금강산"],
+        exp: "1998년부터 금강산 일대를 관광할 수 있는 금강산 관광 사업을 추진하였습니다."
+      }
+    ];
+
+    // ----------------------------------------------------
+    // 게임 전역 상태 관리
+    // ----------------------------------------------------
+    let userName = "";
+    let quizQueue = [];
+    let currentIdx = 0;
+    let startTime = null;
+
+    // DOM 요소
+    const startScreen = document.getElementById("start-screen");
+    const countdownScreen = document.getElementById("countdown-screen");
+    const quizScreen = document.getElementById("quiz-screen");
+    const wrongScreen = document.getElementById("wrong-screen");
+    const successScreen = document.getElementById("success-screen");
+
+    // 초기화 버튼
+    function resetForm() {
+      document.getElementById("userName").value = "";
+    }
+
+    // 배열 셔플 함수
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    // 퀴즈 시작 프로세스
+    function startQuizProcess() {
+      const nameInput = document.getElementById("userName").value.trim();
+      if (!nameInput) {
+        alert("이름을 입력해 주세요!");
+        return;
+      }
+      userName = nameInput;
+
+      // 화면 전환 -> 카운트다운
+      startScreen.style.display = "none";
+      wrongScreen.style.display = "none";
+      successScreen.style.display = "none";
+      countdownScreen.style.display = "block";
+
+      let count = 3;
+      const countEl = document.getElementById("countdown-timer");
+      countEl.textContent = count;
+
+      const timer = setInterval(() => {
+        count--;
+        if (count > 0) {
+          countEl.textContent = count;
+        } else {
+          clearInterval(timer);
+          countdownScreen.style.display = "none";
+          initQuizData();
+        }
+      }, 1000);
+    }
+
+    // 퀴즈 데이터 생성 (1~7번: 객관식 7개, 8~10번: 단답식 3개)
+    function initQuizData() {
+      const selectedMCQs = shuffleArray(mcqBank).slice(0, 7);
+      const selectedSAs = shuffleArray(saBank).slice(0, 3);
+
+      // 객관식 문제 처리 (선택지 셔플)
+      const formattedMCQs = selectedMCQs.map(item => {
+        const correctText = item.options[item.ans];
+        const shuffledOptions = shuffleArray(item.options);
+        const newAnsIdx = shuffledOptions.indexOf(correctText);
+        return {
+          type: "MCQ",
+          q: item.q,
+          options: shuffledOptions,
+          ans: newAnsIdx,
+          exp: item.exp
+        };
+      });
+
+      // 단답식 문제 처리
+      const formattedSAs = selectedSAs.map(item => ({
+        type: "SA",
+        q: item.q,
+        ansList: item.ansList,
+        exp: item.exp
+      }));
+
+      quizQueue = [...formattedMCQs, ...formattedSAs];
+      currentIdx = 0;
+      startTime = Date.now();
+
+      quizScreen.style.display = "block";
+      renderQuestion();
+    }
+
+    // 문제 렌더링
+    function renderQuestion() {
+      const qData = quizQueue[currentIdx];
+      
+      // 진행률 바
+      const progressPercent = ((currentIdx + 1) / 10) * 100;
+      document.getElementById("progress-bar").style.width = progressPercent + "%";
+      document.getElementById("question-number").textContent = `문제 ${currentIdx + 1} / 10`;
+
+      // Badge & Type
+      const badge = document.getElementById("question-type-badge");
+      const optionsBox = document.getElementById("options-container");
+      const saBox = document.getElementById("sa-container");
+
+      document.getElementById("question-text").textContent = `${currentIdx + 1}. ${qData.q}`;
+
+      if (qData.type === "MCQ") {
+        badge.textContent = "객관식";
+        badge.className = "badge badge-mcq";
+        optionsBox.style.display = "flex";
+        saBox.style.display = "none";
+
+        optionsBox.innerHTML = "";
+        qData.options.forEach((optText, idx) => {
+          const btn = document.createElement("button");
+          btn.className = "option-btn";
+          btn.textContent = `${idx + 1} ${optText}`;
+          btn.onclick = () => checkMCQAnswer(idx);
+          optionsBox.appendChild(btn);
+        });
+      } else {
+        badge.textContent = "단답식";
+        badge.className = "badge badge-sa";
+        optionsBox.style.display = "none";
+        saBox.style.display = "flex";
+
+        const saInput = document.getElementById("sa-input");
+        saInput.value = "";
+        saInput.focus();
+      }
+    }
+
+    // 객관식 정답 검사
+    function checkMCQAnswer(selectedIdx) {
+      const qData = quizQueue[currentIdx];
+      if (selectedIdx === qData.ans) {
+        nextQuestion();
+      } else {
+        showWrongScreen(qData.exp);
+      }
+    }
+
+    // 단답식 정답 검사
+    function submitSAAnswer() {
+      const qData = quizQueue[currentIdx];
+      const userInput = document.getElementById("sa-input").value.trim().replace(/\s+/g, "");
+      
+      // 정답 목록 가공 (공백 제거 후 비교)
+      const isCorrect = qData.ansList.some(targetAns => {
+        return targetAns.replace(/\s+/g, "") === userInput;
+      });
+
+      if (isCorrect) {
+        nextQuestion();
+      } else {
+        showWrongScreen(qData.exp);
+      }
+    }
+
+    // 다음 문제로 이동
+    function nextQuestion() {
+      currentIdx++;
+      if (currentIdx < 10) {
+        renderQuestion();
+      } else {
+        finishQuiz();
+      }
+    }
+
+    // 틀렸을 때 화면
+    function showWrongScreen(explanationText) {
+      quizScreen.style.display = "none";
+      wrongScreen.style.display = "block";
+      document.getElementById("explanation-text").textContent = explanationText;
+    }
+
+    // 시작 화면으로 복귀
+    function returnToStart() {
+      wrongScreen.style.display = "none";
+      successScreen.style.display = "none";
+      quizScreen.style.display = "none";
+      startScreen.style.display = "block";
+    }
+
+    // 퀴즈 완등 (성공)
+    function finishQuiz() {
+      const endTime = Date.now();
+      const elapsedSeconds = Math.floor((endTime - startTime) / 1000);
+      
+      const mins = Math.floor(elapsedSeconds / 60);
+      const secs = elapsedSeconds % 60;
+      const timeStr = mins > 0 ? `${mins}분 ${secs}초` : `${secs}초`;
+
+      const now = new Date();
+      const dateStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+
+      document.getElementById("result-name").textContent = userName;
+      document.getElementById("result-time").textContent = timeStr;
+      document.getElementById("result-date").textContent = dateStr;
+
+      quizScreen.style.display = "none";
+      successScreen.style.display = "block";
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>초등 사회 5-2 스피드 퀴즈</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    body {
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 480px;
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      padding: 32px 24px;
+      text-align: center;
+      position: relative;
+    }
+
+    .top-nav {
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 16px;
+    }
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background-color: #f1f5f9;
+      color: #475569;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .nav-btn:hover {
+      background-color: #e2e8f0;
+      color: #0f172a;
+    }
+
+    h1 {
+      font-size: 22px;
+      color: #1e293b;
+      margin-bottom: 24px;
+      line-height: 1.4;
+    }
+
+    .badge {
+      display: inline-block;
+      background-color: #e0f2fe;
+      color: #0369a1;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: #475569;
+      margin-bottom: 8px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 16px;
+      outline: none;
+      transition: all 0.2s ease;
+      background-color: #fff;
+    }
+
+    input:focus {
+      border-color: #0284c7;
+      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 16px;
+      background-color: #0284c7;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .btn-primary:hover {
+      background-color: #0369a1;
+    }
+
+    .btn-secondary {
+      width: 100%;
+      padding: 14px;
+      background-color: #f1f5f9;
+      color: #334155;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .btn-secondary:hover {
+      background-color: #e2e8f0;
+      color: #0f172a;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    #countdown-screen h2 {
+      font-size: 84px;
+      color: #0284c7;
+      margin: 30px 0;
+      font-weight: 800;
+    }
+
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+
+    .question-box {
+      font-size: 18px;
+      font-weight: 700;
+      color: #0f172a;
+      margin: 20px 0 24px 0;
+      word-break: keep-all;
+      line-height: 1.6;
+      text-align: left;
+      background-color: #f8fafc;
+      padding: 20px;
+      border-radius: 14px;
+      border-left: 5px solid #0284c7;
+      min-height: 110px;
+      display: flex;
+      align-items: center;
+    }
+
+    .result-card {
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 20px;
+      margin: 24px 0;
+      text-align: left;
+    }
+
+    .result-card p {
+      font-size: 15px;
+      color: #334155;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .result-card p:last-child {
+      margin-bottom: 0;
+    }
+
+    .result-card strong {
+      color: #0f172a;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- 1. 첫 화면 -->
+    <div id="start-screen">
+      <div class="top-nav">
+        <a href="../index.html" class="nav-btn">🏠 메인 목록</a>
+      </div>
+      <div class="badge">[초등 사회 5-2]</div>
+      <h1>삼국시대<br>스피드 퀴즈</h1>
+      <div class="form-group">
+        <label for="user-name">도전자 이름</label>
+        <input type="text" id="user-name" placeholder="이름을 입력하세요" autocomplete="off">
+      </div>
+      <button class="btn-primary" onclick="prepareQuiz()">시작하기</button>
+    </div>
+
+    <!-- 2. 카운트다운 화면 -->
+    <div id="countdown-screen" class="hidden">
+      <div class="top-nav">
+        <button onclick="confirmGoStart()" class="nav-btn">🏠 처음으로</button>
+      </div>
+      <p style="font-size: 18px; color: #64748b; font-weight: 600;">준비하세요!</p>
+      <h2 id="countdown-number">3</h2>
+    </div>
+
+    <!-- 3. 퀴즈 실행 화면 -->
+    <div id="quiz-screen" class="hidden">
+      <div class="quiz-header">
+        <button onclick="confirmGoStart()" class="nav-btn" style="font-size: 12px; padding: 4px 8px;">🏠 처음으로</button>
+        <span id="progress-display">1 / 10</span>
+      </div>
+      <div class="question-box" id="question-text"></div>
+      <div class="form-group">
+        <input type="text" id="user-answer" placeholder="정답을 입력하세요" autocomplete="off">
+      </div>
+      <button class="btn-primary" onclick="submitAnswer()">정답 제출</button>
+    </div>
+
+    <!-- 4. 성공 결과 화면 -->
+    <div id="result-screen" class="hidden">
+      <div class="top-nav">
+        <button onclick="resetQuiz()" class="nav-btn">🏠 처음으로</button>
+      </div>
+      <h1 style="color: #16a34a; margin-bottom: 8px;">🎉 미션 성공! 🎉</h1>
+      <p style="color: #64748b; font-size: 15px;">10문제를 모두 올바르게 맞추셨습니다!</p>
+      
+      <div class="result-card">
+        <p><strong>도전자:</strong> <span id="res-name"></span></p>
+        <p><strong>완료 시간:</strong> <span id="res-date"></span></p>
+        <p><strong>소요 시간:</strong> <span id="res-time"></span>초</p>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn-primary" onclick="resetQuiz()">🔄 다시 도전하기 (처음으로)</button>
+        <a href="../index.html" class="btn-secondary">🏠 메인 목록으로</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        question: "삼국 시대에 많은 토지와 노비를 가지고 높은 관리가 되어 국가의 중요한 일을 결정한 신분은 무엇인가요?",
+        answer: ["귀족"],
+        explanation: "귀족은 삼국 시대의 지배층으로, 많은 토지와 노비를 소유하며 국가의 중요한 일을 결정했습니다."
+      },
+      {
+        question: "삼국 시대에 대부분 농사를 지으며 나라에 세금을 내고 궁궐이나 성을 만드는 데 동원되었던 신분은 무엇인가요?",
+        answer: ["평민"],
+        explanation: "평민은 백성의 대다수를 차지하며 농사를 짓고 조세 납부 및 부역의 의무를 졌습니다."
+      },
+      {
+        question: "삼국 시대 최하층 신분으로, 귀족의 땅에서 농사를 짓거나 주인집의 잡일을 하며 살았던 사람들은 무엇인가요?",
+        answer: ["천민 (노비)", "천민", "노비"],
+        explanation: "천민의 대다수는 노비로, 귀족에 속하여 농사나 가사 노동을 담당했습니다."
+      },
+      {
+        question: "삼국의 성립 시기에 세 나라가 국가 체제를 갖추고 발전하는 기반이 된 금속 문화는 무엇인가요?",
+        answer: ["철기 문화", "철기"],
+        explanation: "삼국은 고조선 멸망 무렵 철기 문화를 바탕으로 세워져 발전했습니다."
+      },
+      {
+        question: "고구려가 수도를 졸본에서 옮겨 정복 사업을 펼쳤던 두 번째 수도는 어디인가요?",
+        answer: ["국내성"],
+        explanation: "고구려는 수도를 졸본에서 국내성으로 옮긴 뒤 주변 지역을 정복하며 세력을 넓혔습니다."
+      },
+      {
+        question: "고구려의 영토를 북쪽으로 크게 넓히고 남쪽으로는 한강 북쪽까지 차지한 왕은 누구인가요?",
+        answer: ["광개토대왕", "광개토 태왕", "광개토왕"],
+        explanation: "광개토대왕은 활발한 정복 활동으로 고구려의 넓은 영토를 확보했습니다."
+      },
+      {
+        question: "고구려의 수도를 평양으로 옮기고 남진 정책을 펼쳐 한강 유역을 모두 차지한 왕은 누구인가요?",
+        answer: ["장수왕"],
+        explanation: "장수왕은 평양으로 도읍을 옮긴 후 한강 유역을 차지하며 고구려의 전성기를 이끌었습니다."
+      },
+      {
+        question: "백제가 삼국 중 가장 먼저 발전할 수 있었던 지리적 바탕이 된 강 유역은 어디인가요?",
+        answer: ["한강 유역", "한강"],
+        explanation: "백제는 한강 유역의 풍부한 물산과 편리한 교통을 바탕으로 빠르게 성장했습니다."
+      },
+      {
+        question: "백제의 전성기를 이끌며 영토를 넓히고 중국, 왜(일본) 등과 활발히 교류한 왕은 누구인가요?",
+        answer: ["근초고왕"],
+        explanation: "근초고왕은 백제의 영토를 크게 넓히고 대외 교류를 활발히 추진했습니다."
+      },
+      {
+        question: "삼국 시대 평민들이 주로 살았던 주거 형태는 무엇인가요?",
+        answer: ["초가집"],
+        explanation: "왕족과 귀족은 기와집에서 살았고, 평민들은 주로 초가집에서 생활했습니다."
+      },
+      {
+        question: "신라에서 유능한 인재를 키우기 위해 진흥왕 때 국가적으로 정비한 청소년 조직은 무엇인가요?",
+        answer: ["화랑도", "화랑"],
+        explanation: "진흥왕은 화랑도를 통해 인재를 양성하여 신라 발전의 발판을 마련했습니다."
+      },
+      {
+        question: "신라 진흥왕이 백제와 연합하여 한강 유역 일부를 빼앗은 후, 백제까지 공격하여 최종 독점한 강 유역은 어디인가요?",
+        answer: ["한강 유역", "한강"],
+        explanation: "신라는 한강 유역을 차지함으로써 삼국 통일의 기틀을 마련했습니다."
+      },
+      {
+        question: "가야에서 뛰어난 기술로 만들어 무기와 갑옷을 제조하고 다른 나라에 수출했던 핵심 자원은 무엇인가요?",
+        answer: ["철"],
+        explanation: "가야는 철을 다루는 기술이 뛰어나 철로 무기와 갑옷을 만들고 수출했습니다."
+      },
+      {
+        question: "가야 연맹이 백제와 신라의 압력을 받다가 최종적으로 통합된 신라의 왕은 누구인가요?",
+        answer: ["진흥왕"],
+        explanation: "대가야는 신라 진흥왕 때 신라에 흡수 통합되었습니다."
+      },
+      {
+        question: "삼국 시대에 수용되어 절, 탑, 불상 등의 문화재를 만들어내고 국가적 통합을 이끈 종교는 무엇인가요?",
+        answer: ["불교"],
+        explanation: "삼국은 불교를 받아들여 국민의 마음을 모으고 화려한 불교문화를 발전시켰습니다."
+      },
+      {
+        question: "백제의 공격으로 위기에 처한 신라가 당나라와 손을 잡고 결성한 연합군은 무엇인가요?",
+        answer: ["나당 연합군", "나당연합군", "나당"],
+        explanation: "신라는 당과 나당 연합을 결성하여 백제와 고구려를 차례로 멸망시켰습니다."
+      },
+      {
+        question: "백제와 고구려가 멸망한 후 한반도 전체를 차지하려던 당나라를 신라가 물리치고 이룬 역사적 사건은 무엇인가요?",
+        answer: ["삼국 통일", "삼국통일"],
+        explanation: "신라는 당나라 군대를 물리치고 삼국 통일을 완성했습니다."
+      },
+      {
+        question: "통일신라 시대 경주에 지어진 절로, 부처의 나라를 현실 세계에 만들고자 한 마음을 담아 건립한 사찰은 어디인가요?",
+        answer: ["불국사"],
+        explanation: "불국사는 통일신라 불교 문화의 정수를 보여주는 대표적인 사찰입니다."
+      },
+      {
+        question: "통일신라 시대 화강암을 쌓아 동굴처럼 만든 인공 석굴 사찰은 무엇인가요?",
+        answer: ["석굴암"],
+        explanation: "석굴암은 뛰어난 건축 및 조각 기술로 완성된 통일신라의 석굴 사찰입니다."
+      },
+      {
+        question: "고구려가 멸망한 후 고구려 유민과 말갈인을 이끌고 동모산 근처에 발해를 세운 인물은 누구인가요?",
+        answer: ["대조영"],
+        explanation: "대조영은 발해를 건국하여 고구려의 기상을 이어나갔습니다."
+      },
+      {
+        question: "발해가 세력을 넓히고 영토를 회복하자 당나라에서 발해를 높여 부르던 칭호는 무엇인가요?",
+        answer: ["해동성국"],
+        explanation: "‘바다 동쪽의 번성한 나라’라는 뜻으로 발해의 국력과 문물의 발달을 의미합니다."
+      },
+      {
+        question: "발해는 이 나라의 문화를 계승하면서 주변 나라들의 문화를 받아들여 독자적인 문화를 발전시켰습니다. 어떤 나라인가요?",
+        answer: ["고구려"],
+        explanation: "발해는 고구려의 제도와 문화를 계승하였으며 스스로 고구려의 후계자임을 밝혀왔습니다."
+      }
+    ];
+
+    let currentQuestions = [];
+    let currentQuestionIndex = 0;
+    let userName = "";
+    let startTime = 0;
+    let countdownTimer = null;
+
+    window.onload = function() {
+      document.getElementById('user-answer').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') submitAnswer();
+      });
+      
+      document.getElementById('user-name').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') prepareQuiz();
+      });
+    };
+
+    function prepareQuiz() {
+      userName = document.getElementById('user-name').value.trim();
+
+      if (!userName) {
+        alert("이름을 입력해주세요.");
+        return;
+      }
+
+      if (!quizData || quizData.length < 10) {
+        alert("문제가 부족합니다. (최소 10문제 필요)");
+        return;
+      }
+
+      // 전체 문제 배열을 완전 무작위 셔플(Fisher-Yates) 후 10개 추출
+      const shuffled = [...quizData];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      currentQuestions = shuffled.slice(0, 10);
+
+      currentQuestionIndex = 0;
+
+      showScreen('countdown-screen');
+      startCountdown();
+    }
+
+    function startCountdown() {
+      let count = 3;
+      const countEl = document.getElementById('countdown-number');
+      countEl.textContent = count;
+
+      if (countdownTimer) clearInterval(countdownTimer);
+
+      countdownTimer = setInterval(() => {
+        count--;
+        if (count > 0) {
+          countEl.textContent = count;
+        } else {
+          clearInterval(countdownTimer);
+          startQuiz();
+        }
+      }, 1000);
+    }
+
+    function startQuiz() {
+      showScreen('quiz-screen');
+      startTime = new Date().getTime();
+      loadQuestion();
+    }
+
+    function loadQuestion() {
+      const q = currentQuestions[currentQuestionIndex];
+      document.getElementById('progress-display').textContent = `${currentQuestionIndex + 1} / 10`;
+      document.getElementById('question-text').textContent = q.question;
+      
+      const inputEl = document.getElementById('user-answer');
+      inputEl.value = "";
+      inputEl.focus();
+    }
+
+    function normalize(str) {
+      return str.toString().replace(/\s+/g, '').toLowerCase();
+    }
+
+    function submitAnswer() {
+      const inputEl = document.getElementById('user-answer');
+      const userAns = normalize(inputEl.value);
+
+      if (!userAns) {
+        alert("정답을 입력해주세요.");
+        return;
+      }
+
+      const q = currentQuestions[currentQuestionIndex];
+
+      let isCorrect = false;
+      if (Array.isArray(q.answer)) {
+        isCorrect = q.answer.some(ans => normalize(ans) === userAns);
+      } else {
+        isCorrect = normalize(q.answer) === userAns;
+      }
+
+      if (!isCorrect) {
+        const correctStr = Array.isArray(q.answer) ? q.answer.join(" 또는 ") : q.answer;
+        const expStr = q.explanation || "해설이 없습니다.";
+        
+        alert(`❌ 아쉽네요! 오답입니다.\n\n• 내가 입력한 답: ${inputEl.value}\n• 정답: ${correctStr}\n\n💡 [간단 해설]\n${expStr}\n\n처음 화면으로 돌아갑니다.`);
+        resetQuiz();
+        return;
+      }
+
+      currentQuestionIndex++;
+
+      if (currentQuestionIndex < 10) {
+        loadQuestion();
+      } else {
+        showSuccess();
+      }
+    }
+
+    function confirmGoStart() {
+      if (confirm("퀴즈를 중단하고 처음 시작 화면으로 돌아가시겠습니까?")) {
+        resetQuiz();
+      }
+    }
+
+    function showSuccess() {
+      const endTime = new Date().getTime();
+      const timeTaken = ((endTime - startTime) / 1000).toFixed(1);
+      const now = new Date();
+      
+      const timeString = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+
+      document.getElementById('res-name').textContent = userName;
+      document.getElementById('res-date').textContent = timeString;
+      document.getElementById('res-time').textContent = timeTaken;
+
+      showScreen('result-screen');
+    }
+
+    function resetQuiz() {
+      if (countdownTimer) clearInterval(countdownTimer);
+      document.getElementById('user-answer').value = "";
+      showScreen('start-screen');
+    }
+
+    function showScreen(screenId) {
+      const screens = ['start-screen', 'countdown-screen', 'quiz-screen', 'result-screen'];
+      screens.forEach(id => {
+        document.getElementById(id).classList.add('hidden');
+      });
+      document.getElementById(screenId).classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>
