@@ -32,6 +32,33 @@
             overflow-y: auto;
         }
 
+        .top-nav {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background-color: #f1f5f9;
+            color: #475569;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .nav-btn:hover {
+            background-color: #e2e8f0;
+            color: #0f172a;
+        }
+
         .header {
             text-align: center;
             margin-bottom: 24px;
@@ -119,9 +146,13 @@
 <body>
 
 <div class="menu-card">
+    <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+    </div>
+
     <div class="header">
         <h1>🎓 6학년 2학기 사회 교실</h1>
-        <p>학습할 세부 단원을 선택하세요! (각 20문제)</p>
+        <p>학습할 세부 단원을 선택하세요!</p>
     </div>
 
     <!-- 1. 세계의 자연 환경 -->

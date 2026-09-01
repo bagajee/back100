@@ -192,6 +192,24 @@
       align-items: center;
     }
 
+    .explanation-box {
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 20px;
+      margin: 20px 0;
+      text-align: left;
+      font-size: 15px;
+    }
+
+    .explanation-box p {
+      margin-bottom: 8px;
+    }
+
+    .explanation-box p:last-child {
+      margin-bottom: 0;
+    }
+
     .result-card {
       background-color: #f8fafc;
       border: 1px solid #e2e8f0;
@@ -221,10 +239,10 @@
 <body>
 
   <div class="container">
-    <!-- 1. 첫 화면 -->
+    <!-- 1. 첫 화면 (시작 화면) -->
     <div id="start-screen">
       <div class="top-nav">
-        <a href="../index.html" class="nav-btn">🏠 메인 목록</a>
+        <a href="social.html" class="nav-btn">📚 단원선택</a>
       </div>
       <div class="badge">[초등 사회 5-2]</div>
       <h1>고려사<br>스피드 퀴즈</h1>
@@ -235,19 +253,16 @@
       <button class="btn-primary" onclick="prepareQuiz()">시작하기</button>
     </div>
 
-    <!-- 2. 카운트다운 화면 -->
+    <!-- 2. 카운트다운 화면 (단원선택 버튼 제외) -->
     <div id="countdown-screen" class="hidden">
-      <div class="top-nav">
-        <button onclick="confirmGoStart()" class="nav-btn">🏠 처음으로</button>
-      </div>
-      <p style="font-size: 18px; color: #64748b; font-weight: 600;">준비하세요!</p>
+      <p style="font-size: 18px; color: #64748b; font-weight: 600; margin-top: 20px;">준비하세요!</p>
       <h2 id="countdown-number">3</h2>
     </div>
 
     <!-- 3. 퀴즈 실행 화면 -->
     <div id="quiz-screen" class="hidden">
       <div class="quiz-header">
-        <button onclick="confirmGoStart()" class="nav-btn" style="font-size: 12px; padding: 4px 8px;">🏠 처음으로</button>
+        <a href="social.html" class="nav-btn">📚 단원선택</a>
         <span id="progress-display">1 / 10</span>
       </div>
       <div class="question-box" id="question-text"></div>
@@ -257,29 +272,43 @@
       <button class="btn-primary" onclick="submitAnswer()">정답 제출</button>
     </div>
 
-    <!-- 4. 성공 결과 화면 -->
+    <!-- 4. 해설 화면 (오답 발생 시) -->
+    <div id="explanation-screen" class="hidden">
+      <div class="top-nav">
+        <a href="social.html" class="nav-btn">📚 단원선택</a>
+      </div>
+      <h2 style="color: #e11d48; margin-bottom: 12px; font-size: 20px;">❌ 틀렸습니다!</h2>
+      <div class="explanation-box">
+        <p><strong>내가 입력한 답:</strong> <span id="exp-user-ans" style="color: #e11d48;"></span></p>
+        <p><strong>정답:</strong> <span id="exp-correct-ans" style="color: #16a34a; font-weight: bold;"></span></p>
+        <hr style="margin: 12px 0; border: none; border-top: 1px dashed #cbd5e1;">
+        <p><strong>💡 [간단 해설]</strong></p>
+        <p id="exp-text" style="margin-top: 6px; line-height: 1.5; color: #475569;"></p>
+      </div>
+      <button class="btn-primary" onclick="resetQuiz()">계속</button>
+    </div>
+
+    <!-- 5. 성공 결과 화면 -->
     <div id="result-screen" class="hidden">
       <div class="top-nav">
-        <button onclick="resetQuiz()" class="nav-btn">🏠 처음으로</button>
+        <a href="social.html" class="nav-btn">📚 단원선택</a>
       </div>
       <h1 style="color: #16a34a; margin-bottom: 8px;">🎉 미션 성공! 🎉</h1>
       <p style="color: #64748b; font-size: 15px;">10문제를 모두 올바르게 맞추셨습니다!</p>
       
       <div class="result-card">
         <p><strong>도전자:</strong> <span id="res-name"></span></p>
-        <p><strong>완료 시간:</strong> <span id="res-date"></span></p>
-        <p><strong>소요 시간:</strong> <span id="res-time"></span>초</p>
+        <p><strong>완료한 시각:</strong> <span id="res-date"></span></p>
+        <p><strong>걸린 시간:</strong> <span id="res-time"></span>초</p>
       </div>
 
       <div class="btn-group">
-        <button class="btn-primary" onclick="resetQuiz()">🔄 다시 도전하기 (처음으로)</button>
-        <a href="../index.html" class="btn-secondary">🏠 메인 목록으로</a>
+        <button class="btn-primary" onclick="resetQuiz()">🔄 다시 도전하기</button>
       </div>
     </div>
   </div>
 
   <script>
-    // 고려사회_첨부파일_빨간색단어_40문제.xlsx 데이터 (총 34문항)
     const quizData = [
       { question: "통일신라 말기 지방에서 성장한 세력은 무엇인가요?", answer: ["호족"], explanation: "지방에서 성장하여 권력을 얻은 세력입니다." },
       { question: "견훤이 세운 나라의 이름은 무엇인가요?", answer: ["후백제"], explanation: "견훤이 신라 말기에 세운 나라입니다." },
@@ -333,6 +362,15 @@
       });
     };
 
+    function shuffle(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
     function prepareQuiz() {
       userName = document.getElementById('user-name').value.trim();
 
@@ -341,32 +379,17 @@
         return;
       }
 
-      if (!quizData || quizData.length < 10) {
-        alert("문제가 부족합니다. (최소 10문제 필요)");
-        return;
-      }
-
-      // 지정 규칙 반영:
-      // 1. 시작 문제를 랜덤으로 선정 (0 ~ quizData.length - 1)
-      const startIndex = Math.floor(Math.random() * quizData.length);
-      
-      // 2. 5~10 사이의 간격을 랜덤으로 선정
-      const step = Math.floor(Math.random() * 6) + 5; // 5, 6, 7, 8, 9, 10 중 하나
-
-      // 3. 시작 문제 위치부터 step 간격으로 10문제 추출
-      currentQuestions = [];
-      for (let i = 0; i < 10; i++) {
-        const idx = (startIndex + i * step) % quizData.length;
-        currentQuestions.push(quizData[idx]);
-      }
-
+      currentQuestions = shuffle(quizData).slice(0, 10);
       currentQuestionIndex = 0;
 
       showScreen('countdown-screen');
-      startCountdown();
+      runCountdown(() => {
+        startTime = new Date().getTime();
+        loadQuestion();
+      });
     }
 
-    function startCountdown() {
+    function runCountdown(callback) {
       let count = 3;
       const countEl = document.getElementById('countdown-number');
       countEl.textContent = count;
@@ -379,19 +402,15 @@
           countEl.textContent = count;
         } else {
           clearInterval(countdownTimer);
-          startQuiz();
+          callback();
         }
       }, 1000);
     }
 
-    function startQuiz() {
-      showScreen('quiz-screen');
-      startTime = new Date().getTime();
-      loadQuestion();
-    }
-
     function loadQuestion() {
       const q = currentQuestions[currentQuestionIndex];
+
+      showScreen('quiz-screen');
       document.getElementById('progress-display').textContent = `${currentQuestionIndex + 1} / 10`;
       document.getElementById('question-text').textContent = q.question;
       
@@ -422,27 +441,20 @@
         isCorrect = normalize(q.answer) === userAns;
       }
 
-      if (!isCorrect) {
-        const correctStr = Array.isArray(q.answer) ? q.answer.join(" 또는 ") : q.answer;
-        const expStr = q.explanation || "해설이 없습니다.";
-        
-        alert(`❌ 아쉽네요! 오답입니다.\n\n• 내가 입력한 답: ${inputEl.value}\n• 정답: ${correctStr}\n\n💡 [간단 해설]\n${expStr}\n\n처음 화면으로 돌아갑니다.`);
-        resetQuiz();
-        return;
-      }
-
-      currentQuestionIndex++;
-
-      if (currentQuestionIndex < 10) {
-        loadQuestion();
+      if (isCorrect) {
+        currentQuestionIndex++;
+        if (currentQuestionIndex >= 10) {
+          showSuccess();
+        } else {
+          loadQuestion();
+        }
       } else {
-        showSuccess();
-      }
-    }
-
-    function confirmGoStart() {
-      if (confirm("퀴즈를 중단하고 처음 시작 화면으로 돌아가시겠습니까?")) {
-        resetQuiz();
+        const correctStr = Array.isArray(q.answer) ? q.answer.join(" 또는 ") : q.answer;
+        document.getElementById('exp-user-ans').textContent = inputEl.value;
+        document.getElementById('exp-correct-ans').textContent = correctStr;
+        document.getElementById('exp-text').textContent = q.explanation || "해설이 없습니다.";
+        
+        showScreen('explanation-screen');
       }
     }
 
@@ -467,7 +479,7 @@
     }
 
     function showScreen(screenId) {
-      const screens = ['start-screen', 'countdown-screen', 'quiz-screen', 'result-screen'];
+      const screens = ['start-screen', 'countdown-screen', 'quiz-screen', 'explanation-screen', 'result-screen'];
       screens.forEach(id => {
         document.getElementById(id).classList.add('hidden');
       });

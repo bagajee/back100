@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="ko"><head>
+<html lang="ko">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>5학년 사회 학습 포털</title>
+    <title>5학년 1학기 사회 교실</title>
     <style>
         * {
             box-sizing: border-box;
@@ -29,6 +30,33 @@
             padding: 30px 24px;
             max-height: 90vh;
             overflow-y: auto;
+        }
+
+        .top-nav {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background-color: #f1f5f9;
+            color: #475569;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .nav-btn:hover {
+            background-color: #e2e8f0;
+            color: #0f172a;
         }
 
         .header {
@@ -118,9 +146,13 @@
 <body>
 
 <div class="menu-card">
+    <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+    </div>
+
     <div class="header">
-        <h1>🎓 5학년 사회 교실</h1>
-        <p>학습할 세부 단원을 선택하세요! (각 20문제)</p>
+        <h1>🎓 5학년 1학기 사회 교실</h1>
+        <p>학습할 세부 단원을 선택하세요!</p>
     </div>
 
     <!-- 1. 선사시대-고려 -->
@@ -155,21 +187,22 @@
 <script>
 function selectChapter(chapterId) {
     const pageMap = {
-    "ch1_1": "so11.html",
-    "ch1_2": "so12.html",
-    "ch1_3": "so13.html",
-    "ch2_1": "so21.html",
-    "ch2_2": "so22.html",
-    "ch3_1": "so31.html",
-    "ch3_2": "so32.html"
-};
+        "ch1_1": "so11.html",
+        "ch1_2": "so12.html",
+        "ch1_3": "so13.html",
+        "ch2_1": "so21.html",
+        "ch2_2": "so22.html",
+        "ch3_1": "so31.html",
+        "ch3_2": "so32.html"
+    };
     const target = pageMap[chapterId];
     if (target) {
         location.href = encodeURI(target);
     } else {
         alert("연결된 파일이 없습니다: " + chapterId);
     }
-}</script>
+}
+</script>
 
-
-</body></html>
+</body>
+</html>

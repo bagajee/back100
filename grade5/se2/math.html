@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>5학년 수학 학습 포털</title>
+  <title>5학년 2학기 수학 퀴즈</title>
   <style>
     * {
       box-sizing: border-box;
@@ -32,7 +32,7 @@
       overflow-y: auto;
       position: relative;
     }
-    .hidden { display: none; }
+    .hidden { display: none !important; }
     
     /* 상단 네비게이션 헤더 */
     .nav-header {
@@ -52,6 +52,9 @@
       display: inline-flex;
       align-items: center;
       gap: 4px;
+      cursor: pointer;
+      border: 1px solid #cbd5e1 !important;
+      font-weight: bold;
     }
     .btn-home:active { background: #dbe3ed !important; }
 
@@ -73,6 +76,7 @@
     button.btn-sub { background: #27ae60; text-align: left; padding-left: 14px; }
     button.btn-total { background: #e67e22; text-align: left; padding-left: 14px; font-weight: 800; }
     button.btn-secondary { background: #95a5a6; margin-top: 10px; }
+    button.btn-retry { background: #e74c3c; margin-top: 15px; }
     
     input {
       width: 100%;
@@ -130,8 +134,19 @@
     
     .progress-bar { background: #eee; height: 10px; border-radius: 5px; margin-bottom: 15px; overflow: hidden; }
     .progress-fill { background: #4a90e2; height: 100%; width: 0%; transition: width 0.3s; }
-    .timer-red { color: #e74c3c; font-weight: bold; font-size: 0.95rem; margin-top: 15px; }
     
+    .explanation-card {
+      background: #fdf2e9;
+      border: 1px solid #f5c6cb;
+      border-radius: 12px;
+      padding: 15px;
+      text-align: left;
+      margin: 15px 0;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: #721c24;
+    }
+
     .frac {
       display: inline-block;
       vertical-align: middle;
@@ -145,10 +160,13 @@
 </head>
 <body>
 
-<!-- 메인 홈 화면 -->
+<!-- 1. 메인 홈 화면 -->
 <div class="card" id="home-screen">
-  <h2 style="margin-top:0; color:#2c3e50;">🎓 5학년 수학 교실</h2>
-  <p style="color:#7f8c8d; font-size: 0.88rem; margin-bottom:15px;">학습할 세부 단원을 선택하세요! (각 20문제)</p>
+  <div class="nav-header">
+    <button class="btn-home" onclick="location.href='../../index.html'">🏠 홈으로</button>
+  </div>
+  <h2 style="margin-top:0; color:#2c3e50;">🎓 5학년 2학기 수학 교실</h2>
+  <p style="color:#7f8c8d; font-size: 0.88rem; margin-bottom:15px;">학습할 세부 단원을 선택하세요! (총 20문제 완성)</p>
   
   <div class="chapter-title">1. 수의 범위와 어림하기</div>
   <button class="btn-sub" onclick="openSetup('1-1', '1) 이상과 이하, 초과와 미만')">🟢 1) 이상·이하, 초과·미만, 수의 범위</button>
@@ -172,28 +190,32 @@
   <button class="btn-total" onclick="openSetup('4-all', '🏆 4단원 종합 테스트')">🏆 [단원정리] 4. 소수의 곱셈</button>
 </div>
 
-<!-- 게임 설정 화면 -->
+<!-- 2. 게임 설정/시작 화면 -->
 <div class="card hidden" id="setup-screen">
   <div class="nav-header">
-    <button class="btn-home" onclick="goHome()">🏠 홈으로</button>
+    <button class="btn-home" onclick="location.href='../../index.html'">🏠 홈으로</button>
   </div>
   <h3 style="margin-top:0; color:#333;" id="setup-title">수학 퀴즈</h3>
-  <p style="color:#777; font-size:0.9rem;">20문제가 출제됩니다.</p>
+  <p style="color:#777; font-size:0.9rem;">20문제를 맞혀야 성공합니다!</p>
   <input type="text" id="username" placeholder="이름을 입력하세요" autocomplete="off">
   <button onclick="startCountDown()">게임 시작</button>
-  <button onclick="goHome()" class="btn-secondary">메인으로 돌아가기</button>
+  <button onclick="goHome()" class="btn-secondary">내용 선택</button>
 </div>
 
-<!-- 카운트다운 화면 -->
+<!-- 3. 게임 시작 전 3초 카운트다운 화면 -->
 <div class="card hidden" id="countdown-screen">
+  <div class="nav-header">
+    <button class="btn-home" onclick="location.href='../../index.html'">🏠 홈으로</button>
+  </div>
+  <p style="font-size:1.1rem; color:#555; margin-top:20px;">잠시 후 퀴즈가 시작됩니다!</p>
   <h1 id="countdown-text" style="font-size: 4.5rem; color:#4a90e2; margin: 20px 0;">3</h1>
 </div>
 
-<!-- 퀴즈 진행 화면 -->
+<!-- 4. 퀴즈 진행 화면 -->
 <div class="card hidden" id="quiz-screen">
   <div class="nav-header">
-    <button class="btn-home" onclick="confirmGoHome()">🏠 홈으로</button>
-    <div style="font-size: 0.9rem; color: #777;"><span id="progress">1</span> / 20 문제</div>
+    <button class="btn-home" onclick="location.href='../../index.html'">🏠 홈으로</button>
+    <div style="font-size: 0.9rem; color: #777; font-weight:bold;">성공: <span id="progress" style="color:#27ae60;">0</span> / 20</div>
   </div>
   <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
   
@@ -203,47 +225,62 @@
   </div>
 
   <div class="options" id="options-box"></div>
-  <p id="penalty-msg" class="timer-red hidden">오답! 5초 후 다음 문제로 넘어갑니다...</p>
+
+  <!-- 하단 재도전 버튼 (퀴즈 시작 화면으로 이동) -->
+  <div style="margin-top: 25px; border-top: 1px solid #eee; padding-top: 12px;">
+    <button class="btn-retry" onclick="openSetup(selectedCategory, currentSubTitle)">🔄 재도전 (시작 화면으로)</button>
+  </div>
 </div>
 
-<!-- 결과 화면 -->
+<!-- 5. 해설 화면 (틀렸을 때) -->
+<div class="card hidden" id="explanation-screen">
+  <div class="nav-header">
+    <button class="btn-home" onclick="location.href='../../index.html'">🏠 홈으로</button>
+  </div>
+  <h3 style="color:#e74c3c; margin-top:10px;">❌ 틀렸습니다! (카운팅 되지 않음)</h3>
+  <div class="explanation-card" id="explanation-content"></div>
+  <button onclick="startWrongCountdown()">다음 문제 (3초 후 시작)</button>
+</div>
+
+<!-- 6. 오답 후 3초 대기 화면 -->
+<div class="card hidden" id="wrong-countdown-screen">
+  <div class="nav-header">
+    <button class="btn-home" onclick="location.href='../../index.html'">🏠 홈으로</button>
+  </div>
+  <p style="font-size:1.1rem; color:#555; margin-top:20px;">새로운 문제를 준비하고 있습니다...</p>
+  <h1 id="wrong-countdown-text" style="font-size: 4.5rem; color:#e67e22; margin: 20px 0;">3</h1>
+</div>
+
+<!-- 7. 성공 결과 화면 -->
 <div class="card hidden" id="result-screen">
   <div class="nav-header">
-    <button class="btn-home" onclick="goHome()">🏠 홈으로</button>
+    <button class="btn-home" onclick="location.href='../../index.html'">🏠 홈으로</button>
   </div>
-  <h2>게임 종료!</h2>
-  <p id="result-text"></p>
-  <button onclick="resetGame()">다시 도전</button>
+  <h2 style="color:#27ae60; margin-top:10px;">🎉 축하합니다! Success!</h2>
+  <div id="result-text" style="margin:20px 0; text-align:center; line-height:1.7;"></div>
+  <button onclick="openSetup(selectedCategory, currentSubTitle)">🔄 재도전</button>
 </div>
 
 <script>
 let userName = "";
 let selectedCategory = "";
 let currentSubTitle = "";
-let currentQuestion = 0;
+let solvedCount = 0; // 맞힌 문제 수 (20개 달성 목표)
 const totalQuestions = 20;
 let startTime, endTime;
-let isPenalty = false;
-let penaltyTimer = null;
+let qData = {};
 
 function gcd(a, b) { return b === 0 ? a : gcd(b, a % b); }
 
 function goHome() {
-  if (penaltyTimer) clearTimeout(penaltyTimer);
   document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
   document.getElementById('home-screen').classList.remove('hidden');
-}
-
-function confirmGoHome() {
-  if (confirm("진행 중인 퀴즈가 초기화됩니다.\n홈으로 돌아가시겠습니까?")) {
-    goHome();
-  }
 }
 
 function openSetup(catKey, subTitle) {
   selectedCategory = catKey;
   currentSubTitle = subTitle;
-  document.getElementById('home-screen').classList.add('hidden');
+  document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
   document.getElementById('setup-screen').classList.remove('hidden');
   document.getElementById('setup-title').innerText = subTitle;
 }
@@ -252,8 +289,8 @@ function startCountDown() {
   userName = document.getElementById("username").value.trim();
   if(!userName) { alert("이름을 입력해주세요!"); return; }
   
-  currentQuestion = 0;
-  document.getElementById("setup-screen").classList.add("hidden");
+  solvedCount = 0;
+  document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
   document.getElementById("countdown-screen").classList.remove("hidden");
   
   let count = 3;
@@ -267,7 +304,7 @@ function startCountDown() {
       document.getElementById("countdown-screen").classList.add("hidden");
       document.getElementById("quiz-screen").classList.remove("hidden");
       startTime = new Date().getTime();
-      nextQuestion();
+      loadQuestion();
     }
   }, 1000);
 }
@@ -292,7 +329,7 @@ function renderFracHTML(m, n, d) {
   return fracPart;
 }
 
-// 무작위 소수 생성 함수 (소수점 1~2자리)
+// 무작위 소수 생성 함수
 function getRandomDecimal(digits) {
   if (digits === 1) {
     return (Math.floor(Math.random() * 89 + 11) / 10).toFixed(1);
@@ -301,9 +338,9 @@ function getRandomDecimal(digits) {
   }
 }
 
-// 개별 문제 생성 로직 함수
+// 개별 문제 및 해설 생성 로직
 function generateSingleQuestion(cat) {
-  let q = "", answer = "", options = [];
+  let q = "", answer = "", options = [], exp = "";
   
   if (cat === '1-1') {
     let min = Math.floor(Math.random() * 20) + 10;
@@ -322,6 +359,7 @@ function generateSingleQuestion(cat) {
       let w = Math.floor(Math.random() * (max + 6 - (min - 6))) + (min - 6);
       if (!isInside(w) && !options.includes(w.toString()) && w > 0) options.push(w.toString());
     }
+    exp = `<b>이상/이하</b>는 해당 수를 포함하고, <b>초과/미만</b>은 포함하지 않습니다.<br>조건 범위 <b>(${min} ${t1}, ${max} ${t2})</b>에 만족하는 정답은 <b>${answer}</b>입니다.`;
   } 
   else if (cat === '1-2') {
     let mList = ["올림", "버림", "반올림"];
@@ -367,6 +405,7 @@ function generateSingleQuestion(cat) {
         let dummy = (ansVal + (Math.floor(Math.random() * 5) - 2) * step).toFixed(decDigits);
         if (parseFloat(dummy) > 0 && !options.includes(dummy)) options.push(dummy);
       }
+      exp = `<b>${target}</b>을(를) <b>${m}</b>하여 <b>${u.name}까지</b> 정확히 나타내면 정답은 <b>${answer}</b>입니다.`;
     } else {
       let uList = [{n: "십의 자리", d: 10}, {n: "백의 자리", d: 100}];
       let u = uList[Math.floor(Math.random() * 2)];
@@ -389,6 +428,7 @@ function generateSingleQuestion(cat) {
         let r = ansVal + (Math.floor(Math.random()*5)-2)*u.d;
         if (r > 0 && !options.includes(r.toString())) options.push(r.toString());
       }
+      exp = `<b>${target}</b>을(를) <b>${m}</b> 규칙에 맞춰 <b>${u.n}까지</b> 계산하면 정답은 <b>${answer}</b>입니다.`;
     }
   }
   else if (cat.startsWith('2-')) {
@@ -433,6 +473,7 @@ function generateSingleQuestion(cat) {
       if (!options.includes(dummy)) options.push(dummy);
       dummyCount++;
     }
+    exp = `분수의 곱셈은 (분자×분자), (분모×분모)를 계산한 후, 기약분수 또는 대분수로 나타냅니다.<br>올바른 계산 결과는 <b>${answer}</b>입니다.`;
   }
   else if (cat.startsWith('4-')) {
     if (cat === '4-1') {
@@ -488,13 +529,14 @@ function generateSingleQuestion(cat) {
         if (!options.includes(alt)) options.push(alt);
       }
     }
+    exp = `소수의 곱셈은 자연수 곱셈을 한 뒤, 곱하는 두 소수의 소수점 아래 자릿수의 합만큼 소수점을 옮겨 찍습니다.<br>정답은 <b>${answer}</b>입니다.`;
   }
 
   options.sort(() => Math.random() - 0.5);
-  return { q, answer, opts: options };
+  return { q, answer, opts: options, exp };
 }
 
-// 메인 문제 생성기 (종합 단원 포함)
+// 메인 문제 생성기
 function generateQuestion(cat) {
   if (cat === '1-all') {
     let subCats = ['1-1', '1-2'];
@@ -513,26 +555,9 @@ function generateQuestion(cat) {
   }
 }
 
-let qData = {};
-
-function nextQuestion() {
-  if (currentQuestion >= totalQuestions) {
-    endTime = new Date().getTime();
-    let totalTime = ((endTime - startTime) / 1000).toFixed(1);
-    let now = new Date().toLocaleString('ko-KR');
-    
-    document.getElementById("quiz-screen").classList.add("hidden");
-    document.getElementById("result-screen").classList.remove("hidden");
-    
-    document.getElementById("result-text").innerHTML = `[${currentSubTitle} 완료]<br><span style="font-size:0.85rem; color:#7f8c8d;">완료 시간: ${now}</span><br><br><b>${userName}</b>님의 총 소요 시간:<br><h1 style="color:#27ae60; margin:15px 0;">${totalTime}초</h1>`;
-    return;
-  }
-  
-  isPenalty = false;
-  document.getElementById("penalty-msg").classList.add("hidden");
-  currentQuestion++;
-  document.getElementById("progress").innerText = currentQuestion;
-  document.getElementById("progress-fill").style.width = (currentQuestion / totalQuestions * 100) + "%";
+function loadQuestion() {
+  document.getElementById("progress").innerText = solvedCount;
+  document.getElementById("progress-fill").style.width = (solvedCount / totalQuestions * 100) + "%";
   
   qData = generateQuestion(selectedCategory);
   document.getElementById("question-text").innerHTML = qData.q;
@@ -548,21 +573,55 @@ function nextQuestion() {
 }
 
 function checkAnswer(selected) {
-  if (isPenalty) return;  
   if (selected === qData.answer) {
-    nextQuestion();
+    solvedCount++;
+    if (solvedCount >= totalQuestions) {
+      showSuccessScreen();
+    } else {
+      loadQuestion();
+    }
   } else {
-    isPenalty = true;
-    document.getElementById("penalty-msg").classList.remove("hidden");
-    penaltyTimer = setTimeout(() => {
-      nextQuestion();
-    }, 5000);
+    // 틀렸을 경우 카운팅 되지 않고 해설창 표시
+    document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
+    document.getElementById("explanation-content").innerHTML = `<b>💡 정답: ${qData.answer}</b><br><br>${qData.exp}`;
+    document.getElementById("explanation-screen").classList.remove("hidden");
   }
 }
 
-function resetGame() {
-  document.getElementById("result-screen").classList.add("hidden");
-  document.getElementById("setup-screen").classList.remove("hidden");
+function startWrongCountdown() {
+  document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
+  document.getElementById("wrong-countdown-screen").classList.remove("hidden");
+  
+  let count = 3;
+  document.getElementById("wrong-countdown-text").innerText = count;
+  let timer = setInterval(() => {
+    count--;
+    if(count > 0) {
+      document.getElementById("wrong-countdown-text").innerText = count;
+    } else {
+      clearInterval(timer);
+      document.getElementById("wrong-countdown-screen").classList.add("hidden");
+      document.getElementById("quiz-screen").classList.remove("hidden");
+      loadQuestion();
+    }
+  }, 1000);
+}
+
+function showSuccessScreen() {
+  endTime = new Date().getTime();
+  let totalTime = ((endTime - startTime) / 1000).toFixed(1);
+  let now = new Date().toLocaleString('ko-KR');
+  
+  document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
+  document.getElementById("result-screen").classList.remove("hidden");
+  
+  document.getElementById("result-text").innerHTML = `
+    <div style="font-size:1.1rem; margin-bottom:10px;"><b>[ ${currentSubTitle} ]</b></div>
+    <div style="font-size:1.2rem; color:#2c3e50;">학생 이름: <b>${userName}</b></div>
+    <div style="font-size:2rem; color:#27ae60; font-weight:bold; margin:15px 0;">걸린 시간: ${totalTime}초</div>
+    <div style="font-size:0.85rem; color:#7f8c8d;">완료한 시각: ${now}</div>
+    <p style="margin-top:15px; color:#555;">20문제를 뛰어난 실력으로 모두 완주했습니다!</p>
+  `;
 }
 </script>
 
