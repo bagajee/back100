@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>초등 3학년 2학기 수학 퀴즈</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      word-break: keep-all;
+    }
+    body {
+      font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: #eef2f7;
+      margin: 0;
+      padding: 12px;
+    }
+    .card {
+      background: white;
+      padding: 1.5rem 1.2rem;
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      width: 100%;
+      max-width: 480px;
+      text-align: center;
+      max-height: 92vh;
+      overflow-y: auto;
+      position: relative;
+    }
+    .hidden { display: none !important; }
+    
+    /* 상단 Header & 홈 버튼 */
+    .nav-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .btn-home {
+      width: auto !important;
+      padding: 6px 14px !important;
+      margin: 0 !important;
+      background: #e2e8f0 !important;
+      color: #2d3748 !important;
+      font-size: 0.85rem !important;
+      border-radius: 8px !important;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      border: 1px solid #cbd5e1 !important;
+      font-weight: bold;
+    }
+    .btn-home:active { background: #cbd5e1 !important; }
+
+    button {
+      width: 100%;
+      padding: 12px 10px;
+      margin: 4px 0;
+      border: none;
+      border-radius: 12px;
+      background: #3b82f6;
+      color: white;
+      font-size: 0.95rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      touch-action: manipulation;
+    }
+    button:active { transform: scale(0.98); }
+    button.btn-sub { background: #60a5fa; text-align: left; padding-left: 14px; font-weight: normal; }
+    button.btn-total { background: #f59e0b; text-align: left; padding-left: 14px; font-weight: 800; }
+    button.btn-secondary { background: #94a3b8; margin-top: 10px; }
+    button.btn-retry { background: #ef4444; margin-top: 10px; }
+    
+    input {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 14px;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 1.05rem;
+      text-align: center;
+      outline: none;
+    }
+    input:focus { border-color: #3b82f6; }
+    
+    .chapter-header {
+      background: #1e293b;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: bold;
+      margin: 16px 0 8px 0;
+      text-align: left;
+    }
+    
+    /* 초등학생용 분수 스타일링 (구분선과 숫자 색상을 글자색에 맞춤) */
+    .frac {
+      display: inline-flex;
+      flex-direction: column;
+      vertical-align: middle;
+      align-items: center;
+      justify-content: center;
+      padding: 0 4px;
+      font-size: 1.05em;
+      font-weight: bold;
+      line-height: 1;
+    }
+    .frac .num {
+      border-bottom: 2px solid currentColor;
+      padding: 0 4px 2px 4px;
+    }
+    .frac .den {
+      padding: 2px 4px 0 4px;
+    }
+    .mixed-frac {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      font-size: 1.05em;
+      font-weight: bold;
+    }
+
+    /* 문제 영역 */
+    .question-box {
+      min-height: 120px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 10px 0 15px 0;
+      gap: 10px;
+      background: #f8fafc;
+      padding: 15px;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+    }
+    .question-main-text {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #1e293b;
+      line-height: 1.5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    /* 보기 버튼 레이아웃 */
+    .options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+    .options button {
+      margin: 0;
+      font-size: 1rem;
+      padding: 12px 6px;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #3b82f6;
+      color: #ffffff;
+    }
+    
+    .progress-bar { background: #e2e8f0; height: 10px; border-radius: 5px; margin-bottom: 15px; overflow: hidden; }
+    .progress-fill { background: #10b981; height: 100%; width: 0%; transition: width 0.3s; }
+
+    /* 해설 모달 */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 16px;
+    }
+    .modal-content {
+      background: white;
+      padding: 20px;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 400px;
+      text-align: left;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+    .modal-title { font-size: 1.1rem; font-weight: bold; color: #ef4444; margin-bottom: 10px; }
+    .modal-body {
+      font-size: 0.95rem;
+      color: #333;
+      line-height: 1.5;
+      background: #f8fafc;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- 1. 메인 화면 -->
+<div class="card" id="home-screen">
+  <div class="nav-header">
+    <button class="btn-home" onclick="location.href='../../index.html'">🏠 홈으로</button>
+  </div>
+  <h2 style="margin-top:0; color:#1e293b;">📐 초등 3학년 2학기 수학</h2>
+  <p style="color:#64748b; font-size: 0.85rem; margin-bottom:10px;">학습할 단원과 소단원을 선택하세요!</p>
+
+  <!-- 1단원: 곱셈 -->
+  <div class="chapter-header">1. 곱셈</div>
+  <button class="btn-sub" onclick="openSetup('1-1', '1) (세 자리 수)×(한 자리 수)- 올림 없음')">1) (세 자리 수)×(한 자리 수)- 올림 없음</button>
+  <button class="btn-sub" onclick="openSetup('1-2', '2) (세 자리 수)×(한 자리 수)- 올림 한 번')">2) (세 자리 수)×(한 자리 수)- 올림 한 번</button>
+  <button class="btn-sub" onclick="openSetup('1-3', '3) (세 자리 수)×(한 자리 수)- 올림 여러 번')">3) (세 자리 수)×(한 자리 수)- 올림 여러 번</button>
+  <button class="btn-sub" onclick="openSetup('1-4', '4) (한 자리 수)×(몇십), (두 자리 수)×(몇십)')">4) (한 자리 수)×(몇십), (두 자리 수)×(몇십)</button>
+  <button class="btn-sub" onclick="openSetup('1-5', '5) (한 자리 수)×(몇십몇)')">5) (한 자리 수)×(몇십몇)</button>
+  <button class="btn-sub" onclick="openSetup('1-6', '6) (두 자리 수)×(두 자리 수)- 올림 한 번')">6) (두 자리 수)×(두 자리 수)- 올림 한 번</button>
+  <button class="btn-sub" onclick="openSetup('1-7', '7) (두 자리 수)×(두 자리 수)- 올림 여러 번')">7) (두 자리 수)×(두 자리 수)- 올림 여러 번</button>
+  <button class="btn-total" onclick="openSetup('1-all', '🏆 [단원정리] 곱셈 종합')">🏆 [단원정리] 곱셈 종합</button>
+
+  <!-- 2단원: 나눗셈 -->
+  <div class="chapter-header">2. 나눗셈</div>
+  <button class="btn-sub" onclick="openSetup('2-1', '1) (몇십)÷(몇)- 내림 없음')">1) (몇십)÷(몇)- 내림 없음</button>
+  <button class="btn-sub" onclick="openSetup('2-2', '2) (몇십몇)÷(몇)- 내림 없음')">2) (몇십몇)÷(몇)- 내림 없음</button>
+  <button class="btn-sub" onclick="openSetup('2-3', '3) (몇십)÷(몇)- 내림 있음')">3) (몇십)÷(몇)- 내림 있음</button>
+  <button class="btn-sub" onclick="openSetup('2-4', '4) (몇십몇)÷(몇)- 내림 있음')">4) (몇십몇)÷(몇)- 내림 있음</button>
+  <button class="btn-sub" onclick="openSetup('2-5', '5) (몇십몇)÷(몇)- 내림 없음, 나머지 있음')">5) (몇십몇)÷(몇)- 내림 없음, 나머지 있음</button>
+  <button class="btn-sub" onclick="openSetup('2-6', '6) (몇십몇)÷(몇)- 내림 있음, 나머지 있음')">6) (몇십몇)÷(몇)- 내림 있음, 나머지 있음</button>
+  <button class="btn-sub" onclick="openSetup('2-7', '7) 계산이 맞는지 확인하기')">7) 계산이 맞는지 확인하기</button>
+  <button class="btn-sub" onclick="openSetup('2-8', '8) (세 자리 수)÷(한 자리 수)- 나머지 없음')">8) (세 자리 수)÷(한 자리 수)- 나머지 없음</button>
+  <button class="btn-sub" onclick="openSetup('2-9', '9) (세 자리 수)÷(한 자리 수)- 나머지 있음')">9) (세 자리 수)÷(한 자리 수)- 나머지 있음</button>
+  <button class="btn-total" onclick="openSetup('2-all', '🏆 [단원정리] 나눗셈 종합')">🏆 [단원정리] 나눗셈 종합</button>
+
+  <!-- 3단원: 분수 -->
+  <div class="chapter-header">3. 분수</div>
+  <button class="btn-sub" onclick="openSetup('3-1', '1) 분수 만큼은 얼마-개수')">1) 분수 만큼은 얼마-개수</button>
+  <button class="btn-sub" onclick="openSetup('3-2', '2) 분수 만큼은 얼마-길이, 시간')">2) 분수 만큼은 얼마-길이, 시간</button>
+  <button class="btn-sub" onclick="openSetup('3-3', '3) 진분수와 가분수')">3) 진분수와 가분수</button>
+  <button class="btn-sub" onclick="openSetup('3-4', '4) 대분수')">4) 대분수</button>
+  <button class="btn-total" onclick="openSetup('3-all', '🏆 [단원정리] 분수 종합')">🏆 [단원정리] 분수 종합</button>
+</div>
+
+<!-- 2. 문제 시작 설정 화면 -->
+<div class="card hidden" id="setup-screen">
+  <div class="nav-header">
+    <button class="btn-home" onclick="location.href='../../index.html'">🏠 홈으로</button>
+  </div>
+  <h3 style="margin-top:10px; color:#1e293b;" id="setup-title">수학 퀴즈</h3>
+  <p style="color:#64748b; font-size:0.9rem;">총 20문제를 맞히면 완주 성공입니다!</p>
+  <input type="text" id="username" placeholder="이름을 입력하세요" autocomplete="off">
+  <button onclick="startCountDown()">게임 시작</button>
+  <button onclick="goHome()" class="btn-secondary">내용 선택</button>
+</div>
+
+<!-- 3. 카운트다운 화면 -->
+<div class="card hidden" id="countdown-screen">
+  <div class="nav-header">
+    <button class="btn-home" onclick="location.href='../../index.html'">🏠 홈으로</button>
+  </div>
+  <p style="font-size:1.1rem; color:#64748b; margin-top:20px;">준비하세요! 잠시 후 시작됩니다.</p>
+  <h1 id="countdown-text" style="font-size: 4.5rem; color:#3b82f6; margin: 20px 0;">3</h1>
+</div>
+
+<!-- 4. 퀴즈 진행 화면 -->
+<div class="card hidden" id="quiz-screen">
+  <div class="nav-header">
+    <button class="btn-home" onclick="location.href='../../index.html'">🏠 홈으로</button>
+    <div style="font-size: 0.9rem; color: #64748b; font-weight: bold;"><span id="progress">0</span> / 20 문제 맞힘</div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+  
+  <div class="question-box">
+    <div id="question-text" class="question-main-text">문제가 여기에 표시됩니다</div>
+  </div>
+
+  <div class="options" id="options-box"></div>
+
+  <!-- 하단 재도전 버튼 -->
+  <div style="margin-top: 20px; border-top: 1px solid #f1f5f9; padding-top: 10px;">
+    <button class="btn-retry" onclick="openSetup(selectedCategory, currentSubTitle)">🔄 재도전 (시작 화면으로)</button>
+  </div>
+</div>
+
+<!-- 5. 오답 해설 모달 -->
+<div class="modal-overlay hidden" id="explanation-modal">
+  <div class="modal-content">
+    <div class="nav-header">
+      <button class="btn-home" onclick="location.href='../../index.html'">🏠 홈으로</button>
+    </div>
+    <div class="modal-title">❌ 오답입니다! (카운트되지 않음)</div>
+    <div class="modal-body" id="explanation-text">해설 내용이 여기에 들어갑니다.</div>
+    <button id="modal-next-btn" onclick="triggerModalCountdown()">다음</button>
+  </div>
+</div>
+
+<!-- 6. 성공 결과 화면 -->
+<div class="card hidden" id="result-screen">
+  <div class="nav-header">
+    <button class="btn-home" onclick="location.href='../../index.html'">🏠 홈으로</button>
+  </div>
+  <h2>🎉 완주를 축하합니다!</h2>
+  <div id="result-text" style="text-align: left; background:#f8fafc; padding:15px; border-radius:12px; margin: 15px 0; line-height: 1.8;"></div>
+  <button onclick="openSetup(selectedCategory, currentSubTitle)">🔄 재도전</button>
+  <button onclick="goHome()" class="btn-secondary">내용 선택</button>
+</div>
+
+<script>
+let userName = "";
+let selectedCategory = "";
+let currentSubTitle = "";
+let correctCount = 0;
+const totalQuestions = 20;
+let startTime, endTime;
+let qData = {};
+
+function goHome() {
+  document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
+  document.getElementById('explanation-modal').classList.add('hidden');
+  document.getElementById('home-screen').classList.remove('hidden');
+}
+
+function openSetup(catKey, subTitle) {
+  selectedCategory = catKey;
+  currentSubTitle = subTitle;
+  document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
+  document.getElementById('explanation-modal').classList.add('hidden');
+  document.getElementById('setup-screen').classList.remove('hidden');
+  document.getElementById('setup-title').innerText = subTitle;
+}
+
+function startCountDown() {
+  userName = document.getElementById("username").value.trim();
+  if(!userName) { alert("이름을 입력해주세요!"); return; }
+  
+  correctCount = 0;
+  document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
+  document.getElementById("countdown-screen").classList.remove("hidden");
+  
+  let count = 3;
+  document.getElementById("countdown-text").innerText = count;
+  let timer = setInterval(() => {
+    count--;
+    if(count > 0) {
+      document.getElementById("countdown-text").innerText = count;
+    } else {
+      clearInterval(timer);
+      document.getElementById("countdown-screen").classList.add("hidden");
+      document.getElementById("quiz-screen").classList.remove("hidden");
+      startTime = new Date().getTime();
+      loadNextQuestion();
+    }
+  }, 1000);
+}
+
+function rand(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+/* 분수 표기 HTML 생성 함수 */
+function makeFracHTML(num, den) {
+  return `<span class="frac"><span class="num">${num}</span><span class="den">${den}</span></span>`;
+}
+
+function makeMixedFracHTML(whole, num, den) {
+  return `<span class="mixed-frac"><span>${whole}</span>${makeFracHTML(num, den)}</span>`;
+}
+
+function shuffleAndPick(arr, correctAns, count = 4) {
+  let filtered = arr.filter(item => item !== correctAns);
+  filtered = [...new Set(filtered)];
+  filtered.sort(() => Math.random() - 0.5);
+  let result = [correctAns, ...filtered.slice(0, count - 1)];
+  result.sort(() => Math.random() - 0.5);
+  return result;
+}
+
+/* 3학년 2학기 문제 생성 엔진 */
+function generateSingleQuestion(cat) {
+  let q = "", answer = "", options = [], exp = "";
+
+  // ===== 1단원: 곱셈 =====
+  if (cat === '1-1') { // (세 자리 수)×(한 자리 수)- 올림 없음
+    let a1 = rand(1, 4), a2 = rand(0, 4), a3 = rand(1, 4);
+    let b = rand(2, 2);
+    let n1 = a1 * 100 + a2 * 10 + a3;
+    let ans = n1 * b;
+    q = `${n1} × ${b} = ?`;
+    answer = `${ans}`;
+    exp = `각 자릿수에 ${b}를 올림 없이 곱해줍니다. (${n1} × ${b} = ${ans})`;
+    options = shuffleAndPick([answer, `${ans+10}`, `${ans-10}`, `${ans+2}`], answer, 4);
+
+  } else if (cat === '1-2') { // (세 자리 수)×(한 자리 수)- 올림 한 번
+    let n1, b = rand(2, 4), ans;
+    // 백, 십, 일의 자리 중 딱 한 곳만 올림 발생
+    let pos = rand(1, 3);
+    if (pos === 1) { // 일의 자리 올림
+      let c = rand(5, 9), b_digit = rand(0, Math.floor(9/b)), a_digit = rand(1, Math.floor(9/b));
+      while(a_digit * b + Math.floor((b_digit * b + Math.floor(c*b/10))/10) >= 10) { c = rand(5,8); }
+      n1 = a_digit*100 + b_digit*10 + c;
+    } else if (pos === 2) { // 십의 자리 올림
+      let c = rand(1, Math.floor(9/b)), b_digit = rand(5, 9), a_digit = rand(1, Math.floor(9/b));
+      n1 = a_digit*100 + b_digit*10 + c;
+    } else { // 백의 자리 올림
+      let c = rand(1, Math.floor(9/b)), b_digit = rand(0, Math.floor(9/b)), a_digit = rand(5, 9);
+      n1 = a_digit*100 + b_digit*10 + c;
+    }
+    ans = n1 * b;
+    q = `${n1} × ${b} = ?`;
+    answer = `${ans}`;
+    exp = `올림이 한 번 발생하는 (세 자리 수)×(한 자리 수) 곱셈입니다. (${n1} × ${b} = ${ans})`;
+    options = shuffleAndPick([answer, `${ans+10}`, `${ans-10}`, `${ans+100}`], answer, 4);
+
+  } else if (cat === '1-3') { // (세 자리 수)×(한 자리 수)- 올림 여러 번
+    let n1 = rand(358, 897);
+    let b = rand(3, 9);
+    let ans = n1 * b;
+    q = `${n1} × ${b} = ?`;
+    answer = `${ans}`;
+    exp = `각 자릿수에서 발생하는 올림을 윗자리에 더하며 정확히 계산합니다. (${n1} × ${b} = ${ans})`;
+    options = shuffleAndPick([answer, `${ans+10}`, `${ans-10}`, `${ans+100}`], answer, 4);
+
+  } else if (cat === '1-4') { // (한 자리 수)×(몇십), (두 자리 수)×(몇십)
+    let type = rand(1, 2);
+    if(type === 1) {
+      let a = rand(3, 9), b = rand(2, 9) * 10;
+      let ans = a * b;
+      q = `${a} × ${b} = ?`;
+      answer = `${ans}`;
+      exp = `${a} × ${b/10} = ${a*(b/10)} 에 0을 붙여 ${ans}가 됩니다.`;
+      options = shuffleAndPick([answer, `${ans+10}`, `${ans-10}`, `${a*(b/10)}`], answer, 4);
+    } else {
+      let a = rand(12, 35), b = rand(2, 5) * 10;
+      let ans = a * b;
+      q = `${a} × ${b} = ?`;
+      answer = `${ans}`;
+      exp = `${a} × ${b/10} = ${a*(b/10)} 에 0을 붙여 ${ans}가 됩니다.`;
+      options = shuffleAndPick([answer, `${ans+10}`, `${ans-10}`, `${a*(b/10)}`], answer, 4);
+    }
+
+  } else if (cat === '1-5') { // (한 자리 수)×(몇십몇)
+    let a = rand(3, 8), b = rand(12, 45);
+    let ans = a * b;
+    q = `${a} × ${b} = ?`;
+    answer = `${ans}`;
+    exp = `${a} × ${b} = ${ans} 입니다.`;
+    options = shuffleAndPick([answer, `${ans+10}`, `${ans-10}`, `${ans+2}`], answer, 4);
+
+  } else if (cat === '1-6') { // (두 자리 수)×(두 자리 수)- 올림 한 번
+    let a = rand(12, 24), b = rand(11, 23);
+    let ans = a * b;
+    q = `${a} × ${b} = ?`;
+    answer = `${ans}`;
+    exp = `두 자리 수끼리의 곱셈을 순서대로 계산합니다. (${a} × ${b} = ${ans})`;
+    options = shuffleAndPick([answer, `${ans+10}`, `${ans-10}`, `${ans+20}`], answer, 4);
+
+  } else if (cat === '1-7') { // (두 자리 수)×(두 자리 수)- 올림 여러 번
+    let a = rand(37, 89), b = rand(26, 78);
+    let ans = a * b;
+    q = `${a} × ${b} = ?`;
+    answer = `${ans}`;
+    exp = `각 자릿수의 올림을 차례로 더해 계산합니다. (${a} × ${b} = ${ans})`;
+    options = shuffleAndPick([answer, `${ans+10}`, `${ans-10}`, `${ans+100}`], answer, 4);
+
+  } 
+  // ===== 2단원: 나눗셈 =====
+  else if (cat === '2-1') { // (몇십)÷(몇)- 내림 없음
+    let b = rand(2, 4);
+    let quot = rand(1, 3) * 10;
+    let a = quot * b;
+    q = `${a} ÷ ${b} = ?`;
+    answer = `${quot}`;
+    exp = `${a/10} ÷ ${b} = ${quot/10} 이므로 ${a} ÷ ${b} = ${quot} 입니다.`;
+    options = shuffleAndPick([answer, `${quot+10}`, `${quot-5}`, `${quot/10}`], answer, 4);
+
+  } else if (cat === '2-2') { // (몇십몇)÷(몇)- 내림 없음
+    let b = rand(2, 4);
+    let t = rand(1, 3), o = rand(1, 3);
+    let a = (t * b) * 10 + (o * b);
+    let ans = a / b;
+    q = `${a} ÷ ${b} = ?`;
+    answer = `${ans}`;
+    exp = `십의 자리와 일의 자리를 각각 나눕니다. (${a} ÷ ${b} = ${ans})`;
+    options = shuffleAndPick([answer, `${ans+10}`, `${ans-10}`, `${ans+1}`], answer, 4);
+
+  } else if (cat === '2-3') { // (몇십)÷(몇)- 내림 있음
+    let b = rand(2, 5);
+    let ans = rand(12, 25);
+    while ((ans * b) % 10 !== 0) ans = rand(12, 25);
+    let a = ans * b;
+    q = `${a} ÷ ${b} = ?`;
+    answer = `${ans}`;
+    exp = `십의 자리에서 남은 수를 일의 자리로 내리어 계산합니다. (${a} ÷ ${b} = ${ans})`;
+    options = shuffleAndPick([answer, `${ans+10}`, `${ans-5}`, `${ans+2}`], answer, 4);
+
+  } else if (cat === '2-4') { // (몇십몇)÷(몇)- 내림 있음
+    let b = rand(3, 7);
+    let ans = rand(13, 29);
+    let a = ans * b;
+    while(a < 30 || a > 99 || Math.floor(a/10) % b === 0) {
+      ans = rand(13, 29);
+      a = ans * b;
+    }
+    q = `${a} ÷ ${b} = ?`;
+    answer = `${ans}`;
+    exp = `십의 자리 나눗셈 후 남은 십을 일의 자리와 합쳐 나눕니다. (${a} ÷ ${b} = ${ans})`;
+    options = shuffleAndPick([answer, `${ans+10}`, `${ans-10}`, `${ans+1}`], answer, 4);
+
+  } else if (cat === '2-5') { // (몇십몇)÷(몇)- 내림 없음, 나머지 있음
+    let b = rand(2, 4);
+    let t = rand(1, 3), o = rand(1, 3);
+    let rem = rand(1, b - 1);
+    let a = (t * b) * 10 + (o * b) + rem;
+    let quot = Math.floor(a / b);
+    q = `${a} ÷ ${b} = ?`;
+    answer = `${quot} 나머지 ${rem}`;
+    exp = `${a}를 ${b}로 나누면 몫은 ${quot}이고 나머지는 ${rem}입니다.`;
+    options = shuffleAndPick([answer, `${quot} 나머지 ${rem+1}`, `${quot+1} 나머지 ${rem}`, `${quot-1} 나머지 ${rem}`], answer, 4);
+
+  } else if (cat === '2-6') { // (몇십몇)÷(몇)- 내림 있음, 나머지 있음
+    let b = rand(3, 6);
+    let quot = rand(12, 25);
+    let rem = rand(1, b - 1);
+    let a = quot * b + rem;
+    while(a < 30 || a > 99 || Math.floor(a/10) % b === 0) {
+      quot = rand(12, 25);
+      rem = rand(1, b - 1);
+      a = quot * b + rem;
+    }
+    q = `${a} ÷ ${b} = ?`;
+    answer = `${quot} 나머지 ${rem}`;
+    exp = `내림이 있고 나머지가 남는 나눗셈입니다. (${a} ÷ ${b} = ${quot} 나머지 ${rem})`;
+    options = shuffleAndPick([answer, `${quot} 나머지 ${rem+1}`, `${quot+1} 나머지 ${rem}`, `${quot-1} 나머지 ${rem}`], answer, 4);
+
+  } else if (cat === '2-7') { // 계산이 맞는지 확인하기
+    let b = rand(3, 7);
+    let quot = rand(11, 24);
+    let rem = rand(1, b - 1);
+    let a = quot * b + rem;
+    q = `☐ ÷ ${b} = ${quot} 나머지 ${rem} 일 때, ☐안에 들어갈 수는?`;
+    answer = `${a}`;
+    exp = `(나누는 수 × 몫) + 나머지 = (나눠지는 수) 이므로 ${b} × ${quot} + ${rem} = ${a} 입니다.`;
+    options = shuffleAndPick([answer, `${a+10}`, `${a-rem}`, `${b * quot}`], answer, 4);
+
+  } else if (cat === '2-8') { // (세 자리 수)÷(한 자리 수)- 나머지 없음
+    let b = rand(2, 6);
+    let quot = rand(105, 240);
+    let a = quot * b;
+    q = `${a} ÷ ${b} = ?`;
+    answer = `${quot}`;
+    exp = `백의 자리부터 차례대로 나눕니다. (${a} ÷ ${b} = ${quot})`;
+    options = shuffleAndPick([answer, `${quot+10}`, `${quot-10}`, `${quot+1}`], answer, 4);
+
+  } else if (cat === '2-9') { // (세 자리 수)÷(한 자리 수)- 나머지 있음
+    let b = rand(3, 7);
+    let quot = rand(102, 230);
+    let rem = rand(1, b - 1);
+    let a = quot * b + rem;
+    q = `${a} ÷ ${b} = ?`;
+    answer = `${quot} 나머지 ${rem}`;
+    exp = `백의 자리부터 나누고 남은 수를 일의 자리까지 나눈 뒤 나머지를 확인합니다.`;
+    options = shuffleAndPick([answer, `${quot} 나머지 ${rem+1}`, `${quot+1} 나머지 ${rem}`, `${quot-1} 나머지 ${rem}`], answer, 4);
+
+  } 
+  // ===== 3단원: 분수 =====
+  else if (cat === '3-1') { // 분수 만큼은 얼마-개수
+    let den = rand(3, 8);
+    let num = rand(1, den - 1);
+    let groupSize = rand(2, 6);
+    let total = den * groupSize;
+    let ans = num * groupSize;
+    
+    q = `${total}개의 ${makeFracHTML(num, den)}는 몇 개일까요?`;
+    answer = `${ans}개`;
+    exp = `${total}을 ${den}묶음으로 나누면 한 묶음에 ${groupSize}개씩이고, 그중 ${num}묶음이므로 ${ans}개입니다.`;
+    options = shuffleAndPick([answer, `${groupSize}개`, `${ans + groupSize}개`, `${total - ans}개`], answer, 4);
+
+  } else if (cat === '3-2') { // 분수 만큼은 얼마-길이, 시간
+    let type = rand(1, 2);
+    if(type === 1) { // 길이
+      let den = rand(3, 6);
+      let num = rand(1, den - 1);
+      let factor = rand(4, 10);
+      let total = den * factor;
+      let ans = num * factor;
+      q = `${total} cm의 ${makeFracHTML(num, den)}는 몇 cm일까요?`;
+      answer = `${ans} cm`;
+      exp = `${total} cm를 ${den}등분 한 것 중 ${num}의 길이이므로 ${ans} cm입니다.`;
+      options = shuffleAndPick([answer, `${factor} cm`, `${ans + factor} cm`, `${total - ans} cm`], answer, 4);
+    } else { // 시간
+      let denChoice = [3, 4, 5, 6, 10];
+      let den = denChoice[rand(0, denChoice.length - 1)];
+      let num = rand(1, den - 1);
+      let factor = 60 / den;
+      let ans = num * factor;
+      q = `60 분의 ${makeFracHTML(num, den)}는 몇 분일까요?`;
+      answer = `${ans} 분`;
+      exp = `60분을 ${den}등분 한 것 중 ${num}에 해당하므로 ${ans} 분입니다.`;
+      options = shuffleAndPick([answer, `${factor} 분`, `${ans + 5} 분`, `${60 - ans} 분`], answer, 4);
+    }
+
+  } else if (cat === '3-3') { // 진분수와 가분수
+    let isProper = rand(0, 1) === 1;
+    if(isProper) { // 진분수 찾기
+      let propDen = rand(4, 9), propNum = rand(1, propDen - 1);
+      let ansStr = makeFracHTML(propNum, propDen);
+      q = `다음 중 <b>진분수</b>는 어느 것일까요?`;
+      answer = ansStr;
+      
+      let imp1 = makeFracHTML(rand(5, 9), rand(2, 4));
+      let imp2 = makeFracHTML(7, 7);
+      let imp3 = makeFracHTML(rand(8, 12), rand(5, 7));
+      options = shuffleAndPick([answer, imp1, imp2, imp3], answer, 4);
+      exp = `진분수는 분자가 분모보다 작은 분수입니다. (${ansStr})`;
+    } else { // 가분수 찾기
+      let impDen = rand(2, 6), impNum = rand(impDen, impDen + 5);
+      let ansStr = makeFracHTML(impNum, impDen);
+      q = `다음 중 <b>가분수</b>는 어느 것일까요?`;
+      answer = ansStr;
+      
+      let prop1 = makeFracHTML(1, 5);
+      let prop2 = makeFracHTML(3, 8);
+      let prop3 = makeFracHTML(4, 9);
+      options = shuffleAndPick([answer, prop1, prop2, prop3], answer, 4);
+      exp = `가분수는 분자가 분모와 같거나 분모보다 큰 분수입니다. (${ansStr})`;
+    }
+
+  } else if (cat === '3-4') { // 대분수
+    let type = rand(1, 2);
+    if(type === 1) { // 가분수 -> 대분수
+      let den = rand(3, 8);
+      let whole = rand(1, 4);
+      let num = rand(1, den - 1);
+      let impNum = whole * den + num;
+      
+      q = `가분수 ${makeFracHTML(impNum, den)}를 대분수로 바르게 나타낸 것은?`;
+      answer = makeMixedFracHTML(whole, num, den);
+      exp = `${impNum} ÷ ${den} = ${whole} 나머지 ${num} 이므로 ${answer} 입니다.`;
+      
+      let w1 = makeMixedFracHTML(whole + 1, num, den);
+      let w2 = makeMixedFracHTML(whole, (num + 1) % den || 1, den);
+      let w3 = makeMixedFracHTML(whole - 1 < 1 ? 2 : whole - 1, num, den);
+      options = shuffleAndPick([answer, w1, w2, w3], answer, 4);
+    } else { // 대분수 -> 가분수
+      let den = rand(3, 8);
+      let whole = rand(1, 4);
+      let num = rand(1, den - 1);
+      let impNum = whole * den + num;
+      
+      q = `대분수 ${makeMixedFracHTML(whole, num, den)}를 가분수로 바르게 나타낸 것은?`;
+      answer = makeFracHTML(impNum, den);
+      exp = `자연수 ${whole}와 분모 ${den}을 곱한 뒤 분자 ${num}을 더하면 ${impNum}이 되므로 ${answer} 입니다.`;
+      
+      let o1 = makeFracHTML(impNum + 1, den);
+      let o2 = makeFracHTML(impNum - 1, den);
+      let o3 = makeFracHTML(whole * den, den);
+      options = shuffleAndPick([answer, o1, o2, o3], answer, 4);
+    }
+  }
+
+  return { q, answer, opts: options, exp };
+}
+
+function generateQuestion(cat) {
+  if (cat === '1-all') return generateSingleQuestion(`1-${rand(1,7)}`);
+  if (cat === '2-all') return generateSingleQuestion(`2-${rand(1,9)}`);
+  if (cat === '3-all') return generateSingleQuestion(`3-${rand(1,4)}`);
+  return generateSingleQuestion(cat);
+}
+
+function loadNextQuestion() {
+  if (correctCount >= totalQuestions) {
+    endTime = new Date().getTime();
+    let totalTime = ((endTime - startTime) / 1000).toFixed(1);
+    let now = new Date().toLocaleString('ko-KR');
+    
+    document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
+    document.getElementById("result-screen").classList.remove("hidden");
+    
+    document.getElementById("result-text").innerHTML = `
+      <b>[${currentSubTitle}]</b><br><br>
+      👤 <b>이름:</b> ${userName}<br>
+      ⏱️ <b>걸린 시간:</b> <span style="color:#10b981; font-size:1.2rem; font-weight:bold;">${totalTime}초</span><br>
+      📅 <b>완료 시각:</b> <span style="font-size:0.85rem; color:#64748b;">${now}</span>
+    `;
+    return;
+  }
+  
+  document.getElementById("progress").innerText = correctCount;
+  document.getElementById("progress-fill").style.width = (correctCount / totalQuestions * 100) + "%";
+  
+  qData = generateQuestion(selectedCategory);
+  
+  document.getElementById("question-text").innerHTML = qData.q;
+  
+  let optsBox = document.getElementById("options-box");
+  optsBox.innerHTML = "";
+  
+  qData.opts.forEach(val => {
+    let btn = document.createElement("button");
+    btn.innerHTML = val;
+    btn.onclick = () => checkAnswer(val);
+    optsBox.appendChild(btn);
+  });
+}
+
+function checkAnswer(selected) {
+  if (selected === qData.answer) {
+    correctCount++;
+    loadNextQuestion();
+  } else {
+    document.getElementById("explanation-text").innerHTML = `
+      <div><b>💡 정답:</b> ${qData.answer}</div>
+      <div style="margin-top:6px;">${qData.exp}</div>
+    `;
+    let nextBtn = document.getElementById("modal-next-btn");
+    nextBtn.disabled = false;
+    nextBtn.innerText = "다음";
+    document.getElementById("explanation-modal").classList.remove("hidden");
+  }
+}
+
+function triggerModalCountdown() {
+  let nextBtn = document.getElementById("modal-next-btn");
+  if(nextBtn.disabled) return;
+  nextBtn.disabled = true;
+  
+  let count = 3;
+  nextBtn.innerText = `3초 후 다음 문제... (${count})`;
+  
+  let timer = setInterval(() => {
+    count--;
+    if(count > 0) {
+      nextBtn.innerText = `3초 후 다음 문제... (${count})`;
+    } else {
+      clearInterval(timer);
+      document.getElementById("explanation-modal").classList.add("hidden");
+      loadNextQuestion();
+    }
+  }, 1000);
+}
+</script>
+
+</body>
+</html>
