@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>6학년 1학기 사회 - 민주주의와 미디어</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    body {
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 480px;
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      padding: 28px 20px;
+      text-align: center;
+      position: relative;
+    }
+
+    .top-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 8px 12px;
+      background-color: #f1f5f9;
+      color: #475569;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      transition: all 0.2s;
+    }
+
+    .nav-btn:hover {
+      background-color: #e2e8f0;
+      color: #0f172a;
+    }
+
+    h1 {
+      font-size: 20px;
+      color: #1e293b;
+      margin-bottom: 20px;
+      line-height: 1.4;
+    }
+
+    .badge {
+      display: inline-block;
+      background-color: #e0f2fe;
+      color: #0369a1;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+      text-align: left;
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: #475569;
+      margin-bottom: 6px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 16px;
+      outline: none;
+      transition: all 0.2s ease;
+      background-color: #fff;
+    }
+
+    input[type="text"]:focus {
+      border-color: #0284c7;
+      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 15px;
+      background-color: #0284c7;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .btn-primary:hover {
+      background-color: #0369a1;
+    }
+
+    .btn-secondary {
+      width: 100%;
+      padding: 14px;
+      background-color: #f1f5f9;
+      color: #475569;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .btn-secondary:hover {
+      background-color: #e2e8f0;
+      color: #0f172a;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    #countdown-screen h2 {
+      font-size: 80px;
+      color: #0284c7;
+      margin: 24px 0;
+      font-weight: 800;
+    }
+
+    .question-box {
+      font-size: 17px;
+      font-weight: 700;
+      color: #0f172a;
+      margin: 16px 0 20px 0;
+      word-break: keep-all;
+      line-height: 1.5;
+      text-align: left;
+      background-color: #f8fafc;
+      padding: 18px;
+      border-radius: 14px;
+      border-left: 5px solid #0284c7;
+      min-height: 90px;
+      display: flex;
+      align-items: center;
+    }
+
+    .question-box u {
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      text-decoration-thickness: 2px;
+      color: #e11d48;
+    }
+
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .option-btn {
+      width: 100%;
+      padding: 14px 16px;
+      background-color: #ffffff;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      color: #334155;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .option-btn:hover {
+      background-color: #f0f9ff;
+      border-color: #38bdf8;
+      color: #0369a1;
+    }
+
+    .explanation-box {
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 18px;
+      margin: 18px 0;
+      text-align: left;
+      font-size: 15px;
+    }
+
+    .explanation-box p {
+      margin-bottom: 8px;
+    }
+
+    .explanation-box p:last-child {
+      margin-bottom: 0;
+    }
+
+    .result-card {
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 18px;
+      margin: 20px 0;
+      text-align: left;
+    }
+
+    .result-card p {
+      font-size: 15px;
+      color: #334155;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .result-card p:last-child {
+      margin-bottom: 0;
+    }
+
+    .result-card strong {
+      color: #0f172a;
+    }
+
+    .type-badge {
+      font-size: 12px;
+      background-color: #e2e8f0;
+      color: #475569;
+      padding: 2px 8px;
+      border-radius: 6px;
+      margin-left: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- 1. 시작 화면 -->
+    <div id="start-screen">
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+      </div>
+      
+      <div class="badge">[사회 6-1] 2. 민주주의와 시민 참여</div>
+      <h1>(3) 민주주의와 미디어</h1>
+
+      <div class="form-group">
+        <label for="user-name">이름</label>
+        <input type="text" id="user-name" placeholder="이름을 입력하세요" autocomplete="off">
+      </div>
+
+      <div class="btn-group">
+        <button class="btn-primary" onclick="prepareQuiz()">🚀 시작</button>
+        <a href="social.html" class="btn-secondary">📚 단원선택</a>
+      </div>
+    </div>
+
+    <!-- 2. 카운트다운 화면 -->
+    <div id="countdown-screen" class="hidden">
+      <p id="countdown-title" style="font-size: 18px; color: #64748b; font-weight: 600; margin-top: 10px;">준비하세요!</p>
+      <h2 id="countdown-number">3</h2>
+    </div>
+
+    <!-- 3. 퀴즈 실행 화면 -->
+    <div id="quiz-screen" class="hidden">
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+        <span id="progress-display" style="font-size: 14px; font-weight: 700; color: #0284c7;">1 / 10</span>
+      </div>
+
+      <div class="question-box">
+        <div>
+          <span id="question-type-tag" class="type-badge">객관식</span>
+          <div id="question-text" style="margin-top: 6px;"></div>
+        </div>
+      </div>
+
+      <!-- 객관식 보기 영역 -->
+      <div id="mc-container" class="options-grid"></div>
+
+      <!-- 단답식 입력 영역 -->
+      <div id="sa-container" class="hidden">
+        <div class="form-group">
+          <input type="text" id="user-answer" placeholder="정답을 입력하세요" autocomplete="off">
+        </div>
+        <button class="btn-primary" onclick="submitShortAnswer()">정답 제출</button>
+      </div>
+    </div>
+
+    <!-- 4. 해설 화면 (오답 발생 시) -->
+    <div id="explanation-screen" class="hidden">
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+        <a href="social.html" class="nav-btn">📚 단원선택</a>
+      </div>
+      <h2 style="color: #e11d48; margin-bottom: 10px; font-size: 20px;">❌ 아쉽네요! 오답입니다.</h2>
+      <div class="explanation-box">
+        <p><strong>내가 입력한 답:</strong> <span id="exp-user-ans" style="color: #e11d48;"></span></p>
+        <p><strong>정답:</strong> <span id="exp-correct-ans" style="color: #16a34a; font-weight: bold;"></span></p>
+        <hr style="margin: 10px 0; border: none; border-top: 1px dashed #cbd5e1;">
+        <p><strong>💡 [간단 해설]</strong></p>
+        <p id="exp-text" style="margin-top: 6px; line-height: 1.5; color: #475569;"></p>
+      </div>
+      <button class="btn-primary" onclick="resetQuiz()">계속하기</button>
+    </div>
+
+    <!-- 5. 성공 결과 화면 -->
+    <div id="result-screen" class="hidden">
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+      </div>
+
+      <h1 style="color: #16a34a; margin-bottom: 8px;">🎉 축하합니다! 🎉</h1>
+      <p style="color: #475569; font-size: 16px; font-weight: 600;">10문제를 모두 올바르게 맞추셨습니다!</p>
+      
+      <div class="result-card">
+        <p><strong>이름:</strong> <span id="res-name"></span></p>
+        <p><strong>총 걸린시간:</strong> <span id="res-time"></span>초</p>
+        <p><strong>현재 시간:</strong> <span id="res-date"></span></p>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn-primary" onclick="resetQuiz()">🔄 재도전</button>
+        <a href="social.html" class="btn-secondary">📚 단원선택</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ----------------------------------------------------
+    // 문제 데이터베이스 (총 30문항 - 첨부 이미지 내용 기반)
+    // ----------------------------------------------------
+
+    // 1. 지정 단답식 문제 (4문항)
+    const quizDataSA = [
+      {
+        question: "사람들이 정보를 주고받으며 의사소통하기 위해 사용하는 전화, 책, 신문, 방송, 사회 관계망 서비스(SNS) 등의 수단을 무엇이라고 하나요?",
+        answer: ["미디어"],
+        explanation: "미디어는 사람들이 정보를 주고받으며 의사소통하기 위해 사용하는 수단입니다."
+      },
+      {
+        question: "미디어는 사회에서 발생하는 이것이 무엇인지 밝히고, 원인과 사람들에게 미칠 영향을 알려 주며 해결 방안을 제시합니다. 빈칸에 들어갈 단어는 무엇인가요?",
+        answer: ["사회문제", "사회 문제"],
+        explanation: "미디어는 사회문제를 밝히고 원인과 영향, 해결 방안을 제시하는 중요한 역할을 합니다."
+      },
+      {
+        question: "미디어를 이용해 주고받는 정보와 사람들의 생각은 사회문제에 관한 이것을 하는 데 중요한 영향을 미칩니다. 빈칸에 들어갈 두 단어는 무엇인가요?",
+        answer: ["의사 결정", "의사결정"],
+        explanation: "미디어 정보는 사회문제에 관한 합리적인 의사 결정을 내리는 데 큰 영향을 미칩니다."
+      },
+      {
+        question: "사실을 전하는 뉴스처럼 보이지만 거짓이거나 사실을 잘못 해석한 내용을 담고 있는 정보를 무엇이라고 하나요?",
+        answer: ["가짜 뉴스", "가짜뉴스"],
+        explanation: "가짜 뉴스는 사실을 전하는 뉴스 형태를 띠고 있지만 거짓이나 잘못된 해석을 담은 허위 정보입니다."
+      }
+    ];
+
+    // 2. 객관식 문제 (26문항)
+    const quizDataMC = [
+      {
+        question: "미디어에 대한 설명으로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: [
+          "사람들이 정보를 주고받는 의사소통 수단이다.",
+          "옛날부터 오늘날까지 사람들은 생활 속에서 이용해 왔다.",
+          "전화, 책, 신문, 방송, 사회 관계망 서비스 등이 해당한다.",
+          "현대 사회에서 새로 발명되어 옛날에는 전혀 사용되지 않았다."
+        ],
+        answer: 3,
+        explanation: "사람들은 옛날부터 오늘날까지 다양한 형태의 미디어를 생활 속에서 이용해 왔습니다."
+      },
+      {
+        question: "신문과 방송이 가진 미디어로서의 주요 특징은 무엇인가요?",
+        options: [
+          "많은 사람을 대상으로 정보를 신속하게 전달한다.",
+          "개인 사이의 비공개 비밀 대화만 가능하게 한다.",
+          "글을 작성한 사람과 날짜를 항상 숨긴다.",
+          "의사소통 기능을 완전히 배제하고 오락만 제공한다."
+        ],
+        answer: 0,
+        explanation: "신문과 방송은 많은 대중을 대상으로 정보를 신속하게 전달하는 특징을 가지고 있습니다."
+      },
+      {
+        question: "사회 관계망 서비스(SNS)의 주요 특징으로 알맞은 것은 무엇인가요?",
+        options: [
+          "스마트 기기가 보급되면서 인터넷에서 사람들이 정보를 쉽게 주고받으며 의사소통할 수 있다.",
+          "종이로만 정보를 출력하여 전달한다.",
+          "오직 일대일 전화 통화로만 정보를 교환할 수 있다.",
+          "정보가 전달되는 속도가 신문보다 항상 느리다."
+        ],
+        answer: 0,
+        explanation: "스마트 기기와 인터넷의 보급으로 사회 관계망 서비스를 통해 누구나 쉽게 정보를 주고받으며 소통할 수 있게 되었습니다."
+      },
+      {
+        question: "민주주의에서 미디어의 역할로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: [
+          "많은 사람에게 영향을 미치는 새로운 사실을 전달한다.",
+          "사회에서 중요하게 여기는 가치나 규범을 담은 정보를 전달한다.",
+          "사회문제가 무엇인지 밝히고 해결 방안을 제시한다.",
+          "특정 개인의 정보를 무단으로 유포하여 혼란을 일으킨다."
+        ],
+        answer: 3,
+        explanation: "미디어는 새로운 사실과 사회적 가치·규범을 알리고 사회문제 해결 방안을 제시하는 올바른 역할을 해야 합니다."
+      },
+      {
+        question: "미디어가 전달하는 새로운 사실이 사람들에게 미치는 영향으로 알맞은 것은 무엇인가요?",
+        options: [
+          "다양한 미디어를 이용해 많은 사람에게 영향을 미치는 새로운 사실을 신속하게 확인할 수 있다.",
+          "사람들이 사회문제에 전혀 관심을 갖지 않게 만든다.",
+          "국가기관 사이의 권력 분립을 무너뜨린다.",
+          "개인의 미디어 이용 습관을 강제로 통제한다."
+        ],
+        answer: 0,
+        explanation: "사람들은 미디어를 통해 새로운 사실을 신속하게 파악하고 사회 흐름을 이해할 수 있습니다."
+      },
+      {
+        question: "미디어가 사회적 가치나 규범을 제시할 때 사람들이 얻는 태도는 무엇인가요?",
+        options: [
+          "사회에서 중요하게 여기는 가치나 규범이 무엇인지 알고 이를 존중하는 태도를 기른다.",
+          "자신과 다른 의견을 가진 사람을 무조건 무시하는 태도를 갖는다.",
+          "법과 제도를 지키지 않고 사회 질서를 어지럽히는 태도를 갖는다.",
+          "타인의 권리를 적극적으로 침해하는 태도를 기른다."
+        ],
+        answer: 0,
+        explanation: "미디어는 사회적 가치와 규범을 알려줌으로써 이를 존중하고 지키는 태도를 함양시킵니다."
+      },
+      {
+        question: "민주주의에서 미디어가 중요한 까닭으로 가장 알맞은 것은 무엇인가요?",
+        options: [
+          "미디어를 통해 주고받는 정보와 사람들의 생각이 사회문제에 관한 의사 결정에 영향을 미치기 때문이다.",
+          "미디어가 모든 국민의 재산을 똑같이 나누어 주기 때문이다.",
+          "선거 없이 나라의 대표를 자동으로 뽑아 주기 때문이다.",
+          "국가기관의 수를 늘리거나 줄일 수 있는 권한을 가졌기 때문이다."
+        ],
+        answer: 0,
+        explanation: "미디어 정보와 사람들의 의견은 민주적 사회문제 해결과 합리적 의사 결정의 바탕이 되므로 중요합니다."
+      },
+      {
+        question: "미디어로 사실과 다른 정보를 공유했을 때 발생하는 피해로 알맞은 것은 무엇인가요?",
+        options: [
+          "사람들의 권리를 침해하고 사회 질서가 무너질 수 있다.",
+          "국민 주권이 항상 더욱 공정하게 실현된다.",
+          "모든 사회문제가 저절로 빠르게 해결된다.",
+          "삼심 제도가 한 번의 재판으로 축소된다."
+        ],
+        answer: 0,
+        explanation: "사실과 다른 정보가 유포되면 타인의 권리가 침해되고 사회적 혼란 및 질서 교란이 발생합니다."
+      },
+      {
+        question: "허위 조작 정보의 의미로 알맞은 것은 무엇인가요?",
+        options: [
+          "사실과 다른 내용을 진짜처럼 꾸며서 전달하는 정보",
+          "믿을 만한 공식 기관에서 발표한 정확한 정보",
+          "국회에서 심의하여 확정한 한 해 예산안",
+          "재판을 통해 법원에서 내린 공식 판결문"
+        ],
+        answer: 0,
+        explanation: "허위 조작 정보는 거짓이나 사실과 다른 내용을 진짜인 것처럼 속여 전달하는 정보입니다."
+      },
+      {
+        question: "허위 조작 정보가 발생하는 까닭으로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: [
+          "사람들이 사실을 정확하게 확인하지 않아서 생긴다.",
+          "사람들의 관심을 끌려고 만들기도 한다.",
+          "선거에서 자신이 지지하는 정당이나 후보의 당선을 도우려고 만들기도 한다.",
+          "국민의 합리적인 의사 결정을 도우려고 정직하게 만들어서 생긴다."
+        ],
+        answer: 3,
+        explanation: "허위 조작 정보는 비확인, 관심 유도, 선거에서의 불법적 영향력 행사 등을 목적으로 만들어집니다."
+      },
+      {
+        question: "미디어를 이용할 때 주의해야 할 점으로 알맞은 것은 무엇인가요?",
+        options: [
+          "미디어의 내용을 있는 그대로 믿지 않고 비판적으로 분석하여 이용해야 한다.",
+          "인터넷에 유포된 소문은 무조건 사실로 확신한다.",
+          "자극적인 뉴스일수록 사실 확인 없이 주변에 빠르게 공유한다.",
+          "글을 작성한 사람이나 출처는 확인할 필요가 없다."
+        ],
+        answer: 0,
+        explanation: "잘못된 정보로 인한 합리적 의사 결정 방해를 막으려면 미디어 내용을 비판적으로 분석해야 합니다."
+      },
+      {
+        question: "신문이나 방송에서 허위 조작 정보가 발생하는 까닭으로 알맞은 것은 무엇인가요?",
+        options: [
+          "새로운 정보를 신속하게 전달하려고 경쟁하거나 특정한 관점에 근거한 정보만 전달하기 때문이다.",
+          "모든 정보를 완벽하게 비판적으로 검증한 후에만 보도하기 때문이다.",
+          "행정부와 법원에서 모든 신문 기사를 직접 검수하기 때문이다.",
+          "모든 신문사가 토론을 거쳐 동일한 의견만 작성하기 때문이다."
+        ],
+        answer: 0,
+        explanation: "속보 경쟁이나 특정 관점만 반영하는 보도 태도 때문에 신문·방송에서도 허위 조작 정보가 발생할 수 있습니다."
+      },
+      {
+        question: "신문이나 방송의 허위 조작 정보에 주의하는 방법으로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: [
+          "보도된 내용이라고 무조건 믿지 않는다.",
+          "다른 신문, 방송, 책, 인터넷 등에서 관련 정보를 찾아본다.",
+          "찾아본 내용이 믿을 만한 내용인지 사실 여부를 확인해 본다.",
+          "자극적인 헤드라인 기사는 검증 과정 없이 바로 SNS에 공유한다."
+        ],
+        answer: 3,
+        explanation: "보도 내용이라도 무조건 믿지 말고 다양한 매체를 통해 사실 여부를 다각도로 확인해야 합니다."
+      },
+      {
+        question: "사회 관계망 서비스(SNS)에서 허위 조작 정보가 발생하는 까닭으로 알맞은 것은 무엇인가요?",
+        options: [
+          "이용자의 취향에 맞는 맞춤형 정보만 접하게 되어 이와 다른 정보를 무시하기 때문이다.",
+          "모든 글에 출처와 작성자가 엄격하게 표시되어 유포되기 때문이다.",
+          "법과 제도로 가짜 정보를 즉시 삭제 조치하기 때문이다.",
+          "이용자들이 정보를 타인에게 절대 공유하지 않는 습관이 있기 때문이다."
+        ],
+        answer: 0,
+        explanation: "SNS는 맞춤형 정보 제공 알고리즘으로 인해 편향된 정보만 믿고 타 정보를 무시하거나 쉽게 전달하여 퍼지기 쉽습니다."
+      },
+      {
+        question: "사회 관계망 서비스(SNS)에서 허위 조작 정보를 주의하는 방법으로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: [
+          "'속보', '단독 보도'를 붙이는 뉴스 형식의 정보를 곧바로 믿지 않는다.",
+          "믿을 만한 사람에게 전달받은 정보라도 다른 자료를 통해 사실 여부를 확인한다.",
+          "정보를 무조건 믿지 않고 다른 정보에 담긴 내용도 활용한다.",
+          "친한 친구나 지인이 보내준 소식이라면 무조건 사실로 판단한다."
+        ],
+        answer: 3,
+        explanation: "믿을 만한 사람이 전달한 정보라 하더라도 다른 자료를 통해 객관적 사실 여부를 확인해야 합니다."
+      },
+      {
+        question: "미디어의 내용을 비판적으로 분석하는 방법으로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: [
+          "'속보', '단독 보도' 등으로 뉴스 형식을 흉내 내고 있는지 살펴본다.",
+          "글을 작성한 사람과 날짜가 정확하게 제시되어 있는지 확인한다.",
+          "믿을 만한 출처에서 얻은 정보를 제시하고 있는지 확인한다.",
+          "댓글이나 좋아요 수가 가장 많은 글은 무조건 진실로 받아들인다."
+        ],
+        answer: 3,
+        explanation: "반응이 많거나 유명하다고 해서 무조건 사실은 아니며, 출처와 작성자, 근거의 타당성을 따져보아야 합니다."
+      },
+      {
+        question: "미디어의 내용을 비판적으로 분석할 때 검토해야 할 점으로 알맞은 것은 무엇인가요?",
+        options: [
+          "주장을 뒷받침하는 근거가 타당한지 검토한다.",
+          "화려하고 멋진 그림이나 영상이 많은지 검토한다.",
+          "글의 길이가 얼마나 긴지만 검토한다.",
+          "내가 평소 좋아하는 내용과 일치하는지만 검토한다."
+        ],
+        answer: 0,
+        explanation: "주장과 이를 뒷받침하는 근거의 타당성을 검토하는 것이 비판적 분석의 핵심입니다."
+      },
+      {
+        question: "미디어 정보의 올바른 활용을 위해 **사회**가 기울여야 할 노력으로 알맞은 것은 무엇인가요?",
+        options: [
+          "허위 조작 정보를 제재하는 법과 제도를 마련해 시행한다.",
+          "자신의 미디어 이용 습관을 스스로 되돌아본다.",
+          "미디어 정보를 비판적으로 분석하여 받아들이는 개인 태도를 기른다.",
+          "스마트폰 사용 시간을 개인적으로 줄인다."
+        ],
+        answer: 0,
+        explanation: "사회 차원에서는 허위 조작 정보의 유포를 막고 엄벌하는 법과 제도를 마련해야 합니다."
+      },
+      {
+        question: "미디어 정보의 올바른 활용을 위해 **개인**이 기울여야 할 노력으로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: [
+          "자신의 미디어 이용 습관을 되돌아본다.",
+          "미디어의 정보를 비판적으로 분석하여 활용하는 태도를 길러야 한다.",
+          "허위 조작 정보를 제재하는 법과 제도를 직접 제정한다.",
+          "전달받은 정보의 출처와 사실 여부를 항상 확인한다."
+        ],
+        answer: 2,
+        explanation: "법과 제도를 마련하는 것은 '사회'의 노력이며, '개인'은 이용 습관 점검 및 비판적 분석 태도를 길러야 합니다."
+      },
+      {
+        question: "허위 조작 정보로 잘못된 여론이 형성될 경우 발생할 수 있는 가장 심각한 위험은 무엇인가요?",
+        options: [
+          "합리적인 의사 결정을 방해해 민주주의를 위협할 수 있다.",
+          "국민 주권의 원리가 강화되어 선거 참여율이 급증한다.",
+          "국회, 행정부, 법원의 권력 분립이 새로 완성된다.",
+          "모든 국민의 미디어 이용 시간이 크게 줄어든다."
+        ],
+        answer: 0,
+        explanation: "잘못된 여론 형성은 올바른 의사 결정을 막아 민주주의 자체를 흔들 수 있습니다."
+      },
+      {
+        question: "신문이나 방송이 특정 관점에 근거한 정보만 전달할 때 바람직한 태도는 무엇인가요?",
+        options: [
+          "다른 신문, 방송, 책, 인터넷 등에서 관련 정보를 찾아 비교·확인한다.",
+          "보도된 특정 관점만 그대로 받아들인다.",
+          "미디어 매체 이용을 완전히 중단한다.",
+          "확인되지 않은 내용을 소문으로 널리 퍼뜨린다."
+        ],
+        answer: 0,
+        explanation: "다양한 매체와 자료를 비교하며 중립적이고 사실에 기반한 정보를 확인하는 것이 좋습니다."
+      },
+      {
+        question: "가짜 뉴스에 대한 설명으로 알맞은 것은 무엇인가요?",
+        options: [
+          "사실을 전하는 뉴스처럼 보이지만 거짓이거나 사실을 잘못 해석한 내용을 담고 있다.",
+          "국가기관에서 국민에게 안전을 당부하기 위해 공식적으로 발송하는 문자이다.",
+          "방송사에서 철저한 사실 확인을 거쳐 확실하게 보도하는 기사이다.",
+          "민주주의에서 올바른 의사 결정을 돕는 가장 유익한 정보이다."
+        ],
+        answer: 0,
+        explanation: "가짜 뉴스는 진짜 뉴스 형태를 모방하여 사람들을 속이거나 오인하게 만드는 거짓 정보입니다."
+      },
+      {
+        question: "미디어가 사회문제를 다룰 때 수행하는 핵심 역할로 알맞은 것은 무엇인가요?",
+        options: [
+          "사회문제가 무엇인지 밝히고 원인과 영향을 알려 주며 해결 방안을 제시한다.",
+          "사회문제를 숨기고 국민들이 알지 못하게 통제한다.",
+          "특정 당사자의 입장만 편들어 갈등을 더 부추긴다.",
+          "사회문제 해결을 위한 법률을 직접 제정하고 적용한다."
+        ],
+        answer: 0,
+        explanation: "미디어는 사회문제를 공론화하고 원인과 파급효과, 해결책을 제시해 시민 사회의 논의를 돕습니다."
+      },
+      {
+        question: "사회 관계망 서비스(SNS) 이용자가 접한 정보를 쉽게 믿고 전달할 때 생기는 결과는 무엇인가요?",
+        options: [
+          "허위 조작 정보가 더욱 빠르게 퍼진다.",
+          "사회적인 법과 제도가 더 정교해진다.",
+          "모든 정보의 진위 여부가 자동으로 판별된다.",
+          "사람들의 비판적 사고 능력이 크게 향상된다."
+        ],
+        answer: 0,
+        explanation: "검증 없이 쉽게 믿고 공유하는 행동은 허위 조작 정보의 급속한 확산을 초래합니다."
+      },
+      {
+        question: "미디어 정보 분석 시 '믿을 만한 출처'를 확인한다는 것의 의미로 알맞은 것은 무엇인가요?",
+        options: [
+          "정보의 근거가 되는 자료나 기기관이 신뢰할 수 있는 곳인지 밝혀져 있는지 보는 것",
+          "글의 글자 색상과 디자인이 화려한지 보는 것",
+          "정보를 공유한 사람의 SNS 팔로워 수가 많은지 보는 것",
+          "제목에 '충격', '특종'이라는 단어가 포함되어 있는지 보는 것"
+        ],
+        answer: 0,
+        explanation: "출처 확인은 해당 정보가 신뢰성 있는 기관, 전문가, 검증된 자료에서 나왔는지 파악하는 일입니다."
+      },
+      {
+        question: "다음 중 미디어의 비판적 분석 요소로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: [
+          "글 작성자와 날짜의 명확성",
+          "믿을 만한 출처 제시 여부",
+          "주장을 뒷받침하는 근거의 타당성",
+          "정보에 사용된 바탕 화면의 색상"
+        ],
+        answer: 3,
+        explanation: "디자인이나 바탕 색상은 정보의 사실 여부 및 타당성을 판단하는 기준이 아닙니다."
+      }
+    ];
+
+    // 상태 관리 변수
+    let currentQuestions = [];
+    let currentQuestionIndex = 0;
+    let userName = "";
+    let startTime = 0;
+    let countdownTimer = null;
+
+    window.onload = function() {
+      document.getElementById('user-answer').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') submitShortAnswer();
+      });
+      
+      document.getElementById('user-name').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') prepareQuiz();
+      });
+    };
+
+    function prepareQuiz() {
+      userName = document.getElementById('user-name').value.trim();
+
+      if (!userName) {
+        alert("이름을 입력해주세요.");
+        return;
+      }
+
+      // 1~7번: 객관식 26문제 중 랜덤 7개 추출
+      const shuffledMC = [...quizDataMC].sort(() => Math.random() - 0.5);
+      const selectedMC = shuffledMC.slice(0, 7);
+
+      // 8~10번: 단답식 4문제 중 랜덤 3개 추출
+      const shuffledSA = [...quizDataSA].sort(() => Math.random() - 0.5);
+      const selectedSA = shuffledSA.slice(0, 3);
+
+      // 총 10문항 결합
+      currentQuestions = [...selectedMC, ...selectedSA];
+      currentQuestionIndex = 0;
+
+      showScreen('countdown-screen');
+      document.getElementById('countdown-title').textContent = "준비하세요!";
+      startCountdown(() => startQuiz());
+    }
+
+    function startCountdown(callback) {
+      let count = 3;
+      const countEl = document.getElementById('countdown-number');
+      countEl.textContent = count;
+
+      if (countdownTimer) clearInterval(countdownTimer);
+
+      countdownTimer = setInterval(() => {
+        count--;
+        if (count > 0) {
+          countEl.textContent = count;
+        } else {
+          clearInterval(countdownTimer);
+          callback();
+        }
+      }, 1000);
+    }
+
+    function startQuiz() {
+      showScreen('quiz-screen');
+      startTime = new Date().getTime();
+      loadQuestion();
+    }
+
+    function loadQuestion() {
+      const q = currentQuestions[currentQuestionIndex];
+      document.getElementById('progress-display').textContent = `${currentQuestionIndex + 1} / 10`;
+      
+      document.getElementById('question-text').innerHTML = q.question;
+
+      const mcContainer = document.getElementById('mc-container');
+      const saContainer = document.getElementById('sa-container');
+      const tagEl = document.getElementById('question-type-tag');
+
+      if (currentQuestionIndex < 7) {
+        // 객관식 (1~7번)
+        tagEl.textContent = "객관식";
+        tagEl.style.backgroundColor = "#e0f2fe";
+        tagEl.style.color = "#0369a1";
+
+        mcContainer.classList.remove('hidden');
+        saContainer.classList.add('hidden');
+        mcContainer.innerHTML = "";
+
+        q.options.forEach((opt, idx) => {
+          const btn = document.createElement('button');
+          btn.className = 'option-btn';
+          btn.textContent = `${idx + 1}. ${opt}`;
+          btn.onclick = () => checkAnswer(idx);
+          mcContainer.appendChild(btn);
+        });
+      } else {
+        // 단답식 (8~10번)
+        tagEl.textContent = "단답식";
+        tagEl.style.backgroundColor = "#fef3c7";
+        tagEl.style.color = "#b45309";
+
+        mcContainer.classList.add('hidden');
+        saContainer.classList.remove('hidden');
+
+        const inputEl = document.getElementById('user-answer');
+        inputEl.value = "";
+        inputEl.focus();
+      }
+    }
+
+    function normalizeStr(str) {
+      return str.toString().replace(/[\s\.\·\-\_]/g, '').toLowerCase();
+    }
+
+    function checkAnswer(userChoice) {
+      const q = currentQuestions[currentQuestionIndex];
+      if (userChoice === q.answer) {
+        nextQuestion();
+      } else {
+        const userAnsStr = `${userChoice + 1}. ${q.options[userChoice]}`;
+        const correctAnsStr = `${q.answer + 1}. ${q.options[q.answer]}`;
+        handleIncorrect(userAnsStr, correctAnsStr, q.explanation);
+      }
+    }
+
+    function submitShortAnswer() {
+      const inputEl = document.getElementById('user-answer');
+      const userAnsRaw = inputEl.value.trim();
+
+      if (!userAnsRaw) {
+        alert("정답을 입력해주세요.");
+        return;
+      }
+
+      const q = currentQuestions[currentQuestionIndex];
+      const normalizedUser = normalizeStr(userAnsRaw);
+      
+      const isCorrect = q.answer.some(ans => normalizeStr(ans) === normalizedUser);
+
+      if (isCorrect) {
+        nextQuestion();
+      } else {
+        const correctStr = q.answer[0];
+        handleIncorrect(userAnsRaw, correctStr, q.explanation);
+      }
+    }
+
+    function nextQuestion() {
+      currentQuestionIndex++;
+      if (currentQuestionIndex < 10) {
+        loadQuestion();
+      } else {
+        showSuccess();
+      }
+    }
+
+    function handleIncorrect(userAns, correctAns, exp) {
+      document.getElementById('exp-user-ans').textContent = userAns;
+      document.getElementById('exp-correct-ans').textContent = correctAns;
+      document.getElementById('exp-text').textContent = exp || "해설이 없습니다.";
+      showScreen('explanation-screen');
+    }
+
+    function showSuccess() {
+      const endTime = new Date().getTime();
+      const timeTaken = ((endTime - startTime) / 1000).toFixed(1);
+      const now = new Date();
+      
+      const timeString = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+
+      document.getElementById('res-name').textContent = userName;
+      document.getElementById('res-time').textContent = timeTaken;
+      document.getElementById('res-date').textContent = timeString;
+
+      showScreen('result-screen');
+    }
+
+    function resetQuiz() {
+      if (countdownTimer) clearInterval(countdownTimer);
+      document.getElementById('user-answer').value = "";
+      showScreen('start-screen');
+    }
+
+    function showScreen(screenId) {
+      const screens = ['start-screen', 'countdown-screen', 'quiz-screen', 'explanation-screen', 'result-screen'];
+      screens.forEach(id => {
+        document.getElementById(id).classList.add('hidden');
+      });
+      document.getElementById(screenId).classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>

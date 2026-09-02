@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>초등 사회 5-2 스피드 퀴즈</title>
+  <title>6학년 1학기 사회 - 민주화와 산업화</title>
   <style>
     * {
       box-sizing: border-box;
@@ -27,22 +27,23 @@
       background: #ffffff;
       border-radius: 20px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-      padding: 32px 24px;
+      padding: 28px 20px;
       text-align: center;
       position: relative;
     }
 
     .top-nav {
       display: flex;
-      justify-content: flex-start;
-      margin-bottom: 16px;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
     }
 
     .nav-btn {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 6px 12px;
+      gap: 4px;
+      padding: 8px 12px;
       background-color: #f1f5f9;
       color: #475569;
       text-decoration: none;
@@ -50,7 +51,6 @@
       font-weight: 600;
       border-radius: 8px;
       border: 1px solid #cbd5e1;
-      cursor: pointer;
       transition: all 0.2s;
     }
 
@@ -60,9 +60,9 @@
     }
 
     h1 {
-      font-size: 22px;
+      font-size: 20px;
       color: #1e293b;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       line-height: 1.4;
     }
 
@@ -74,11 +74,11 @@
       font-weight: 700;
       padding: 4px 12px;
       border-radius: 20px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .form-group {
-      margin-bottom: 20px;
+      margin-bottom: 16px;
       text-align: left;
     }
 
@@ -87,10 +87,10 @@
       font-size: 14px;
       font-weight: 600;
       color: #475569;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
-    input {
+    input[type="text"] {
       width: 100%;
       padding: 14px 16px;
       border: 2px solid #e2e8f0;
@@ -101,19 +101,19 @@
       background-color: #fff;
     }
 
-    input:focus {
+    input[type="text"]:focus {
       border-color: #0284c7;
       box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
     }
 
     .btn-primary {
       width: 100%;
-      padding: 16px;
+      padding: 15px;
       background-color: #0284c7;
       color: white;
       border: none;
       border-radius: 12px;
-      font-size: 17px;
+      font-size: 16px;
       font-weight: 700;
       cursor: pointer;
       transition: background-color 0.2s;
@@ -130,7 +130,7 @@
       width: 100%;
       padding: 14px;
       background-color: #f1f5f9;
-      color: #334155;
+      color: #475569;
       border: 1px solid #cbd5e1;
       border-radius: 12px;
       font-size: 15px;
@@ -151,7 +151,7 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
-      margin-top: 20px;
+      margin-top: 16px;
     }
 
     .hidden {
@@ -159,52 +159,94 @@
     }
 
     #countdown-screen h2 {
-      font-size: 84px;
+      font-size: 80px;
       color: #0284c7;
-      margin: 30px 0;
+      margin: 24px 0;
       font-weight: 800;
     }
 
-    .quiz-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 14px;
-      color: #64748b;
-      margin-bottom: 16px;
-      font-weight: 600;
-    }
-
     .question-box {
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 700;
       color: #0f172a;
-      margin: 20px 0 24px 0;
+      margin: 16px 0 20px 0;
       word-break: keep-all;
-      line-height: 1.6;
+      line-height: 1.5;
       text-align: left;
       background-color: #f8fafc;
-      padding: 20px;
+      padding: 18px;
       border-radius: 14px;
       border-left: 5px solid #0284c7;
-      min-height: 110px;
+      min-height: 90px;
       display: flex;
       align-items: center;
+    }
+
+    .question-box u {
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      text-decoration-thickness: 2px;
+      color: #e11d48;
+    }
+
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .option-btn {
+      width: 100%;
+      padding: 14px 16px;
+      background-color: #ffffff;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      color: #334155;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .option-btn:hover {
+      background-color: #f0f9ff;
+      border-color: #38bdf8;
+      color: #0369a1;
+    }
+
+    .explanation-box {
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 18px;
+      margin: 18px 0;
+      text-align: left;
+      font-size: 15px;
+    }
+
+    .explanation-box p {
+      margin-bottom: 8px;
+    }
+
+    .explanation-box p:last-child {
+      margin-bottom: 0;
     }
 
     .result-card {
       background-color: #f8fafc;
       border: 1px solid #e2e8f0;
       border-radius: 14px;
-      padding: 20px;
-      margin: 24px 0;
+      padding: 18px;
+      margin: 20px 0;
       text-align: left;
     }
 
     .result-card p {
       font-size: 15px;
       color: #334155;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       display: flex;
       justify-content: space-between;
     }
@@ -216,182 +258,350 @@
     .result-card strong {
       color: #0f172a;
     }
+
+    .type-badge {
+      font-size: 12px;
+      background-color: #e2e8f0;
+      color: #475569;
+      padding: 2px 8px;
+      border-radius: 6px;
+      margin-left: 6px;
+    }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <!-- 1. 첫 화면 -->
+    <!-- 1. 시작 화면 -->
     <div id="start-screen">
       <div class="top-nav">
-        <a href="../index.html" class="nav-btn">🏠 메인 목록</a>
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
       </div>
-      <div class="badge">[초등 사회 5-2]</div>
-      <h1>삼국시대<br>스피드 퀴즈</h1>
+      
+      <div class="badge">[사회 6-1] 민주화와 산업화</div>
+      <h1>사회 퀴즈 도전</h1>
+
       <div class="form-group">
-        <label for="user-name">도전자 이름</label>
+        <label for="user-name">이름</label>
         <input type="text" id="user-name" placeholder="이름을 입력하세요" autocomplete="off">
       </div>
-      <button class="btn-primary" onclick="prepareQuiz()">시작하기</button>
+
+      <div class="btn-group">
+        <button class="btn-primary" onclick="prepareQuiz()">🚀 시작</button>
+        <a href="social.html" class="btn-secondary">📚 단원선택</a>
+      </div>
     </div>
 
     <!-- 2. 카운트다운 화면 -->
     <div id="countdown-screen" class="hidden">
-      <div class="top-nav">
-        <button onclick="confirmGoStart()" class="nav-btn">🏠 처음으로</button>
-      </div>
-      <p style="font-size: 18px; color: #64748b; font-weight: 600;">준비하세요!</p>
+      <p id="countdown-title" style="font-size: 18px; color: #64748b; font-weight: 600; margin-top: 10px;">준비하세요!</p>
       <h2 id="countdown-number">3</h2>
     </div>
 
     <!-- 3. 퀴즈 실행 화면 -->
     <div id="quiz-screen" class="hidden">
-      <div class="quiz-header">
-        <button onclick="confirmGoStart()" class="nav-btn" style="font-size: 12px; padding: 4px 8px;">🏠 처음으로</button>
-        <span id="progress-display">1 / 10</span>
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+        <span id="progress-display" style="font-size: 14px; font-weight: 700; color: #0284c7;">1 / 10</span>
       </div>
-      <div class="question-box" id="question-text"></div>
-      <div class="form-group">
-        <input type="text" id="user-answer" placeholder="정답을 입력하세요" autocomplete="off">
+
+      <div class="question-box">
+        <div>
+          <span id="question-type-tag" class="type-badge">객관식</span>
+          <div id="question-text" style="margin-top: 6px;"></div>
+        </div>
       </div>
-      <button class="btn-primary" onclick="submitAnswer()">정답 제출</button>
+
+      <!-- 객관식 보기 영역 -->
+      <div id="mc-container" class="options-grid"></div>
+
+      <!-- 단답식 입력 영역 -->
+      <div id="sa-container" class="hidden">
+        <div class="form-group">
+          <input type="text" id="user-answer" placeholder="정답을 입력하세요" autocomplete="off">
+        </div>
+        <button class="btn-primary" onclick="submitShortAnswer()">정답 제출</button>
+      </div>
     </div>
 
-    <!-- 4. 성공 결과 화면 -->
+    <!-- 4. 해설 화면 (오답 발생 시) -->
+    <div id="explanation-screen" class="hidden">
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+        <a href="social.html" class="nav-btn">📚 단원선택</a>
+      </div>
+      <h2 style="color: #e11d48; margin-bottom: 10px; font-size: 20px;">❌ 아쉽네요! 오답입니다.</h2>
+      <div class="explanation-box">
+        <p><strong>내가 입력한 답:</strong> <span id="exp-user-ans" style="color: #e11d48;"></span></p>
+        <p><strong>정답:</strong> <span id="exp-correct-ans" style="color: #16a34a; font-weight: bold;"></span></p>
+        <hr style="margin: 10px 0; border: none; border-top: 1px dashed #cbd5e1;">
+        <p><strong>💡 [간단 해설]</strong></p>
+        <p id="exp-text" style="margin-top: 6px; line-height: 1.5; color: #475569;"></p>
+      </div>
+      <button class="btn-primary" onclick="resetQuiz()">처음 단계로 돌아가기</button>
+    </div>
+
+    <!-- 5. 성공 결과 화면 -->
     <div id="result-screen" class="hidden">
       <div class="top-nav">
-        <button onclick="resetQuiz()" class="nav-btn">🏠 처음으로</button>
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
       </div>
-      <h1 style="color: #16a34a; margin-bottom: 8px;">🎉 미션 성공! 🎉</h1>
-      <p style="color: #64748b; font-size: 15px;">10문제를 모두 올바르게 맞추셨습니다!</p>
+
+      <h1 style="color: #16a34a; margin-bottom: 8px;">🎉 축하합니다! 🎉</h1>
+      <p style="color: #475569; font-size: 16px; font-weight: 600;">10문제를 모두 올바르게 맞추셨습니다!</p>
       
       <div class="result-card">
-        <p><strong>도전자:</strong> <span id="res-name"></span></p>
-        <p><strong>완료 시간:</strong> <span id="res-date"></span></p>
-        <p><strong>소요 시간:</strong> <span id="res-time"></span>초</p>
+        <p><strong>이름:</strong> <span id="res-name"></span></p>
+        <p><strong>총 걸린시간:</strong> <span id="res-time"></span>초</p>
+        <p><strong>현재 시간:</strong> <span id="res-date"></span></p>
       </div>
 
       <div class="btn-group">
-        <button class="btn-primary" onclick="resetQuiz()">🔄 다시 도전하기 (처음으로)</button>
-        <a href="../index.html" class="btn-secondary">🏠 메인 목록으로</a>
+        <button class="btn-primary" onclick="resetQuiz()">🔄 다시 도전</button>
+        <a href="social.html" class="btn-secondary">📚 단원선택</a>
       </div>
     </div>
   </div>
 
   <script>
-    const quizData = [
+    // ----------------------------------------------------
+    // 문제 데이터베이스 (총 40문항)
+    // ----------------------------------------------------
+
+    // 1. 지정 단답식 문제 (15문항)
+    const quizDataSA = [
       {
-        question: "삼국 시대에 많은 토지와 노비를 가지고 높은 관리가 되어 국가의 중요한 일을 결정한 신분은 무엇인가요?",
-        answer: ["귀족"],
-        explanation: "귀족은 삼국 시대의 지배층으로, 많은 토지와 노비를 소유하며 국가의 중요한 일을 결정했습니다."
+        question: "1960년 3·15 부정 선거에 항거하여 서울과 전국에서 학생과 시민들이 일으킨 민주화 운동의 이름은 무엇인가요?",
+        answer: ["4.19 혁명", "4.19혁명", "4·19 혁명", "4·19혁명", "419혁명"],
+        explanation: "3·15 부정 선거에 항의하여 시민과 학생들의 힘으로 이승만 정권을 무너뜨린 민주화 운동은 4·19 혁명입니다."
       },
       {
-        question: "삼국 시대에 대부분 농사를 지으며 나라에 세금을 내고 궁궐이나 성을 만드는 데 동원되었던 신분은 무엇인가요?",
-        answer: ["평민"],
-        explanation: "평민은 백성의 대다수를 차지하며 농사를 짓고 조세 납부 및 부역의 의무를 졌습니다."
+        question: "1960년 3월 15일, 당시 정부가 집권 연장을 위해 불법적인 방법으로 치른 선거를 3·15 (     )라고 합니다. 빈칸에 들어갈 알맞은 말은 무엇인가요?",
+        answer: ["부정 선거", "부정선거"],
+        explanation: "1960년 3월 15일 정부는 정권을 연장하기 위해 불법적인 부정 선거를 저질렀습니다."
       },
       {
-        question: "삼국 시대 최하층 신분으로, 귀족의 땅에서 농사를 짓거나 주인집의 잡일을 하며 살았던 사람들은 무엇인가요?",
-        answer: ["천민 (노비)", "천민", "노비"],
-        explanation: "천민의 대다수는 노비로, 귀족에 속하여 농사나 가사 노동을 담당했습니다."
+        question: "4·19 혁명과 5·18 민주화 운동은 우리나라의 (     ) 발전에 결정적인 밑거름이 되었습니다. 빈칸에 들어갈 알맞은 용어는 무엇인가요?",
+        answer: ["민주주의"],
+        explanation: "시민들과 학생들의 숭고한 희생과 노력은 대한민국 민주주의 발전의 밑거름이 되었습니다."
       },
       {
-        question: "삼국의 성립 시기에 세 나라가 국가 체제를 갖추고 발전하는 기반이 된 금속 문화는 무엇인가요?",
-        answer: ["철기 문화", "철기"],
-        explanation: "삼국은 고조선 멸망 무렵 철기 문화를 바탕으로 세워져 발전했습니다."
+        question: "헌법을 바꿔 가며 세 차례나 대통령에 당선되었으나, 4·19 혁명으로 인해 대통령 자리에서 물러난 인물은 누구인가요?",
+        answer: ["이승만"],
+        explanation: "대한민국의 첫 번째 대통령이었던 이승만은 장기 집권을 이어가다 4·19 혁명으로 물러났습니다."
       },
       {
-        question: "고구려가 수도를 졸본에서 옮겨 정복 사업을 펼쳤던 두 번째 수도는 어디인가요?",
-        answer: ["국내성"],
-        explanation: "고구려는 수도를 졸본에서 국내성으로 옮긴 뒤 주변 지역을 정복하며 세력을 넓혔습니다."
+        question: "군사 정변을 일으켜 정권을 잡은 후 장기 집권을 하다가 부하에게 암살당하면서 막을 내린 대통령은 누구인가요?",
+        answer: ["박정희"],
+        explanation: "박정희는 정변으로 정권을 잡고 장기 집권을 이어가다가 부하에게 암살당하면서 막을 내렸습니다."
       },
       {
-        question: "고구려의 영토를 북쪽으로 크게 넓히고 남쪽으로는 한강 북쪽까지 차지한 왕은 누구인가요?",
-        answer: ["광개토대왕", "광개토 태왕", "광개토왕"],
-        explanation: "광개토대왕은 활발한 정복 활동으로 고구려의 넓은 영토를 확보했습니다."
+        question: "박정희 대통령 사후 또다시 정변을 일으켜 권력을 장악하고, 간선제로 대통령이 되어 언론을 통제했던 인물은 누구인가요?",
+        answer: ["전두환"],
+        explanation: "전두환과 일부 군인들은 또다시 정변을 일으켜 권력을 장악하고 민주화 운동을 탄압했습니다."
       },
       {
-        question: "고구려의 수도를 평양으로 옮기고 남진 정책을 펼쳐 한강 유역을 모두 차지한 왕은 누구인가요?",
-        answer: ["장수왕"],
-        explanation: "장수왕은 평양으로 도읍을 옮긴 후 한강 유역을 차지하며 고구려의 전성기를 이끌었습니다."
+        question: "1980년 5월 전라남도 광주에서 시민과 학생들이 계엄군에 맞서 대규모로 벌인 민주화 운동의 이름은 무엇인가요?",
+        answer: ["5.18 민주화 운동", "5.18민주화운동", "5·18 민주화 운동", "5·18민주화운동", "518민주화운동"],
+        explanation: "1980년 5월 광주에서 계엄군의 폭력 진압에 맞서 민주주의를 지키기 위해 일어난 운동은 5·18 민주화 운동입니다."
       },
       {
-        question: "백제가 삼국 중 가장 먼저 발전할 수 있었던 지리적 바탕이 된 강 유역은 어디인가요?",
-        answer: ["한강 유역", "한강"],
-        explanation: "백제는 한강 유역의 풍부한 물산과 편리한 교통을 바탕으로 빠르게 성장했습니다."
+        question: "1980년 5·18 민주화 운동 당시 전두환이 광주에 보내 시민과 학생들을 폭력적으로 진압했던 군대를 무엇이라고 하나요?",
+        answer: ["계엄군"],
+        explanation: "전두환은 계엄군을 광주에 보내 시민과 학생들을 폭력적으로 진압하고 도로와 신문·방송을 통제했습니다."
       },
       {
-        question: "백제의 전성기를 이끌며 영토를 넓히고 중국, 왜(일본) 등과 활발히 교류한 왕은 누구인가요?",
-        answer: ["근초고왕"],
-        explanation: "근초고왕은 백제의 영토를 크게 넓히고 대외 교류를 활발히 추진했습니다."
+        question: "1987년 6월, 박종철 고문 사망 사건 등을 계기로 대통령 직선제를 요구하며 전국에서 일어난 민주화 항쟁은 무엇인가요?",
+        answer: ["6월 민주 항쟁", "6월민주항쟁", "6월 민주항쟁"],
+        explanation: "1987년 6월, 정부의 독재에 반대하고 대통령 직선제를 요구하며 전국에서 6월 민주 항쟁이 일어났습니다."
       },
       {
-        question: "삼국 시대 평민들이 주로 살았던 주거 형태는 무엇인가요?",
-        answer: ["초가집"],
-        explanation: "왕족과 귀족은 기와집에서 살았고, 평민들은 주로 초가집에서 생활했습니다."
+        question: "국민이 직접 투표를 통해 대통령을 뽑는 선거 제도를 무엇이라고 하나요?",
+        answer: ["직선제", "대통령 직선제", "대통령직선제"],
+        explanation: "국민이 직접 대통령을 선출하는 제도를 '직선제'라고 합니다."
       },
       {
-        question: "신라에서 유능한 인재를 키우기 위해 진흥왕 때 국가적으로 정비한 청소년 조직은 무엇인가요?",
-        answer: ["화랑도", "화랑"],
-        explanation: "진흥왕은 화랑도를 통해 인재를 양성하여 신라 발전의 발판을 마련했습니다."
+        question: "우리나라 산업 발달 과정 중, 미국을 중심으로 식량과 물자를 지원받아 밀가루, 설탕, 면직물 산업이 발달했던 시기는 몇 년대인가요?",
+        answer: ["1950년대", "1950년 대", "1950"],
+        explanation: "1950년대에는 원조 물자를 바탕으로 밀가루, 설탕, 면직물 등 생활에 필요한 물건을 만드는 산업이 발달했습니다."
       },
       {
-        question: "신라 진흥왕이 백제와 연합하여 한강 유역 일부를 빼앗은 후, 백제까지 공격하여 최종 독점한 강 유역은 어디인가요?",
-        answer: ["한강 유역", "한강"],
-        explanation: "신라는 한강 유역을 차지함으로써 삼국 통일의 기틀을 마련했습니다."
+        question: "경제 개발 5개년 계획을 추진하고 신발, 가발, 의류 등 경공업 제품을 만들어 수출했던 시기는 몇 년대인가요?",
+        answer: ["1960년대", "1960년 대", "1960"],
+        explanation: "1960년대에는 경제 개발 5개년 계획과 함께 풍부한 노동력을 바탕으로 한 경공업 제품 수출이 활발했습니다."
       },
       {
-        question: "가야에서 뛰어난 기술로 만들어 무기와 갑옷을 제조하고 다른 나라에 수출했던 핵심 자원은 무엇인가요?",
-        answer: ["철"],
-        explanation: "가야는 철을 다루는 기술이 뛰어나 철로 무기와 갑옷을 만들고 수출했습니다."
+        question: "철강, 조선, 석유 화학 등 중화학 공업을 집중적으로 발전시키고 대규모 공업 단지를 건설했던 시기는 몇 년대인가요?",
+        answer: ["1970년대", "1970년 대", "1970"],
+        explanation: "1970년대에는 높은 기술력이 필요한 철강, 조선, 석유 화학 등 중화학 공업이 발달했습니다."
       },
       {
-        question: "가야 연맹이 백제와 신라의 압력을 받다가 최종적으로 통합된 신라의 왕은 누구인가요?",
-        answer: ["진흥왕"],
-        explanation: "대가야는 신라 진흥왕 때 신라에 흡수 통합되었습니다."
+        question: "자동차, 정밀 기계, 전자 제품 관련 산업이 발달하며 수출 규모가 크게 커졌던 시기는 몇 년대인가요?",
+        answer: ["1980년대", "1980년 대", "1980"],
+        explanation: "1980년대에는 자동차, 정밀 기계, 전자 제품 관련 산업이 발달하고 기술 연구 개발이 활발해졌습니다."
       },
       {
-        question: "삼국 시대에 수용되어 절, 탑, 불상 등의 문화재를 만들어내고 국가적 통합을 이끈 종교는 무엇인가요?",
-        answer: ["불교"],
-        explanation: "삼국은 불교를 받아들여 국민의 마음을 모으고 화려한 불교문화를 발전시켰습니다."
-      },
-      {
-        question: "백제의 공격으로 위기에 처한 신라가 당나라와 손을 잡고 결성한 연합군은 무엇인가요?",
-        answer: ["나당 연합군", "나당연합군", "나당"],
-        explanation: "신라는 당과 나당 연합을 결성하여 백제와 고구려를 차례로 멸망시켰습니다."
-      },
-      {
-        question: "백제와 고구려가 멸망한 후 한반도 전체를 차지하려던 당나라를 신라가 물리치고 이룬 역사적 사건은 무엇인가요?",
-        answer: ["삼국 통일", "삼국통일"],
-        explanation: "신라는 당나라 군대를 물리치고 삼국 통일을 완성했습니다."
-      },
-      {
-        question: "통일신라 시대 경주에 지어진 절로, 부처의 나라를 현실 세계에 만들고자 한 마음을 담아 건립한 사찰은 어디인가요?",
-        answer: ["불국사"],
-        explanation: "불국사는 통일신라 불교 문화의 정수를 보여주는 대표적인 사찰입니다."
-      },
-      {
-        question: "통일신라 시대 화강암을 쌓아 동굴처럼 만든 인공 석굴 사찰은 무엇인가요?",
-        answer: ["석굴암"],
-        explanation: "석굴암은 뛰어난 건축 및 조각 기술로 완성된 통일신라의 석굴 사찰입니다."
-      },
-      {
-        question: "고구려가 멸망한 후 고구려 유민과 말갈인을 이끌고 동모산 근처에 발해를 세운 인물은 누구인가요?",
-        answer: ["대조영"],
-        explanation: "대조영은 발해를 건국하여 고구려의 기상을 이어나갔습니다."
-      },
-      {
-        question: "발해가 세력을 넓히고 영토를 회복하자 당나라에서 발해를 높여 부르던 칭호는 무엇인가요?",
-        answer: ["해동성국"],
-        explanation: "‘바다 동쪽의 번성한 나라’라는 뜻으로 발해의 국력과 문물의 발달을 의미합니다."
-      },
-      {
-        question: "발해는 이 나라의 문화를 계승하면서 주변 나라들의 문화를 받아들여 독자적인 문화를 발전시켰습니다. 어떤 나라인가요?",
-        answer: ["고구려"],
-        explanation: "발해는 고구려의 제도와 문화를 계승하였으며 스스로 고구려의 후계자임을 밝혀왔습니다."
+        question: "공업과 제조업을 중심으로 산업이 발달하여 경제가 성장하고 사회 구조 및 사람들의 생활 모습이 변화한 과정을 무엇이라고 하나요?",
+        answer: ["산업화"],
+        explanation: "공업 중심의 경제 성장과 생활 방식의 변화를 이끈 과정을 '산업화'라고 합니다."
       }
     ];
 
+    // 2. 객관식 문제 (25문항)
+    const quizDataMC = [
+      {
+        question: "4·19 혁명의 전개 과정에 대한 설명으로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: ["마산 시위에 참여했던 고등학생 김주열의 시신이 발견되었다.", "서울을 비롯한 여러 도시에서 많은 학생과 시민이 시위를 벌였다.", "초등학생과 대학 교수까지 시위에 참여하였다.", "전두환이 계엄군을 보내 폭력적으로 진압하였다."],
+        answer: 3,
+        explanation: "계엄군을 보내 폭력적으로 진압한 것은 1980년 5·18 민주화 운동 당시입니다."
+      },
+      {
+        question: "1960년 2월 28일, 정부의 부정 선거 움직임 및 통제에 항의하여 학생 시위가 처음 일어난 지역은 어디인가요?",
+        options: ["대구", "광주", "부산", "대전"],
+        answer: 0,
+        explanation: "1960년 2월 28일 대구에서 정부에 항의하는 학생 시위가 가장 먼저 일어났습니다."
+      },
+      {
+        question: "5·18 민주화 운동 당시 광주 시민들이 계엄군에 대항하고 질서를 유지하기 위해 스스로 결성한 것은 무엇인가요?",
+        options: ["시민군", "광복군", "학도병", "독립군"],
+        answer: 0,
+        explanation: "광주 시민들은 시민군을 만들어 계엄군에 대항하는 한편 광주에서 일어나는 일을 다른 지역에 알리고자 노력했습니다."
+      },
+      {
+        question: "5·18 민주화 운동의 의의에 대한 설명으로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: ["폭력적인 정부에 맞서 민주주의를 지키려는 의지를 보여주었다.", "세계 여러 나라의 민주화 운동에도 영향을 주었다.", "시민들과 학생들의 숭고한 희생이 있었다.", "이 사건의 결과로 이승만 대통령이 자리에서 물러났다."],
+        answer: 3,
+        explanation: "이승만 대통령이 물러나게 된 계기는 1960년 4·19 혁명입니다."
+      },
+      {
+        question: "6월 민주 항쟁 당시 경찰의 고문으로 사망하여 시민들의 분노를 일으키고 시위의 계기가 된 대학생은 누구인가요?",
+        options: ["박종철", "이한열", "김주열", "전태일"],
+        answer: 0,
+        explanation: "민주화 운동에 참여했던 대학생 박종철이 경찰의 고문으로 사망하자 시민들의 분노가 커졌습니다."
+      },
+      {
+        question: "6월 민주 항쟁 과정에서 경찰이 쏜 최루탄에 맞아 크게 다치면서 시위가 전국적으로 번지게 된 대학생은 누구인가요?",
+        options: ["이한열", "박종철", "김주열", "윤상원"],
+        answer: 0,
+        explanation: "시위가 더욱 번지는 과정에서 대학생 이한열이 경찰이 쏜 최루탄에 맞아 크게 다쳤습니다."
+      },
+      {
+        question: "6월 민주 항쟁의 결과 및 우리 사회에 미친 영향으로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: ["정부가 대통령 직선제 요구를 받아들였다.", "지방 자치제가 자리 잡는 계기가 되었다.", "우리 사회 여러 분야에 민주적인 제도가 만들어졌다.", "박정희 정권이 군사 정변을 포기하고 퇴진하였다."],
+        answer: 3,
+        explanation: "6월 민주 항쟁은 1987년 전두환 정부의 독재에 맞서 일어난 항쟁입니다."
+      },
+      {
+        question: "1960년대 우리나라 산업 발달에 대한 설명으로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: ["경제 개발 5개년 계획을 추진하였다.", "풍부한 노동력을 바탕으로 경공업 제품을 만들어 수출했다.", "신발, 가발, 의류 등의 산업이 발달했다.", "자동차, 정밀 기계, 전자 제품 산업이 주를 이루었다."],
+        answer: 3,
+        explanation: "자동차, 정밀 기계, 전자 제품 산업이 본격적으로 발달한 시기는 1980년대입니다."
+      },
+      {
+        question: "1960년대에 제품의 생산, 운반, 수출을 위해 건설된 사회 기반 시설로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: ["발전소", "고속 국도", "항만", "대규모 공업 단지 및 연구소"],
+        answer: 3,
+        explanation: "연구소 설립 및 대규모 공업 단지 건설은 1970년대 중화학 공업육성 시기의 특징입니다."
+      },
+      {
+        question: "1970년대에 발달한 대표적인 중화학 공업 분야로 알맞게 짝지어진 것은 무엇인가요?",
+        options: ["철강, 조선, 석유 화학", "신발, 가발, 의류", "밀가루, 설탕, 면직물", "자동차, 정밀 기계, 전자 제품"],
+        answer: 0,
+        explanation: "1970년대에는 철강, 조선, 석유 화학 등 기술력이 필요한 중화학 공업이 발달했습니다."
+      },
+      {
+        question: "1970년대 중화학 공업 발전을 뒷받침하기 위해 추진한 노력으로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: ["교육 시설을 설립하였다.", "연구소를 설립하였다.", "대규모 공업 단지를 건설하였다.", "미국으로부터 식량과 물자를 지원받아 삼백산업을 일으켰다."],
+        answer: 3,
+        explanation: "미국으로부터 식량과 물자를 지원받아 원조 물자 중심의 산업이 발달한 것은 1950년대입니다."
+      },
+      {
+        question: "1980년대 산업 발달의 특징으로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: ["자동차, 정밀 기계, 전자 제품 관련 산업 발달", "중화학 공업의 발달로 수출 규모 확대", "국내 기업의 기술 연구 및 개발 노력 강화", "신발과 가발 중심의 경공업 제품 집중 생산"],
+        answer: 3,
+        explanation: "신발과 가발 등 경공업 제품 중심의 수출은 1960년대의 특징입니다."
+      },
+      {
+        question: "산업화로 인해 달라진 사람들의 생활 모습으로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: ["도시 인구가 빠르게 증가하였다.", "아파트 단지가 많이 지어졌다.", "농촌으로 이동하는 인구가 급격히 늘어났다.", "가전제품과 승용차 보급이 확대되었다."],
+        answer: 2,
+        explanation: "산업화로 인해 많은 사람이 도시로 몰려들면서 도시 인구가 크게 증가하고 농촌 인구는 크게 줄어들었습니다."
+      },
+      {
+        question: "산업화 이후 대중매체가 널리 보급되면서 크게 성장하게 된 문화 형태는 무엇인가요?",
+        options: ["대중문화", "전통문화", "귀족문화", "궁중문화"],
+        answer: 0,
+        explanation: "대중매체가 널리 보급되면서 대중문화가 급격히 성장하였습니다."
+      },
+      {
+        question: "산업화 과정에서 나타난 부작용이나 문제점으로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: ["도시로 사람이 몰려 일자리와 주택이 부족해졌다.", "도시와 농촌 간의 소득 격차가 더욱 벌어졌다.", "근로자들이 열악한 환경에서 장시간 노동과 낮은 임금에 시달렸다.", "농촌의 인구가 너무 늘어나 주택 부족 현상이 심화되었다."],
+        answer: 3,
+        explanation: "산업화로 인해 농촌에서는 인구가 크게 줄어드는 문제가 발생했습니다."
+      },
+      {
+        question: "8·15 광복 이후 우리나라 정치 상황에 대한 설명으로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: ["대한민국의 첫 번째 대통령은 이승만이었다.", "이승만 대통령은 헌법을 바꿔 가며 세 차례나 대통령에 당선되었다.", "6·25 전쟁 이후 국민들의 삶이 매우 풍족하고 안정되었다.", "장기 집권이 이어지자 국민들의 불만이 높아졌다."],
+        answer: 2,
+        explanation: "6·25 전쟁 이후 우리나라 경제는 매우 어려운 상황이었습니다."
+      },
+      {
+        question: "4·19 혁명이 우리 사회에 남긴 의의로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: ["시민과 학생의 힘으로 정권을 무너뜨렸다.", "민주적 절차를 무시한 정권에 경종을 울렸다.", "우리나라 민주주의 발전에 중요한 밑거름이 되었다.", "대통령 간선제를 지속하도록 만들었다."],
+        answer: 3,
+        explanation: "4·19 혁명은 민주적 절차를 무시한 독재 정권을 무너뜨리고 민주주의 발전에 기여했습니다."
+      },
+      {
+        question: "5·18 민주화 운동 당시에 대한 설명으로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: ["전라남도 광주에서 대규모 시위가 일어났다.", "계엄군이 도로를 막고 신문과 방송을 통제했다.", "계엄군의 공격으로 많은 시민이 희생되었다.", "정부가 시민들의 요구를 수용하여 즉시 대통령 직선제를 발표했다."],
+        answer: 3,
+        explanation: "5·18 민주화 운동 이후에도 전두환은 간선제로 대통령이 되고 언론과 민주화 운동을 탄압했습니다."
+      },
+      {
+        question: "5·18 민주화 운동 이후 전두환 정부의 모습으로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: ["간선제로 대통령이 되었다.", "언론을 통제하였다.", "민주화 운동을 탄압하였다.", "대통령 직선제 개헌을 전격 실시하였다."],
+        answer: 3,
+        explanation: "전두환 정부는 간선제를 유지하고 언론을 통제하며 민주화 운동을 탄압했습니다."
+      },
+      {
+        question: "1950년대 우리나라 산업의 모습에 대한 설명으로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: ["미국을 중심으로 여러 나라로부터 식량과 물자를 지원받았다.", "밀가루, 설탕, 면직물 등을 만드는 산업이 발달했다.", "생활에 필요한 기본 물품을 만드는 산업이 주를 이루었다.", "고속 국도와 항만을 대규모로 건설하여 중화학 공업을 육성했다."],
+        answer: 3,
+        explanation: "고속 국도와 항만 건설은 1960년대, 중화학 공업 육성은 1970년대의 특징입니다."
+      },
+      {
+        question: "6월 민주 항쟁 당시에 시민들이 독재 반대와 함께 강력하게 요구했던 핵심 내용은 무엇인가요?",
+        options: ["대통령 직선제", "대통령 간선제 유지", "경제 개발 5개년 계획", "경공업 중심 수출 확대"],
+        answer: 0,
+        explanation: "시민들은 정부의 독재에 반대하며 국민이 직접 대통령을 뽑는 '대통령 직선제'를 강력히 요구했습니다."
+      },
+      {
+        question: "5·18 민주화 운동 때 광주에서 일어나는 비극적인 상황을 다른 지역에 알리기 위해 노력한 주체는 누구인가요?",
+        options: ["광주 시민(시민군)", "계엄군", "정부 당국", "외국 군대"],
+        answer: 0,
+        explanation: "광주 시민들은 시민군을 결성하여 계엄군에 대항하는 한편, 광주의 상황을 다른 지역에 알리기 위해 힘썼습니다."
+      },
+      {
+        question: "6월 민주 항쟁의 결과로 우리 사회에 정착된 주요 민주적 제도로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: ["대통령 직선제", "지방 자치제", "민주적 제도 확립", "대통령 간선제"],
+        answer: 3,
+        explanation: "6월 민주 항쟁을 통해 국민이 직접 대통령을 뽑는 직선제와 지방 자치제 등이 자리 잡았습니다."
+      },
+      {
+        question: "산업화 진행 과정에서 교통 확충을 위해 이루어진 변화로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: ["지하철 개통", "고속 국도 확대", "승용차 보유자 증가", "우마차 전용 도로 개설"],
+        answer: 3,
+        explanation: "산업화로 지하철 개통, 고속 국도 확대, 승용차 보급 확대 등 현대적 교통수단이 급격히 발달했습니다."
+      },
+      {
+        question: "산업화 과정에서 많은 사람이 도시로 몰려들면서 농촌 지역에서 발생한 대표적인 문제는 무엇인가요?",
+        options: ["농촌 인구의 급격한 감소", "농촌 주택 부족 문제", "농촌 교통 혼잡 문제", "농촌의 중화학 공업 과열"],
+        answer: 0,
+        explanation: "산업화 과정에서 일자리를 찾아 도시로 이주하는 사람이 늘어나면서 농촌 인구가 크게 줄어들었습니다."
+      }
+    ];
+
+    // 상태 변수
     let currentQuestions = [];
     let currentQuestionIndex = 0;
     let userName = "";
@@ -400,7 +610,7 @@
 
     window.onload = function() {
       document.getElementById('user-answer').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') submitAnswer();
+        if (e.key === 'Enter') submitShortAnswer();
       });
       
       document.getElementById('user-name').addEventListener('keypress', function(e) {
@@ -416,26 +626,24 @@
         return;
       }
 
-      if (!quizData || quizData.length < 10) {
-        alert("문제가 부족합니다. (최소 10문제 필요)");
-        return;
-      }
+      // 1~7번: 객관식 25문제 중 랜덤 7개 추출
+      const shuffledMC = [...quizDataMC].sort(() => Math.random() - 0.5);
+      const selectedMC = shuffledMC.slice(0, 7);
 
-      // 전체 문제 배열을 완전 무작위 셔플(Fisher-Yates) 후 10개 추출
-      const shuffled = [...quizData];
-      for (let i = shuffled.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-      }
-      currentQuestions = shuffled.slice(0, 10);
+      // 8~10번: 단답식 15문제 중 랜덤 3개 추출
+      const shuffledSA = [...quizDataSA].sort(() => Math.random() - 0.5);
+      const selectedSA = shuffledSA.slice(0, 3);
 
+      // 총 10문항 조합
+      currentQuestions = [...selectedMC, ...selectedSA];
       currentQuestionIndex = 0;
 
       showScreen('countdown-screen');
-      startCountdown();
+      document.getElementById('countdown-title').textContent = "준비하세요!";
+      startCountdown(() => startQuiz());
     }
 
-    function startCountdown() {
+    function startCountdown(callback) {
       let count = 3;
       const countEl = document.getElementById('countdown-number');
       countEl.textContent = count;
@@ -448,7 +656,7 @@
           countEl.textContent = count;
         } else {
           clearInterval(countdownTimer);
-          startQuiz();
+          callback();
         }
       }, 1000);
     }
@@ -462,46 +670,84 @@
     function loadQuestion() {
       const q = currentQuestions[currentQuestionIndex];
       document.getElementById('progress-display').textContent = `${currentQuestionIndex + 1} / 10`;
-      document.getElementById('question-text').textContent = q.question;
       
-      const inputEl = document.getElementById('user-answer');
-      inputEl.value = "";
-      inputEl.focus();
+      document.getElementById('question-text').innerHTML = q.question;
+
+      const mcContainer = document.getElementById('mc-container');
+      const saContainer = document.getElementById('sa-container');
+      const tagEl = document.getElementById('question-type-tag');
+
+      if (currentQuestionIndex < 7) {
+        // 객관식
+        tagEl.textContent = "객관식";
+        tagEl.style.backgroundColor = "#e0f2fe";
+        tagEl.style.color = "#0369a1";
+
+        mcContainer.classList.remove('hidden');
+        saContainer.classList.add('hidden');
+        mcContainer.innerHTML = "";
+
+        q.options.forEach((opt, idx) => {
+          const btn = document.createElement('button');
+          btn.className = 'option-btn';
+          btn.textContent = `${idx + 1}. ${opt}`;
+          btn.onclick = () => checkAnswer(idx);
+          mcContainer.appendChild(btn);
+        });
+      } else {
+        // 단답식
+        tagEl.textContent = "단답식";
+        tagEl.style.backgroundColor = "#fef3c7";
+        tagEl.style.color = "#b45309";
+
+        mcContainer.classList.add('hidden');
+        saContainer.classList.remove('hidden');
+
+        const inputEl = document.getElementById('user-answer');
+        inputEl.value = "";
+        inputEl.focus();
+      }
     }
 
-    function normalize(str) {
-      return str.toString().replace(/\s+/g, '').toLowerCase();
+    function normalizeStr(str) {
+      return str.toString().replace(/[\s\.\·\-\_]/g, '').toLowerCase();
     }
 
-    function submitAnswer() {
-      const inputEl = document.getElementById('user-answer');
-      const userAns = normalize(inputEl.value);
+    function checkAnswer(userChoice) {
+      const q = currentQuestions[currentQuestionIndex];
+      if (userChoice === q.answer) {
+        nextQuestion();
+      } else {
+        const userAnsStr = `${userChoice + 1}. ${q.options[userChoice]}`;
+        const correctAnsStr = `${q.answer + 1}. ${q.options[q.answer]}`;
+        handleIncorrect(userAnsStr, correctAnsStr, q.explanation);
+      }
+    }
 
-      if (!userAns) {
+    function submitShortAnswer() {
+      const inputEl = document.getElementById('user-answer');
+      const userAnsRaw = inputEl.value.trim();
+
+      if (!userAnsRaw) {
         alert("정답을 입력해주세요.");
         return;
       }
 
       const q = currentQuestions[currentQuestionIndex];
+      const normalizedUser = normalizeStr(userAnsRaw);
+      
+      const isCorrect = q.answer.some(ans => normalizeStr(ans) === normalizedUser);
 
-      let isCorrect = false;
-      if (Array.isArray(q.answer)) {
-        isCorrect = q.answer.some(ans => normalize(ans) === userAns);
+      if (isCorrect) {
+        nextQuestion();
       } else {
-        isCorrect = normalize(q.answer) === userAns;
+        const correctStr = q.answer[0];
+        handleIncorrect(userAnsRaw, correctStr, q.explanation);
       }
+    }
 
-      if (!isCorrect) {
-        const correctStr = Array.isArray(q.answer) ? q.answer.join(" 또는 ") : q.answer;
-        const expStr = q.explanation || "해설이 없습니다.";
-        
-        alert(`❌ 아쉽네요! 오답입니다.\n\n• 내가 입력한 답: ${inputEl.value}\n• 정답: ${correctStr}\n\n💡 [간단 해설]\n${expStr}\n\n처음 화면으로 돌아갑니다.`);
-        resetQuiz();
-        return;
-      }
-
+    function nextQuestion() {
       currentQuestionIndex++;
-
       if (currentQuestionIndex < 10) {
         loadQuestion();
       } else {
@@ -509,10 +755,11 @@
       }
     }
 
-    function confirmGoStart() {
-      if (confirm("퀴즈를 중단하고 처음 시작 화면으로 돌아가시겠습니까?")) {
-        resetQuiz();
-      }
+    function handleIncorrect(userAns, correctAns, exp) {
+      document.getElementById('exp-user-ans').textContent = userAns;
+      document.getElementById('exp-correct-ans').textContent = correctAns;
+      document.getElementById('exp-text').textContent = exp || "해설이 없습니다.";
+      showScreen('explanation-screen');
     }
 
     function showSuccess() {
@@ -523,8 +770,8 @@
       const timeString = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
 
       document.getElementById('res-name').textContent = userName;
-      document.getElementById('res-date').textContent = timeString;
       document.getElementById('res-time').textContent = timeTaken;
+      document.getElementById('res-date').textContent = timeString;
 
       showScreen('result-screen');
     }
@@ -536,7 +783,7 @@
     }
 
     function showScreen(screenId) {
-      const screens = ['start-screen', 'countdown-screen', 'quiz-screen', 'result-screen'];
+      const screens = ['start-screen', 'countdown-screen', 'quiz-screen', 'explanation-screen', 'result-screen'];
       screens.forEach(id => {
         document.getElementById(id).classList.add('hidden');
       });

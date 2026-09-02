@@ -130,6 +130,10 @@
       margin: 0;
       font-size: 1.1rem;
       padding: 16px 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
     }
     
     .progress-bar { background: #eee; height: 10px; border-radius: 5px; margin-bottom: 15px; overflow: hidden; }
@@ -154,8 +158,9 @@
       font-size: 0.95em;
       padding: 0 2px;
     }
-    .frac > span { display: block; }
-    .frac span.bottom { border-top: 1px solid black; }
+    .frac > span { display: block; line-height: 1.1; }
+    .frac span.bottom { border-top: 1.5px solid white; }
+    .question-box .frac span.bottom, .explanation-card .frac span.bottom { border-top-color: #2c3e50; }
   </style>
 </head>
 <body>
@@ -309,7 +314,14 @@ function startCountDown() {
   }, 1000);
 }
 
-// 분수 객체 -> 문자열 변환 (약분 및 대분수 변환)
+// HTML 표시용 분수 UI 태그 생성
+function renderFracHTML(m, n, d) {
+  let fracPart = `<div class="frac"><span>${n}</span><span class="bottom">${d}</span></div>`;
+  if (m > 0) return `<span>${m}</span>` + fracPart;
+  return fracPart;
+}
+
+// 분수 객체 -> HTML 구조 분수 표기로 변환 (약분 및 대분수 변환)
 function formatFracObj(num, denom) {
   let g = gcd(num, denom);
   num /= g; denom /= g;
@@ -317,16 +329,9 @@ function formatFracObj(num, denom) {
   if (num > denom) {
     let m = Math.floor(num / denom);
     let r = num % denom;
-    return `${m}과 ${r}/${denom}`;
+    return renderFracHTML(m, r, denom);
   }
-  return `${num}/${denom}`;
-}
-
-// HTML 표시용 분수 UI 태그 생성
-function renderFracHTML(m, n, d) {
-  let fracPart = `<div class="frac"><span>${n}</span><span class="bottom">${d}</span></div>`;
-  if (m > 0) return `<span>${m}</span>` + fracPart;
-  return fracPart;
+  return renderFracHTML(0, num, denom);
 }
 
 // 무작위 소수 생성 함수
@@ -566,7 +571,7 @@ function loadQuestion() {
   optsBox.innerHTML = "";
   qData.opts.forEach(val => {
     let btn = document.createElement("button");
-    btn.innerText = val;
+    btn.innerHTML = val;
     btn.onclick = () => checkAnswer(val);
     optsBox.appendChild(btn);
   });

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>초등 사회 5-2 스피드 퀴즈 - 조선</title>
+  <title>6학년 1학기 사회 - 민주주의와 선거</title>
   <style>
     * {
       box-sizing: border-box;
@@ -27,22 +27,23 @@
       background: #ffffff;
       border-radius: 20px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-      padding: 32px 24px;
+      padding: 28px 20px;
       text-align: center;
       position: relative;
     }
 
     .top-nav {
       display: flex;
-      justify-content: flex-start;
-      margin-bottom: 16px;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
     }
 
     .nav-btn {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 6px 12px;
+      gap: 4px;
+      padding: 8px 12px;
       background-color: #f1f5f9;
       color: #475569;
       text-decoration: none;
@@ -50,7 +51,6 @@
       font-weight: 600;
       border-radius: 8px;
       border: 1px solid #cbd5e1;
-      cursor: pointer;
       transition: all 0.2s;
     }
 
@@ -60,9 +60,9 @@
     }
 
     h1 {
-      font-size: 22px;
+      font-size: 20px;
       color: #1e293b;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       line-height: 1.4;
     }
 
@@ -74,11 +74,11 @@
       font-weight: 700;
       padding: 4px 12px;
       border-radius: 20px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .form-group {
-      margin-bottom: 20px;
+      margin-bottom: 16px;
       text-align: left;
     }
 
@@ -87,10 +87,10 @@
       font-size: 14px;
       font-weight: 600;
       color: #475569;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
-    input {
+    input[type="text"] {
       width: 100%;
       padding: 14px 16px;
       border: 2px solid #e2e8f0;
@@ -101,19 +101,19 @@
       background-color: #fff;
     }
 
-    input:focus {
+    input[type="text"]:focus {
       border-color: #0284c7;
       box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
     }
 
     .btn-primary {
       width: 100%;
-      padding: 16px;
+      padding: 15px;
       background-color: #0284c7;
       color: white;
       border: none;
       border-radius: 12px;
-      font-size: 17px;
+      font-size: 16px;
       font-weight: 700;
       cursor: pointer;
       transition: background-color 0.2s;
@@ -130,7 +130,7 @@
       width: 100%;
       padding: 14px;
       background-color: #f1f5f9;
-      color: #334155;
+      color: #475569;
       border: 1px solid #cbd5e1;
       border-radius: 12px;
       font-size: 15px;
@@ -151,7 +151,7 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
-      margin-top: 20px;
+      margin-top: 16px;
     }
 
     .hidden {
@@ -159,52 +159,94 @@
     }
 
     #countdown-screen h2 {
-      font-size: 84px;
+      font-size: 80px;
       color: #0284c7;
-      margin: 30px 0;
+      margin: 24px 0;
       font-weight: 800;
     }
 
-    .quiz-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 14px;
-      color: #64748b;
-      margin-bottom: 16px;
-      font-weight: 600;
-    }
-
     .question-box {
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 700;
       color: #0f172a;
-      margin: 20px 0 24px 0;
+      margin: 16px 0 20px 0;
       word-break: keep-all;
-      line-height: 1.6;
+      line-height: 1.5;
       text-align: left;
       background-color: #f8fafc;
-      padding: 20px;
+      padding: 18px;
       border-radius: 14px;
       border-left: 5px solid #0284c7;
-      min-height: 110px;
+      min-height: 90px;
       display: flex;
       align-items: center;
+    }
+
+    .question-box u {
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      text-decoration-thickness: 2px;
+      color: #e11d48;
+    }
+
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .option-btn {
+      width: 100%;
+      padding: 14px 16px;
+      background-color: #ffffff;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      color: #334155;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .option-btn:hover {
+      background-color: #f0f9ff;
+      border-color: #38bdf8;
+      color: #0369a1;
+    }
+
+    .explanation-box {
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 18px;
+      margin: 18px 0;
+      text-align: left;
+      font-size: 15px;
+    }
+
+    .explanation-box p {
+      margin-bottom: 8px;
+    }
+
+    .explanation-box p:last-child {
+      margin-bottom: 0;
     }
 
     .result-card {
       background-color: #f8fafc;
       border: 1px solid #e2e8f0;
       border-radius: 14px;
-      padding: 20px;
-      margin: 24px 0;
+      padding: 18px;
+      margin: 20px 0;
       text-align: left;
     }
 
     .result-card p {
       font-size: 15px;
       color: #334155;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       display: flex;
       justify-content: space-between;
     }
@@ -216,298 +258,297 @@
     .result-card strong {
       color: #0f172a;
     }
+
+    .type-badge {
+      font-size: 12px;
+      background-color: #e2e8f0;
+      color: #475569;
+      padding: 2px 8px;
+      border-radius: 6px;
+      margin-left: 6px;
+    }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <!-- 1. 첫 화면 -->
+    <!-- 1. 시작 화면 -->
     <div id="start-screen">
       <div class="top-nav">
-        <a href="../index.html" class="nav-btn">🏠 메인 목록</a>
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
       </div>
-      <div class="badge">[초등 사회 5-2]</div>
-      <h1>조선 전기 핵심 개념<br>스피드 퀴즈</h1>
+      
+      <div class="badge">[사회 6-1] 2. 민주주의와 시민 참여</div>
+      <h1>(1) 민주주의와 선거</h1>
+
       <div class="form-group">
-        <label for="user-name">도전자 이름</label>
+        <label for="user-name">이름</label>
         <input type="text" id="user-name" placeholder="이름을 입력하세요" autocomplete="off">
       </div>
-      <button class="btn-primary" onclick="prepareQuiz()">시작하기</button>
+
+      <div class="btn-group">
+        <button class="btn-primary" onclick="prepareQuiz()">🚀 시작</button>
+        <a href="social.html" class="btn-secondary">📚 단원선택</a>
+      </div>
     </div>
 
     <!-- 2. 카운트다운 화면 -->
     <div id="countdown-screen" class="hidden">
-      <div class="top-nav">
-        <button onclick="confirmGoStart()" class="nav-btn">🏠 처음으로</button>
-      </div>
-      <p style="font-size: 18px; color: #64748b; font-weight: 600;">준비하세요!</p>
+      <p id="countdown-title" style="font-size: 18px; color: #64748b; font-weight: 600; margin-top: 10px;">준비하세요!</p>
       <h2 id="countdown-number">3</h2>
     </div>
 
     <!-- 3. 퀴즈 실행 화면 -->
     <div id="quiz-screen" class="hidden">
-      <div class="quiz-header">
-        <button onclick="confirmGoStart()" class="nav-btn" style="font-size: 12px; padding: 4px 8px;">🏠 처음으로</button>
-        <span id="progress-display">1 / 10</span>
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+        <span id="progress-display" style="font-size: 14px; font-weight: 700; color: #0284c7;">1 / 10</span>
       </div>
-      <div class="question-box" id="question-text"></div>
-      <div class="form-group">
-        <input type="text" id="user-answer" placeholder="정답을 입력하세요" autocomplete="off">
+
+      <div class="question-box">
+        <div>
+          <span id="question-type-tag" class="type-badge">객관식</span>
+          <div id="question-text" style="margin-top: 6px;"></div>
+        </div>
       </div>
-      <button class="btn-primary" onclick="submitAnswer()">정답 제출</button>
+
+      <!-- 객관식 보기 영역 -->
+      <div id="mc-container" class="options-grid"></div>
+
+      <!-- 단답식 입력 영역 -->
+      <div id="sa-container" class="hidden">
+        <div class="form-group">
+          <input type="text" id="user-answer" placeholder="정답을 입력하세요" autocomplete="off">
+        </div>
+        <button class="btn-primary" onclick="submitShortAnswer()">정답 제출</button>
+      </div>
     </div>
 
-    <!-- 4. 성공 결과 화면 -->
+    <!-- 4. 해설 화면 (오답 발생 시) -->
+    <div id="explanation-screen" class="hidden">
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+        <a href="social.html" class="nav-btn">📚 단원선택</a>
+      </div>
+      <h2 style="color: #e11d48; margin-bottom: 10px; font-size: 20px;">❌ 아쉽네요! 오답입니다.</h2>
+      <div class="explanation-box">
+        <p><strong>내가 입력한 답:</strong> <span id="exp-user-ans" style="color: #e11d48;"></span></p>
+        <p><strong>정답:</strong> <span id="exp-correct-ans" style="color: #16a34a; font-weight: bold;"></span></p>
+        <hr style="margin: 10px 0; border: none; border-top: 1px dashed #cbd5e1;">
+        <p><strong>💡 [간단 해설]</strong></p>
+        <p id="exp-text" style="margin-top: 6px; line-height: 1.5; color: #475569;"></p>
+      </div>
+      <button class="btn-primary" onclick="resetQuiz()">돌아가기</button>
+    </div>
+
+    <!-- 5. 성공 결과 화면 -->
     <div id="result-screen" class="hidden">
       <div class="top-nav">
-        <button onclick="resetQuiz()" class="nav-btn">🏠 처음으로</button>
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
       </div>
-      <h1 style="color: #16a34a; margin-bottom: 8px;">🎉 미션 성공! 🎉</h1>
-      <p style="color: #64748b; font-size: 15px;">10문제를 모두 올바르게 맞추셨습니다!</p>
+
+      <h1 style="color: #16a34a; margin-bottom: 8px;">🎉 축하합니다! 🎉</h1>
+      <p style="color: #475569; font-size: 16px; font-weight: 600;">10문제를 모두 올바르게 맞추셨습니다!</p>
       
       <div class="result-card">
-        <p><strong>도전자:</strong> <span id="res-name"></span></p>
-        <p><strong>완료 시간:</strong> <span id="res-date"></span></p>
-        <p><strong>소요 시간:</strong> <span id="res-time"></span>초</p>
+        <p><strong>이름:</strong> <span id="res-name"></span></p>
+        <p><strong>총 걸린시간:</strong> <span id="res-time"></span>초</p>
+        <p><strong>현재 시간:</strong> <span id="res-date"></span></p>
       </div>
 
       <div class="btn-group">
-        <button class="btn-primary" onclick="resetQuiz()">🔄 다시 도전하기 (처음으로)</button>
-        <a href="../index.html" class="btn-secondary">🏠 메인 목록으로</a>
+        <button class="btn-primary" onclick="resetQuiz()">🔄 재도전</button>
+        <a href="social.html" class="btn-secondary">📚 단원선택</a>
       </div>
     </div>
   </div>
 
   <script>
-    // 조선시대_유교문화_30문제_고가독성.xlsx 기반 데이터 (총 30문항)
-    const quizData = [
-      {
-            "question": "고려 말 사회 문제를 해결하고 조선을 건국한 두 핵심 세력(인물)은 누구인가요?",
-            "answer": [
-                  "이성계, 신진 사대부",
-                  "이성계, 신진사대부",
-                  "이성계 신진사대부",
-                  "이성계,신진사대부"
-            ],
-            "explanation": "고려 말 외적 침입과 지배층 횡포, 불교 부패를 해결하고자 이성계와 신진 사대부가 조선을 건국했습니다."
-      },
-      {
-            "question": "조선의 새로운 수도로 정해진 곳은 어디인가요?",
-            "answer": [
-                  "한양"
-            ],
-            "explanation": "조선은 도읍을 한양으로 정하고 유교 사상을 바탕으로 국가를 다스렸습니다."
-      },
-      {
-            "question": "조선이 한양을 설계할 때 유교 정신('인의예지')을 반영하여 이름을 붙인 대표적인 대문 중 하나를 쓰시오.",
-            "answer": [
-                  "숭례문",
-                  "흥인지문",
-                  "돈의문"
-            ],
-            "explanation": "유교의 기본 덕목인 '인의예지'를 반영하여 한양의 대문 이름을 지었습니다."
-      },
-      {
-            "question": "조선 시대 한양에 설치된 최고 유교 교육 기관은 어디인가요?",
-            "answer": [
-                  "성균관"
-            ],
-            "explanation": "성균관은 한양에 설치된 조선 시대 최고의 유교 교육 기관입니다."
-      },
-      {
-            "question": "조선 시대 지방에 설치된 유교 교육 기관은 어디인가요?",
-            "answer": [
-                  "향교"
-            ],
-            "explanation": "향교는 조선 시대 지방 백성들과 양반 자제들을 위해 지방에 세운 국립 유교 교육 기관입니다."
-      },
-      {
-            "question": "글을 모르는 백성을 위해 그림과 함께 충신, 효자, 열녀 이야기를 실은 책은 무엇인가요?",
-            "answer": [
-                  "삼강행실도"
-            ],
-            "explanation": "삼강행실도는 글을 모르는 백성도 쉽게 이해할 수 있도록 그림을 함께 실어 유교 예절을 가르쳤습니다."
-      },
-      {
-            "question": "유교 중심의 통치 질서를 확립하기 위해 편찬한 조선의 기본 법전은 무엇인가요?",
-            "answer": [
-                  "경국대전"
-            ],
-            "explanation": "경국대전은 유교 중심의 통치 질서와 백성의 일상생활 규범을 정리한 조선의 기본 법전입니다."
-      },
-      {
-            "question": "조선 시대 관례, 혼례, 상례, 제사를 통틀어 부르는 유교 예절 용어는 무엇인가요?",
-            "answer": [
-                  "관혼상제"
-            ],
-            "explanation": "조선은 관례, 혼례, 상례, 제사를 관혼상제라 부르며 유교식 집안 행사의 핵심 예절로 다루었습니다."
-      },
-      {
-            "question": "조선 시대 유교 예절 중 성인식을 뜻하는 말은 무엇인가요?",
-            "answer": [
-                  "관례"
-            ],
-            "explanation": "관례는 어른이 되었음을 상징하는 조선 시대 유교식 성인식입니다."
-      },
-      {
-            "question": "조선 시대 법적으로 구분된 두 신분은 무엇인가요?",
-            "answer": [
-                  "양인, 천인",
-                  "양인,천인",
-                  "양인 천인"
-            ],
-            "explanation": "조선은 경국대전에 따라 법적으로 백성을 양인과 천인 두 신분으로 구분했습니다."
-      },
-      {
-            "question": "조선 시대 실제 신분 중 공부를 하거나 나랏일에 참여했던 신분은 무엇인가요?",
-            "answer": [
-                  "양반"
-            ],
-            "explanation": "양반은 유교 경전을 공부하여 과거에 응시하고 나랏일에 참여한 최고 신분층입니다."
-      },
-      {
-            "question": "조선 시대 높은 관리를 돕거나 전문적인 일을 맡았던 신분은 무엇인가요?",
-            "answer": [
-                  "중인"
-            ],
-            "explanation": "중인은 의학, 통역, 관청 행정 등 전문적인 일을 맡거나 높은 관리를 도왔습니다."
-      },
-      {
-            "question": "조선 시대 농사를 짓거나 물건을 팔던 일반 백성 신분은 무엇인가요?",
-            "answer": [
-                  "상민"
-            ],
-            "explanation": "상민은 농사, 상업, 손기술 등에 종사하며 세금을 부담한 일반 백성입니다."
-      },
-      {
-            "question": "조선 시대 대부분 노비로 구성되어 허드렛일을 하던 신분은 무엇인가요?",
-            "answer": [
-                  "천민"
-            ],
-            "explanation": "천민은 대다수가 노비로 개인이나 관청에 속해 허드렛일을 담당했습니다."
-      },
-      {
-            "question": "조선 전기에는 아들과 딸이 균등하게 물려받았던 것은 무엇인가요?",
-            "answer": [
-                  "재산"
-            ],
-            "explanation": "조선 전기에는 남녀 구분 없이 아들과 딸에게 재산을 균등하게 물려주었습니다."
-      },
-      {
-            "question": "조선 후기 여성에게 강요된 규범으로 아버지, 남편, 아들의 뜻을 따라야 한다는 가르침은 무엇인가요?",
-            "answer": [
-                  "삼종지도"
-            ],
-            "explanation": "조선 후기 유교 질서가 강화되면서 여성이 평생 따라야 하는 도리로 삼종지도가 강조되었습니다."
-      },
-      {
-            "question": "세종 대에 조선의 환경에 맞는 농사법을 정리하여 펴낸 책은 무엇인가요?",
-            "answer": [
-                  "농사직설"
-            ],
-            "explanation": "세종 때 우리 기후와 환경에 맞는 농사법을 정리하여 백성에게 보급한 농서입니다."
-      },
-      {
-            "question": "세종 대에 제작된 대표적인 천문 관측 기구는 무엇인가요?",
-            "answer": [
-                  "혼천의"
-            ],
-            "explanation": "혼천의는 천체의 위치를 관측하기 위해 세종 대에 제작된 과학 기구입니다."
-      },
-      {
-            "question": "세종 대에 제작된 물시계의 이름은 무엇인가요?",
-            "answer": [
-                  "자격루"
-            ],
-            "explanation": "자격루는 정해진 시간에 종과 북을 울려 시각을 알려주는 자동 물시계입니다."
-      },
-      {
-            "question": "세종 대에 제작된 백성을 위한 오목해시계의 이름은 무엇인가요?",
-            "answer": [
-                  "앙부일구"
-            ],
-            "explanation": "앙부일구는 백성들이 쉽게 시간을 확인할 수 있도록 만든 오목한 모양의 해시계입니다."
-      },
-      {
-            "question": "세종이 백성이 쉽게 읽고 쓸 수 있도록 창제한 글자의 이름은 무엇인가요?",
-            "answer": [
-                  "훈민정음"
-            ],
-            "explanation": "세종은 글을 몰라 어려움을 겪는 백성을 위해 훈민정음을 창제했습니다."
-      },
-      {
-            "question": "조선 전기에 친선 관계를 유지하며 선진 문물을 받아들인 국가는 어디인가요?",
-            "answer": [
-                  "명"
-            ],
-            "explanation": "조선 전기에는 명나라와 친선 관계를 유지하며 선진 문물을 적극적으로 받아들였습니다."
-      },
-      {
-            "question": "세종 때 왜구의 침략을 막기 위해 공격하여 항복을 받은 일본의 섬은 어디인가요?",
-            "answer": [
-                  "쓰시마섬"
-            ],
-            "explanation": "세종 때 이종무 등을 보내 쓰시마섬을 정벌하여 왜구의 침략을 제압했습니다."
-      },
-      {
-            "question": "세종 때 북쪽 여진족을 몰아내고 영토를 확장하기 위해 설치한 지역은 무엇인가요?",
-            "answer": [
-                  "4군 6진",
-                  "4군6진",
-                  "사군육진",
-                  "사군 6진",
-                  "4군 육진"
-            ],
-            "explanation": "세종 때 최윤덕과 김종서를 파견해 여진을 몰아내고 압록강·두만강 영역에 4군 6진을 설치했습니다."
-      },
-      {
-            "question": "조선 건국 약 200년 후 일본의 침략으로 시작된 전쟁은 무엇인가요?",
-            "answer": [
-                  "임진왜란"
-            ],
-            "explanation": "조선 건국 후 약 200년이 지난 1592년, 일본의 침략으로 임진왜란이 일어났습니다."
-      },
-      {
-            "question": "임진왜란 때 일본군이 사용한 신무기는 무엇인가요?",
-            "answer": [
-                  "조총"
-            ],
-            "explanation": "일본군은 조총이라는 신무기를 바탕으로 초기 전투에서 우세를 점했습니다."
-      },
-      {
-            "question": "임진왜란 당시 바다에서 수군을 이끌며 큰 승리를 거둔 장군은 누구인가요?",
-            "answer": [
-                  "이순신"
-            ],
-            "explanation": "이순신 장군은 학익진 등 뛰어난 전술로 바다에서 왜군을 크게 무찔렀습니다."
-      },
-      {
-            "question": "여진족이 청으로 나라 이름을 바꾼 뒤 조선에 요구한 관계는 무엇인가요?",
-            "answer": [
-                  "군신 관계",
-                  "군신관계",
-                  "임금과 신하의 관계",
-                  "임금과 신하의 관계 (군신 관계)",
-                  "임금과신하의관계"
-            ],
-            "explanation": "여진족이 세운 청나라는 힘이 강해진 후 조선에 군신 관계를 요구했습니다."
-      },
-      {
-            "question": "병자호란 당시 인조가 피신하여 청군에 저항했던 성은 어디인가요?",
-            "answer": [
-                  "남한산성"
-            ],
-            "explanation": "인조는 청나라의 갑작스러운 침략을 피해 남한산성으로 들어가 항전했습니다."
-      },
-      {
-            "question": "병자호란의 결과 조선은 명나라 대신 어느 나라의 영향을 받게 되었나요?",
-            "answer": [
-                  "청"
-            ],
-            "explanation": "병자호란에서 항복한 이후 조선은 명나라 대신 청나라의 영향권 아래 놓이게 되었습니다."
-      }
-];
+    // ----------------------------------------------------
+    // 문제 데이터베이스 (총 20문항 - 이미지 내용 기반)
+    // ----------------------------------------------------
 
+    // 1. 지정 단답식 문제 (8문항)
+    const quizDataSA = [
+      {
+        question: "국민이 자신들을 대표할 사람을 투표로 뽑는 일을 무엇이라고 하나요?",
+        answer: ["선거"],
+        explanation: "국민이 자신들을 대표할 사람을 투표로 뽑는 일을 '선거'라고 합니다."
+      },
+      {
+        question: "모든 국민이 이것에 직접 참여하여 나라의 일을 결정하고 살림을 운영하는 것은 어렵기 때문에 선거가 필요합니다. 빈칸에 들어갈 알맞은 단어는 무엇인가요?",
+        answer: ["정치"],
+        explanation: "모든 국민이 정치에 직접 참여하기는 어려우므로 선거로 대표를 뽑아 나라 살림을 맡기게 됩니다."
+      },
+      {
+        question: "민주주의 국가에서 국민의 행복한 삶과 미래를 위해 나라의 중요한 일을 결정하도록 선거로 뽑힌 사람을 무엇이라고 하나요?",
+        answer: ["대표"],
+        explanation: "국민은 선거를 통하여 자신들을 대신해 나라의 중요한 일을 결정할 대표를 선출합니다."
+      },
+      {
+        question: "선거는 민주주의 국가에서 이것을 실현하는 가장 기본적이고 중요한 방법입니다. 국가의 주권이 국민에게 있다는 이 원리는 무엇인가요?",
+        answer: ["국민 주권", "국민주권"],
+        explanation: "선거는 국민이 국가의 주인으로서 권리를 행사하는 '국민 주권'을 실현하는 핵심 방법입니다."
+      },
+      {
+        question: "만 18세 이상이 되면 누구나 투표할 수 있는 선거 원칙을 무엇이라고 하나요?",
+        answer: ["보통 선거", "보통선거"],
+        explanation: "만 18세 이상의 모든 국민에게 투표할 권리를 부여하는 것을 '보통 선거'라고 합니다."
+      },
+      {
+        question: "신분, 재산, 성별 등에 상관없이 모든 사람은 똑같이 한 표씩 투표하는 선거 원칙을 무엇이라고 하나요?",
+        answer: ["평등 선거", "평등선거"],
+        explanation: "모든 사람이 동일하게 한 표씩 행사하는 선거 원칙을 '평등 선거'라고 합니다."
+      },
+      {
+        question: "다른 사람이 대신 투표할 수 없고, 투표권을 가진 사람이 직접 투표하는 선거 원칙을 무엇이라고 하나요?",
+        answer: ["직접 선거", "직접선거"],
+        explanation: "투표권을 가진 유권자가 직접 투표소에 가서 투표해야 하는 원칙을 '직접 선거'라고 합니다."
+      },
+      {
+        question: "어느 후보자에게 투표했는지 다른 사람이 알 수 없도록 보장하는 선거 원칙을 무엇이라고 하나요?",
+        answer: ["비밀 투표", "비밀투표"],
+        explanation: "투표한 내용을 다른 사람이 알지 못하도록 비밀을 보장하는 선거 원칙을 '비밀 투표'라고 합니다."
+      }
+    ];
+
+    // 2. 객관식 문제 (12문항)
+    const quizDataMC = [
+      {
+        question: "민주주의의 의미로 가장 알맞은 것은 무엇인가요?",
+        options: [
+          "국민이 국가의 주인으로서 권리를 갖는 정치 형태",
+          "한 사람의 지도자가 모든 일을 혼자 결정하는 방식",
+          "나이가 가장 많은 사람이 나라를 다스리는 방식",
+          "재산이 많은 사람만 나라 일에 참여하는 방식"
+        ],
+        answer: 0,
+        explanation: "민주주의란 국민이 국가의 주인으로서 권리를 갖고, 그 권리를 자유롭고 평등하게 행사하는 정치 형태입니다."
+      },
+      {
+        question: "선거가 필요한 까닭으로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: [
+          "나라를 운영하려면 결정해야 할 중요한 일이 많기 때문이다.",
+          "모든 국민이 정치에 직접 참여하여 결정하기 어렵기 때문이다.",
+          "특정 후보자만 계속 당선되도록 정해 놓기 위해서이다.",
+          "국민을 대신해 나라 살림을 운영할 대표를 뽑아야 하기 때문이다."
+        ],
+        answer: 2,
+        explanation: "선거는 특정 사람을 지정하기 위한 것이 아니라, 모든 국민을 대신해 일할 대표를 공정하게 뽑기 위해 필요합니다."
+      },
+      {
+        question: "선거 과정 중 '투표할 수 있는 사람들의 명단을 만드는 단계'는 무엇인가요?",
+        options: [
+          "후보자 등록",
+          "선거인 명부 작성",
+          "선거 운동",
+          "당선자 결정"
+        ],
+        answer: 1,
+        explanation: "선거 절차의 첫 번째 단계는 투표 자격이 있는 유권자들의 명단(선거인 명부)을 작성하는 것입니다."
+      },
+      {
+        question: "선거 과정의 올바른 순서로 알맞은 것은 무엇인가요?",
+        options: [
+          "선거인 명부 작성 → 후보자 등록 → 선거 운동 → 투표 → 개표 → 당선자 결정 및 당선증 발급",
+          "후보자 등록 → 선거인 명부 작성 → 투표 → 선거 운동 → 개표 → 당선자 결정 및 당선증 발급",
+          "선거 운동 → 후보자 등록 → 선거인 명부 작성 → 투표 → 개표 → 당선자 결정 및 당선증 발급",
+          "투표 → 개표 → 선거인 명부 작성 → 후보자 등록 → 선거 운동 → 당선자 결정 및 당선증 발급"
+        ],
+        answer: 0,
+        explanation: "선거 과정은 선거인 명부 작성 → 후보자 등록 → 선거 운동 → 투표 → 개표 → 당선자 결정 및 당선증 발급 순서입니다."
+      },
+      {
+        question: "선거 과정 중 유권자가 투표소에 가서 후보자에게 표를 행사하는 단계는 무엇인가요?",
+        options: [
+          "개표",
+          "선거 운동",
+          "투표",
+          "당선자 결정"
+        ],
+        answer: 2,
+        explanation: "유권자가 직접 투표소에 가서 표를 넣는 행위는 '투표' 단계에 해당합니다."
+      },
+      {
+        question: "대표를 잘못 뽑았을 때 생길 수 있는 결과로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: [
+          "나라 경제가 어려워질 수 있다.",
+          "국민의 삶이 어려워질 수 있다.",
+          "민주주의가 위기를 맞을 수 있다.",
+          "모든 국민의 행복과 지역 발전이 저절로 이루어진다."
+        ],
+        answer: 3,
+        explanation: "대표를 잘못 뽑으면 나라 경제와 국민의 삶이 힘들어지고 민주주의가 위기를 맞을 수 있습니다."
+      },
+      {
+        question: "민주적 선거의 원칙에 해당하지 <u>않는</u> 것은 무엇인가요?",
+        options: [
+          "보통 선거",
+          "평등 선거",
+          "대리 투표",
+          "비밀 투표"
+        ],
+        answer: 2,
+        explanation: "선거 원칙은 보통, 평등, 직접, 비밀 투표입니다. 남이 대신 투표하는 '대리 투표'는 직접 선거 원칙에 어긋납니다."
+      },
+      {
+        question: "'보통 선거' 원칙에 대한 설명으로 알맞은 것은 무엇인가요?",
+        options: [
+          "만 18세 이상이면 누구나 투표할 수 있다.",
+          "모든 사람은 성별에 상관없이 한 표씩 투표한다.",
+          "다른 사람 대신 본인이 직접 투표소에 간다.",
+          "누구에게 투표했는지 비밀을 보장받는다."
+        ],
+        answer: 0,
+        explanation: "보통 선거는 나이가 만 18세 이상이 되면 누구나 투표에 참여할 수 있도록 권리를 주는 원칙입니다."
+      },
+      {
+        question: "선거에 대한 설명으로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: [
+          "국민 주권을 실현하는 기본적이고 중요한 방법이다.",
+          "국민의 선거 참여로 정치가 달라질 수 있다.",
+          "선거로 뽑힌 대표는 국민의 행복을 위해 중요한 일을 결정한다.",
+          "선거 결과와 상관없이 정치는 항상 변화하지 않고 일정하다."
+        ],
+        answer: 3,
+        explanation: "국민이 선거에 어떻게 참여하느냐에 따라 선거 결과와 정치가 크게 달라질 수 있습니다."
+      },
+      {
+        question: "선거 절차 중 '가장 많은 표를 얻은 후보자를 최종 당선자로 정하는 단계'는 무엇인가요?",
+        options: [
+          "개표",
+          "당선자 결정 및 당선증 발급",
+          "선거 운동",
+          "후보자 등록"
+        ],
+        answer: 1,
+        explanation: "개표 후 가장 많은 표를 얻은 사람을 당선자로 결정하고 당선증을 수여하는 단계입니다."
+      },
+      {
+        question: "공정하고 민주적인 선거를 위해 지켜야 할 내용으로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: [
+          "국민 누구나 선거 원칙을 지켜야 한다.",
+          "내가 누구에게 투표했는지 남에게 반드시 밝혀야 한다.",
+          "투표권을 가진 유권자가 직접 투표해야 한다.",
+          "만 18세 이상이 되면 누구나 투표할 수 있어야 한다."
+        ],
+        answer: 1,
+        explanation: "비밀 투표 원칙에 의하여, 자신이 누구에게 투표했는지는 비밀로 보장되며 밝힐 의무가 없습니다."
+      },
+      {
+        question: "선거로 뽑힌 대표가 지역 발전을 위해 열심히 일할 때 나타나는 현상으로 알맞은 것은 무엇인가요?",
+        options: [
+          "지역이 변화하고 사람들이 더 살기 좋은 환경이 된다.",
+          "지역 발전이 중단되고 주민 불만이 커진다.",
+          "주민들이 정치와 선거에 관심이 완전히 없어진다.",
+          "민주주의가 무너지고 독재 정치로 바뀐다."
+        ],
+        answer: 0,
+        explanation: "대표가 지역 발전을 위해 열심히 활동하면 지역 환경이 개선되고 살기 좋은 환경이 만들어집니다."
+      }
+    ];
+
+    // 상태 관리 변수
     let currentQuestions = [];
     let currentQuestionIndex = 0;
     let userName = "";
@@ -516,7 +557,7 @@
 
     window.onload = function() {
       document.getElementById('user-answer').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') submitAnswer();
+        if (e.key === 'Enter') submitShortAnswer();
       });
       
       document.getElementById('user-name').addEventListener('keypress', function(e) {
@@ -532,32 +573,24 @@
         return;
       }
 
-      if (!quizData || quizData.length < 10) {
-        alert("문제가 부족합니다. (최소 10문제 필요)");
-        return;
-      }
+      // 1~7번: 객관식 12문제 중 랜덤 7개 추출
+      const shuffledMC = [...quizDataMC].sort(() => Math.random() - 0.5);
+      const selectedMC = shuffledMC.slice(0, 7);
 
-      // 지정 규칙 반영:
-      // 1. 시작 문제를 랜덤으로 선정 (0 ~ quizData.length - 1)
-      const startIndex = Math.floor(Math.random() * quizData.length);
-      
-      // 2. 5~10 사이의 간격을 랜덤으로 선정
-      const step = Math.floor(Math.random() * 6) + 5; // 5, 6, 7, 8, 9, 10 중 하나
+      // 8~10번: 단답식 8문제 중 랜덤 3개 추출
+      const shuffledSA = [...quizDataSA].sort(() => Math.random() - 0.5);
+      const selectedSA = shuffledSA.slice(0, 3);
 
-      // 3. 시작 문제 위치부터 step 간격으로 10문제 추출
-      currentQuestions = [];
-      for (let i = 0; i < 10; i++) {
-        const idx = (startIndex + i * step) % quizData.length;
-        currentQuestions.push(quizData[idx]);
-      }
-
+      // 총 10문항 결합
+      currentQuestions = [...selectedMC, ...selectedSA];
       currentQuestionIndex = 0;
 
       showScreen('countdown-screen');
-      startCountdown();
+      document.getElementById('countdown-title').textContent = "준비하세요!";
+      startCountdown(() => startQuiz());
     }
 
-    function startCountdown() {
+    function startCountdown(callback) {
       let count = 3;
       const countEl = document.getElementById('countdown-number');
       countEl.textContent = count;
@@ -570,7 +603,7 @@
           countEl.textContent = count;
         } else {
           clearInterval(countdownTimer);
-          startQuiz();
+          callback();
         }
       }, 1000);
     }
@@ -584,46 +617,84 @@
     function loadQuestion() {
       const q = currentQuestions[currentQuestionIndex];
       document.getElementById('progress-display').textContent = `${currentQuestionIndex + 1} / 10`;
-      document.getElementById('question-text').textContent = q.question;
       
-      const inputEl = document.getElementById('user-answer');
-      inputEl.value = "";
-      inputEl.focus();
+      document.getElementById('question-text').innerHTML = q.question;
+
+      const mcContainer = document.getElementById('mc-container');
+      const saContainer = document.getElementById('sa-container');
+      const tagEl = document.getElementById('question-type-tag');
+
+      if (currentQuestionIndex < 7) {
+        // 객관식
+        tagEl.textContent = "객관식";
+        tagEl.style.backgroundColor = "#e0f2fe";
+        tagEl.style.color = "#0369a1";
+
+        mcContainer.classList.remove('hidden');
+        saContainer.classList.add('hidden');
+        mcContainer.innerHTML = "";
+
+        q.options.forEach((opt, idx) => {
+          const btn = document.createElement('button');
+          btn.className = 'option-btn';
+          btn.textContent = `${idx + 1}. ${opt}`;
+          btn.onclick = () => checkAnswer(idx);
+          mcContainer.appendChild(btn);
+        });
+      } else {
+        // 단답식
+        tagEl.textContent = "단답식";
+        tagEl.style.backgroundColor = "#fef3c7";
+        tagEl.style.color = "#b45309";
+
+        mcContainer.classList.add('hidden');
+        saContainer.classList.remove('hidden');
+
+        const inputEl = document.getElementById('user-answer');
+        inputEl.value = "";
+        inputEl.focus();
+      }
     }
 
-    function normalize(str) {
-      return str.toString().replace(/\s+/g, '').toLowerCase();
+    function normalizeStr(str) {
+      return str.toString().replace(/[\s\.\·\-\_]/g, '').toLowerCase();
     }
 
-    function submitAnswer() {
-      const inputEl = document.getElementById('user-answer');
-      const userAns = normalize(inputEl.value);
+    function checkAnswer(userChoice) {
+      const q = currentQuestions[currentQuestionIndex];
+      if (userChoice === q.answer) {
+        nextQuestion();
+      } else {
+        const userAnsStr = `${userChoice + 1}. ${q.options[userChoice]}`;
+        const correctAnsStr = `${q.answer + 1}. ${q.options[q.answer]}`;
+        handleIncorrect(userAnsStr, correctAnsStr, q.explanation);
+      }
+    }
 
-      if (!userAns) {
+    function submitShortAnswer() {
+      const inputEl = document.getElementById('user-answer');
+      const userAnsRaw = inputEl.value.trim();
+
+      if (!userAnsRaw) {
         alert("정답을 입력해주세요.");
         return;
       }
 
       const q = currentQuestions[currentQuestionIndex];
+      const normalizedUser = normalizeStr(userAnsRaw);
+      
+      const isCorrect = q.answer.some(ans => normalizeStr(ans) === normalizedUser);
 
-      let isCorrect = false;
-      if (Array.isArray(q.answer)) {
-        isCorrect = q.answer.some(ans => normalize(ans) === userAns);
+      if (isCorrect) {
+        nextQuestion();
       } else {
-        isCorrect = normalize(q.answer) === userAns;
+        const correctStr = q.answer[0];
+        handleIncorrect(userAnsRaw, correctStr, q.explanation);
       }
+    }
 
-      if (!isCorrect) {
-        const correctStr = Array.isArray(q.answer) ? q.answer.join(" 또는 ") : q.answer;
-        const expStr = q.explanation || "해설이 없습니다.";
-        
-        alert(`❌ 아쉽네요! 오답입니다.\n\n• 내가 입력한 답: ${inputEl.value}\n• 정답: ${correctStr}\n\n💡 [간단 해설]\n${expStr}\n\n처음 화면으로 돌아갑니다.`);
-        resetQuiz();
-        return;
-      }
-
+    function nextQuestion() {
       currentQuestionIndex++;
-
       if (currentQuestionIndex < 10) {
         loadQuestion();
       } else {
@@ -631,10 +702,11 @@
       }
     }
 
-    function confirmGoStart() {
-      if (confirm("퀴즈를 중단하고 처음 시작 화면으로 돌아가시겠습니까?")) {
-        resetQuiz();
-      }
+    function handleIncorrect(userAns, correctAns, exp) {
+      document.getElementById('exp-user-ans').textContent = userAns;
+      document.getElementById('exp-correct-ans').textContent = correctAns;
+      document.getElementById('exp-text').textContent = exp || "해설이 없습니다.";
+      showScreen('explanation-screen');
     }
 
     function showSuccess() {
@@ -645,8 +717,8 @@
       const timeString = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
 
       document.getElementById('res-name').textContent = userName;
-      document.getElementById('res-date').textContent = timeString;
       document.getElementById('res-time').textContent = timeTaken;
+      document.getElementById('res-date').textContent = timeString;
 
       showScreen('result-screen');
     }
@@ -658,7 +730,7 @@
     }
 
     function showScreen(screenId) {
-      const screens = ['start-screen', 'countdown-screen', 'quiz-screen', 'result-screen'];
+      const screens = ['start-screen', 'countdown-screen', 'quiz-screen', 'explanation-screen', 'result-screen'];
       screens.forEach(id => {
         document.getElementById(id).classList.add('hidden');
       });

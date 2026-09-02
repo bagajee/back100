@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="ko"><head>
+<html lang="ko">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>5학년 사회 학습 포털</title>
+    <title>6학년 1학기 사회 학습 포털</title>
     <style>
         * {
             box-sizing: border-box;
@@ -26,9 +27,35 @@
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
             width: 100%;
             max-width: 480px;
-            padding: 30px 24px;
+            padding: 28px 24px;
             max-height: 90vh;
             overflow-y: auto;
+        }
+
+        .top-nav {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 8px 14px;
+            background-color: #f1f5f9;
+            color: #475569;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 10px;
+            border: 1px solid #cbd5e1;
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn:hover {
+            background-color: #e2e8f0;
+            color: #0f172a;
         }
 
         .header {
@@ -37,7 +64,7 @@
         }
 
         .header h1 {
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             color: #1b4332;
             display: flex;
             align-items: center;
@@ -60,6 +87,7 @@
             font-weight: 700;
             color: #495057;
             margin-bottom: 12px;
+            line-height: 1.4;
         }
 
         .btn-list {
@@ -105,6 +133,13 @@
             transform: translateY(0);
         }
 
+        .footer-notice {
+            margin-top: 20px;
+            font-size: 0.8rem;
+            color: #888888;
+            text-align: center;
+        }
+
         /* 스크롤바 디자인 */
         .menu-card::-webkit-scrollbar {
             width: 6px;
@@ -118,58 +153,67 @@
 <body>
 
 <div class="menu-card">
+    <!-- 상단 홈으로 버튼 -->
+    <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+    </div>
+
     <div class="header">
-        <h1>🎓 5학년 사회 교실</h1>
-        <p>학습할 세부 단원을 선택하세요! (각 20문제)</p>
+        <h1>🎓 6학년 1학기 사회 교실</h1>
+        <p>학습할 소단원을 선택하세요!</p>
     </div>
 
-    <!-- 1. 선사시대-고려 -->
+    <!-- 1단원 -->
     <div class="unit-group">
-        <div class="unit-title">1. 선사시대~고려</div>
+        <div class="unit-title">1. 평화 통일을 위한 노력, 민주화와 산업화</div>
         <div class="btn-list">
-            <button class="sub-btn" onclick="selectChapter('ch1_1')">1) 선사 시대와 고조선</button>
-            <button class="sub-btn" onclick="selectChapter('ch1_2')">2) 삼국</button>
-            <button class="sub-btn" onclick="selectChapter('ch1_3')">3) 고려</button>
+            <button class="sub-btn" onclick="selectChapter('ch1_1')">1) 평화 통일을 위한 노력</button>
+            <button class="sub-btn" onclick="selectChapter('ch1_2')">2) 민주화와 산업화로 달라진 생활 모습</button>
         </div>
     </div>
 
-    <!-- 2. 조선 -->
+    <!-- 2단원 -->
     <div class="unit-group">
-        <div class="unit-title">2. 조선</div>
+        <div class="unit-title">2. 민주주의와 시민 참여</div>
         <div class="btn-list">
-            <button class="sub-btn" onclick="selectChapter('ch2_1')">1) 조선 전기</button>
-            <button class="sub-btn" onclick="selectChapter('ch2_2')">2) 조선 후기</button>
+            <button class="sub-btn" onclick="selectChapter('ch2_1')">1) 민주주의와 선거</button>
+            <button class="sub-btn" onclick="selectChapter('ch2_2')">2) 국가기관과 권력 분립</button>
+            <button class="sub-btn" onclick="selectChapter('ch2_3')">3) 민주주의와 미디어</button>
         </div>
     </div>
 
-    <!-- 3. 일제 강점기 -->
+    <!-- 3단원 -->
     <div class="unit-group">
-        <div class="unit-title">3. 일제 강점기 및 근현대</div>
+        <div class="unit-title">3. 지구, 대륙, 그리고 국가들</div>
         <div class="btn-list">
-            <button class="sub-btn" onclick="selectChapter('ch3_1')">1) 조선후기 ~ 3·1 운동</button>
-            <button class="sub-btn" onclick="selectChapter('ch3_2')">2) 광복 ~ 6·25 전쟁</button>
+            <button class="sub-btn" onclick="selectChapter('ch3_1')">1) 세계를 표현하는 다양한 자료</button>
+            <button class="sub-btn" onclick="selectChapter('ch3_2')">2) 세계 여러 국가의 위치와 영토 모습</button>
         </div>
     </div>
+
+    <!-- 하단 문구 -->
+    <p class="footer-notice">교과서 출판사에 따라 내용이 다를 수 있습니다.</p>
 </div>
 
 <script>
 function selectChapter(chapterId) {
     const pageMap = {
-    "ch1_1": "so11.html",
-    "ch1_2": "so12.html",
-    "ch1_3": "so13.html",
-    "ch2_1": "so21.html",
-    "ch2_2": "so22.html",
-    "ch3_1": "so31.html",
-    "ch3_2": "so32.html"
-};
+        "ch1_1": "so11.html",
+        "ch1_2": "so12.html",
+        "ch2_1": "so21.html",
+        "ch2_2": "so22.html",
+        "ch2_3": "so23.html",
+        "ch3_1": "so31.html",
+        "ch3_2": "so32.html"
+    };
     const target = pageMap[chapterId];
     if (target) {
         location.href = encodeURI(target);
     } else {
         alert("연결된 파일이 없습니다: " + chapterId);
     }
-}</script>
+}
+</script>
 
-
-</body></html>
+</body>
+</html>

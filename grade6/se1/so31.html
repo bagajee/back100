@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>6학년 1학기 사회 - 세계를 표현하는 다양한 자료</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    body {
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 480px;
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      padding: 28px 20px;
+      text-align: center;
+      position: relative;
+    }
+
+    .top-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 8px 12px;
+      background-color: #f1f5f9;
+      color: #475569;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      transition: all 0.2s;
+    }
+
+    .nav-btn:hover {
+      background-color: #e2e8f0;
+      color: #0f172a;
+    }
+
+    h1 {
+      font-size: 20px;
+      color: #1e293b;
+      margin-bottom: 20px;
+      line-height: 1.4;
+    }
+
+    .badge {
+      display: inline-block;
+      background-color: #e0f2fe;
+      color: #0369a1;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+      text-align: left;
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: #475569;
+      margin-bottom: 6px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 16px;
+      outline: none;
+      transition: all 0.2s ease;
+      background-color: #fff;
+    }
+
+    input[type="text"]:focus {
+      border-color: #0284c7;
+      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 15px;
+      background-color: #0284c7;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .btn-primary:hover {
+      background-color: #0369a1;
+    }
+
+    .btn-secondary {
+      width: 100%;
+      padding: 14px;
+      background-color: #f1f5f9;
+      color: #475569;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .btn-secondary:hover {
+      background-color: #e2e8f0;
+      color: #0f172a;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    #countdown-screen h2 {
+      font-size: 80px;
+      color: #0284c7;
+      margin: 24px 0;
+      font-weight: 800;
+    }
+
+    .question-box {
+      font-size: 17px;
+      font-weight: 700;
+      color: #0f172a;
+      margin: 16px 0 20px 0;
+      word-break: keep-all;
+      line-height: 1.5;
+      text-align: left;
+      background-color: #f8fafc;
+      padding: 18px;
+      border-radius: 14px;
+      border-left: 5px solid #0284c7;
+      min-height: 90px;
+      display: flex;
+      align-items: center;
+    }
+
+    .question-box u {
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      text-decoration-thickness: 2px;
+      color: #e11d48;
+    }
+
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .option-btn {
+      width: 100%;
+      padding: 14px 16px;
+      background-color: #ffffff;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      color: #334155;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .option-btn:hover {
+      background-color: #f0f9ff;
+      border-color: #38bdf8;
+      color: #0369a1;
+    }
+
+    .explanation-box {
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 18px;
+      margin: 18px 0;
+      text-align: left;
+      font-size: 15px;
+    }
+
+    .explanation-box p {
+      margin-bottom: 8px;
+    }
+
+    .explanation-box p:last-child {
+      margin-bottom: 0;
+    }
+
+    .result-card {
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 18px;
+      margin: 20px 0;
+      text-align: left;
+    }
+
+    .result-card p {
+      font-size: 15px;
+      color: #334155;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .result-card p:last-child {
+      margin-bottom: 0;
+    }
+
+    .result-card strong {
+      color: #0f172a;
+    }
+
+    .type-badge {
+      font-size: 12px;
+      background-color: #e2e8f0;
+      color: #475569;
+      padding: 2px 8px;
+      border-radius: 6px;
+      margin-left: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- 1. 시작 화면 -->
+    <div id="start-screen">
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+      </div>
+      
+      <div class="badge">[사회 6-1] 3. 지구, 대륙 그리고 국가들</div>
+      <h1>(1) 세계를 표현하는 다양한 자료</h1>
+
+      <div class="form-group">
+        <label for="user-name">이름</label>
+        <input type="text" id="user-name" placeholder="이름을 입력하세요" autocomplete="off">
+      </div>
+
+      <div class="btn-group">
+        <button class="btn-primary" onclick="prepareQuiz()">🚀 시작</button>
+        <a href="social.html" class="btn-secondary">📚 단원선택</a>
+      </div>
+    </div>
+
+    <!-- 2. 카운트다운 화면 -->
+    <div id="countdown-screen" class="hidden">
+      <p id="countdown-title" style="font-size: 18px; color: #64748b; font-weight: 600; margin-top: 10px;">준비하세요!</p>
+      <h2 id="countdown-number">3</h2>
+    </div>
+
+    <!-- 3. 퀴즈 실행 화면 -->
+    <div id="quiz-screen" class="hidden">
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+        <span id="progress-display" style="font-size: 14px; font-weight: 700; color: #0284c7;">1 / 10</span>
+      </div>
+
+      <div class="question-box">
+        <div>
+          <span id="question-type-tag" class="type-badge">객관식</span>
+          <div id="question-text" style="margin-top: 6px;"></div>
+        </div>
+      </div>
+
+      <!-- 객관식 보기 영역 -->
+      <div id="mc-container" class="options-grid"></div>
+
+      <!-- 단답식 입력 영역 -->
+      <div id="sa-container" class="hidden">
+        <div class="form-group">
+          <input type="text" id="user-answer" placeholder="정답을 입력하세요" autocomplete="off">
+        </div>
+        <button class="btn-primary" onclick="submitShortAnswer()">정답 제출</button>
+      </div>
+    </div>
+
+    <!-- 4. 해설 화면 (오답 발생 시) -->
+    <div id="explanation-screen" class="hidden">
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+        <a href="social.html" class="nav-btn">📚 단원선택</a>
+      </div>
+      <h2 style="color: #e11d48; margin-bottom: 10px; font-size: 20px;">❌ 아쉽네요! 오답입니다.</h2>
+      <div class="explanation-box">
+        <p><strong>내가 입력한 답:</strong> <span id="exp-user-ans" style="color: #e11d48;"></span></p>
+        <p><strong>정답:</strong> <span id="exp-correct-ans" style="color: #16a34a; font-weight: bold;"></span></p>
+        <hr style="margin: 10px 0; border: none; border-top: 1px dashed #cbd5e1;">
+        <p><strong>💡 [간단 해설]</strong></p>
+        <p id="exp-text" style="margin-top: 6px; line-height: 1.5; color: #475569;"></p>
+      </div>
+      <button class="btn-primary" onclick="resetQuiz()">계속하기</button>
+    </div>
+
+    <!-- 5. 성공 결과 화면 -->
+    <div id="result-screen" class="hidden">
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+      </div>
+
+      <h1 style="color: #16a34a; margin-bottom: 8px;">🎉 축하합니다! 🎉</h1>
+      <p style="color: #475569; font-size: 16px; font-weight: 600;">10문제를 모두 올바르게 맞추셨습니다!</p>
+      
+      <div class="result-card">
+        <p><strong>이름:</strong> <span id="res-name"></span></p>
+        <p><strong>총 걸린시간:</strong> <span id="res-time"></span>초</p>
+        <p><strong>현재 시간:</strong> <span id="res-date"></span></p>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn-primary" onclick="resetQuiz()">🔄 재도전</button>
+        <a href="social.html" class="btn-secondary">📚 단원선택</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ----------------------------------------------------
+    // 문제 데이터베이스 (총 40문항 - 첨부 이미지 내용 기반)
+    // ----------------------------------------------------
+
+    // 1. 지정 단답식 문제 (9문항)
+    const quizDataSA = [
+      {
+        question: "실제 지구의 모습을 작게 줄여 만든 모형을 무엇이라고 하나요?",
+        answer: ["지구본"],
+        explanation: "지구본은 실제 지구의 모습을 작게 줄여 만든 모형입니다."
+      },
+      {
+        question: "둥근 지구를 평면으로 나타낸 것을 무엇이라고 하나요?",
+        answer: ["세계지도"],
+        explanation: "세계지도는 둥근 지구를 평면으로 나타낸 것입니다."
+      },
+      {
+        question: "적도를 기준으로 남북으로 얼마나 떨어져 있는지를 나타내는 위치 단위를 무엇이라고 하나요?",
+        answer: ["위도"],
+        explanation: "위도는 적도를 기준으로 남북으로 얼마나 떨어져 있는지를 나타냅니다."
+      },
+      {
+        question: "위도를 정할 때 기준이 되는 0° 가로선으로, 남북을 나누는 기준선을 무엇이라고 하나요?",
+        answer: ["적도"],
+        explanation: "적도는 위도의 기준이 되며, 적도를 기준으로 북쪽은 북위, 남쪽은 남위라 부릅니다."
+      },
+      {
+        question: "적도를 기준으로 북쪽의 위도를 무엇이라고 하나요?",
+        answer: ["북위"],
+        explanation: "적도를 기준으로 북쪽의 위도를 북위, 남쪽의 위도를 남위라고 합니다."
+      },
+      {
+        question: "본초 자오선을 기준으로 동서로 얼마나 떨어져 있는지를 나타내는 위치 단위를 무엇이라고 하나요?",
+        answer: ["경도"],
+        explanation: "경도는 본초 자오선을 기준으로 동서로 얼마나 떨어져 있는지를 나타냅니다."
+      },
+      {
+        question: "경도를 정할 때 기준이 되는 0° 세로선으로, 동서 위치의 기준이 되는 선을 무엇이라고 하나요?",
+        answer: ["본초 자오선", "본초자오선"],
+        explanation: "본초 자오선은 경도의 기준이 되는 선입니다."
+      },
+      {
+        question: "본초 자오선을 기준으로 동쪽의 경도를 무엇이라고 하나요?",
+        answer: ["동경"],
+        explanation: "본초 자오선을 기준으로 동쪽은 동경, 서쪽은 서경이라고 합니다."
+      },
+      {
+        question: "지구가 하루에 한 바퀴씩 스스로 회전하기 때문에 경도에 따라 시각이 달라져 발생하는 것을 무엇이라고 하나요?",
+        answer: ["시차"],
+        explanation: "지구의 자전으로 인해 경도에 따라 시각이 달라져 시차가 발생합니다."
+      }
+    ];
+
+    // 2. 객관식 문제 (31문항)
+    const quizDataMC = [
+      {
+        question: "지구본의 특징에 대한 설명으로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: [
+          "실제 지구의 모습을 작게 줄여 만든 모형이다.",
+          "위치, 면적, 거리 등이 비교적 정확하게 나타난다.",
+          "세계의 모습을 한눈에 볼 수 있다.",
+          "가지고 다니기 불편하다."
+        ],
+        answer: 2,
+        explanation: "지구본은 둥근 구 모양이므로 세계의 모습을 한눈에 볼 수 없습니다."
+      },
+      {
+        question: "지구본의 장점으로 알맞은 것은 무엇인가요?",
+        options: [
+          "세계 여러 나라의 위치, 면적, 거리 등이 비교적 정확하다.",
+          "세계의 전체 모습을 한눈에 한 번에 볼 수 있다.",
+          "주머니에 넣고 다닐 만큼 가지고 다니기 편리하다.",
+          "모든 지역이 평면으로 펼쳐져 나타난다."
+        ],
+        answer: 0,
+        explanation: "지구본은 실제 지구 모형이어서 위치, 면적, 지역 간 거리 등이 비교적 정확하게 나타납니다."
+      },
+      {
+        question: "세계지도에 대한 설명으로 알맞은 것은 무엇인가요?",
+        options: [
+          "둥근 지구를 평면으로 나타낸 것이다.",
+          "실제 지구 모습과 위치, 면적이 완전히 동일하다.",
+          "구 모양으로 제작되어 돌려가며 본다.",
+          "항공 사진만 모아서 만든 디지털 영상이다."
+        ],
+        answer: 0,
+        explanation: "세계지도는 둥근 지구를 평면으로 나타낸 지도입니다."
+      },
+      {
+        question: "세계지도의 특징으로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: [
+          "세계의 모습을 한눈에 살펴볼 수 있다.",
+          "가지고 다니기 편리하다.",
+          "위치, 면적, 거리 등이 실제와 다르게 나타날 수 있다.",
+          "지구의 둥근 입체 모양을 완벽하게 왜곡 없이 표현한다."
+        ],
+        answer: 3,
+        explanation: "세계지도는 둥근 지구를 평면으로 바꾸면서 위치, 면적, 거리 등이 실제와 다르게 나타날 수 있습니다."
+      },
+      {
+        question: "디지털 영상 지도에 대한 설명으로 알맞은 것은 무엇인가요?",
+        options: [
+          "항공 사진이나 위성 영상에 장소 이름, 경계선 등을 표시한 지도이다.",
+          "종이에 인쇄하여 가지고 다니는 평면 지도이다.",
+          "적도를 기준선으로 하여 제작한 모형이다.",
+          "지구본을 평면으로 크게 잘라 붙인 지도이다."
+        ],
+        answer: 0,
+        explanation: "디지털 영상 지도는 항공 사진이나 위성 영상에 다양한 지리 정보를 더한 지도입니다."
+      },
+      {
+        question: "디지털 영상 지도의 특징으로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: [
+          "확대와 축소가 자유롭다.",
+          "특정 지역을 자세히 살펴보거나 전체 모습을 볼 수 있다.",
+          "세계의 모습을 사진이나 영상으로 볼 수 있다.",
+          "한 번 만들어지면 이동 시간이나 새로운 정보를 얻을 수 없다."
+        ],
+        answer: 3,
+        explanation: "디지털 영상 지도에서는 장소 간 거리나 이동 시간 등 다양한 정보를 얻을 수 있습니다."
+      },
+      {
+        question: "위도에 대한 설명으로 알맞은 것은 무엇인가요?",
+        options: [
+          "적도를 기준으로 남북으로 얼마나 떨어져 있는지를 나타낸다.",
+          "본초 자오선을 기준으로 동서로 얼마나 떨어져 있는지를 나타낸다.",
+          "지구의 하루 회전 속도를 측정한 각도이다.",
+          "항공 사진으로 장소의 높낮이를 측정하는 기준선이다."
+        ],
+        answer: 0,
+        explanation: "위도는 적도를 기준으로 남북 위치의 이격 정도를 나타냅니다."
+      },
+      {
+        question: "위도를 나타내는 각도의 범위로 알맞은 것은 무엇인가요?",
+        options: [
+          "북쪽과 남쪽으로 각각 90°씩 나타낸다.",
+          "동쪽과 서쪽으로 각각 180°씩 나타낸다.",
+          "북쪽과 남쪽으로 각각 180°씩 나타낸다.",
+          "동쪽과 서쪽으로 각각 90°씩 나타낸다."
+        ],
+        answer: 0,
+        explanation: "위도는 적도를 기준(0°)으로 북쪽과 남쪽으로 각각 90°씩 나타냅니다."
+      },
+      {
+        question: "적도를 기준으로 위도의 명칭을 바르게 연결한 것은 무엇인가요?",
+        options: [
+          "북쪽: 북위, 남쪽: 남위",
+          "북쪽: 동경, 남쪽: 서경",
+          "동쪽: 북위, 서쪽: 남위",
+          "북쪽: 본초선, 남쪽: 자오선"
+        ],
+        answer: 0,
+        explanation: "적도 기준 북쪽은 북위, 남쪽은 남위라고 합니다."
+      },
+      {
+        question: "위도에 따라 기온 차이가 발생하는 원인으로 알맞은 것은 무엇인가요?",
+        options: [
+          "지구는 둥글어서 위도에 따라 햇볕을 받는 양이 다르기 때문이다.",
+          "지구가 스스로 회전하지 않고 정지해 있기 때문이다.",
+          "고위도 지역일수록 햇볕이 항상 수직으로 들어오기 때문이다.",
+          "저위도 지역일수록 햇볕이 넓게 퍼져 들어가기 때문이다."
+        ],
+        answer: 0,
+        explanation: "지구가 둥글기 때문에 위도에 따라 햇볕을 받는 각도와 양이 달라 기온 차이가 납니다."
+      },
+      {
+        question: "저위도 지역의 기온 특징으로 알맞은 것은 무엇인가요?",
+        options: [
+          "햇볕이 수직에 가깝게 들어와 좁은 지역에 열이 모여 기온이 높다.",
+          "햇볕이 비스듬하게 들어와 넓은 지역으로 열이 퍼져 기온이 낮다.",
+          "1년 내내 얼음이 어는 매우 추운 기후가 나타난다.",
+          "햇볕을 전혀 받지 못해 밤이 지속된다."
+        ],
+        answer: 0,
+        explanation: "저위도 지역은 햇볕이 수직에 가깝게 들어와 열이 집중되므로 기온이 높습니다."
+      },
+      {
+        question: "고위도 지역의 기온 특징으로 알맞은 것은 무엇인가요?",
+        options: [
+          "햇볕이 비스듬하게 들어와 넓은 지역으로 열이 퍼져 기온이 낮다.",
+          "햇볕이 수직에 가깝게 들어와 기온이 매우 높다.",
+          "적도 부근에 위치하여 날씨가 매우 덥다.",
+          "위도에 상관없이 저위도와 기온이 완전히 같다."
+        ],
+        answer: 0,
+        explanation: "고위도 지역은 햇볕이 비스듬하게 들어와 열이 넓게 퍼지므로 기온이 낮습니다."
+      },
+      {
+        question: "위도와 기온에 대한 설명으로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: [
+          "저위도 지역은 좁은 지역에 열이 모여 기온이 높다.",
+          "고위도 지역은 넓은 지역으로 열이 퍼져 기온이 낮다.",
+          "지구가 둥글기 때문에 위도별 기온 차이가 발생한다.",
+          "고위도 지역은 햇볕이 수직으로 들어와 매우 덥다."
+        ],
+        answer: 3,
+        explanation: "고위도 지역은 햇볕이 비스듬하게 들어와 기온이 낮습니다. 수직에 가깝게 들어오는 곳은 저위도 지역입니다."
+      },
+      {
+        question: "위도에 따라 계절 차이가 나타나는 원인으로 알맞은 것은 무엇인가요?",
+        options: [
+          "지구가 기울어진 상태로 태양 주위를 돌기 때문이다.",
+          "지구가 바다와 육지로 나누어져 있기 때문이다.",
+          "본초 자오선이 동서로 지구를 가르기 때문이다.",
+          "지구본의 크기가 실제 지구보다 작기 때문이다."
+        ],
+        answer: 0,
+        explanation: "지구가 자전축이 기울어진 상태로 태양 주위를 공전하기 때문에 계절의 변화가 생깁니다."
+      },
+      {
+        question: "북반구와 남반구의 계절 관계에 대한 설명으로 알맞은 것은 무엇인가요?",
+        options: [
+          "북반구와 남반구의 계절은 서로 반대로 나타난다.",
+          "북반구와 남반구의 계절은 항상 똑같이 나타난다.",
+          "북반구가 여름일 때 남반구도 여름이다.",
+          "위도와 상관없이 계절은 변하지 않고 일정하다."
+        ],
+        answer: 0,
+        explanation: "북반구와 남반구는 지구가 기울어진 채 태양 주위를 돌기 때문에 계절이 서로 반대로 나타납니다."
+      },
+      {
+        question: "경도에 대한 설명으로 알맞은 것은 무엇인가요?",
+        options: [
+          "본초 자오선을 기준으로 동서로 얼마나 떨어져 있는지를 나타낸다.",
+          "적도를 기준으로 남북으로 얼마나 떨어져 있는지를 나타낸다.",
+          "지구의 위아래 높이를 나타내는 각도이다.",
+          "북반구와 남반구를 나누는 가로선의 각도이다."
+        ],
+        answer: 0,
+        explanation: "경도는 본초 자오선을 기준선으로 동서 위치를 나타냅니다."
+      },
+      {
+        question: "경도를 나타내는 각도의 범위로 알맞은 것은 무엇인가요?",
+        options: [
+          "동쪽과 서쪽으로 각각 180°씩 나타낸다.",
+          "북쪽과 남쪽으로 각각 90°씩 나타낸다.",
+          "동쪽과 서쪽으로 각각 90°씩 나타낸다.",
+          "북쪽과 남쪽으로 각각 180°씩 나타낸다."
+        ],
+        answer: 0,
+        explanation: "경도는 본초 자오선(0°)을 기준으로 동쪽과 서쪽으로 각각 180°씩 나타냅니다."
+      },
+      {
+        question: "본초 자오선을 기준으로 경도의 명칭을 바르게 연결한 것은 무엇인가요?",
+        options: [
+          "동쪽: 동경, 서쪽: 서경",
+          "북쪽: 북경, 남쪽: 남경",
+          "동쪽: 북위, 서쪽: 남위",
+          "동쪽: 위선, 서쪽: 경선"
+        ],
+        answer: 0,
+        explanation: "본초 자오선 기준 동쪽은 동경, 서쪽은 서경입니다."
+      },
+      {
+        question: "경도에 따라 시차가 발생 원인으로 알맞은 것은 무엇인가요?",
+        options: [
+          "지구가 하루에 한 바퀴씩 스스로 회전하기 때문이다.",
+          "지구가 태양 주위를 1년에 한 바퀴씩 돌기 때문이다.",
+          "위도에 따라 햇볕을 받는 양이 다르기 때문이다.",
+          "지구본과 세계지도의 형태가 다르기 때문이다."
+        ],
+        answer: 0,
+        explanation: "지구가 하루에 한 바퀴씩 자전하므로 경도에 따라 태양을 받는 시각이 달라져 시차가 생깁니다."
+      },
+      {
+        question: "세계 각 나라에서 시각을 정할 때 사용하는 방법으로 알맞은 것은 무엇인가요?",
+        options: [
+          "나라마다 기준이 되는 경선을 정해 그 경선의 시각을 사용한다.",
+          "모든 나라가 상관없이 적도의 시각만 똑같이 사용한다.",
+          "위선 중 하나를 무작위로 골라 매일 시각을 바꾼다.",
+          "지구본에 표기된 가장 가까운 위도의 시각을 사용한다."
+        ],
+        answer: 0,
+        explanation: "각 나라는 자국의 기준이 되는 경선을 정하여 그 경선의 시각을 표준시로 사용합니다."
+      },
+      {
+        question: "지구본과 세계지도에서 특정 장소의 위치를 표현하는 방법으로 알맞은 것은 무엇인가요?",
+        options: [
+          "위선과 경선이 만나는 지점으로 위치를 표현한다.",
+          "적도선 하나만으로 모든 위치를 표현한다.",
+          "본초 자오선의 길이로 위치를 표현한다.",
+          "지역의 면적 비율만 가지고 위치를 표현한다."
+        ],
+        answer: 0,
+        explanation: "지구본과 세계지도에서는 가로선인 위선과 세로선인 경선이 만나는 지점(예: 북위 X°, 동경 Y°)으로 위치를 나타냅니다."
+      },
+      {
+        question: "지구본과 세계지도의 비교 설명으로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: [
+          "지구본은 실제 지구 모습을 작게 줄인 모형이다.",
+          "세계지도는 세계의 모습을 한눈에 볼 수 있다.",
+          "세계지도는 들고 다니며 활용하기 편리하다.",
+          "지구본은 세계의 모습을 한눈에 쉽게 살펴볼 수 있다."
+        ],
+        answer: 3,
+        explanation: "지구본은 입체 구 형태이므로 반대편을 동시에 볼 수 없어 한눈에 살펴보기 어렵습니다."
+      },
+      {
+        question: "북반구와 남반구의 계절 설명으로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: [
+          "북반구가 여름일 때 남반구는 겨울이다.",
+          "북반구가 겨울일 때 남반구는 여름이다.",
+          "지구가 기울어진 채 태양 주위를 돌기 때문에 계절 차이가 난다.",
+          "북반구가 여름일 때 남반구도 똑같이 여름이 된다."
+        ],
+        answer: 3,
+        explanation: "북반구와 남반구의 계절은 서로 반대로 나타납니다."
+      },
+      {
+        question: "경도와 시차에 관한 설명으로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: [
+          "경도에 따라 시각이 달라진다.",
+          "시차가 발생하는 원인은 지구의 자전 때문이다.",
+          "나라마다 기준 경선을 정해 시각을 사용한다.",
+          "세계 모든 나라의 시각은 경도와 상관없이 항상 일치한다."
+        ],
+        answer: 3,
+        explanation: "지구 자전으로 경도에 따라 시각이 달라지므로 시차가 존재합니다."
+      },
+      {
+        question: "저위도와 고위도의 기온 설명으로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: [
+          "저위도 지역은 햇볕이 수직에 가깝게 들어온다.",
+          "고위도 지역은 햇볕이 비스듬하게 들어온다.",
+          "저위도 지역은 기온이 높다.",
+          "고위도 지역은 열이 좁은 지역에 모여 기온이 매우 높다."
+        ],
+        answer: 3,
+        explanation: "고위도 지역은 햇볕이 비스듬히 들어와 열이 넓게 퍼지므로 기온이 낮습니다."
+      },
+      {
+        question: "본초 자오선과 경도 설명으로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: [
+          "본초 자오선은 경도 0° 선이다.",
+          "본초 자오선 기준 동쪽을 동경이라고 한다.",
+          "본초 자오선 기준 서쪽을 서경이라고 한다.",
+          "본초 자오선 기준 북쪽을 북경, 남쪽을 남경이라고 부른다."
+        ],
+        answer: 3,
+        explanation: "본초 자오선은 동서 위치(동경, 서경)를 정하는 기준선입니다."
+      },
+      {
+        question: "위선과 경선을 활용한 위치 표현 설명으로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: [
+          "위선과 경선이 만나는 지점으로 위치를 나타낼 수 있다.",
+          "위도는 적도를 기준으로 측정한다.",
+          "경도는 본초 자오선을 기준으로 측정한다.",
+          "위선 하나만 알면 지구상 위치를 단 하나의 지점으로 정확히 정할 수 있다."
+        ],
+        answer: 3,
+        explanation: "위선 하나만으로는 선 전체를 가리키므로, 경선과 만나는 지점을 알아야 정확한 한 지점을 정할 수 있습니다."
+      },
+      {
+        question: "디지털 영상 지도의 이점으로 알맞은 것은 무엇인가요?",
+        options: [
+          "장소 간 거리나 이동 시간 등 다양한 정보를 얻을 수 있다.",
+          "종이로 크게 출력해서만 볼 수 있다.",
+          "지구의 실제 크기와 1:1 크기로만 표시된다.",
+          "위도와 경도를 전혀 표시할 수 없다."
+        ],
+        answer: 0,
+        explanation: "디지털 영상 지도에서는 이동 시간, 장소 거리 등 다채로운 지리 정보를 쉽게 얻을 수 있습니다."
+      },
+      {
+        question: "다음 중 적도(0°)에 대한 설명으로 알맞은 것은 무엇인가요?",
+        options: [
+          "위도를 나눌 때 기준이 되는 가로선이다.",
+          "경도를 나눌 때 기준이 되는 세로선이다.",
+          "동경과 서경을 구분하는 기준선이다.",
+          "시차를 계산할 때만 사용하는 특수 경선이다."
+        ],
+        answer: 0,
+        explanation: "적도는 위도를 북위와 남위로 나누는 0° 가로 기준선입니다."
+      },
+      {
+        question: "지구가 하루에 한 바퀴씩 스스로 회전하는 운동을 무엇에 관한 설명인가요?",
+        options: [
+          "경도에 따른 시차 발생의 원인이다.",
+          "위도에 따른 기온 차이의 직접적 원인이다.",
+          "북반구와 남반구의 계절이 반대가 되는 원인이다.",
+          "세계지도가 평면으로 왜곡되는 원인이다."
+        ],
+        answer: 0,
+        explanation: "지구의 자전(하루 한 바퀴 회전)은 경도에 따른 시차 발생의 원인입니다."
+      },
+      {
+        question: "세계지도에서 위치나 면적이 실제와 다르게 나타날 수 있는 이유로 알맞은 것은 무엇인가요?",
+        options: [
+          "둥근 지구를 평면으로 펼쳐서 나타냈기 때문이다.",
+          "지구본을 디지털 카메라로 촬영했기 때문이다.",
+          "위도와 경도를 잘못 계산하여 그렸기 때문이다.",
+          "적도와 본초 자오선이 만나는 지점이 없기 때문이다."
+        ],
+        answer: 0,
+        explanation: "3차원 구 모양의 지구를 2차원 평면에 그리면서 면적이나 형태의 왜곡이 발생하게 됩니다."
+      }
+    ];
+
+    // 상태 관리 변수
+    let currentQuestions = [];
+    let currentQuestionIndex = 0;
+    let userName = "";
+    let startTime = 0;
+    let countdownTimer = null;
+
+    window.onload = function() {
+      document.getElementById('user-answer').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') submitShortAnswer();
+      });
+      
+      document.getElementById('user-name').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') prepareQuiz();
+      });
+    };
+
+    function prepareQuiz() {
+      userName = document.getElementById('user-name').value.trim();
+
+      if (!userName) {
+        alert("이름을 입력해주세요.");
+        return;
+      }
+
+      // 1~7번: 객관식 31문제 중 랜덤 7개 추출
+      const shuffledMC = [...quizDataMC].sort(() => Math.random() - 0.5);
+      const selectedMC = shuffledMC.slice(0, 7);
+
+      // 8~10번: 단답식 9문제 중 랜덤 3개 추출
+      const shuffledSA = [...quizDataSA].sort(() => Math.random() - 0.5);
+      const selectedSA = shuffledSA.slice(0, 3);
+
+      // 총 10문항 결합
+      currentQuestions = [...selectedMC, ...selectedSA];
+      currentQuestionIndex = 0;
+
+      showScreen('countdown-screen');
+      document.getElementById('countdown-title').textContent = "준비하세요!";
+      startCountdown(() => startQuiz());
+    }
+
+    function startCountdown(callback) {
+      let count = 3;
+      const countEl = document.getElementById('countdown-number');
+      countEl.textContent = count;
+
+      if (countdownTimer) clearInterval(countdownTimer);
+
+      countdownTimer = setInterval(() => {
+        count--;
+        if (count > 0) {
+          countEl.textContent = count;
+        } else {
+          clearInterval(countdownTimer);
+          callback();
+        }
+      }, 1000);
+    }
+
+    function startQuiz() {
+      showScreen('quiz-screen');
+      startTime = new Date().getTime();
+      loadQuestion();
+    }
+
+    function loadQuestion() {
+      const q = currentQuestions[currentQuestionIndex];
+      document.getElementById('progress-display').textContent = `${currentQuestionIndex + 1} / 10`;
+      
+      document.getElementById('question-text').innerHTML = q.question;
+
+      const mcContainer = document.getElementById('mc-container');
+      const saContainer = document.getElementById('sa-container');
+      const tagEl = document.getElementById('question-type-tag');
+
+      if (currentQuestionIndex < 7) {
+        // 객관식 (1~7번)
+        tagEl.textContent = "객관식";
+        tagEl.style.backgroundColor = "#e0f2fe";
+        tagEl.style.color = "#0369a1";
+
+        mcContainer.classList.remove('hidden');
+        saContainer.classList.add('hidden');
+        mcContainer.innerHTML = "";
+
+        q.options.forEach((opt, idx) => {
+          const btn = document.createElement('button');
+          btn.className = 'option-btn';
+          btn.textContent = `${idx + 1}. ${opt}`;
+          btn.onclick = () => checkAnswer(idx);
+          mcContainer.appendChild(btn);
+        });
+      } else {
+        // 단답식 (8~10번)
+        tagEl.textContent = "단답식";
+        tagEl.style.backgroundColor = "#fef3c7";
+        tagEl.style.color = "#b45309";
+
+        mcContainer.classList.add('hidden');
+        saContainer.classList.remove('hidden');
+
+        const inputEl = document.getElementById('user-answer');
+        inputEl.value = "";
+        inputEl.focus();
+      }
+    }
+
+    function normalizeStr(str) {
+      return str.toString().replace(/[\s\.\·\-\_]/g, '').toLowerCase();
+    }
+
+    function checkAnswer(userChoice) {
+      const q = currentQuestions[currentQuestionIndex];
+      if (userChoice === q.answer) {
+        nextQuestion();
+      } else {
+        const userAnsStr = `${userChoice + 1}. ${q.options[userChoice]}`;
+        const correctAnsStr = `${q.answer + 1}. ${q.options[q.answer]}`;
+        handleIncorrect(userAnsStr, correctAnsStr, q.explanation);
+      }
+    }
+
+    function submitShortAnswer() {
+      const inputEl = document.getElementById('user-answer');
+      const userAnsRaw = inputEl.value.trim();
+
+      if (!userAnsRaw) {
+        alert("정답을 입력해주세요.");
+        return;
+      }
+
+      const q = currentQuestions[currentQuestionIndex];
+      const normalizedUser = normalizeStr(userAnsRaw);
+      
+      const isCorrect = q.answer.some(ans => normalizeStr(ans) === normalizedUser);
+
+      if (isCorrect) {
+        nextQuestion();
+      } else {
+        const correctStr = q.answer[0];
+        handleIncorrect(userAnsRaw, correctStr, q.explanation);
+      }
+    }
+
+    function nextQuestion() {
+      currentQuestionIndex++;
+      if (currentQuestionIndex < 10) {
+        loadQuestion();
+      } else {
+        showSuccess();
+      }
+    }
+
+    function handleIncorrect(userAns, correctAns, exp) {
+      document.getElementById('exp-user-ans').textContent = userAns;
+      document.getElementById('exp-correct-ans').textContent = correctAns;
+      document.getElementById('exp-text').textContent = exp || "해설이 없습니다.";
+      showScreen('explanation-screen');
+    }
+
+    function showSuccess() {
+      const endTime = new Date().getTime();
+      const timeTaken = ((endTime - startTime) / 1000).toFixed(1);
+      const now = new Date();
+      
+      const timeString = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+
+      document.getElementById('res-name').textContent = userName;
+      document.getElementById('res-time').textContent = timeTaken;
+      document.getElementById('res-date').textContent = timeString;
+
+      showScreen('result-screen');
+    }
+
+    function resetQuiz() {
+      if (countdownTimer) clearInterval(countdownTimer);
+      document.getElementById('user-answer').value = "";
+      showScreen('start-screen');
+    }
+
+    function showScreen(screenId) {
+      const screens = ['start-screen', 'countdown-screen', 'quiz-screen', 'explanation-screen', 'result-screen'];
+      screens.forEach(id => {
+        document.getElementById(id).classList.add('hidden');
+      });
+      document.getElementById(screenId).classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>

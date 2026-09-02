@@ -33,7 +33,7 @@
     }
     .top-nav {
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-start;
       gap: 10px;
       margin-bottom: 20px;
     }
@@ -45,12 +45,11 @@
       background-color: #e2e8f0;
       color: #475569;
       text-decoration: none;
-      padding: 10px 12px;
+      padding: 8px 12px;
       border-radius: 12px;
       font-weight: bold;
       font-size: 13px;
       transition: background-color 0.2s;
-      flex: 1;
     }
     .nav-btn:active {
       background-color: #cbd5e1;
@@ -67,6 +66,7 @@
     }
     .input-group {
       margin-bottom: 20px;
+      text-align: left;
     }
     .input-group label {
       display: block;
@@ -90,10 +90,11 @@
     }
     .btn-group {
       display: flex;
+      flex-direction: column;
       gap: 10px;
     }
     .btn {
-      flex: 1;
+      width: 100%;
       padding: 15px;
       border: none;
       border-radius: 12px;
@@ -101,6 +102,10 @@
       font-weight: bold;
       cursor: pointer;
       transition: transform 0.1s, background-color 0.2s;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+      box-sizing: border-box;
     }
     .btn:active {
       transform: scale(0.98);
@@ -245,10 +250,11 @@
       margin-bottom: 10px;
     }
     .success-title {
-      font-size: 24px;
+      font-size: 22px;
       color: #2f855a;
       font-weight: bold;
       margin-bottom: 15px;
+      line-height: 1.4;
     }
     .result-info {
       background-color: #f0fff4;
@@ -281,23 +287,22 @@
 
   <div class="card">
     
-    <!-- 1. 처음 화면 -->
+    <!-- 1. 처음 화면 (규칙 4 반영) -->
     <div id="start-screen">
       <div class="top-nav">
         <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
-        <a href="../social.html" class="nav-btn">📚 단원 선택</a>
       </div>
       <h1>사회 6-2 스피드 퀴즈</h1>
       <p class="sub-title">2-(2) 경제성장과 우리 생활 (10문제 도전)</p>
 
       <div class="input-group">
-        <label for="userName">도전자의 이름을 입력하세요</label>
-        <input type="text" id="userName" placeholder="이름 입력 (예: 홍길동)" autocomplete="off">
+        <label for="userName">이름</label>
+        <input type="text" id="userName" placeholder="이름을 입력하세요" autocomplete="off">
       </div>
 
       <div class="btn-group">
-        <button class="btn btn-secondary" onclick="resetForm()">재도전 (초기화)</button>
-        <button class="btn btn-primary" onclick="startQuizProcess()">시작하기</button>
+        <button class="btn btn-primary" onclick="startQuizProcess()">시작</button>
+        <a href="social.html" class="btn btn-secondary">단원선택</a>
       </div>
     </div>
 
@@ -307,7 +312,7 @@
       <div class="countdown-number" id="countdown-timer">3</div>
     </div>
 
-    <!-- 3. 퀴즈 진행 화면 -->
+    <!-- 3. 퀴즈 진행 화면 (규칙 5, 6 반영: 1-7번 객관식, 8-10번 단답식) -->
     <div id="quiz-screen">
       <div class="progress-bar-container">
         <div class="progress-bar" id="progress-bar"></div>
@@ -330,48 +335,51 @@
       </div>
     </div>
 
-    <!-- 4. 오답 화면 -->
+    <!-- 4. 오답 화면 (규칙 7 반영: 해설 제공 + 계속 버튼 클릭 시 시작 단계 복귀) -->
     <div id="wrong-screen">
       <div class="wrong-title">❌ 틀렸습니다!</div>
       <div class="explanation-box">
-        <strong>💡 핵심 해설:</strong>
+        <strong>💡 간단 해설:</strong>
         <p id="explanation-text" style="margin-top: 5px;"></p>
       </div>
-      <button class="btn btn-primary" style="width: 100%;" onclick="returnToStart()">처음 단계로 돌아가기</button>
+      <button class="btn btn-primary" style="width: 100%;" onclick="returnToStart()">계속</button>
     </div>
 
-    <!-- 5. 성공 축하 화면 -->
+    <!-- 5. 성공 축하 화면 (규칙 8 반영: 홈으로, 성공축하메시지, 이름, 총걸린시간, 현재시간, 재도전, 단원선택) -->
     <div id="success-screen">
-      <div class="trophy">🏆</div>
-      <div class="success-title">축하합니다! 10문제 모두 맞추셨습니다!</div>
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+      </div>
+
+      <div class="trophy">🎉</div>
+      <div class="success-title">축하합니다!<br>10문제를 모두 맞추셨습니다!</div>
       
       <div class="result-info">
         <div class="result-item">
-          <span class="result-label">도전자 Name</span>
+          <span class="result-label">이름</span>
           <span class="result-value" id="result-name">-</span>
         </div>
         <div class="result-item">
-          <span class="result-label">총 걸린 시간</span>
+          <span class="result-label">총 걸린시간</span>
           <span class="result-value" id="result-time">-</span>
         </div>
         <div class="result-item">
-          <span class="result-label">완료 시각</span>
+          <span class="result-label">현재 시간</span>
           <span class="result-value" id="result-date">-</span>
         </div>
       </div>
 
-      <div class="top-nav" style="margin-bottom: 12px;">
-        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
-        <a href="../social.html" class="nav-btn">📚 단원 선택</a>
+      <div class="btn-group">
+        <button class="btn btn-success" onclick="returnToStart()">재도전</button>
+        <a href="social.html" class="btn btn-secondary">단원선택</a>
       </div>
-      <button class="btn btn-success" style="width: 100%;" onclick="returnToStart()">다시 도전하기</button>
     </div>
 
   </div>
 
   <script>
     // ----------------------------------------------------
-    // 문제 은행 데이터 (제시된 학습지 이미지 내용 100% 반영)
+    // 문제 은행 데이터 (기존 내용 100% 보존)
     // ----------------------------------------------------
 
     // 객관식 문제 은행 (21문제)
@@ -539,7 +547,7 @@
       }
     ];
 
-    // 단답식 문제 은행 (9문제 - 지정된 9개 정답어 정확히 반영)
+    // 단답식 문제 은행 (9문제)
     const saBank = [
       {
         q: "국가의 전체적인 생산 수준이나 국민 소득이 증가하여 이것이 커지는 것을 경제성장이라고 합니다. 이것은 무엇인가요?",
@@ -603,11 +611,6 @@
     const wrongScreen = document.getElementById("wrong-screen");
     const successScreen = document.getElementById("success-screen");
 
-    // 초기화 버튼
-    function resetForm() {
-      document.getElementById("userName").value = "";
-    }
-
     // 배열 셔플 함수
     function shuffleArray(array) {
       const arr = [...array];
@@ -618,7 +621,7 @@
       return arr;
     }
 
-    // 퀴즈 시작 프로세스
+    // 퀴즈 시작 프로세스 (규칙 5 반영)
     function startQuizProcess() {
       const nameInput = document.getElementById("userName").value.trim();
       if (!nameInput) {
@@ -649,7 +652,7 @@
       }, 1000);
     }
 
-    // 퀴즈 데이터 생성 (1~7번: 객관식 7개, 8~10번: 단답식 3개)
+    // 퀴즈 데이터 생성 (규칙 6 반영: 1-7번 객관식 7개, 8-10번 단답식 3개 랜덤 추출)
     function initQuizData() {
       const selectedMCQs = shuffleArray(mcqBank).slice(0, 7);
       const selectedSAs = shuffleArray(saBank).slice(0, 3);
@@ -741,7 +744,12 @@
       const qData = quizQueue[currentIdx];
       const userInput = document.getElementById("sa-input").value.trim().replace(/\s+/g, "");
       
-      // 띄어쓰기 예외 처리 포함 비교
+      if (!userInput) {
+        alert("정답을 입력해주세요.");
+        return;
+      }
+
+      // 공백 제거 후 비교
       const isCorrect = qData.ansList.some(targetAns => {
         return targetAns.replace(/\s+/g, "") === userInput;
       });
@@ -763,14 +771,14 @@
       }
     }
 
-    // 오답 화면
+    // 오답 화면 (규칙 7 반영)
     function showWrongScreen(explanationText) {
       quizScreen.style.display = "none";
       wrongScreen.style.display = "block";
       document.getElementById("explanation-text").textContent = explanationText;
     }
 
-    // 시작 화면으로 복귀
+    // 이름 입력 시작 단계로 돌아가기 (규칙 7 반영)
     function returnToStart() {
       wrongScreen.style.display = "none";
       successScreen.style.display = "none";
@@ -778,20 +786,16 @@
       startScreen.style.display = "block";
     }
 
-    // 퀴즈 완등 (성공)
+    // 퀴즈 완등 - 10문제 모두 맞춘 경우 (규칙 8 반영)
     function finishQuiz() {
       const endTime = Date.now();
-      const elapsedSeconds = Math.floor((endTime - startTime) / 1000);
-      
-      const mins = Math.floor(elapsedSeconds / 60);
-      const secs = elapsedSeconds % 60;
-      const timeStr = mins > 0 ? `${mins}분 ${secs}초` : `${secs}초`;
+      const elapsedSeconds = ((endTime - startTime) / 1000).toFixed(1);
 
       const now = new Date();
       const dateStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
 
       document.getElementById("result-name").textContent = userName;
-      document.getElementById("result-time").textContent = timeStr;
+      document.getElementById("result-time").textContent = `${elapsedSeconds}초`;
       document.getElementById("result-date").textContent = dateStr;
 
       quizScreen.style.display = "none";

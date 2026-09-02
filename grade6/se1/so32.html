@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>6학년 1학기 사회 - 세계 여러 국가의 위치와 영토 모습</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    body {
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 480px;
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      padding: 28px 20px;
+      text-align: center;
+      position: relative;
+    }
+
+    .top-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 8px 12px;
+      background-color: #f1f5f9;
+      color: #475569;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      transition: all 0.2s;
+    }
+
+    .nav-btn:hover {
+      background-color: #e2e8f0;
+      color: #0f172a;
+    }
+
+    h1 {
+      font-size: 20px;
+      color: #1e293b;
+      margin-bottom: 20px;
+      line-height: 1.4;
+    }
+
+    .badge {
+      display: inline-block;
+      background-color: #e0f2fe;
+      color: #0369a1;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+      text-align: left;
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: #475569;
+      margin-bottom: 6px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 16px;
+      outline: none;
+      transition: all 0.2s ease;
+      background-color: #fff;
+    }
+
+    input[type="text"]:focus {
+      border-color: #0284c7;
+      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 15px;
+      background-color: #0284c7;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .btn-primary:hover {
+      background-color: #0369a1;
+    }
+
+    .btn-secondary {
+      width: 100%;
+      padding: 14px;
+      background-color: #f1f5f9;
+      color: #475569;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .btn-secondary:hover {
+      background-color: #e2e8f0;
+      color: #0f172a;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    #countdown-screen h2 {
+      font-size: 80px;
+      color: #0284c7;
+      margin: 24px 0;
+      font-weight: 800;
+    }
+
+    .question-box {
+      font-size: 17px;
+      font-weight: 700;
+      color: #0f172a;
+      margin: 16px 0 20px 0;
+      word-break: keep-all;
+      line-height: 1.5;
+      text-align: left;
+      background-color: #f8fafc;
+      padding: 18px;
+      border-radius: 14px;
+      border-left: 5px solid #0284c7;
+      min-height: 90px;
+      display: flex;
+      align-items: center;
+    }
+
+    .question-box u {
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      text-decoration-thickness: 2px;
+      color: #e11d48;
+    }
+
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .option-btn {
+      width: 100%;
+      padding: 14px 16px;
+      background-color: #ffffff;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      color: #334155;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .option-btn:hover {
+      background-color: #f0f9ff;
+      border-color: #38bdf8;
+      color: #0369a1;
+    }
+
+    .explanation-box {
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 18px;
+      margin: 18px 0;
+      text-align: left;
+      font-size: 15px;
+    }
+
+    .explanation-box p {
+      margin-bottom: 8px;
+    }
+
+    .explanation-box p:last-child {
+      margin-bottom: 0;
+    }
+
+    .result-card {
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 18px;
+      margin: 20px 0;
+      text-align: left;
+    }
+
+    .result-card p {
+      font-size: 15px;
+      color: #334155;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .result-card p:last-child {
+      margin-bottom: 0;
+    }
+
+    .result-card strong {
+      color: #0f172a;
+    }
+
+    .type-badge {
+      font-size: 12px;
+      background-color: #e2e8f0;
+      color: #475569;
+      padding: 2px 8px;
+      border-radius: 6px;
+      margin-left: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- 1. 시작 화면 -->
+    <div id="start-screen">
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+      </div>
+      
+      <div class="badge">[사회 6-1] 3. 지구, 대륙 그리고 국가들</div>
+      <h1>(2) 세계 여러 국가의 위치와 영토 모습</h1>
+
+      <div class="form-group">
+        <label for="user-name">이름</label>
+        <input type="text" id="user-name" placeholder="이름을 입력하세요" autocomplete="off">
+      </div>
+
+      <div class="btn-group">
+        <button class="btn-primary" onclick="prepareQuiz()">🚀 시작</button>
+        <a href="social.html" class="btn-secondary">📚 단원선택</a>
+      </div>
+    </div>
+
+    <!-- 2. 카운트다운 화면 -->
+    <div id="countdown-screen" class="hidden">
+      <p id="countdown-title" style="font-size: 18px; color: #64748b; font-weight: 600; margin-top: 10px;">준비하세요!</p>
+      <h2 id="countdown-number">3</h2>
+    </div>
+
+    <!-- 3. 퀴즈 실행 화면 -->
+    <div id="quiz-screen" class="hidden">
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+        <span id="progress-display" style="font-size: 14px; font-weight: 700; color: #0284c7;">1 / 10</span>
+      </div>
+
+      <div class="question-box">
+        <div>
+          <span id="question-type-tag" class="type-badge">객관식</span>
+          <div id="question-text" style="margin-top: 6px;"></div>
+        </div>
+      </div>
+
+      <!-- 객관식 보기 영역 -->
+      <div id="mc-container" class="options-grid"></div>
+
+      <!-- 단답식 입력 영역 -->
+      <div id="sa-container" class="hidden">
+        <div class="form-group">
+          <input type="text" id="user-answer" placeholder="정답을 입력하세요" autocomplete="off">
+        </div>
+        <button class="btn-primary" onclick="submitShortAnswer()">정답 제출</button>
+      </div>
+    </div>
+
+    <!-- 4. 해설 화면 (오답 발생 시) -->
+    <div id="explanation-screen" class="hidden">
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+        <a href="social.html" class="nav-btn">📚 단원선택</a>
+      </div>
+      <h2 style="color: #e11d48; margin-bottom: 10px; font-size: 20px;">❌ 아쉽네요! 오답입니다.</h2>
+      <div class="explanation-box">
+        <p><strong>내가 입력한 답:</strong> <span id="exp-user-ans" style="color: #e11d48;"></span></p>
+        <p><strong>정답:</strong> <span id="exp-correct-ans" style="color: #16a34a; font-weight: bold;"></span></p>
+        <hr style="margin: 10px 0; border: none; border-top: 1px dashed #cbd5e1;">
+        <p><strong>💡 [간단 해설]</strong></p>
+        <p id="exp-text" style="margin-top: 6px; line-height: 1.5; color: #475569;"></p>
+      </div>
+      <button class="btn-primary" onclick="resetQuiz()">계속하기</button>
+    </div>
+
+    <!-- 5. 성공 결과 화면 -->
+    <div id="result-screen" class="hidden">
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+      </div>
+
+      <h1 style="color: #16a34a; margin-bottom: 8px;">🎉 축하합니다! 🎉</h1>
+      <p style="color: #475569; font-size: 16px; font-weight: 600;">10문제를 모두 올바르게 맞추셨습니다!</p>
+      
+      <div class="result-card">
+        <p><strong>이름:</strong> <span id="res-name"></span></p>
+        <p><strong>총 걸린시간:</strong> <span id="res-time"></span>초</p>
+        <p><strong>현재 시간:</strong> <span id="res-date"></span></p>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn-primary" onclick="resetQuiz()">🔄 재도전</button>
+        <a href="social.html" class="btn-secondary">📚 단원선택</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ----------------------------------------------------
+    // 문제 데이터베이스 (총 40문항 - 지정 단답식 10문항 / 객관식 30문항)
+    // ----------------------------------------------------
+
+    // 1. 지정 단답식 문제 (10문항)
+    const quizDataSA = [
+      {
+        question: "바다로 둘러싸인 커다란 육지를 무엇이라고 하나요?",
+        answer: ["대륙"],
+        explanation: "바다로 둘러싸인 커다란 육지를 대륙이라고 합니다."
+      },
+      {
+        question: "세계의 바다 가운데 넓은 바다를 무엇이라고 하나요?",
+        answer: ["대양"],
+        explanation: "세계의 바다 가운데 넓은 바다를 대양이라고 합니다."
+      },
+      {
+        question: "세계의 대양 가운데 가장 넓은 대양은 무엇인가요?",
+        answer: ["태평양"],
+        explanation: "가장 넓은 대양은 태평양이며, 대양의 넓이는 태평양 > 대서양 > 인도양 순입니다."
+      },
+      {
+        question: "세계에서 가장 넓은 대륙으로, 대부분 북반구에 분포해 있는 대륙은 무엇인가요?",
+        answer: ["아시아"],
+        explanation: "아시아는 세계에서 가장 넓은 대륙입니다."
+      },
+      {
+        question: "우랄산맥을 경계로 아시아의 서쪽에 위치하며, 작은 대륙이지만 많은 나라가 있는 대륙은 무엇인가요?",
+        answer: ["유럽"],
+        explanation: "유럽은 우랄산맥을 경계로 아시아 서쪽에 위치해 있습니다."
+      },
+      {
+        question: "우리나라의 서쪽에 있으며 영토가 동서로 넓게 펼쳐져 있는 아시아의 나라는 어디인가요?",
+        answer: ["중국"],
+        explanation: "중국은 우리나라의 서쪽에 위치하며 영토가 동서로 넓게 펼쳐져 있습니다."
+      },
+      {
+        question: "우리나라의 동쪽에 있으며 태평양에 접해 있는 섬나라는 어디인가요?",
+        answer: ["일본"],
+        explanation: "일본은 우리나라의 동쪽에 위치한 섬나라입니다."
+      },
+      {
+        question: "세계에서 가장 작은 대륙으로, 오스트레일리아 대륙과 태평양의 수많은 섬으로 이루어진 대륙은 무엇인가요?",
+        answer: ["오세아니아"],
+        explanation: "오세아니아는 세계에서 가장 작은 대륙입니다."
+      },
+      {
+        question: "유럽의 서쪽에 있는 섬나라로, 본초 자오선이 지나가는 나라는 어디인가요?",
+        answer: ["영국"],
+        explanation: "영국은 유럽 서쪽에 위치한 섬나라로 본초 자오선이 통과합니다."
+      },
+      {
+        question: "아프리카의 북동쪽 끝에 위치하며, 국경선 일부가 직선으로 반듯하여 영토 모양이 사각형과 비슷한 나라는 어디인가요?",
+        answer: ["이집트"],
+        explanation: "이집트는 아프리카 북동쪽 끝에 있으며 국경선 일부가 직선 형태입니다."
+      }
+    ];
+
+    // 2. 객관식 문제 (30문항)
+    const quizDataMC = [
+      {
+        question: "세계의 대륙에 대한 설명으로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: [
+          "바다로 둘러싸인 커다란 육지이다.",
+          "남반구보다 북반구에 더 많이 분포한다.",
+          "가장 넓은 대륙은 오세아니아이다.",
+          "아시아, 아프리카, 북아메리카 등이 포함된다."
+        ],
+        answer: 2,
+        explanation: "가장 넓은 대륙은 아시아입니다. 오세아니아는 가장 작은 대륙입니다."
+      },
+      {
+        question: "남반구에 주로 속한 대륙으로만 짝지어진 것은 무엇인가요?",
+        options: [
+          "아시아, 유럽, 아프리카",
+          "오세아니아, 남아메리카, 남극 대륙",
+          "북아메리카, 아시아, 남아메리카",
+          "아프리카, 유럽, 남극 대륙"
+        ],
+        answer: 1,
+        explanation: "남반구에 주로 속한 대륙은 오세아니아, 남아메리카, 남극 대륙입니다."
+      },
+      {
+        question: "세계의 대양을 넓이가 넓은 곳부터 순서대로 바르게 나열한 것은 무엇인가요?",
+        options: [
+          "태평양 > 대서양 > 인도양",
+          "인도양 > 대서양 > 태평양",
+          "대서양 > 태평양 > 인도양",
+          "태평양 > 인도양 > 대서양"
+        ],
+        answer: 0,
+        explanation: "대양의 넓이는 태평양 > 대서양 > 인도양 순으로 넓습니다."
+      },
+      {
+        question: "세계의 대양에 대한 설명으로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: [
+          "세계의 바다 가운데 넓은 바다를 말한다.",
+          "태평양, 대서양, 인도양, 북극해, 남극해 등이 있다.",
+          "가장 넓은 대양은 인도양이다.",
+          "대서양은 태평양보다 넓이가 좁다."
+        ],
+        answer: 2,
+        explanation: "가장 넓은 대양은 태평양입니다."
+      },
+      {
+        question: "아시아 대륙의 특징으로 알맞은 것은 무엇인가요?",
+        options: [
+          "세계에서 가장 작은 대륙이다.",
+          "대부분 남반구에 분포해 있다.",
+          "세계에서 가장 넓은 대륙이다.",
+          "오스트레일리아 하나로만 이루어져 있다."
+        ],
+        answer: 2,
+        explanation: "아시아는 세계에서 가장 넓은 대륙이며 대부분 북반구에 위치합니다."
+      },
+      {
+        question: "오세아니아 대륙에 대한 설명으로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: [
+          "세계에서 가장 작은 대륙이다.",
+          "대부분 남반구에 분포해 있다.",
+          "오스트레일리아 대륙과 태평양의 수많은 섬으로 이루어져 있다.",
+          "대부분 북반구에 위치하며 세계에서 가장 넓다."
+        ],
+        answer: 3,
+        explanation: "오세아니아는 대부분 남반구에 위치하며 세계에서 가장 작은 대륙입니다."
+      },
+      {
+        question: "일본에 대한 설명으로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: [
+          "우리나라의 동쪽에 위치한다.",
+          "태평양에 접해 있는 섬나라이다.",
+          "영토가 동서로 넓게 펼쳐져 있으며 서쪽으로 갈수록 지형이 높아진다.",
+          "네 개의 큰 섬과 수천 개의 작은 섬으로 이루어져 있다."
+        ],
+        answer: 2,
+        explanation: "영토가 동서로 넓고 서쪽으로 갈수록 지형이 높아지는 곳은 중국입니다."
+      },
+      {
+        question: "중국의 위치와 지형 특징으로 알맞은 것은 무엇인가요?",
+        options: [
+          "우리나라의 동쪽에 있다.",
+          "동쪽에서 서쪽으로 갈수록 지형이 높아진다.",
+          "네 개의 큰 섬으로 이루어진 섬나라이다.",
+          "국경선 일부가 직선으로 반듯하다."
+        ],
+        answer: 1,
+        explanation: "중국은 우리나라 서쪽에 있으며 동쪽에서 서쪽으로 갈수록 지형이 높아집니다."
+      },
+      {
+        question: "사우디아라비아에 대한 설명으로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: [
+          "아시아의 서쪽에 위치한다.",
+          "아라비아반도의 대부분을 차지한다.",
+          "국경선이 비교적 단조롭다.",
+          "우리나라의 동쪽에 위치한 섬나라이다."
+        ],
+        answer: 3,
+        explanation: "사우디아라비아는 아시아 서쪽의 아라비아반도에 위치해 있으며 섬나라가 아닙니다."
+      },
+      {
+        question: "오스트레일리아의 특징으로 알맞은 것은 무엇인가요?",
+        options: [
+          "오세아니아에서 가장 작은 나라이다.",
+          "태평양과 대서양 사이에 위치한다.",
+          "땅이 매우 넓어 나라 자체가 하나의 대륙이다.",
+          "영토가 동서로 좁고 남북으로만 길게 뻗어 있다."
+        ],
+        answer: 2,
+        explanation: "오스트레일리아는 땅이 매우 넓어 나라 자체가 하나의 대륙입니다."
+      },
+      {
+        question: "뉴질랜드에 대한 설명으로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: [
+          "북동쪽에서 남서쪽으로 길게 뻗은 모양이다.",
+          "두 개의 큰 섬과 여러 개의 작은 섬으로 이루어져 있다.",
+          "오세아니아에 속한 나라이다.",
+          "아프리카 대륙의 남쪽 끝에 위치한다."
+        ],
+        answer: 3,
+        explanation: "뉴질랜드는 오세아니아에 위치한 섬나라입니다."
+      },
+      {
+        question: "유럽 대륙에 대한 설명으로 알맞은 것은 무엇인가요?",
+        options: [
+          "우랄산맥을 경계로 아시아의 서쪽에 있다.",
+          "가장 많은 나라가 있는 세계 최대 대륙이다.",
+          "대부분 남반구에 위치해 있다.",
+          "동쪽으로 인도양, 서쪽으로 대서양과 접해 있다."
+        ],
+        answer: 0,
+        explanation: "유럽은 우랄산맥을 경계로 아시아의 서쪽에 위치합니다."
+      },
+      {
+        question: "아프리카 대륙에 대한 설명으로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: [
+          "유럽의 남쪽에 위치한다.",
+          "아시아 다음으로 넓은 대륙이다.",
+          "북반구와 남반구에 걸쳐 있다.",
+          "세계에서 가장 작은 대륙으로 섬으로만 이루어져 있다."
+        ],
+        answer: 3,
+        explanation: "아프리카는 아시아 다음으로 넓은 대륙이며 가장 많은 나라가 있습니다."
+      },
+      {
+        question: "아프리카 대륙의 특징으로 알맞은 것은 무엇인가요?",
+        options: [
+          "가장 많은 나라가 있다.",
+          "세계에서 가장 면적이 작은 대륙이다.",
+          "아시아의 서쪽 우랄산맥 너머에 위치한다.",
+          "완전히 남반구에만 속해 있다."
+        ],
+        answer: 0,
+        explanation: "아프리카는 대륙 중 가장 많은 나라가 속해 있습니다."
+      },
+      {
+        question: "노르웨이에 대한 설명으로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: [
+          "북동쪽에서 남서쪽으로 길게 뻗어 있다.",
+          "해안선이 복잡하다.",
+          "스발바르 제도에는 우리나라의 다산 과학 기지가 있다.",
+          "아프리카 동부에 위치하여 바다와 접하지 않는다."
+        ],
+        answer: 3,
+        explanation: "노르웨이는 유럽에 위치한 국가입니다."
+      },
+      {
+        question: "우리나라의 다산 과학 기지가 위치한 스발바르 제도를 영토로 가진 나라는 어디인가요?",
+        options: [
+          "영국",
+          "독일",
+          "노르웨이",
+          "이집트"
+        ],
+        answer: 2,
+        explanation: "노르웨이의 스발바르 제도에는 우리나라의 다산 과학 기지가 있습니다."
+      },
+      {
+        question: "영국에 대한 설명으로 알맞은 것은 무엇인가요?",
+        options: [
+          "유럽의 서쪽에 있는 섬나라이다.",
+          "우리나라보다 영토 면적이 100배 이상 크다.",
+          "아프리카 남쪽 끝에 위치한다.",
+          "적도(0°) 선이 본토 중앙을 통과한다."
+        ],
+        answer: 0,
+        explanation: "영국은 유럽 서쪽에 있는 섬나라로, 우리나라와 영토 면적이 비슷합니다."
+      },
+      {
+        question: "영국의 특징에 대한 설명으로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: [
+          "유럽의 서쪽에 위치한다.",
+          "본초 자오선이 지나간다.",
+          "우리나라와 영토의 면적이 비슷하다.",
+          "아시아에 위치한 섬나라이다."
+        ],
+        answer: 3,
+        explanation: "영국은 유럽에 위치한 섬나라입니다."
+      },
+      {
+        question: "독일에 대한 설명으로 알맞은 것은 무엇인가요?",
+        options: [
+          "프랑스, 스위스, 폴란드 등 9개 나라와 국경을 맞대고 있다.",
+          "유럽의 서쪽에 있는 섬나라이다.",
+          "아프리카 동부에 위치해 있다.",
+          "스발바르 제도를 영토로 가지고 있다."
+        ],
+        answer: 0,
+        explanation: "독일은 프랑스, 스위스, 폴란드 등 9개 나라와 국경을 맞대고 있습니다."
+      },
+      {
+        question: "독일의 지형 및 자연환경 특징으로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: [
+          "북쪽은 바다와 맞닿아 있다.",
+          "북쪽에서 남쪽으로 갈수록 지형이 높아진다.",
+          "큰 강이 남북으로 흐른다.",
+          "사방이 육지로만 막혀 접한 바다가 없다."
+        ],
+        answer: 3,
+        explanation: "독일은 북쪽이 바다와 맞닿아 있습니다."
+      },
+      {
+        question: "남아프리카 공화국에 대한 설명으로 알맞은 것은 무엇인가요?",
+        options: [
+          "아프리카의 남쪽 끝에 있다.",
+          "아시아의 서쪽 아라비아반도에 위치한다.",
+          "유럽의 서쪽에 있는 섬나라이다.",
+          "국경선 전체가 원형으로 이루어져 있다."
+        ],
+        answer: 0,
+        explanation: "남아프리카 공화국은 아프리카의 남쪽 끝에 있습니다."
+      },
+      {
+        question: "남아프리카 공화국이 접하고 있는 바다의 위치가 바르게 짝지어진 것은 무엇인가요?",
+        options: [
+          "동쪽: 인도양, 서쪽: 대서양",
+          "동쪽: 태평양, 서쪽: 북극해",
+          "동쪽: 대서양, 서쪽: 인도양",
+          "동쪽: 남극해, 서쪽: 태평양"
+        ],
+        answer: 0,
+        explanation: "남아프리카 공화국은 동쪽으로 인도양, 서쪽으로 대서양과 접해 있습니다."
+      },
+      {
+        question: "에티오피아의 특징으로 알맞은 것은 무엇인가요?",
+        options: [
+          "아프리카 동부에 위치하며 둘러싸인 바다가 없다.",
+          "태평양과 인도양 사이에 위치한 섬나라이다.",
+          "우리나라와 영토 면적이 비슷하다.",
+          "아라비아반도의 대부분을 차지한다."
+        ],
+        answer: 0,
+        explanation: "에티오피아는 아프리카 동부에 있으며 여러 나라에 둘러싸여 있어 접해 있는 바다가 없습니다."
+      },
+      {
+        question: "에티오피아에 대한 설명으로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: [
+          "아프리카 동부에 위치한다.",
+          "수단, 케냐, 소말리아 등 여러 나라에 둘러싸여 있다.",
+          "접해 있는 바다가 없다.",
+          "태평양에 넓게 접해 있는 섬나라이다."
+        ],
+        answer: 3,
+        explanation: "에티오피아는 바다에 접해 있지 않은 아프리카 내륙국입니다."
+      },
+      {
+        question: "이집트에 대한 설명으로 알맞은 것은 무엇인가요?",
+        options: [
+          "아프리카의 북동쪽 끝에 있다.",
+          "오세아니아에서 가장 큰 나라이다.",
+          "다산 과학 기지가 있는 나라이다.",
+          "아시아의 동쪽 끝에 위치한 섬나라이다."
+        ],
+        answer: 0,
+        explanation: "이집트는 아프리카의 북동쪽 끝에 있습니다."
+      },
+      {
+        question: "이집트 영토의 특징으로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: [
+          "아시아와 육지로 이어져 있고 유럽과 가깝다.",
+          "국경선 일부가 직선으로 반듯하다.",
+          "영토의 모양이 사각형과 비슷하다.",
+          "해안선이 매우 복잡하고 수천 개의 섬으로 이루어져 있다."
+        ],
+        answer: 3,
+        explanation: "이집트는 국경선 일부가 직선으로 반듯하여 사각형과 비슷한 영토 모양을 가지고 있습니다."
+      },
+      {
+        question: "북반구에 주로 속한 대륙으로만 바르게 짝지어진 것은 무엇인가요?",
+        options: [
+          "아시아, 유럽, 아프리카, 북아메리카",
+          "오세아니아, 남아메리카, 남극 대륙",
+          "오세아니아, 북아메리카, 남극 대륙",
+          "남아메리카, 아프리카, 남극 대륙"
+        ],
+        answer: 0,
+        explanation: "북반구에 주로 속한 대륙은 아시아, 유럽, 아프리카, 북아메리카입니다."
+      },
+      {
+        question: "오스트레일리아의 위치로 알맞은 것은 무엇인가요?",
+        options: [
+          "태평양과 인도양 사이에 있다.",
+          "대서양과 북극해 사이에 있다.",
+          "아시아와 유럽 사이에 있다.",
+          "남아메리카와 아프리카 사이에 있다."
+        ],
+        answer: 0,
+        explanation: "오스트레일리아는 태평양과 인도양 사이에 위치해 있습니다."
+      },
+      {
+        question: "아프리카 대륙이 접하고 있는 바다 설명으로 알맞은 것은 무엇인가요?",
+        options: [
+          "동쪽은 인도양, 서쪽은 대서양과 접해 있다.",
+          "동쪽은 태평양, 서쪽은 북극해와 접해 있다.",
+          "동쪽은 대서양, 서쪽은 인도양과 접해 있다.",
+          "사방이 육지로 둘러싸여 바다와 접하지 않는다."
+        ],
+        answer: 0,
+        explanation: "아프리카 대륙은 동쪽으로 인도양, 서쪽으로 대서양과 접하고 있습니다."
+      },
+      {
+        question: "다음 중 유럽 서쪽에 있는 섬나라로 우리나라와 영토 면적이 비슷한 나라는 어디인가요?",
+        options: [
+          "독일",
+          "노르웨이",
+          "영국",
+          "이집트"
+        ],
+        answer: 2,
+        explanation: "영국은 유럽 서쪽의 섬나라로 우리나라와 면적이 비슷합니다."
+      }
+    ];
+
+    // 상태 관리 변수
+    let currentQuestions = [];
+    let currentQuestionIndex = 0;
+    let userName = "";
+    let startTime = 0;
+    let countdownTimer = null;
+
+    window.onload = function() {
+      document.getElementById('user-answer').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') submitShortAnswer();
+      });
+      
+      document.getElementById('user-name').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') prepareQuiz();
+      });
+    };
+
+    function prepareQuiz() {
+      userName = document.getElementById('user-name').value.trim();
+
+      if (!userName) {
+        alert("이름을 입력해주세요.");
+        return;
+      }
+
+      // 1~7번: 객관식 30문제 중 랜덤 7개 추출
+      const shuffledMC = [...quizDataMC].sort(() => Math.random() - 0.5);
+      const selectedMC = shuffledMC.slice(0, 7);
+
+      // 8~10번: 단답식 10문제 중 랜덤 3개 추출
+      const shuffledSA = [...quizDataSA].sort(() => Math.random() - 0.5);
+      const selectedSA = shuffledSA.slice(0, 3);
+
+      // 총 10문항 결합
+      currentQuestions = [...selectedMC, ...selectedSA];
+      currentQuestionIndex = 0;
+
+      showScreen('countdown-screen');
+      document.getElementById('countdown-title').textContent = "준비하세요!";
+      startCountdown(() => startQuiz());
+    }
+
+    function startCountdown(callback) {
+      let count = 3;
+      const countEl = document.getElementById('countdown-number');
+      countEl.textContent = count;
+
+      if (countdownTimer) clearInterval(countdownTimer);
+
+      countdownTimer = setInterval(() => {
+        count--;
+        if (count > 0) {
+          countEl.textContent = count;
+        } else {
+          clearInterval(countdownTimer);
+          callback();
+        }
+      }, 1000);
+    }
+
+    function startQuiz() {
+      showScreen('quiz-screen');
+      startTime = new Date().getTime();
+      loadQuestion();
+    }
+
+    function loadQuestion() {
+      const q = currentQuestions[currentQuestionIndex];
+      document.getElementById('progress-display').textContent = `${currentQuestionIndex + 1} / 10`;
+      
+      document.getElementById('question-text').innerHTML = q.question;
+
+      const mcContainer = document.getElementById('mc-container');
+      const saContainer = document.getElementById('sa-container');
+      const tagEl = document.getElementById('question-type-tag');
+
+      if (currentQuestionIndex < 7) {
+        // 객관식 (1~7번)
+        tagEl.textContent = "객관식";
+        tagEl.style.backgroundColor = "#e0f2fe";
+        tagEl.style.color = "#0369a1";
+
+        mcContainer.classList.remove('hidden');
+        saContainer.classList.add('hidden');
+        mcContainer.innerHTML = "";
+
+        q.options.forEach((opt, idx) => {
+          const btn = document.createElement('button');
+          btn.className = 'option-btn';
+          btn.textContent = `${idx + 1}. ${opt}`;
+          btn.onclick = () => checkAnswer(idx);
+          mcContainer.appendChild(btn);
+        });
+      } else {
+        // 단답식 (8~10번)
+        tagEl.textContent = "단답식";
+        tagEl.style.backgroundColor = "#fef3c7";
+        tagEl.style.color = "#b45309";
+
+        mcContainer.classList.add('hidden');
+        saContainer.classList.remove('hidden');
+
+        const inputEl = document.getElementById('user-answer');
+        inputEl.value = "";
+        inputEl.focus();
+      }
+    }
+
+    function normalizeStr(str) {
+      return str.toString().replace(/[\s\.\·\-\_]/g, '').toLowerCase();
+    }
+
+    function checkAnswer(userChoice) {
+      const q = currentQuestions[currentQuestionIndex];
+      if (userChoice === q.answer) {
+        nextQuestion();
+      } else {
+        const userAnsStr = `${userChoice + 1}. ${q.options[userChoice]}`;
+        const correctAnsStr = `${q.answer + 1}. ${q.options[q.answer]}`;
+        handleIncorrect(userAnsStr, correctAnsStr, q.explanation);
+      }
+    }
+
+    function submitShortAnswer() {
+      const inputEl = document.getElementById('user-answer');
+      const userAnsRaw = inputEl.value.trim();
+
+      if (!userAnsRaw) {
+        alert("정답을 입력해주세요.");
+        return;
+      }
+
+      const q = currentQuestions[currentQuestionIndex];
+      const normalizedUser = normalizeStr(userAnsRaw);
+      
+      const isCorrect = q.answer.some(ans => normalizeStr(ans) === normalizedUser);
+
+      if (isCorrect) {
+        nextQuestion();
+      } else {
+        const correctStr = q.answer[0];
+        handleIncorrect(userAnsRaw, correctStr, q.explanation);
+      }
+    }
+
+    function nextQuestion() {
+      currentQuestionIndex++;
+      if (currentQuestionIndex < 10) {
+        loadQuestion();
+      } else {
+        showSuccess();
+      }
+    }
+
+    function handleIncorrect(userAns, correctAns, exp) {
+      document.getElementById('exp-user-ans').textContent = userAns;
+      document.getElementById('exp-correct-ans').textContent = correctAns;
+      document.getElementById('exp-text').textContent = exp || "해설이 없습니다.";
+      showScreen('explanation-screen');
+    }
+
+    function showSuccess() {
+      const endTime = new Date().getTime();
+      const timeTaken = ((endTime - startTime) / 1000).toFixed(1);
+      const now = new Date();
+      
+      const timeString = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+
+      document.getElementById('res-name').textContent = userName;
+      document.getElementById('res-time').textContent = timeTaken;
+      document.getElementById('res-date').textContent = timeString;
+
+      showScreen('result-screen');
+    }
+
+    function resetQuiz() {
+      if (countdownTimer) clearInterval(countdownTimer);
+      document.getElementById('user-answer').value = "";
+      showScreen('start-screen');
+    }
+
+    function showScreen(screenId) {
+      const screens = ['start-screen', 'countdown-screen', 'quiz-screen', 'explanation-screen', 'result-screen'];
+      screens.forEach(id => {
+        document.getElementById(id).classList.add('hidden');
+      });
+      document.getElementById(screenId).classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>
