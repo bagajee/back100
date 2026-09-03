@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>3학년 2학기 과학 - 소리의 성질 퀴즈</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Pretendard', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+    body {
+      background-color: #f0fdf4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 14px;
+      color: #1e293b;
+    }
+    .card {
+      background: #ffffff;
+      width: 100%;
+      max-width: 480px;
+      border-radius: 20px;
+      padding: 24px 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      text-align: center;
+      position: relative;
+    }
+    .top-nav {
+      display: flex;
+      justify-content: flex-start;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #e2e8f0;
+      color: #334155;
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .nav-btn:active {
+      background-color: #cbd5e1;
+    }
+    h1 {
+      font-size: 22px;
+      color: #15803d;
+      margin-bottom: 8px;
+    }
+    .sub-title {
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 24px;
+    }
+    .input-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    .input-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #334155;
+      font-size: 15px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 14px;
+      border: 2px solid #cbd5e1;
+      border-radius: 12px;
+      font-size: 16px;
+      text-align: center;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input[type="text"]:focus {
+      border-color: #16a34a;
+    }
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .btn {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.1s, background-color 0.2s;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+      box-sizing: border-box;
+    }
+    .btn:active {
+      transform: scale(0.98);
+    }
+    .btn-primary {
+      background-color: #16a34a;
+      color: #ffffff;
+    }
+    .btn-secondary {
+      background-color: #64748b;
+      color: #ffffff;
+    }
+    .btn-success {
+      background-color: #0284c7;
+      color: #ffffff;
+    }
+
+    /* 퀴즈 진행 화면 */
+    #quiz-screen {
+      display: none;
+      text-align: left;
+    }
+    .progress-bar-container {
+      width: 100%;
+      background-color: #e2e8f0;
+      height: 10px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background-color: #16a34a;
+      transition: width 0.3s ease;
+    }
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 14px;
+      font-weight: bold;
+    }
+    .badge {
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+    }
+    .badge-mcq { background: #dcfce7; color: #15803d; }
+    .badge-sa { background: #fef3c7; color: #92400e; }
+
+    .question-box {
+      font-size: 17px;
+      font-weight: bold;
+      line-height: 1.5;
+      color: #0f172a;
+      margin-bottom: 20px;
+      min-height: 60px;
+    }
+    .question-box u {
+      color: #dc2626;
+      text-decoration-thickness: 2px;
+    }
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .option-btn {
+      width: 100%;
+      padding: 14px 16px;
+      background-color: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      text-align: left;
+      font-size: 15px;
+      color: #334155;
+      cursor: pointer;
+      line-height: 1.4;
+      transition: all 0.2s;
+    }
+    .option-btn:active {
+      background-color: #dcfce7;
+      border-color: #16a34a;
+      color: #15803d;
+    }
+
+    .sa-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* 오답 화면 */
+    #wrong-screen {
+      display: none;
+      background-color: #fef2f2;
+      border: 2px solid #fca5a5;
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+    }
+    .wrong-title {
+      color: #dc2626;
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+    .explanation-box {
+      background: #ffffff;
+      padding: 15px;
+      border-radius: 10px;
+      border-left: 4px solid #dc2626;
+      text-align: left;
+      font-size: 14px;
+      color: #334155;
+      line-height: 1.5;
+      margin-bottom: 18px;
+    }
+
+    /* 성공 화면 */
+    #success-screen {
+      display: none;
+    }
+    .trophy {
+      font-size: 60px;
+      margin-bottom: 10px;
+    }
+    .success-title {
+      font-size: 22px;
+      color: #16a34a;
+      font-weight: bold;
+      margin-bottom: 18px;
+      line-height: 1.4;
+    }
+    .result-info {
+      background-color: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: left;
+      margin-bottom: 20px;
+    }
+    .result-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+    .result-item:last-child {
+      margin-bottom: 0;
+    }
+    .result-label {
+      color: #475569;
+      font-weight: bold;
+    }
+    .result-value {
+      color: #166534;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    
+    <!-- 1. 시작 화면 -->
+    <div id="start-screen">
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+      </div>
+      <h1>3학년 과학 퀴즈</h1>
+      <p class="sub-title">3단원. 소리의 성질</p>
+
+      <div class="input-group">
+        <label for="userName">이름을 입력하세요</label>
+        <input type="text" id="userName" placeholder="예: 홍길동" autocomplete="off">
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="startQuiz()">시작</button>
+        <a href="science.html" class="btn btn-secondary">단원선택</a>
+      </div>
+    </div>
+
+    <!-- 2. 퀴즈 진행 화면 -->
+    <div id="quiz-screen">
+      <div class="progress-bar-container">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      
+      <div class="quiz-header">
+        <span id="question-number">문제 1 / 10</span>
+        <span id="question-type-badge" class="badge badge-mcq">객관식</span>
+      </div>
+
+      <div class="question-box" id="question-text"></div>
+
+      <!-- 객관식 영역 -->
+      <div class="options-container" id="options-container"></div>
+
+      <!-- 단답식 영역 -->
+      <div class="sa-container" id="sa-container" style="display: none;">
+        <input type="text" id="sa-input" placeholder="정답 입력" onkeydown="if(event.key==='Enter') submitSAAnswer()">
+        <button class="btn btn-primary" onclick="submitSAAnswer()">정답 제출</button>
+      </div>
+    </div>
+
+    <!-- 3. 오답 화면 -->
+    <div id="wrong-screen">
+      <div class="wrong-title">❌ 틀렸습니다!</div>
+      <div class="explanation-box">
+        <strong>💡 간단 해설:</strong>
+        <p id="explanation-text" style="margin-top: 6px;"></p>
+      </div>
+      <button class="btn btn-primary" style="width: 100%;" onclick="returnToStart()">계속</button>
+    </div>
+
+    <!-- 4. 성공 축하 화면 -->
+    <div id="success-screen">
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+      </div>
+
+      <div class="trophy">🎉</div>
+      <div class="success-title">축하합니다!<br>10문제를 모두 맞추셨습니다!</div>
+      
+      <div class="result-info">
+        <div class="result-item">
+          <span class="result-label">이름</span>
+          <span class="result-value" id="result-name">-</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">총 걸린시간</span>
+          <span class="result-value" id="result-time">-</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">현재 시간</span>
+          <span class="result-value" id="result-date">-</span>
+        </div>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-success" onclick="returnToStart()">재도전</button>
+        <a href="science.html" class="btn btn-secondary">단원선택</a>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ----------------------------------------------------
+    // 단답식 문제 은행 (총 5개)
+    // 정답 : 떨림, 작은 소리, 높은 소리, 전달, 소음
+    // ----------------------------------------------------
+    const saBank = [
+      {
+        q: "목에 손을 대고 소리를 내거나 소리가 나는 소리굽쇠에 손을 댈 때 공통적으로 느껴지는 움직임을 무엇이라고 하나요?",
+        ans: "떨림",
+        exp: "소리가 나는 모든 물체에는 '떨림'이 있습니다."
+      },
+      {
+        q: "글로켄슈필의 음판을 약하게 치거나 고무줄을 약하게 튕길 때 나는 소리는 어떤 소리인가요?",
+        ans: "작은 소리",
+        exp: "물체를 약하게 치거나 튕기면 물체가 작게 떨리면서 '작은 소리'가 납니다."
+      },
+      {
+        q: "칼림바의 가장 짧은 건반을 튕기거나 우쿨렐레의 줄을 짧게 잡고 튕길 때 나는 소리는 어떤 소리인가요?",
+        ans: "높은 소리",
+        exp: "소리가 나는 물체의 길이가 짧을 때는 '높은 소리'가 납니다."
+      },
+      {
+        q: "소리가 공기, 물, 나무, 금속 등 여러 가지 물질을 통해 퍼져 나가는 현상을 소리의 무엇이라고 하나요?",
+        ans: "전달",
+        exp: "소리가 여러 물질을 통해 건너가는 현상을 소리의 '전달'이라고 합니다."
+      },
+      {
+        q: "다른 사람을 불쾌하게 만들거나 다른 사람에게 해를 끼칠 수 있는 시끄러운 소리를 무엇이라고 하나요?",
+        ans: "소음",
+        exp: "다른 사람을 불편하게 하거나 해를 끼칠 수 있는 시끄러운 소리를 '소음'이라고 합니다."
+      }
+    ];
+
+    // ----------------------------------------------------
+    // 객관식 문제 은행 (총 25개)
+    // ----------------------------------------------------
+    const mcqBank = [
+      {
+        q: "소리가 나는 물체의 공통적인 특징으로 올바른 것은 무엇인가요?",
+        options: [
+          "물체에 떨림이 있다.",
+          "물체의 크기가 항상 커진다.",
+          "물체의 색깔이 빠르게 변한다.",
+          "물체가 눈부신 빛을 발산한다."
+        ],
+        ans: 0,
+        exp: "소리가 나는 물체에는 공통적으로 '떨림'이 있습니다."
+      },
+      {
+        q: "소리가 나는 소리굽쇠를 물 표면에 대었을 때 나타나는 현상으로 올바른 것은 무엇인가요?",
+        options: [
+          "물이 사방으로 튄다.",
+          "물의 색깔이 검은색으로 변한다.",
+          "물이 그 자리에서 순간적으로 얼어붙는다.",
+          "물 표면이 전혀 움직이지 않는다."
+        ],
+        ans: 0,
+        exp: "소리가 나는 소리굽쇠의 떨림 때문에 물 표면에 대면 물이 사방으로 튑니다."
+      },
+      {
+        q: "글로켄슈필의 음판을 세게 칠 때 나타나는 현상으로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: [
+          "음판이 작게 떨린다.",
+          "큰 소리가 난다.",
+          "음판이 크게 떨린다.",
+          "약하게 칠 때보다 더 센 소리가 난다."
+        ],
+        ans: 0,
+        exp: "음판을 세게 치면 큰 소리가 나고 음판이 '크게' 떨립니다."
+      },
+      {
+        q: "소리의 크고 작은 정도를 나타내는 말은 무엇인가요?",
+        options: [
+          "소리의 세기",
+          "소리의 높낮이",
+          "소리의 길이",
+          "소리의 무게"
+        ],
+        ans: 0,
+        exp: "소리의 크고 작은 정도를 '소리의 세기'라고 합니다."
+      },
+      {
+        q: "다음 중 일상생활에서 소리의 세기를 조절하는 예로 올바른 것은 무엇인가요?",
+        options: [
+          "도서관에서는 작은 소리로 이야기한다.",
+          "도서관에서 큰 소리로 응원한다.",
+          "응원할 때 작은 소리로 속삭인다.",
+          "도서관에서 글로켄슈필을 세게 친다."
+        ],
+        ans: 0,
+        exp: "응원할 때는 큰 소리를 내고, 도서관에서는 작은 소리로 이야기해야 합니다."
+      },
+      {
+        q: "칼림바나 우쿨렐레에서 높은 소리를 내기 위한 방법으로 올바른 것은 무엇인가요?",
+        options: [
+          "가장 짧은 건반을 튕기거나 줄을 짧게 잡고 튕긴다.",
+          "가장 긴 건반을 튕기거나 줄을 길게 잡고 튕긴다.",
+          "악기를 아래로 세게 흔든다.",
+          "악기의 줄을 느슨하게 길게 늘린다."
+        ],
+        ans: 0,
+        exp: "소리가 나는 물체의 길이가 짧을수록 높은 소리가 납니다."
+      },
+      {
+        q: "소리의 높고 낮은 정도를 무엇이라고 하나요?",
+        options: [
+          "소리의 높낮이",
+          "소리의 세기",
+          "소리의 울림",
+          "소리의 세기 차이"
+        ],
+        ans: 0,
+        exp: "소리의 높고 낮은 정도를 '소리의 높낮이'라고 합니다."
+      },
+      {
+        q: "하프로 높은 소리와 낮은 소리를 내는 방법 설명 중 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: [
+          "하프의 긴 줄을 튕기면 높은 소리가 난다.",
+          "하프의 짧은 줄을 튕기면 높은 소리가 난다.",
+          "하프의 긴 줄을 튕기면 낮은 소리가 난다.",
+          "줄의 길이에 따라 소리의 높낮이가 달라진다."
+        ],
+        ans: 0,
+        exp: "하프의 짧은 줄은 높은 소리, 긴 줄은 낮은 소리가 납니다."
+      },
+      {
+        q: "공기를 빼는 장치 안의 공기를 뺄 때 스피커 소리의 변화로 올바른 것은 무엇인가요?",
+        options: [
+          "처음보다 소리가 작게 들린다.",
+          "처음보다 소리가 크게 들린다.",
+          "소리가 갑자기 높은 소리로 변한다.",
+          "소리의 크기에 아무런 변화가 없다."
+        ],
+        ans: 0,
+        exp: "공기를 빼면 소리를 전달하는 물질인 공기가 줄어들어 소리가 작게 들립니다."
+      },
+      {
+        q: "공기를 빼는 장치 실험을 통해 알 수 있는 소리를 전달하는 물질은 무엇인가요?",
+        options: [
+          "기체 상태인 공기",
+          "고체 상태인 유리",
+          "액체 상태인 물",
+          "고체 상태인 철"
+        ],
+        ans: 0,
+        exp: "기체 상태인 공기는 소리를 전달하는 물질입니다."
+      },
+      {
+        q: "물속에 캐스터네츠를 넣고 소리를 냈을 때 물 밖에서 들리는 것으로 알 수 있는 사실은 무엇인가요?",
+        options: [
+          "액체 상태인 물도 소리를 전달한다.",
+          "물속에서는 소리가 전혀 전달되지 않는다.",
+          "물은 공기보다 항상 높은 소리만 만든다.",
+          "캐스터네츠는 물속에서 소리를 낼 수 없다."
+        ],
+        ans: 0,
+        exp: "물속에서 낸 캐스터네츠 소리가 물 밖에서 들리므로, 액체 상태인 물도 소리를 전달합니다."
+      },
+      {
+        q: "두 사람이 같은 나무 책상에 앉아 귀를 대고 책상을 두드릴 때 소리가 들리는 것은 어떤 상태의 물질이 소리를 전달하기 때문인가요?",
+        options: [
+          "고체 상태인 나무",
+          "액체 상태인 물",
+          "기체 상태인 공기",
+          "진공 상태"
+        ],
+        ans: 0,
+        exp: "나무 책상은 고체 상태이며, 고체 상태인 나무를 통해 소리가 전달됩니다."
+      },
+      {
+        q: "철봉을 두드리는 소리가 철을 통해 친구에게 전달될 때, 소리를 전달하는 물질의 상태는 무엇인가요?",
+        options: [
+          "고체 상태",
+          "액체 상태",
+          "기체 상태",
+          "진공 상태"
+        ],
+        ans: 0,
+        exp: "철봉은 고체 상태의 물질입니다."
+      },
+      {
+        q: "교실에서 들리는 대부분의 소리는 주로 어떤 상태의 물질을 통해 전달되나요?",
+        options: [
+          "기체 상태인 공기",
+          "액체 상태인 물",
+          "고체 상태인 책상",
+          "고체 상태인 유리창"
+        ],
+        ans: 0,
+        exp: "교실에서 들리는 대부분의 소리는 기체 상태인 공기를 통해 전달됩니다."
+      },
+      {
+        q: "물속에 있는 스피커에서 나는 소리가 수영 선수에게 전달될 때 소리를 전달하는 물질은 무엇인가요?",
+        options: [
+          "액체 상태인 물",
+          "기체 상태인 공기",
+          "고체 상태인 철봉",
+          "고체 상태인 나무"
+        ],
+        ans: 0,
+        exp: "물속 스피커 소리는 액체 상태인 물을 통해 전달됩니다."
+      },
+      {
+        q: "다음 중 소음에 대한 설명으로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: [
+          "나에게 아름다운 소리는 남에게도 절대 소음이 되지 않는다.",
+          "다른 사람을 불쾌하게 만들 수 있다.",
+          "다른 사람에게 해를 끼칠 수 있다.",
+          "공동 주택 등에서는 소음이 발생하지 않도록 주의해야 한다."
+        ],
+        ans: 0,
+        exp: "나에게 소음이 아닌 소리도 다른 사람에게는 소음이 될 수 있습니다."
+      },
+      {
+        q: "복도에서 소음을 줄이기 위해 실천해야 하는 올바른 방법은 무엇인가요?",
+        options: [
+          "뛰지 않고 조용히 걷는다.",
+          "친구들과 큰 소리로 떠든다.",
+          "복도 바닥을 발로 세게 구르며 뛴다.",
+          "큰 소리로 노래를 부르며 다닌다."
+        ],
+        ans: 0,
+        exp: "복도에서는 뛰지 않고 조용히 걸어야 소음을 줄일 수 있습니다."
+      },
+      {
+        q: "의자를 끌 때 발생하는 소음을 줄이는 방법으로 올바른 것은 무엇인가요?",
+        options: [
+          "의자 다리에 소음 방지 패드를 붙인다.",
+          "의자를 바닥에 강하게 끌어당긴다.",
+          "의자 위에서 발을 구른다.",
+          "의자를 더 빠른 속도로 끈다."
+        ],
+        ans: 0,
+        exp: "의자 다리에 소음 방지 패드를 붙이면 끌 때 나는 소음을 줄일 수 있습니다."
+      },
+      {
+        q: "교실 문을 닫을 때 소음을 줄이기 위한 행동으로 올바른 것은 무엇인가요?",
+        options: [
+          "문을 살짝 닫는다.",
+          "문을 세게 쾅 닫는다.",
+          "문을 발로 차서 닫는다.",
+          "문을 밀쳐서 벽에 부딪히게 한다."
+        ],
+        ans: 0,
+        exp: "교실 문을 세게 닫으면 시끄러운 소음이 나므로 살짝 닫아야 합니다."
+      },
+      {
+        q: "텔레비전을 시청할 때 소음을 줄이는 방법으로 올바른 것은 무엇인가요?",
+        options: [
+          "텔레비전 소리를 줄인다.",
+          "텔레비전 볼륨을 최대로 높인다.",
+          "텔레비전 소리에 맞추어 손뼉을 세게 친다.",
+          "텔레비전을 켜 두고 큰 소리로 떠든다."
+        ],
+        ans: 0,
+        exp: "텔레비전 소리를 크게 하면 소음이 되므로 소리를 줄여야 합니다."
+      },
+      {
+        q: "악기로 큰 소리를 내기 위한 방법으로 올바른 것은 무엇인가요?",
+        options: [
+          "악기를 세게 연주한다.",
+          "악기를 약하게 연주한다.",
+          "악기의 건반 길이를 길게 만든다.",
+          "악기를 가만히 만지지 않는다."
+        ],
+        ans: 0,
+        exp: "큰 소리를 내려면 악기를 세게 연주해야 합니다."
+      },
+      {
+        q: "플라스틱 상자에 고무줄을 걸고 튕겼을 때 일어나는 현상으로 올바른 것은 무엇인가요?",
+        options: [
+          "고무줄이 위아래로 떨린다.",
+          "고무줄이 정지한 채 아무 움직임이 없다.",
+          "고무줄의 길이가 10배로 길어진다.",
+          "고무줄의 색깔이 투명하게 변한다."
+        ],
+        ans: 0,
+        exp: "손가락으로 고무줄을 튕기면 고무줄이 위아래로 떨리면서 소리가 납니다."
+      },
+      {
+        q: "서로 다른 두 책상에 앉아 한쪽 책상을 두드렸을 때 반대쪽 사람 귀에 소리가 잘 안 들리는 이유로 올바른 것은 무엇인가요?",
+        options: [
+          "두 책상이 고체로 연결되어 있지 않아서",
+          "나무는 소리를 전혀 전달할 수 없는 물질이라서",
+          "책상 사이 공기가 모두 사라졌기 때문에",
+          "소리의 높낮이가 너무 높아서"
+        ],
+        ans: 0,
+        exp: "두 명이 다른 책상에 앉아 있으면 고체(나무)가 이어지지 않아 소리가 전달되지 않습니다."
+      },
+      {
+        q: "낮은 소리를 내기 위한 연주 방법으로 올바른 것은 무엇인가요?",
+        options: [
+          "악기의 긴 부분을 연주한다.",
+          "악기의 짧은 부분을 연주한다.",
+          "악기를 매우 세게 튕긴다.",
+          "악기를 약하게 튕긴다."
+        ],
+        ans: 0,
+        exp: "낮은 소리를 내려면 악기의 긴 부분을 연주하거나 길게 잡고 연주해야 합니다."
+      },
+      {
+        q: "소파에서 뛰어내릴 때 나는 소음을 줄이는 방법으로 올바른 것은 무엇인가요?",
+        options: [
+          "소파에서 뛰어내리지 않는다.",
+          "소파 위에서 더 높이 뛴다.",
+          "소파를 세게 바닥에 긁는다.",
+          "뛰어내리면서 큰 소리로 구호를 외친다."
+        ],
+        ans: 0,
+        exp: "소파에서 뛰어내리지 않는 행동이 소음을 줄이는 방법입니다."
+      }
+    ];
+
+    // ----------------------------------------------------
+    // 게임 상태 변수
+    // ----------------------------------------------------
+    let userName = "";
+    let quizQueue = [];
+    let currentIdx = 0;
+    let startTime = null;
+
+    const startScreen = document.getElementById("start-screen");
+    const quizScreen = document.getElementById("quiz-screen");
+    const wrongScreen = document.getElementById("wrong-screen");
+    const successScreen = document.getElementById("success-screen");
+
+    function shuffle(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function startQuiz() {
+      const nameInput = document.getElementById("userName").value.trim();
+      if (!nameInput) {
+        alert("이름을 입력해 주세요!");
+        return;
+      }
+      userName = nameInput;
+
+      // 1-7번: 객관식 7개 무작위 추출
+      // 8-10번: 단답식 3개 무작위 추출
+      const selectedMCQs = shuffle(mcqBank).slice(0, 7);
+      const selectedSAs = shuffle(saBank).slice(0, 3);
+
+      const formattedMCQs = selectedMCQs.map(item => {
+        const correctText = item.options[item.ans];
+        const shuffledOptions = shuffle(item.options);
+        const newAnsIdx = shuffledOptions.indexOf(correctText);
+        return {
+          type: "MCQ",
+          q: item.q,
+          options: shuffledOptions,
+          ans: newAnsIdx,
+          exp: item.exp
+        };
+      });
+
+      const formattedSAs = selectedSAs.map(item => ({
+        type: "SA",
+        q: item.q,
+        ans: item.ans,
+        exp: item.exp
+      }));
+
+      quizQueue = [...formattedMCQs, ...formattedSAs];
+      currentIdx = 0;
+      startTime = Date.now();
+
+      startScreen.style.display = "none";
+      wrongScreen.style.display = "none";
+      successScreen.style.display = "none";
+      quizScreen.style.display = "block";
+
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const qData = quizQueue[currentIdx];
+      
+      const progressPercent = ((currentIdx + 1) / 10) * 100;
+      document.getElementById("progress-bar").style.width = progressPercent + "%";
+      document.getElementById("question-number").textContent = `문제 ${currentIdx + 1} / 10`;
+
+      const badge = document.getElementById("question-type-badge");
+      const optionsBox = document.getElementById("options-container");
+      const saBox = document.getElementById("sa-container");
+
+      document.getElementById("question-text").innerHTML = `${currentIdx + 1}. ${qData.q}`;
+
+      if (qData.type === "MCQ") {
+        badge.textContent = "객관식";
+        badge.className = "badge badge-mcq";
+        optionsBox.style.display = "flex";
+        saBox.style.display = "none";
+
+        optionsBox.innerHTML = "";
+        qData.options.forEach((optText, idx) => {
+          const btn = document.createElement("button");
+          btn.className = "option-btn";
+          btn.textContent = `${idx + 1}. ${optText}`;
+          btn.onclick = () => checkMCQAnswer(idx);
+          optionsBox.appendChild(btn);
+        });
+      } else {
+        badge.textContent = "단답식";
+        badge.className = "badge badge-sa";
+        optionsBox.style.display = "none";
+        saBox.style.display = "flex";
+
+        const saInput = document.getElementById("sa-input");
+        saInput.value = "";
+        setTimeout(() => saInput.focus(), 100);
+      }
+    }
+
+    function checkMCQAnswer(selectedIdx) {
+      const qData = quizQueue[currentIdx];
+      if (selectedIdx === qData.ans) {
+        nextQuestion();
+      } else {
+        showWrongScreen(qData.exp);
+      }
+    }
+
+    function submitSAAnswer() {
+      const qData = quizQueue[currentIdx];
+      const userInput = document.getElementById("sa-input").value.trim().replace(/\s+/g, "");
+      const targetAns = qData.ans.replace(/\s+/g, "");
+
+      if (!userInput) {
+        alert("정답을 입력해주세요.");
+        return;
+      }
+
+      if (userInput === targetAns) {
+        nextQuestion();
+      } else {
+        showWrongScreen(qData.exp);
+      }
+    }
+
+    function nextQuestion() {
+      currentIdx++;
+      if (currentIdx < 10) {
+        renderQuestion();
+      } else {
+        finishQuiz();
+      }
+    }
+
+    function showWrongScreen(explanationText) {
+      quizScreen.style.display = "none";
+      wrongScreen.style.display = "block";
+      document.getElementById("explanation-text").textContent = explanationText;
+    }
+
+    function returnToStart() {
+      wrongScreen.style.display = "none";
+      successScreen.style.display = "none";
+      quizScreen.style.display = "none";
+      startScreen.style.display = "block";
+    }
+
+    function finishQuiz() {
+      const endTime = Date.now();
+      const elapsedSeconds = Math.round((endTime - startTime) / 1000);
+
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      
+      const dateStr = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+
+      document.getElementById("result-name").textContent = userName;
+      document.getElementById("result-time").textContent = `${elapsedSeconds}초`;
+      document.getElementById("result-date").textContent = dateStr;
+
+      quizScreen.style.display = "none";
+      successScreen.style.display = "block";
+    }
+  </script>
+</body>
+</html>

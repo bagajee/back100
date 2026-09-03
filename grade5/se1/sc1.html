@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>5학년 1학기 과학 - 지층과 화석 퀴즈</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Pretendard', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+    body {
+      background-color: #f0fdf4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 14px;
+      color: #166534;
+    }
+    .card {
+      background: #ffffff;
+      width: 100%;
+      max-width: 480px;
+      border-radius: 20px;
+      padding: 24px 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      text-align: center;
+      position: relative;
+    }
+    .top-nav {
+      display: flex;
+      justify-content: flex-start;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #f1f5f9;
+      color: #334155;
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 14px;
+      border: 1px solid #cbd5e1;
+    }
+    .nav-btn:active {
+      background-color: #e2e8f0;
+    }
+    h1 {
+      font-size: 22px;
+      color: #15803d;
+      margin-bottom: 8px;
+    }
+    .sub-title {
+      font-size: 14px;
+      color: #4b5563;
+      margin-bottom: 24px;
+    }
+    .input-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    .input-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #374151;
+      font-size: 15px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 14px;
+      border: 2px solid #cbd5e1;
+      border-radius: 12px;
+      font-size: 16px;
+      text-align: center;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input[type="text"]:focus {
+      border-color: #16a34a;
+    }
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .btn {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.1s, background-color 0.2s;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+      box-sizing: border-box;
+    }
+    .btn:active {
+      transform: scale(0.98);
+    }
+    .btn-primary {
+      background-color: #16a34a;
+      color: #ffffff;
+    }
+    .btn-secondary {
+      background-color: #64748b;
+      color: #ffffff;
+    }
+    .btn-success {
+      background-color: #059669;
+      color: #ffffff;
+    }
+
+    /* 퀴즈 화면 */
+    #quiz-screen {
+      display: none;
+      text-align: left;
+    }
+    .progress-bar-container {
+      width: 100%;
+      background-color: #e2e8f0;
+      height: 10px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background-color: #16a34a;
+      transition: width 0.3s ease;
+    }
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 14px;
+      font-weight: bold;
+    }
+    .badge {
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+    }
+    .badge-mcq { background: #dcfce7; color: #15803d; }
+    .badge-sa { background: #fef3c7; color: #92400e; }
+
+    .question-box {
+      font-size: 17px;
+      font-weight: bold;
+      line-height: 1.5;
+      color: #0f172a;
+      margin-bottom: 20px;
+      min-height: 60px;
+    }
+    .question-box u {
+      color: #dc2626;
+      text-decoration-thickness: 2px;
+    }
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .option-btn {
+      width: 100%;
+      padding: 14px 16px;
+      background-color: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      text-align: left;
+      font-size: 15px;
+      color: #334155;
+      cursor: pointer;
+      line-height: 1.4;
+      transition: all 0.2s;
+    }
+    .option-btn:active {
+      background-color: #dcfce7;
+      border-color: #16a34a;
+      color: #15803d;
+    }
+
+    .sa-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* 오답 화면 */
+    #wrong-screen {
+      display: none;
+      background-color: #fef2f2;
+      border: 2px solid #fca5a5;
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+    }
+    .wrong-title {
+      color: #dc2626;
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+    .explanation-box {
+      background: #ffffff;
+      padding: 15px;
+      border-radius: 10px;
+      border-left: 4px solid #dc2626;
+      text-align: left;
+      font-size: 14px;
+      color: #334155;
+      line-height: 1.5;
+      margin-bottom: 18px;
+    }
+
+    /* 성공 화면 */
+    #success-screen {
+      display: none;
+    }
+    .trophy {
+      font-size: 60px;
+      margin-bottom: 10px;
+    }
+    .success-title {
+      font-size: 22px;
+      color: #15803d;
+      font-weight: bold;
+      margin-bottom: 18px;
+      line-height: 1.4;
+    }
+    .result-info {
+      background-color: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: left;
+      margin-bottom: 20px;
+    }
+    .result-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+    .result-item:last-child {
+      margin-bottom: 0;
+    }
+    .result-label {
+      color: #475569;
+      font-weight: bold;
+    }
+    .result-value {
+      color: #15803d;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    
+    <!-- 1. 시작 화면 -->
+    <div id="start-screen">
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+      </div>
+      <h1>5학년 과학 퀴즈</h1>
+      <p class="sub-title">1. 지층과 화석</p>
+
+      <div class="input-group">
+        <label for="userName">이름을 입력하세요</label>
+        <input type="text" id="userName" placeholder="예: 홍길동" autocomplete="off">
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="startQuiz()">시작</button>
+        <a href="science.html" class="btn btn-secondary">단원선택</a>
+      </div>
+    </div>
+
+    <!-- 2. 퀴즈 진행 화면 -->
+    <div id="quiz-screen">
+      <div class="progress-bar-container">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      
+      <div class="quiz-header">
+        <span id="question-number">문제 1 / 10</span>
+        <span id="question-type-badge" class="badge badge-mcq">객관식</span>
+      </div>
+
+      <div class="question-box" id="question-text"></div>
+
+      <!-- 객관식 영역 -->
+      <div class="options-container" id="options-container"></div>
+
+      <!-- 단답식 영역 -->
+      <div class="sa-container" id="sa-container" style="display: none;">
+        <input type="text" id="sa-input" placeholder="정답 입력" onkeydown="if(event.key==='Enter') submitSAAnswer()">
+        <button class="btn btn-primary" onclick="submitSAAnswer()">정답 제출</button>
+      </div>
+    </div>
+
+    <!-- 3. 오답 화면 -->
+    <div id="wrong-screen">
+      <div class="wrong-title">❌ 틀렸습니다!</div>
+      <div class="explanation-box">
+        <strong>💡 간단 해설:</strong>
+        <p id="explanation-text" style="margin-top: 6px;"></p>
+      </div>
+      <button class="btn btn-primary" style="width: 100%;" onclick="returnToStart()">계속</button>
+    </div>
+
+    <!-- 4. 성공 축하 화면 -->
+    <div id="success-screen">
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+      </div>
+
+      <div class="trophy">🏆</div>
+      <div class="success-title">축하합니다!<br>10문제를 모두 맞추셨습니다!</div>
+      
+      <div class="result-info">
+        <div class="result-item">
+          <span class="result-label">이름</span>
+          <span class="result-value" id="result-name">-</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">총 걸린시간</span>
+          <span class="result-value" id="result-time">-</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">현재 시간</span>
+          <span class="result-value" id="result-date">-</span>
+        </div>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-success" onclick="returnToStart()">재도전</button>
+        <a href="science.html" class="btn btn-secondary">단원선택</a>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ----------------------------------------------------
+    // 단답식 문제 은행 (지정된 단답식 정답 7개)
+    // ----------------------------------------------------
+    const saBank = [
+      {
+        q: "자갈, 모래, 진흙 등의 다양한 퇴적물이 쌓여 층을 이루고 있는 것을 무엇이라고 하나요?",
+        ans: "지층",
+        exp: "지층은 자갈, 모래, 진흙 등이 쌓여 층을 이루고 있는 것을 말합니다."
+      },
+      {
+        q: "자갈, 모래, 진흙처럼 물이나 바람에 의해 옮겨져 바다나 호수 밑바닥에 쌓이는 물질을 무엇이라고 하나요?",
+        ans: "퇴적물",
+        exp: "물에 의해 운반되어 쌓인 자갈, 모래, 진흙 등을 퇴적물이라고 합니다."
+      },
+      {
+        q: "자갈, 모래, 진흙 등의 퇴적물이 쌓인 뒤 오랜 시간 단단하게 굳어져 만들어진 암석을 무엇이라고 하나요?",
+        ans: "퇴적암",
+        exp: "퇴적암은 퇴적물이 오랜 시간에 걸쳐 단단하게 굳어진 암석입니다."
+      },
+      {
+        q: "퇴적암 중 알갱이의 크기가 작고 주로 진흙이나 갯벌의 흙으로 이루어진 암석은 무엇인가요?",
+        ans: "이암",
+        exp: "이암은 주로 알갱이 크기가 작은 진흙이나 갯벌의 흙으로 이루어진 퇴적암입니다."
+      },
+      {
+        q: "퇴적암 중 알갱이 크기가 중간이며 주로 모래 알갱이로 이루어진 암석은 무엇인가요?",
+        ans: "사암",
+        exp: "사암은 주로 진흙보다 알갱이가 큰 모래로 이루어진 퇴적암입니다."
+      },
+      {
+        q: "퇴적암 중 알갱이 크기가 크며 주로 자갈에 모래, 진흙 등이 섞여 이루어진 암석은 무엇인가요?",
+        ans: "역암",
+        exp: "역암은 알갱이의 크기가 큰 자갈과 모래, 진흙이 섞여 이루어진 암석입니다."
+      },
+      {
+        q: "옛날에 살았던 생물의 몸체나 흔적이 암석이나 지층 속에 남아 있는 것을 무엇이라고 하나요?",
+        ans: "화석",
+        exp: "화석은 옛날에 살았던 생물의 몸체나 흔적이 지층이나 암석 속에 남아 있는 것입니다."
+      }
+    ];
+
+    // ----------------------------------------------------
+    // 객관식 문제 은행 (총 33개)
+    // ----------------------------------------------------
+    const mcqBank = [
+      {
+        q: "지층의 특징에 대한 설명으로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: ["층마다 색깔이 완전히 같다.", "줄무늬가 보인다.", "층마다 알갱이의 크기가 다르다.", "수평, 휘어짐, 끊어짐 등 모양이 다양하다."],
+        ans: 0,
+        exp: "지층은 층마다 색깔이 다릅니다."
+      },
+      {
+        q: "지층의 두께와 줄무늬에 대한 설명으로 올바른 것은 무엇인가요?",
+        options: ["층마다 두께와 알갱이의 크기가 다르다.", "지층은 항상 두께가 일정하다.", "줄무늬가 전혀 나타나지 않는다.", "모든 지층은 같은 시기에 한 번에 형성된다."],
+        ans: 0,
+        exp: "지층은 층마다 알갱이의 크기와 두께가 다릅니다."
+      },
+      {
+        q: "실제 지층과 지층 모형의 공통점으로 올바른 것은 무엇인가요?",
+        options: ["아래에 있는 층이 먼저 만들어졌다.", "만들어지는 데 걸리는 시간이 같다.", "단단한 정도가 똑같다.", "재료의 종류와 색깔이 완벽히 일치한다."],
+        ans: 0,
+        exp: "지층 모형과 실제 지층 모두 아래에 있는 층이 먼저 만들어졌다는 공통점이 있습니다."
+      },
+      {
+        q: "실제 지층과 지층 모형의 차이점으로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: ["실제 지층은 지층 모형보다 만들어지는 시간이 짧다.", "실제 지층은 만드는 데 오랜 시간이 걸린다.", "실제 지층은 모형에 비해 매우 단단하다.", "색깔이나 재료가 서로 다르다."],
+        ans: 0,
+        exp: "실제 지층은 모형과 달리 만들어지기까지 오랜 시간이 걸립니다."
+      },
+      {
+        q: "흐르는 물이 운반한 자갈, 모래, 진흙 등이 주로 쌓이는 장소는 어디인가요?",
+        options: ["바다나 호수 밑바닥", "산꼭대기", "높은 가뭄 지역", "구름 위"],
+        ans: 0,
+        exp: "흐르는 물이運반한 퇴적물은 바다나 호수 밑바닥에 쌓입니다."
+      },
+      {
+        q: "지층이 만들어지는 과정에서 먼저 쌓인 퇴적물이 받는 작용은 무엇인가요?",
+        options: ["위에서 계속 쌓이는 퇴적물에 의해 눌린다.", "햇빛을 받아 녹아버린다.", "바람에 날려 사라진다.", "스스로 팽창하여 커진다."],
+        ans: 0,
+        exp: "퇴적물이 계속 쌓이면 먼애 쌓인 퇴적물은 위에서 누르는 힘을 받습니다."
+      },
+      {
+        q: "지층이 땅 위에서 눈으로 관찰되는 계기는 무엇인가요?",
+        options: ["땅 위로 드러난 뒤 깎이면서", "더 깊은 지하 속으로 들어갈 때", "바닷물이 더 깊어질 때", "퇴적물이 계속 쌓이기만 할 때"],
+        ans: 0,
+        exp: "지층이 땅 위로 드러난 뒤 깎이면서 겉으로 나타납니다."
+      },
+      {
+        q: "지층을 주로 구성하고 있는 암석 종류는 무엇인가요?",
+        options: ["퇴적암", "화강암", "현무암", "다이아몬드"],
+        ans: 0,
+        exp: "지층은 주로 퇴적물이 굳어져 만든 퇴적암으로 이루어져 있습니다."
+      },
+      {
+        q: "퇴적암이 만들어지는 과정에서 퇴적물 알갱이 사이의 공간은 어떻게 되나요?",
+        options: ["퇴적물이 눌리면서 공간이 좁아진다.", "공간이 점차 넓어진다.", "공간의 크기가 일정하다.", "알갱이가 순식간에 녹는다."],
+        ans: 0,
+        exp: "퇴적물이 눌리면서 알갱이 사이의 공간이 좁아집니다."
+      },
+      {
+        q: "퇴적암이 단단해질 수 있도록 알갱이들을 서로 엉겨 붙게 해주는 것은 무엇인가요?",
+        options: ["물에 녹아 있는 여러 가지 물질", "바람의 압력", "태양의 직사광선", "동물의 발자국"],
+        ans: 0,
+        exp: "물에 녹아 있는 여러 가지 물질이 알갱이 사이를 엉겨 붙게 하여 단단한 퇴적암이 됩니다."
+      },
+      {
+        q: "퇴적암을 이암, 사암, 역암으로 분류하는 기준은 무엇인가요?",
+        options: ["퇴적물 알갱이의 크기", "암석이 만들어진 연도", "암석의 무거운 정도", "암석의 단단함"],
+        ans: 0,
+        exp: "퇴적암은 알갱이의 크기에 따라 이암, 사암, 역암으로 분류합니다."
+      },
+      {
+        q: "주로 진흙이나 갯벌의 흙처럼 작은 알갱이로 이루어진 퇴적암은 무엇인가요?",
+        options: ["이암", "사암", "역암", "현무암"],
+        ans: 0,
+        exp: "이암은 알갱이 크기가 작아 진흙이나 갯벌의 흙으로 형성됩니다."
+      },
+      {
+        q: "주로 모래처럼 중간 크기의 알갱이로 이루어진 퇴적암은 무엇인가요?",
+        options: ["사암", "이암", "역암", "화강암"],
+        ans: 0,
+        exp: "사암은 주로 진흙보다 큰 모래 알갱이로 이루어져 있습니다."
+      },
+      {
+        q: "주로 자갈에 모래, 진흙 등이 섞여서 만들어진 퇴적암은 무엇인가요?",
+        options: ["역암", "사암", "이암", "석회암"],
+        ans: 0,
+        exp: "역암은 알갱이가 크며 자갈, 모래, 진흙 등이 섞여 있습니다."
+      },
+      {
+        q: "다음 중 화석에 대한 설명으로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: ["생물의 온전한 전체 모습만 화석이 될 수 있다.", "옛날 생물의 몸체나 흔적이 남아 있는 것이다.", "종류와 크기가 매우 다양하다.", "생물의 일부만 화석으로 남기도 한다."],
+        ans: 0,
+        exp: "화석은 생물의 뼈, 껍데기 뿐만 아니라 발자국 같은 흔적이나 일부만 남기도 합니다."
+      },
+      {
+        q: "나무의 수액에서 굳어져 만들어진 화석은 무엇인가요?",
+        options: ["호박 화석", "삼엽충 화석", "암모나이트 화석", "고사리 화석"],
+        ans: 0,
+        exp: "나무의 수액이 굳어져 만들어진 화석을 호박 화석이라고 합니다."
+      },
+      {
+        q: "다음 중 옛날 생물의 흔적이 남은 화석에 해당하는 것은 무엇인가요?",
+        options: ["새 발자국 화석", "삼엽충 화석", "암모나이트 화석", "물고기 화석"],
+        ans: 0,
+        exp: "새 발자국 화석은 생물의 몸체가 아닌 '생물의 흔적'이 남아 만든 화석입니다."
+      },
+      {
+        q: "실제 화석과 화석 모형의 공통점으로 알맞은 것은 무엇인가요?",
+        options: ["생김새가 비슷하다.", "색깔이 똑같다.", "만들어지는 데 걸리는 시간이 비슷하다.", "재료의 단단함이 동일하다."],
+        ans: 0,
+        exp: "실제 화석과 화석 모형은 생김새가 비슷하다는 공통점이 있습니다."
+      },
+      {
+        q: "실제 화석이 만들어지기까지 걸리는 시간의 특징은 무엇인가요?",
+        options: ["오랜 시간이 걸린다.", "하루 만에 만들어진다.", "몇 분 만에 만들어진다.", "시간이 거의 걸리지 않는다."],
+        ans: 0,
+        exp: "실제 화석이 형성되는 데에는 오랜 시간이 걸립니다."
+      },
+      {
+        q: "화석이 만들어지는 과정에서 가장 먼저 일어나는 일은 무엇인가요?",
+        options: ["생물의 몸체나 흔적이 바다나 호수에 가라앉는다.", "퇴적물이 지층을 이룬다.", "지층이 물 밖으로 나와 깎인다.", "지층 속 화석이 발견된다."],
+        ans: 0,
+        exp: "화석 형성의 첫 단계는 생물의 몸체나 흔적이 바다나 호수에 가라앉는 것입니다."
+      },
+      {
+        q: "화석이 잘 만들어지기 위해 필요한 조건으로 알맞은 것은 무엇인가요?",
+        options: ["생물의 몸체 위에 퇴적물이 빠르게 쌓여야 한다.", "생물의 몸체 전체가 부드럽고 잘 썩어야 한다.", "퇴적물이 쌓이지 않고 노출되어야 한다.", "지층이 계속 깎여야 한다."],
+        ans: 0,
+        exp: "화석이 쉽게 만들어지려면 퇴적물이 빠르게 쌓여 썩는 것을 막아야 합니다."
+      },
+      {
+        q: "화석이 잘 만들어지기 위한 생물 몸체의 특징은 무엇인가요?",
+        options: ["단단한 부분이나 질긴 부분이 있어야 한다.", "물에 쉽게 녹는 성분이어야 한다.", "가볍고 바람에 날아가는 성질이어야 한다.", "형체가 없는 기체 상태여야 한다."],
+        ans: 0,
+        exp: "생물 몸체에 뼈, 껍데기 같은 단단하거나 질긴 부분이 있어야 화석이 잘 만들어집니다."
+      },
+      {
+        q: "공룡 발자국 화석을 통해 알 수 있는 사실로 알맞은 것은 무엇인가요?",
+        options: ["공룡의 크기나 움직임", "공룡이 먹은 음식의 맛", "공룡 피부의 정확한 색깔", "당시 바닷물의 온도"],
+        ans: 0,
+        exp: "공룡 발자국 화석으로는 공룡의 크기, 걸음걸이, 움직임 등을 알 수 있습니다."
+      },
+      {
+        q: "산호 화석이 발견된 지역의 과거 환경을 추리한 것으로 알맞은 것은 무엇인가요?",
+        options: ["따뜻하고 깊이가 얕은 바다", "춥고 어두운 깊은 바다", "따뜻하고 습기가 많은 육지", "건조하고 모래가 많은 사막"],
+        ans: 0,
+        exp: "산호는 따뜻하고 얕은 바다에서 살므로, 산호 화석은 과거 그곳이 얕은 바다였음을 보여줍니다."
+      },
+      {
+        q: "고사리 화석이 발견된 지역의 과거 환경을 추리한 것으로 알맞은 것은 무엇인가요?",
+        options: ["따뜻하고 습기가 많은 육지", "깊고 차가운 바다 속", "높고 건조한 산꼭대기", "얼음으로 덮인 극지방"],
+        ans: 0,
+        exp: "고사리는 따뜻하고 습기가 많은 육지 환경에서 잘 자랍니다."
+      },
+      {
+        q: "화석을 통해 추리할 수 있는 내용으로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: ["미래에 등장할 신종 생물의 모양", "옛날 살았던 생물의 생김새와 특징", "화석이 발견된 곳의 과거 환경", "지층이 쌓일 당시의 주변 환경"],
+        ans: 0,
+        exp: "화석은 과거의 정보만을 제공하며, 미래 생물의 모양은 알 수 없습니다."
+      },
+      {
+        q: "지층 모형을 만들 때 층층이 다른 색깔의 재료를 쓰는 이유는 무엇을 나타내기 위함인가요?",
+        options: ["지층마다 색깔과 알갱이가 다름을 표현하기 위해", "지층이 하루 만에 만들어짐을 보여주기 위해", "화석의 맛을 다르게 하기 위해", "지층의 무게를 가볍게 하기 위해"],
+        ans: 0,
+        exp: "지층은 층마다 구성 물질과 색깔이 다르므로 모형에서도 다른 색의 재료를 씁니다."
+      },
+      {
+        q: "지층 속 생물이 화석이 되기까지 지층 내부에서 일어나는 변화는 무엇인가요?",
+        options: ["퇴적물이 계속 쌓여 지층이 되고 생물이 화석으로 변함", "생물이 녹아 물로 변함", "생물이 순식간에 공기 중으로 사라짐", "생물이 살아있는 상태로 유지됨"],
+        ans: 0,
+        exp: "퇴적물이 오랜 시간 쌓여 지층이 만들어지면서 그 속 생물이 화석이 됩니다."
+      },
+      {
+        q: "퇴적물이 지층이 될 때 알갱이 사이에 적용되는 현상으로 올바른 것은 무엇인가요?",
+        options: ["알갱이들이 서로 엉겨 붙어 단단해진다.", "알갱이들이 서로 멀어져 기체가 된다.", "알갱이들이 부서져 물이 된다.", "알갱이의 크기가 무한히 커진다."],
+        ans: 0,
+        exp: "퇴적물 알갱이는 물속 물질에 의해 서로 엉겨 붙어 단단한 암석이 됩니다."
+      },
+      {
+        q: "다음 중 옛날에 살았던 생물과 관련된 화석으로 <u>보기 어려운 것</u>은 무엇인가요?",
+        options: ["플라스틱 인형 모형", "삼엽충 화석", "암모나이트 화석", "은행잎 화석"],
+        ans: 0,
+        exp: "플라스틱 인형 모형은 사람이 만든 인공물로 화석이 아닙니다."
+      },
+      {
+        q: "냉동 상태로 발견되는 화석의 특징으로 올바른 것은 무엇인가요?",
+        options: ["생물의 몸체가 얼음 속에서 거의 그대로 보존된다.", "불에 타서 재만 남는다.", "모래로 변해 부서진다.", "녹아서 물이 된다."],
+        ans: 0,
+        exp: "냉동 상태 화석은 생물의 몸체가 썩지 않고 보존된 화석입니다."
+      },
+      {
+        q: "퇴적암이 만들어지는 과정의 올바른 순서는 무엇인가요?",
+        options: ["퇴적물 운반 및 쌓임 -> 알갱이 사이 공간 좁아짐 -> 알갱이가 엉겨 붙어 단단해짐", "알갱이가 단단해짐 -> 퇴적물 쌓임 -> 공간 넓어짐", "공간 넓어짐 -> 퇴적물 운반 -> 알갱이 녹음", "지층이 깎임 -> 퇴적물 생성 -> 공간 넓어짐"],
+        ans: 0,
+        exp: "퇴적물이 쌓이고, 눌려 공간이 좁아진 뒤, 물속 물질에 의해 엉겨 붙어 단단해집니다."
+      },
+      {
+        q: "지층과 화석을 통해 우리가 알 수 있는 가치로 알맞은 것은 무엇인가요?",
+        options: ["과거 지구에 관한 많은 정보와 환경을 알려준다.", "내일의 정확한 날씨 예보를 제공한다.", "지하수의 맛을 일정하게 유지한다.", "지구의 자전 속도를 빠르게 한다."],
+        ans: 0,
+        exp: "지층과 화석은 과거 지구 환경 및 생물에 관한 중요한 정보를 제공합니다."
+      }
+    ];
+
+    // ----------------------------------------------------
+    // 게임 상태 변수
+    // ----------------------------------------------------
+    let userName = "";
+    let quizQueue = [];
+    let currentIdx = 0;
+    let startTime = null;
+
+    const startScreen = document.getElementById("start-screen");
+    const quizScreen = document.getElementById("quiz-screen");
+    const wrongScreen = document.getElementById("wrong-screen");
+    const successScreen = document.getElementById("success-screen");
+
+    function shuffle(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function startQuiz() {
+      const nameInput = document.getElementById("userName").value.trim();
+      if (!nameInput) {
+        alert("이름을 입력해 주세요!");
+        return;
+      }
+      userName = nameInput;
+
+      // 1-7번: 객관식 33개 중 7개 무작위 추출 및 보기 셔플
+      // 8-10번: 단답식 7개 중 3개 무작위 추출
+      const selectedMCQs = shuffle(mcqBank).slice(0, 7);
+      const selectedSAs = shuffle(saBank).slice(0, 3);
+
+      const formattedMCQs = selectedMCQs.map(item => {
+        const correctText = item.options[item.ans];
+        const shuffledOptions = shuffle(item.options);
+        const newAnsIdx = shuffledOptions.indexOf(correctText);
+        return {
+          type: "MCQ",
+          q: item.q,
+          options: shuffledOptions,
+          ans: newAnsIdx,
+          exp: item.exp
+        };
+      });
+
+      const formattedSAs = selectedSAs.map(item => ({
+        type: "SA",
+        q: item.q,
+        ans: item.ans,
+        exp: item.exp
+      }));
+
+      quizQueue = [...formattedMCQs, ...formattedSAs];
+      currentIdx = 0;
+      startTime = Date.now();
+
+      startScreen.style.display = "none";
+      wrongScreen.style.display = "none";
+      successScreen.style.display = "none";
+      quizScreen.style.display = "block";
+
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const qData = quizQueue[currentIdx];
+      
+      const progressPercent = ((currentIdx + 1) / 10) * 100;
+      document.getElementById("progress-bar").style.width = progressPercent + "%";
+      document.getElementById("question-number").textContent = `문제 ${currentIdx + 1} / 10`;
+
+      const badge = document.getElementById("question-type-badge");
+      const optionsBox = document.getElementById("options-container");
+      const saBox = document.getElementById("sa-container");
+
+      document.getElementById("question-text").innerHTML = `${currentIdx + 1}. ${qData.q}`;
+
+      if (qData.type === "MCQ") {
+        badge.textContent = "객관식";
+        badge.className = "badge badge-mcq";
+        optionsBox.style.display = "flex";
+        saBox.style.display = "none";
+
+        optionsBox.innerHTML = "";
+        qData.options.forEach((optText, idx) => {
+          const btn = document.createElement("button");
+          btn.className = "option-btn";
+          btn.textContent = `${idx + 1}. ${optText}`;
+          btn.onclick = () => checkMCQAnswer(idx);
+          optionsBox.appendChild(btn);
+        });
+      } else {
+        badge.textContent = "단답식";
+        badge.className = "badge badge-sa";
+        optionsBox.style.display = "none";
+        saBox.style.display = "flex";
+
+        const saInput = document.getElementById("sa-input");
+        saInput.value = "";
+        setTimeout(() => saInput.focus(), 100);
+      }
+    }
+
+    function checkMCQAnswer(selectedIdx) {
+      const qData = quizQueue[currentIdx];
+      if (selectedIdx === qData.ans) {
+        nextQuestion();
+      } else {
+        showWrongScreen(qData.exp);
+      }
+    }
+
+    function submitSAAnswer() {
+      const qData = quizQueue[currentIdx];
+      const userInput = document.getElementById("sa-input").value.trim().replace(/\s+/g, "");
+      const targetAns = qData.ans.replace(/\s+/g, "");
+
+      if (!userInput) {
+        alert("정답을 입력해주세요.");
+        return;
+      }
+
+      if (userInput === targetAns) {
+        nextQuestion();
+      } else {
+        showWrongScreen(qData.exp);
+      }
+    }
+
+    function nextQuestion() {
+      currentIdx++;
+      if (currentIdx < 10) {
+        renderQuestion();
+      } else {
+        finishQuiz();
+      }
+    }
+
+    function showWrongScreen(explanationText) {
+      quizScreen.style.display = "none";
+      wrongScreen.style.display = "block";
+      document.getElementById("explanation-text").textContent = explanationText;
+    }
+
+    function returnToStart() {
+      wrongScreen.style.display = "none";
+      successScreen.style.display = "none";
+      quizScreen.style.display = "none";
+      startScreen.style.display = "block";
+    }
+
+    function finishQuiz() {
+      const endTime = Date.now();
+      const elapsedSeconds = Math.round((endTime - startTime) / 1000);
+
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      
+      const dateStr = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+
+      document.getElementById("result-name").textContent = userName;
+      document.getElementById("result-time").textContent = `${elapsedSeconds}초`;
+      document.getElementById("result-date").textContent = dateStr;
+
+      quizScreen.style.display = "none";
+      successScreen.style.display = "block";
+    }
+  </script>
+</body>
+</html>

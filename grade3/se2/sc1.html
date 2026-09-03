@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>3학년 2학기 과학 - 물체와 물질 퀴즈</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Pretendard', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+    body {
+      background-color: #f0fdf4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 14px;
+      color: #1e293b;
+    }
+    .card {
+      background: #ffffff;
+      width: 100%;
+      max-width: 480px;
+      border-radius: 20px;
+      padding: 24px 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      text-align: center;
+      position: relative;
+    }
+    .top-nav {
+      display: flex;
+      justify-content: flex-start;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #e2e8f0;
+      color: #334155;
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .nav-btn:active {
+      background-color: #cbd5e1;
+    }
+    h1 {
+      font-size: 22px;
+      color: #15803d;
+      margin-bottom: 8px;
+    }
+    .sub-title {
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 24px;
+    }
+    .input-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    .input-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #334155;
+      font-size: 15px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 14px;
+      border: 2px solid #cbd5e1;
+      border-radius: 12px;
+      font-size: 16px;
+      text-align: center;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input[type="text"]:focus {
+      border-color: #16a34a;
+    }
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .btn {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.1s, background-color 0.2s;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+      box-sizing: border-box;
+    }
+    .btn:active {
+      transform: scale(0.98);
+    }
+    .btn-primary {
+      background-color: #16a34a;
+      color: #ffffff;
+    }
+    .btn-secondary {
+      background-color: #64748b;
+      color: #ffffff;
+    }
+    .btn-success {
+      background-color: #0284c7;
+      color: #ffffff;
+    }
+
+    /* 퀴즈 진행 화면 */
+    #quiz-screen {
+      display: none;
+      text-align: left;
+    }
+    .progress-bar-container {
+      width: 100%;
+      background-color: #e2e8f0;
+      height: 10px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background-color: #16a34a;
+      transition: width 0.3s ease;
+    }
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 14px;
+      font-weight: bold;
+    }
+    .badge {
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+    }
+    .badge-mcq { background: #dcfce7; color: #15803d; }
+    .badge-sa { background: #fef3c7; color: #92400e; }
+
+    .question-box {
+      font-size: 17px;
+      font-weight: bold;
+      line-height: 1.5;
+      color: #0f172a;
+      margin-bottom: 20px;
+      min-height: 60px;
+    }
+    .question-box u {
+      color: #dc2626;
+      text-decoration-thickness: 2px;
+    }
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .option-btn {
+      width: 100%;
+      padding: 14px 16px;
+      background-color: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      text-align: left;
+      font-size: 15px;
+      color: #334155;
+      cursor: pointer;
+      line-height: 1.4;
+      transition: all 0.2s;
+    }
+    .option-btn:active {
+      background-color: #dcfce7;
+      border-color: #16a34a;
+      color: #15803d;
+    }
+
+    .sa-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* 오답 화면 */
+    #wrong-screen {
+      display: none;
+      background-color: #fef2f2;
+      border: 2px solid #fca5a5;
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+    }
+    .wrong-title {
+      color: #dc2626;
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+    .explanation-box {
+      background: #ffffff;
+      padding: 15px;
+      border-radius: 10px;
+      border-left: 4px solid #dc2626;
+      text-align: left;
+      font-size: 14px;
+      color: #334155;
+      line-height: 1.5;
+      margin-bottom: 18px;
+    }
+
+    /* 성공 화면 */
+    #success-screen {
+      display: none;
+    }
+    .trophy {
+      font-size: 60px;
+      margin-bottom: 10px;
+    }
+    .success-title {
+      font-size: 22px;
+      color: #16a34a;
+      font-weight: bold;
+      margin-bottom: 18px;
+      line-height: 1.4;
+    }
+    .result-info {
+      background-color: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: left;
+      margin-bottom: 20px;
+    }
+    .result-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+    .result-item:last-child {
+      margin-bottom: 0;
+    }
+    .result-label {
+      color: #475569;
+      font-weight: bold;
+    }
+    .result-value {
+      color: #166534;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    
+    <!-- 1. 시작 화면 -->
+    <div id="start-screen">
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+      </div>
+      <h1>3학년 과학 퀴즈</h1>
+      <p class="sub-title">1단원. 물체와 물질</p>
+
+      <div class="input-group">
+        <label for="userName">이름을 입력하세요</label>
+        <input type="text" id="userName" placeholder="예: 홍길동" autocomplete="off">
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="startQuiz()">시작</button>
+        <a href="science.html" class="btn btn-secondary">단원선택</a>
+      </div>
+    </div>
+
+    <!-- 2. 퀴즈 진행 화면 -->
+    <div id="quiz-screen">
+      <div class="progress-bar-container">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      
+      <div class="quiz-header">
+        <span id="question-number">문제 1 / 10</span>
+        <span id="question-type-badge" class="badge badge-mcq">객관식</span>
+      </div>
+
+      <div class="question-box" id="question-text"></div>
+
+      <!-- 객관식 영역 -->
+      <div class="options-container" id="options-container"></div>
+
+      <!-- 단답식 영역 -->
+      <div class="sa-container" id="sa-container" style="display: none;">
+        <input type="text" id="sa-input" placeholder="정답 입력" onkeydown="if(event.key==='Enter') submitSAAnswer()">
+        <button class="btn btn-primary" onclick="submitSAAnswer()">정답 제출</button>
+      </div>
+    </div>
+
+    <!-- 3. 오답 화면 -->
+    <div id="wrong-screen">
+      <div class="wrong-title">❌ 틀렸습니다!</div>
+      <div class="explanation-box">
+        <strong>💡 간단 해설:</strong>
+        <p id="explanation-text" style="margin-top: 6px;"></p>
+      </div>
+      <button class="btn btn-primary" style="width: 100%;" onclick="returnToStart()">계속</button>
+    </div>
+
+    <!-- 4. 성공 축하 화면 -->
+    <div id="success-screen">
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+      </div>
+
+      <div class="trophy">🎉</div>
+      <div class="success-title">축하합니다!<br>10문제를 모두 맞추셨습니다!</div>
+      
+      <div class="result-info">
+        <div class="result-item">
+          <span class="result-label">이름</span>
+          <span class="result-value" id="result-name">-</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">총 걸린시간</span>
+          <span class="result-value" id="result-time">-</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">현재 시간</span>
+          <span class="result-value" id="result-date">-</span>
+        </div>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-success" onclick="returnToStart()">재도전</button>
+        <a href="science.html" class="btn btn-secondary">단원선택</a>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ----------------------------------------------------
+    // 단답식 문제 은행 (총 5개)
+    // 정답 : 물체, 물질, 고체, 액체, 기체
+    // ----------------------------------------------------
+    const saBank = [
+      {
+        q: "구체적인 쓰임새와 형태가 있는 것을 무엇이라고 하나요?",
+        ans: "물체",
+        exp: "쓰임새와 형태가 있는 것을 '물체'라고 합니다."
+      },
+      {
+        q: "물체를 만드는 재료를 무엇이라고 하나요?",
+        ans: "물질",
+        exp: "물체를 만드는 바탕이 되는 재료를 '물질'이라고 합니다."
+      },
+      {
+        q: "담는 용기에 관계없이 원래의 모양과 부피가 변하지 않는 물질의 상태를 무엇이라고 하나요?",
+        ans: "고체",
+        exp: "담는 용기가 바뀌어도 모양과 부피가 일정하게 유지되는 상태를 '고체'라고 합니다."
+      },
+      {
+        q: "담는 용기에 따라 모양은 변하지만 원래의 부피는 변하지 않는 물질의 상태를 무엇이라고 하나요?",
+        ans: "액체",
+        exp: "담는 용기에 따라 모양이 달라지지만 양(부피)은 변하지 않는 상태를 '액체'라고 합니다."
+      },
+      {
+        q: "담는 용기를 가득 채우며, 대부분 눈에 보이지 않지만 공간을 차지하고 이동하는 성질이 있는 물질의 상태를 무엇이라고 하나요?",
+        ans: "기체",
+        exp: "담는 용기를 가득 채우고 모양과 부피가 변하며 이동하는 성질을 가진 상태를 '기체'라고 합니다."
+      }
+    ];
+
+    // ----------------------------------------------------
+    // 객관식 문제 은행 (총 25개)
+    // ----------------------------------------------------
+    const mcqBank = [
+      {
+        q: "다음 중 금속의 일반적인 성질로 올바른 것은 무엇인가요?",
+        options: [
+          "대부분 광택이 있고 나무나 플라스틱보다 단단하다.",
+          "고유의 향과 무늬가 있으며 물에 뜬다.",
+          "충격에 의해 쉽게 깨진다.",
+          "부드럽고 쉽게 물에 젖는다."
+        ],
+        ans: 0,
+        exp: "금속은 대부분 광택이 있으며 나무나 플라스틱보다 단단합니다."
+      },
+      {
+        q: "고유의 향과 무늬가 있고 대부분 물에 뜨는 성질을 가진 물질은 무엇인가요?",
+        options: [
+          "나무",
+          "유리",
+          "금속",
+          "플라스틱"
+        ],
+        ans: 0,
+        exp: "나무는 고유의 향과 무늬가 있으며 물에 뜨는 성질이 있습니다."
+      },
+      {
+        q: "다음 중 유리의 성질로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: [
+          "쉽게 늘어났다가 원래 상태로 돌아온다.",
+          "투명하다.",
+          "물에 젖지 않는다.",
+          "충격에 의해 깨지기 쉽다."
+        ],
+        ans: 0,
+        exp: "쉽게 늘어났다가 다시 원래 상태로 돌아오는 것은 고무의 성질입니다."
+      },
+      {
+        q: "색깔과 모양이 다양한 물체를 만들 수 있고, 비교적 가볍고 단단한 편인 물질은 무엇인가요?",
+        options: [
+          "플라스틱",
+          "금속",
+          "유리",
+          "섬유"
+        ],
+        ans: 0,
+        exp: "플라스틱은 가볍고 단단하며 색깔과 모양을 다양하게 만들기 쉽습니다."
+      },
+      {
+        q: "다른 물질에 비해 쉽게 늘어났다가 다시 원래 상태로 돌아오며, 잘 미끄러지지 않는 성질을 가진 물질은 무엇인가요?",
+        options: [
+          "고무",
+          "나무",
+          "종이",
+          "유리"
+        ],
+        ans: 0,
+        exp: "고무는 탄성이 있어 쉽게 늘어났다 돌아오며 잘 미끄러지지 않습니다."
+      },
+      {
+        q: "다음 중 부드럽고 쉽게 물에 젖는 성질을 가진 물질은 무엇인가요?",
+        options: [
+          "섬유",
+          "금속",
+          "플라스틱",
+          "유리"
+        ],
+        ans: 0,
+        exp: "섬유는 부드럽고 물을 잘 흡수하여 쉽게 젖습니다."
+      },
+      {
+        q: "다음 중 종이의 성질에 대한 설명으로 올바른 것은 무엇인가요?",
+        options: [
+          "가볍고 잘 찢어지며 접을 수 있다.",
+          "대부분 광택이 있고 매우 단단하다.",
+          "물에 젖지 않고 투명하다.",
+          "충격을 받아도 절대 깨지지 않는다."
+        ],
+        ans: 0,
+        exp: "종이는 가볍고 잘 찢어지며 자유롭게 접을 수 있습니다."
+      },
+      {
+        q: "나무, 철, 유리, 플라스틱 막대를 사포로 문질렀을 때 표면이 긁히지 않는 막대는 무엇인가요?",
+        options: [
+          "철 막대",
+          "나무 막대",
+          "유리 막대",
+          "플라스틱 막대"
+        ],
+        ans: 0,
+        exp: "매우 단단한 철 막대는 사포에 표면이 긁히지 않습니다."
+      },
+      {
+        q: "글씨가 써진 종이 위에 올렸을 때 글씨가 분명하게 보이는 투명한 막대는 무엇인가요?",
+        options: [
+          "유리 막대",
+          "나무 막대",
+          "철 막대",
+          "검은색 플라스틱 막대"
+        ],
+        ans: 0,
+        exp: "유리는 투명하기 때문에 밑에 있는 글씨가 잘 보입니다."
+      },
+      {
+        q: "물이 든 수조에 넣었을 때 물에 뜨는 막대들로 올바르게 짝지어진 것은 무엇인가요?",
+        options: [
+          "나무 막대, 플라스틱 막대",
+          "철 막대, 유리 막대",
+          "철 막대, 나무 막대",
+          "유리 막대, 플라스틱 막대"
+        ],
+        ans: 0,
+        exp: "나무 막대와 플라스틱 막대는 물에 뜨는 성질이 있습니다."
+      },
+      {
+        q: "물이 든 수조에 넣었을 때 물속으로 가라앉는 막대들로 올바르게 짝지어진 것은 무엇인가요?",
+        options: [
+          "철 막대, 유리 막대",
+          "나무 막대, 플라스틱 막대",
+          "나무 막대, 철 막대",
+          "플라스틱 막대, 유리 막대"
+        ],
+        ans: 0,
+        exp: "철 막대와 유리 막대는 물속으로 가라앉습니다."
+      },
+      {
+        q: "소화기를 구성하는 부위와 물질의 연결이 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: [
+          "호스 - 금속",
+          "손잡이 - 금속",
+          "몸체 - 금속",
+          "노즐 - 플라스틱"
+        ],
+        ans: 0,
+        exp: "소화기의 호스는 구부러지기 쉬운 '고무'로 만들어졌습니다."
+      },
+      {
+        q: "창문을 구성하는 부위와 물질의 연결이 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: [
+          "창 - 플라스틱",
+          "창 - 유리",
+          "손잡이 - 금속",
+          "창틀 - 플라스틱"
+        ],
+        ans: 0,
+        exp: "창문의 창은 투명한 '유리'로 만들어집니다."
+      },
+      {
+        q: "다음 중 한 가지 물질로만 이루어진 물체는 무엇인가요?",
+        options: [
+          "유리주전자",
+          "소화기",
+          "창문",
+          "자동차"
+        ],
+        ans: 0,
+        exp: "유리주전자는 유리라는 한 가지 물질로 이루어져 있습니다."
+      },
+      {
+        q: "눈으로 볼 수 있고 손으로 직접 잡을 수 있는 '파라솔'은 물질의 어떤 상태인가요?",
+        options: [
+          "고체",
+          "액체",
+          "기체",
+          "수증기"
+        ],
+        ans: 0,
+        exp: "파라솔은 모양과 부피가 일정한 고체 상태입니다."
+      },
+      {
+        q: "눈으로 볼 수 있지만 손으로 잡을 수 없는 '바닷물'은 물질의 어떤 상태인가요?",
+        options: [
+          "액체",
+          "고체",
+          "기체",
+          "얼음"
+        ],
+        ans: 0,
+        exp: "흐르는 성질이 있고 담는 용기에 따라 모양이 변하는 바닷물은 액체 상태입니다."
+      },
+      {
+        q: "대부분 눈으로 볼 수 없고 손으로 잡을 수 없는 '튜브 속 공기'는 물질의 어떤 상태인가요?",
+        options: [
+          "기체",
+          "고체",
+          "액체",
+          "결정"
+        ],
+        ans: 0,
+        exp: "공기와 같이 용기를 가득 채우고 눈에 보이지 않는 상태는 기체입니다."
+      },
+      {
+        q: "다음 중 고체의 특징으로 올바른 설명은 무엇인가요?",
+        options: [
+          "담는 용기에 관계없이 원래의 모양과 부피가 변하지 않는다.",
+          "담는 용기에 따라 모양과 부피가 모두 쉽게 변한다.",
+          "담는 용기에 따라 모양은 변하지만 부피는 변하지 않는다.",
+          "항상 용기의 위쪽부터 차곡차곡 채워진다."
+        ],
+        ans: 0,
+        exp: "고체는 어떤 용기에 넣어도 모양과 부피가 변하지 않습니다."
+      },
+      {
+        q: "다음 중 고체 상태인 물질이 <u>아닌</u> 것은 무엇인가요?",
+        options: [
+          "식용유",
+          "나무 막대",
+          "파라솔",
+          "모래"
+        ],
+        ans: 0,
+        exp: "식용유는 담는 용기에 따라 모양이 변하는 액체 상태입니다."
+      },
+      {
+        q: "다음 중 액체의 특징으로 올바른 설명은 무엇인가요?",
+        options: [
+          "담는 용기에 따라 모양은 변하지만 원래의 부피는 변하지 않는다.",
+          "담는 용기에 관계없이 모양과 부피가 절대 변하지 않는다.",
+          "담는 용기를 항상 가득 채우며 부피가 쉽게 늘어난다.",
+          "눈에 전혀 보이지 않고 손으로 잡을 수도 없다."
+        ],
+        ans: 0,
+        exp: "액체는 담는 용기에 맞춰 모양이 변하지만 부피(양)는 유지됩니다."
+      },
+      {
+        q: "다음 중 액체 상태인 물질이 <u>아닌</u> 것은 무엇인가요?",
+        options: [
+          "블록",
+          "물",
+          "우유",
+          "꿀"
+        ],
+        ans: 0,
+        exp: "블록은 모양과 부피가 일정한 고체입니다."
+      },
+      {
+        q: "구멍을 막은 페트병 컵을 수조의 물속에 똑바로 밀어 넣었을 때, 컵 안의 물휴지는 어떻게 되나요?",
+        options: [
+          "공기가 공간을 차지하고 있어 물에 젖지 않는다(변화 없다).",
+          "물이 들어가서 젖고 크기가 커진다.",
+          "공기가 모두 빠져나가 물휴지가 떠오른다.",
+          "물휴지가 색깔이 바뀐다."
+        ],
+        ans: 0,
+        exp: "구멍을 막으면 컵 안의 공기가 공간을 차지하여 물이 들어오지 못하므로 물휴지가 젖지 않습니다."
+      },
+      {
+        q: "구멍이 뚫린 컵을 수조의 물속에 밀어 넣었을 때 일어나는 현상으로 올바른 것은 무엇인가요?",
+        options: [
+          "공기가 구멍으로 빠져나가고 물이 들어가 물휴지가 젖는다.",
+          "공기가 컵 안에 계속 남아있어 물휴지가 전혀 젖지 않는다.",
+          "수조 안의 물 높이가 매우 크게 높아진다.",
+          "컵이 물 위로 강하게 튕겨 나온다."
+        ],
+        ans: 0,
+        exp: "구멍이 뚫려 있으면 공기가 구멍으로 빠져나가면서 물이 차올라 물휴지가 젖게 됩니다."
+      },
+      {
+        q: "공기(기체)에 대한 설명으로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: [
+          "담는 용기가 바뀌어도 모양과 부피가 절대 변하지 않는다.",
+          "공기는 공간을 차지하는 성질이 있다.",
+          "공기는 다른 곳으로 이동하는 성질이 있다.",
+          "담는 용기를 가득 채우는 성질이 있다."
+        ],
+        ans: 0,
+        exp: "기체는 담는 용기에 따라 모양과 부피가 모두 변합니다."
+      },
+      {
+        q: "다음 중 사진 자료에 나타난 상태의 연결이 올바른 것은 무엇인가요?",
+        options: [
+          "돌탑 - 고체, 음료수 - 액체, 비누방울 속 공기 - 기체",
+          "돌탑 - 액체, 음료수 - 고체, 비누방울 속 공기 - 기체",
+          "돌탑 - 기체, 음료수 - 액체, 비누방울 속 공기 - 고체",
+          "돌탑 - 고체, 음료수 - 기체, 비누방울 속 공기 - 액체"
+        ],
+        ans: 0,
+        exp: "돌탑은 고체, 음료수는 액체, 비누방울 속 공기는 기체 상태입니다."
+      }
+    ];
+
+    // ----------------------------------------------------
+    // 게임 상태 변수
+    // ----------------------------------------------------
+    let userName = "";
+    let quizQueue = [];
+    let currentIdx = 0;
+    let startTime = null;
+
+    const startScreen = document.getElementById("start-screen");
+    const quizScreen = document.getElementById("quiz-screen");
+    const wrongScreen = document.getElementById("wrong-screen");
+    const successScreen = document.getElementById("success-screen");
+
+    function shuffle(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function startQuiz() {
+      const nameInput = document.getElementById("userName").value.trim();
+      if (!nameInput) {
+        alert("이름을 입력해 주세요!");
+        return;
+      }
+      userName = nameInput;
+
+      // 1-7번: 객관식 7개 무작위 추출
+      // 8-10번: 단답식 3개 무작위 추출
+      const selectedMCQs = shuffle(mcqBank).slice(0, 7);
+      const selectedSAs = shuffle(saBank).slice(0, 3);
+
+      const formattedMCQs = selectedMCQs.map(item => {
+        const correctText = item.options[item.ans];
+        const shuffledOptions = shuffle(item.options);
+        const newAnsIdx = shuffledOptions.indexOf(correctText);
+        return {
+          type: "MCQ",
+          q: item.q,
+          options: shuffledOptions,
+          ans: newAnsIdx,
+          exp: item.exp
+        };
+      });
+
+      const formattedSAs = selectedSAs.map(item => ({
+        type: "SA",
+        q: item.q,
+        ans: item.ans,
+        exp: item.exp
+      }));
+
+      quizQueue = [...formattedMCQs, ...formattedSAs];
+      currentIdx = 0;
+      startTime = Date.now();
+
+      startScreen.style.display = "none";
+      wrongScreen.style.display = "none";
+      successScreen.style.display = "none";
+      quizScreen.style.display = "block";
+
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const qData = quizQueue[currentIdx];
+      
+      const progressPercent = ((currentIdx + 1) / 10) * 100;
+      document.getElementById("progress-bar").style.width = progressPercent + "%";
+      document.getElementById("question-number").textContent = `문제 ${currentIdx + 1} / 10`;
+
+      const badge = document.getElementById("question-type-badge");
+      const optionsBox = document.getElementById("options-container");
+      const saBox = document.getElementById("sa-container");
+
+      document.getElementById("question-text").innerHTML = `${currentIdx + 1}. ${qData.q}`;
+
+      if (qData.type === "MCQ") {
+        badge.textContent = "객관식";
+        badge.className = "badge badge-mcq";
+        optionsBox.style.display = "flex";
+        saBox.style.display = "none";
+
+        optionsBox.innerHTML = "";
+        qData.options.forEach((optText, idx) => {
+          const btn = document.createElement("button");
+          btn.className = "option-btn";
+          btn.textContent = `${idx + 1}. ${optText}`;
+          btn.onclick = () => checkMCQAnswer(idx);
+          optionsBox.appendChild(btn);
+        });
+      } else {
+        badge.textContent = "단답식";
+        badge.className = "badge badge-sa";
+        optionsBox.style.display = "none";
+        saBox.style.display = "flex";
+
+        const saInput = document.getElementById("sa-input");
+        saInput.value = "";
+        setTimeout(() => saInput.focus(), 100);
+      }
+    }
+
+    function checkMCQAnswer(selectedIdx) {
+      const qData = quizQueue[currentIdx];
+      if (selectedIdx === qData.ans) {
+        nextQuestion();
+      } else {
+        showWrongScreen(qData.exp);
+      }
+    }
+
+    function submitSAAnswer() {
+      const qData = quizQueue[currentIdx];
+      const userInput = document.getElementById("sa-input").value.trim().replace(/\s+/g, "");
+      const targetAns = qData.ans.replace(/\s+/g, "");
+
+      if (!userInput) {
+        alert("정답을 입력해주세요.");
+        return;
+      }
+
+      if (userInput === targetAns) {
+        nextQuestion();
+      } else {
+        showWrongScreen(qData.exp);
+      }
+    }
+
+    function nextQuestion() {
+      currentIdx++;
+      if (currentIdx < 10) {
+        renderQuestion();
+      } else {
+        finishQuiz();
+      }
+    }
+
+    function showWrongScreen(explanationText) {
+      quizScreen.style.display = "none";
+      wrongScreen.style.display = "block";
+      document.getElementById("explanation-text").textContent = explanationText;
+    }
+
+    function returnToStart() {
+      wrongScreen.style.display = "none";
+      successScreen.style.display = "none";
+      quizScreen.style.display = "none";
+      startScreen.style.display = "block";
+    }
+
+    function finishQuiz() {
+      const endTime = Date.now();
+      const elapsedSeconds = Math.round((endTime - startTime) / 1000);
+
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      
+      const dateStr = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+
+      document.getElementById("result-name").textContent = userName;
+      document.getElementById("result-time").textContent = `${elapsedSeconds}초`;
+      document.getElementById("result-date").textContent = dateStr;
+
+      quizScreen.style.display = "none";
+      successScreen.style.display = "block";
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>5학년 1학기 사회 - 우리나라 국토 여행 퀴즈</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Pretendard', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+    body {
+      background-color: #f0fdf4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 14px;
+      color: #1e293b;
+    }
+    .card {
+      background: #ffffff;
+      width: 100%;
+      max-width: 480px;
+      border-radius: 20px;
+      padding: 24px 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      text-align: center;
+      position: relative;
+    }
+    .top-nav {
+      display: flex;
+      justify-content: flex-start;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #e2e8f0;
+      color: #334155;
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .nav-btn:active {
+      background-color: #cbd5e1;
+    }
+    h1 {
+      font-size: 22px;
+      color: #15803d;
+      margin-bottom: 8px;
+    }
+    .sub-title {
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 24px;
+    }
+    .input-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    .input-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #334155;
+      font-size: 15px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 14px;
+      border: 2px solid #cbd5e1;
+      border-radius: 12px;
+      font-size: 16px;
+      text-align: center;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input[type="text"]:focus {
+      border-color: #16a34a;
+    }
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .btn {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.1s, background-color 0.2s;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+      box-sizing: border-box;
+    }
+    .btn:active {
+      transform: scale(0.98);
+    }
+    .btn-primary {
+      background-color: #16a34a;
+      color: #ffffff;
+    }
+    .btn-secondary {
+      background-color: #64748b;
+      color: #ffffff;
+    }
+    .btn-success {
+      background-color: #0284c7;
+      color: #ffffff;
+    }
+
+    /* 퀴즈 진행 화면 */
+    #quiz-screen {
+      display: none;
+      text-align: left;
+    }
+    .progress-bar-container {
+      width: 100%;
+      background-color: #e2e8f0;
+      height: 10px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background-color: #16a34a;
+      transition: width 0.3s ease;
+    }
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 14px;
+      font-weight: bold;
+    }
+    .badge {
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+    }
+    .badge-mcq { background: #dcfce7; color: #15803d; }
+    .badge-sa { background: #fef3c7; color: #92400e; }
+
+    .question-box {
+      font-size: 17px;
+      font-weight: bold;
+      line-height: 1.5;
+      color: #0f172a;
+      margin-bottom: 20px;
+      min-height: 60px;
+    }
+    .question-box u {
+      color: #dc2626;
+      text-decoration-thickness: 2px;
+    }
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .option-btn {
+      width: 100%;
+      padding: 14px 16px;
+      background-color: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      text-align: left;
+      font-size: 15px;
+      color: #334155;
+      cursor: pointer;
+      line-height: 1.4;
+      transition: all 0.2s;
+    }
+    .option-btn:active {
+      background-color: #dcfce7;
+      border-color: #16a34a;
+      color: #15803d;
+    }
+
+    .sa-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* 오답 화면 */
+    #wrong-screen {
+      display: none;
+      background-color: #fef2f2;
+      border: 2px solid #fca5a5;
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+    }
+    .wrong-title {
+      color: #dc2626;
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+    .explanation-box {
+      background: #ffffff;
+      padding: 15px;
+      border-radius: 10px;
+      border-left: 4px solid #dc2626;
+      text-align: left;
+      font-size: 14px;
+      color: #334155;
+      line-height: 1.5;
+      margin-bottom: 18px;
+    }
+
+    /* 성공 화면 */
+    #success-screen {
+      display: none;
+    }
+    .trophy {
+      font-size: 60px;
+      margin-bottom: 10px;
+    }
+    .success-title {
+      font-size: 22px;
+      color: #16a34a;
+      font-weight: bold;
+      margin-bottom: 18px;
+      line-height: 1.4;
+    }
+    .result-info {
+      background-color: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: left;
+      margin-bottom: 20px;
+    }
+    .result-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+    .result-item:last-child {
+      margin-bottom: 0;
+    }
+    .result-label {
+      color: #475569;
+      font-weight: bold;
+    }
+    .result-value {
+      color: #166534;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    
+    <!-- 1. 시작 화면 -->
+    <div id="start-screen">
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+      </div>
+      <h1>5학년 사회 퀴즈</h1>
+      <p class="sub-title">1. 우리나라 국토 여행</p>
+
+      <div class="input-group">
+        <label for="userName">이름을 입력하세요</label>
+        <input type="text" id="userName" placeholder="예: 홍길동" autocomplete="off">
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="startQuiz()">시작</button>
+        <a href="social.html" class="btn btn-secondary">단원선택</a>
+      </div>
+    </div>
+
+    <!-- 2. 퀴즈 진행 화면 -->
+    <div id="quiz-screen">
+      <div class="progress-bar-container">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      
+      <div class="quiz-header">
+        <span id="question-number">문제 1 / 10</span>
+        <span id="question-type-badge" class="badge badge-mcq">객관식</span>
+      </div>
+
+      <div class="question-box" id="question-text"></div>
+
+      <!-- 객관식 영역 -->
+      <div class="options-container" id="options-container"></div>
+
+      <!-- 단답식 영역 -->
+      <div class="sa-container" id="sa-container" style="display: none;">
+        <input type="text" id="sa-input" placeholder="정답 입력" onkeydown="if(event.key==='Enter') submitSAAnswer()">
+        <button class="btn btn-primary" onclick="submitSAAnswer()">정답 제출</button>
+      </div>
+    </div>
+
+    <!-- 3. 오답 화면 -->
+    <div id="wrong-screen">
+      <div class="wrong-title">❌ 틀렸습니다!</div>
+      <div class="explanation-box">
+        <strong>💡 간단 해설:</strong>
+        <p id="explanation-text" style="margin-top: 6px;"></p>
+      </div>
+      <button class="btn btn-primary" style="width: 100%;" onclick="returnToStart()">계속</button>
+    </div>
+
+    <!-- 4. 성공 축하 화면 -->
+    <div id="success-screen">
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+      </div>
+
+      <div class="trophy">🎉</div>
+      <div class="success-title">축하합니다!<br>10문제를 모두 맞추셨습니다!</div>
+      
+      <div class="result-info">
+        <div class="result-item">
+          <span class="result-label">이름</span>
+          <span class="result-value" id="result-name">-</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">총 걸린시간</span>
+          <span class="result-value" id="result-time">-</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">현재 시간</span>
+          <span class="result-value" id="result-date">-</span>
+        </div>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-success" onclick="returnToStart()">재도전</button>
+        <a href="social.html" class="btn btn-secondary">단원선택</a>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ----------------------------------------------------
+    // 단답식 문제 은행 (총 11개 - 요구사항 정답 11개 포함)
+    // ----------------------------------------------------
+    const saBank = [
+      {
+        q: "다양한 땅의 생김새를 무엇이라고 하나요?",
+        ans: "지형",
+        exp: "다양한 땅의 생김새를 '지형'이라고 합니다."
+      },
+      {
+        q: "물이 흐르며 만든 크고 작은 물줄기로, 높은 곳에서 낮은 곳으로 흐르는 지형은 무엇인가요?",
+        ans: "하천",
+        exp: "물이 흐르며 만든 물줄기를 '하천'이라고 합니다."
+      },
+      {
+        q: "평평하고 낮은 땅이 넓게 펼쳐진 곳으로, 주로 하천 주변에 발달하는 지형은 무엇인가요?",
+        ans: "평야",
+        exp: "평평하고 낮은 땅이 넓게 펼쳐진 지형을 '평야'라고 합니다."
+      },
+      {
+        q: "우리나라의 지형은 북쪽과 동쪽이 높고 어느 쪽이 낮아서 대부분의 큰 하천이 그 방향으로 흐르나요?",
+        ans: "남쪽과 서쪽",
+        exp: "우리나라는 동고서저 지형으로, 남쪽과 서쪽이 낮아 큰 하천이 남쪽과 서쪽으로 흐릅니다."
+      },
+      {
+        q: "우리나라 해안 중 해안선이 단순하고 섬이 적으며, 넓은 모래사장이 많아 해수욕장이 발달한 해안은 어디인가요?",
+        ans: "동해안",
+        exp: "동해안은 해안선이 단순하고 모래사장이 잘 발달되어 있습니다."
+      },
+      {
+        q: "서해안과 남해안은 동해안과 달리 해안선이 어떠한 특징을 가지고 있나요?",
+        ans: "복잡",
+        exp: "서해안과 남해안은 섬이 많고 해안선이 '복잡'합니다."
+      },
+      {
+        q: "우리나라 영토의 동쪽 끝에 위치하며, 동도와 서도 및 크고 작은 바위섬으로 이루어진 화산섬은 어디인가요?",
+        ans: "독도",
+        exp: "우리나라 영토의 동쪽 끝에 있는 화산섬은 '독도'입니다."
+      },
+      {
+        q: "우리나라는 독도의 자연환경과 독특한 생태계를 보호하기 위해 독도를 무엇으로 지정하였나요?",
+        ans: "천연기념물",
+        exp: "우리나라는 독도의 자연환경과 생태계를 보호하기 위해 독도를 '천연기념물'로 지정했습니다."
+      },
+      {
+        q: "신라의 장군 이사부가 우산국을 정벌하여 우산국이 신라의 영토가 되었다는 내용이 기록된 역사책은 무엇인가요?",
+        ans: "삼국사기",
+        exp: "『삼국사기』에는 신라 이사부 장군이 우산국을 정벌한 사실이 기록되어 있습니다."
+      },
+      {
+        q: "독도와 울릉도가 강원도에 속해 있으며 서로 바라볼 수 있다고 기록된 조선 시대의 책은 무엇인가요?",
+        ans: "세종실록지리지",
+        exp: "『세종실록지리지』에는 독도와 울릉도가 강원도에 속해 있다고 기록되어 있습니다."
+      },
+      {
+        q: "조선 시대에 두 차례 일본으로 건너가 울릉도와 독도가 우리나라 땅임을 밝히고 일본인의 어로 활동을 금지하게 한 인물은 누구인가요?",
+        ans: "안용복",
+        exp: "안용복은 조선 시대 일본으로 건너가 울릉도와 독도가 조선 땅임을 확인받았습니다."
+      }
+    ];
+
+    // ----------------------------------------------------
+    // 객관식 문제 은행 (총 9개)
+    // ----------------------------------------------------
+    const mcqBank = [
+      {
+        q: "우리나라 산지 지형의 특징으로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: [
+          "국토 전체에 평야가 산지보다 훨씬 넓게 펼쳐져 있다.",
+          "우리 국토의 약 70%가 산지로 이루어져 있다.",
+          "북동쪽에는 높고 험한 산지가 주로 분포한다.",
+          "남서쪽에는 낮은 산지가 주로 분포한다."
+        ],
+        ans: 0,
+        exp: "우리 국토의 약 70%는 산지 지형이며, 평야보다 산지가 훨씬 넓습니다."
+      },
+      {
+        q: "서해안과 남해안의 지형적 특징으로 올바른 것은 무엇인가요?",
+        options: [
+          "해안선이 복잡하고 섬이 많다.",
+          "해안선이 매우 단순하다.",
+          "섬이 거의 없어 다도해라고 부르지 않는다.",
+          "넓은 모래사장이 길게 발달해 있다."
+        ],
+        ans: 0,
+        exp: "서해안과 남해안은 해안선이 복잡하고 섬이 많아 '다도해'라고 불립니다."
+      },
+      {
+        q: "다음 중 독도의 지형 및 기후에 대한 설명으로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: [
+          "1년 내내 안개가 전혀 끼지 않고 매우 건조하다.",
+          "동도와 서도, 크고 작은 바위섬으로 이루어져 있다.",
+          "화산 활동으로 만들어진 섬이다.",
+          "기후는 대체로 온화하며 겨울에는 눈이 많이 내린다."
+        ],
+        ans: 0,
+        exp: "독도는 안개가 자주 끼고 흐린 날이 많으며 겨울에는 눈이 많이 내립니다."
+      },
+      {
+        q: "독도의 바닷속에 매장되어 있으며 경제적 가치가 높은 자원은 무엇인가요?",
+        options: [
+          "가스 하이드레이트",
+          "석탄",
+          "철광석",
+          "천연 원유"
+        ],
+        ans: 0,
+        exp: "독도 바닷속에는 해양 심층수와 가스 하이드레이트가 있어 경제적 가치가 높습니다."
+      },
+      {
+        q: "독도가 우리나라 영토임을 보여주는 옛 기록과 지도에 대한 설명으로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: [
+          "일본의 돗토리번 답변서에는 독도가 일본 영토라고 기록되어 있다.",
+          "세종실록지리지에는 독도와 울릉도가 강원도에 속한다고 기록되어 있다.",
+          "대한 제국 칙령 제41호에는 울릉군청에서 독도를 관할하도록 했다.",
+          "삼국접양지도에는 독도가 조선과 같은 색으로 칠해져 있다."
+        ],
+        ans: 0,
+        exp: "일본의 『돗토리번 답변서』는 울릉도와 독도가 일본 영토가 아님을 밝힌 국가 문서입니다."
+      },
+      {
+        q: "독도로 주민등록을 옮겨 최초의 독도 주민이 된 인물은 누구인가요?",
+        options: [
+          "최종덕",
+          "안용복",
+          "이사부",
+          "홍순칠"
+        ],
+        ans: 0,
+        exp: "최종덕은 독도로 주민등록을 옮겨 최초의 독도 주민이 되었습니다."
+      },
+      {
+        q: "홍순칠과 독도 의용 수비대가 독도가 대한민국 영토임을 알리고자 독도 바위에 새긴 글자는 무엇인가요?",
+        options: [
+          "한국령",
+          "조선 땅",
+          "독도수호",
+          "신라 영토"
+        ],
+        ans: 0,
+        exp: "홍순칠과 독도 의용 수비대는 독도 바위에 '한국령'이라는 글자를 새겼습니다."
+      },
+      {
+        q: "오늘날 독도를 지키기 위한 정부의 노력으로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: [
+          "독도를 다른 나라에 양도하기 위한 법률을 만든다.",
+          "독도에 독도 경비대를 파견한다.",
+          "독도 선착장, 주민 숙소, 등대 등의 시설을 만든다.",
+          "세계에 독도를 홍보하고 우리나라 영토임을 알린다."
+        ],
+        ans: 0,
+        exp: "정부는 독도의 보전과 관리를 위해 경비대 파견, 홍보, 법령 시행 등 영토 수호 노력을 펼치고 있습니다."
+      },
+      {
+        q: "인터넷으로 국토 여행을 계획하는 과정 중 세 번째 단계에 해당하는 것은 무엇인가요?",
+        options: [
+          "디지털 영상 지도로 여행지 살펴보기",
+          "여행 주제 정하기",
+          "여행 정보 누리집으로 여행지 조사하기",
+          "국토 여행 계획서 작성하기"
+        ],
+        ans: 0,
+        exp: "국토 여행 계획 순서: ①여행 주제 정하기 -> ②여행 정보 누리집 조사 -> ③디지털 영상 지도로 살펴보기 -> ④계획서 작성 -> ⑤공유하기입니다."
+      }
+    ];
+
+    // ----------------------------------------------------
+    // 게임 상태 변수
+    // ----------------------------------------------------
+    let userName = "";
+    let quizQueue = [];
+    let currentIdx = 0;
+    let startTime = null;
+
+    const startScreen = document.getElementById("start-screen");
+    const quizScreen = document.getElementById("quiz-screen");
+    const wrongScreen = document.getElementById("wrong-screen");
+    const successScreen = document.getElementById("success-screen");
+
+    function shuffle(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function startQuiz() {
+      const nameInput = document.getElementById("userName").value.trim();
+      if (!nameInput) {
+        alert("이름을 입력해 주세요!");
+        return;
+      }
+      userName = nameInput;
+
+      // 1-7번: 객관식 7개 무작위 추출
+      // 8-10번: 단답식 3개 무작위 추출
+      const selectedMCQs = shuffle(mcqBank).slice(0, 7);
+      const selectedSAs = shuffle(saBank).slice(0, 3);
+
+      const formattedMCQs = selectedMCQs.map(item => {
+        const correctText = item.options[item.ans];
+        const shuffledOptions = shuffle(item.options);
+        const newAnsIdx = shuffledOptions.indexOf(correctText);
+        return {
+          type: "MCQ",
+          q: item.q,
+          options: shuffledOptions,
+          ans: newAnsIdx,
+          exp: item.exp
+        };
+      });
+
+      const formattedSAs = selectedSAs.map(item => ({
+        type: "SA",
+        q: item.q,
+        ans: item.ans,
+        exp: item.exp
+      }));
+
+      quizQueue = [...formattedMCQs, ...formattedSAs];
+      currentIdx = 0;
+      startTime = Date.now();
+
+      startScreen.style.display = "none";
+      wrongScreen.style.display = "none";
+      successScreen.style.display = "none";
+      quizScreen.style.display = "block";
+
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const qData = quizQueue[currentIdx];
+      
+      const progressPercent = ((currentIdx + 1) / 10) * 100;
+      document.getElementById("progress-bar").style.width = progressPercent + "%";
+      document.getElementById("question-number").textContent = `문제 ${currentIdx + 1} / 10`;
+
+      const badge = document.getElementById("question-type-badge");
+      const optionsBox = document.getElementById("options-container");
+      const saBox = document.getElementById("sa-container");
+
+      document.getElementById("question-text").innerHTML = `${currentIdx + 1}. ${qData.q}`;
+
+      if (qData.type === "MCQ") {
+        badge.textContent = "객관식";
+        badge.className = "badge badge-mcq";
+        optionsBox.style.display = "flex";
+        saBox.style.display = "none";
+
+        optionsBox.innerHTML = "";
+        qData.options.forEach((optText, idx) => {
+          const btn = document.createElement("button");
+          btn.className = "option-btn";
+          btn.textContent = `${idx + 1}. ${optText}`;
+          btn.onclick = () => checkMCQAnswer(idx);
+          optionsBox.appendChild(btn);
+        });
+      } else {
+        badge.textContent = "단답식";
+        badge.className = "badge badge-sa";
+        optionsBox.style.display = "none";
+        saBox.style.display = "flex";
+
+        const saInput = document.getElementById("sa-input");
+        saInput.value = "";
+        setTimeout(() => saInput.focus(), 100);
+      }
+    }
+
+    function checkMCQAnswer(selectedIdx) {
+      const qData = quizQueue[currentIdx];
+      if (selectedIdx === qData.ans) {
+        nextQuestion();
+      } else {
+        showWrongScreen(qData.exp);
+      }
+    }
+
+    function submitSAAnswer() {
+      const qData = quizQueue[currentIdx];
+      const userInput = document.getElementById("sa-input").value.trim().replace(/\s+/g, "");
+      const targetAns = qData.ans.replace(/\s+/g, "");
+
+      if (!userInput) {
+        alert("정답을 입력해주세요.");
+        return;
+      }
+
+      if (userInput === targetAns) {
+        nextQuestion();
+      } else {
+        showWrongScreen(qData.exp);
+      }
+    }
+
+    function nextQuestion() {
+      currentIdx++;
+      if (currentIdx < 10) {
+        renderQuestion();
+      } else {
+        finishQuiz();
+      }
+    }
+
+    function showWrongScreen(explanationText) {
+      quizScreen.style.display = "none";
+      wrongScreen.style.display = "block";
+      document.getElementById("explanation-text").textContent = explanationText;
+    }
+
+    function returnToStart() {
+      wrongScreen.style.display = "none";
+      successScreen.style.display = "none";
+      quizScreen.style.display = "none";
+      startScreen.style.display = "block";
+    }
+
+    function finishQuiz() {
+      const endTime = Date.now();
+      const elapsedSeconds = Math.round((endTime - startTime) / 1000);
+
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      
+      const dateStr = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+
+      document.getElementById("result-name").textContent = userName;
+      document.getElementById("result-time").textContent = `${elapsedSeconds}초`;
+      document.getElementById("result-date").textContent = dateStr;
+
+      quizScreen.style.display = "none";
+      successScreen.style.display = "block";
+    }
+  </script>
+</body>
+</html>

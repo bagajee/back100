@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>6학년 2학기 과학 - 단원 선택</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Pretendard', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+    body {
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 14px;
+      color: #1e293b;
+    }
+    .card {
+      background: #ffffff;
+      width: 100%;
+      max-width: 480px;
+      border-radius: 20px;
+      padding: 24px 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+    .top-nav {
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 20px;
+    }
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #e2e8f0;
+      color: #334155;
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .nav-btn:active {
+      background-color: #cbd5e1;
+    }
+    h1 {
+      font-size: 22px;
+      color: #1e3a8a;
+      margin-bottom: 8px;
+    }
+    .sub-title {
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 24px;
+    }
+    .unit-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .unit-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      background-color: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 14px;
+      text-decoration: none;
+      color: #1e293b;
+      font-weight: bold;
+      font-size: 16px;
+      transition: all 0.2s ease;
+    }
+    .unit-btn:active {
+      background-color: #dbeafe;
+      border-color: #2563eb;
+      color: #1e40af;
+      transform: scale(0.98);
+    }
+    .unit-number {
+      font-size: 13px;
+      color: #2563eb;
+      background-color: #eff6ff;
+      padding: 4px 8px;
+      border-radius: 6px;
+      margin-right: 10px;
+    }
+    .unit-title {
+      flex: 1;
+      text-align: left;
+    }
+    .arrow {
+      color: #94a3b8;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <div class="top-nav">
+      <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+    </div>
+
+    <h1>6학년 2학기 과학</h1>
+    <p class="sub-title">학습할 단원을 선택하세요</p>
+
+    <div class="unit-list">
+      <a href="sc1.html" class="unit-btn">
+        <span class="unit-number">1단원</span>
+        <span class="unit-title">계절의 변화</span>
+        <span class="arrow">▶</span>
+      </a>
+
+      <a href="sc2.html" class="unit-btn">
+        <span class="unit-number">2단원</span>
+        <span class="unit-title">물질의 연소</span>
+        <span class="arrow">▶</span>
+      </a>
+
+      <a href="sc3.html" class="unit-btn">
+        <span class="unit-number">3단원</span>
+        <span class="unit-title">전기의 이용</span>
+        <span class="arrow">▶</span>
+      </a>
+
+      <a href="sc4.html" class="unit-btn">
+        <span class="unit-number">4단원</span>
+        <span class="unit-title">과학과 나의 진로</span>
+        <span class="arrow">▶</span>
+      </a>
+    </div>
+  </div>
+
+</body>
+</html>

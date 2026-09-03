@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>5학년 2학기 과학 - 열과 우리 생활 퀴즈</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Pretendard', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+    body {
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 14px;
+      color: #1e293b;
+    }
+    .card {
+      background: #ffffff;
+      width: 100%;
+      max-width: 480px;
+      border-radius: 20px;
+      padding: 24px 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      text-align: center;
+      position: relative;
+    }
+    .top-nav {
+      display: flex;
+      justify-content: flex-start;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #e2e8f0;
+      color: #334155;
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .nav-btn:active {
+      background-color: #cbd5e1;
+    }
+    h1 {
+      font-size: 22px;
+      color: #1e3a8a;
+      margin-bottom: 8px;
+    }
+    .sub-title {
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 24px;
+    }
+    .input-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    .input-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #334155;
+      font-size: 15px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 14px;
+      border: 2px solid #cbd5e1;
+      border-radius: 12px;
+      font-size: 16px;
+      text-align: center;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input[type="text"]:focus {
+      border-color: #2563eb;
+    }
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .btn {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.1s, background-color 0.2s;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+      box-sizing: border-box;
+    }
+    .btn:active {
+      transform: scale(0.98);
+    }
+    .btn-primary {
+      background-color: #2563eb;
+      color: #ffffff;
+    }
+    .btn-secondary {
+      background-color: #64748b;
+      color: #ffffff;
+    }
+    .btn-success {
+      background-color: #16a34a;
+      color: #ffffff;
+    }
+
+    /* 퀴즈 진행 화면 */
+    #quiz-screen {
+      display: none;
+      text-align: left;
+    }
+    .progress-bar-container {
+      width: 100%;
+      background-color: #e2e8f0;
+      height: 10px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background-color: #2563eb;
+      transition: width 0.3s ease;
+    }
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 14px;
+      font-weight: bold;
+    }
+    .badge {
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+    }
+    .badge-mcq { background: #dbeafe; color: #1e40af; }
+    .badge-sa { background: #fef3c7; color: #92400e; }
+
+    .question-box {
+      font-size: 17px;
+      font-weight: bold;
+      line-height: 1.5;
+      color: #0f172a;
+      margin-bottom: 20px;
+      min-height: 60px;
+    }
+    .question-box u {
+      color: #dc2626;
+      text-decoration-thickness: 2px;
+    }
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .option-btn {
+      width: 100%;
+      padding: 14px 16px;
+      background-color: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      text-align: left;
+      font-size: 15px;
+      color: #334155;
+      cursor: pointer;
+      line-height: 1.4;
+      transition: all 0.2s;
+    }
+    .option-btn:active {
+      background-color: #dbeafe;
+      border-color: #2563eb;
+      color: #1e40af;
+    }
+
+    .sa-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* 오답 화면 */
+    #wrong-screen {
+      display: none;
+      background-color: #fef2f2;
+      border: 2px solid #fca5a5;
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+    }
+    .wrong-title {
+      color: #dc2626;
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+    .explanation-box {
+      background: #ffffff;
+      padding: 15px;
+      border-radius: 10px;
+      border-left: 4px solid #dc2626;
+      text-align: left;
+      font-size: 14px;
+      color: #334155;
+      line-height: 1.5;
+      margin-bottom: 18px;
+    }
+
+    /* 성공 화면 */
+    #success-screen {
+      display: none;
+    }
+    .trophy {
+      font-size: 60px;
+      margin-bottom: 10px;
+    }
+    .success-title {
+      font-size: 22px;
+      color: #16a34a;
+      font-weight: bold;
+      margin-bottom: 18px;
+      line-height: 1.4;
+    }
+    .result-info {
+      background-color: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: left;
+      margin-bottom: 20px;
+    }
+    .result-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+    .result-item:last-child {
+      margin-bottom: 0;
+    }
+    .result-label {
+      color: #475569;
+      font-weight: bold;
+    }
+    .result-value {
+      color: #166534;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    
+    <!-- 1. 시작 화면 -->
+    <div id="start-screen">
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+      </div>
+      <h1>5학년 과학 퀴즈</h1>
+      <p class="sub-title">3단원. 열과 우리 생활</p>
+
+      <div class="input-group">
+        <label for="userName">이름을 입력하세요</label>
+        <input type="text" id="userName" placeholder="예: 홍길동" autocomplete="off">
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="startQuiz()">시작</button>
+        <a href="science.html" class="btn btn-secondary">단원선택</a>
+      </div>
+    </div>
+
+    <!-- 2. 퀴즈 진행 화면 -->
+    <div id="quiz-screen">
+      <div class="progress-bar-container">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      
+      <div class="quiz-header">
+        <span id="question-number">문제 1 / 10</span>
+        <span id="question-type-badge" class="badge badge-mcq">객관식</span>
+      </div>
+
+      <div class="question-box" id="question-text"></div>
+
+      <!-- 객관식 영역 -->
+      <div class="options-container" id="options-container"></div>
+
+      <!-- 단답식 영역 -->
+      <div class="sa-container" id="sa-container" style="display: none;">
+        <input type="text" id="sa-input" placeholder="정답 입력" onkeydown="if(event.key==='Enter') submitSAAnswer()">
+        <button class="btn btn-primary" onclick="submitSAAnswer()">정답 제출</button>
+      </div>
+    </div>
+
+    <!-- 3. 오답 화면 -->
+    <div id="wrong-screen">
+      <div class="wrong-title">❌ 틀렸습니다!</div>
+      <div class="explanation-box">
+        <strong>💡 간단 해설:</strong>
+        <p id="explanation-text" style="margin-top: 6px;"></p>
+      </div>
+      <button class="btn btn-primary" style="width: 100%;" onclick="returnToStart()">계속</button>
+    </div>
+
+    <!-- 4. 성공 축하 화면 -->
+    <div id="success-screen">
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+      </div>
+
+      <div class="trophy">🎉</div>
+      <div class="success-title">축하합니다!<br>10문제를 모두 맞추셨습니다!</div>
+      
+      <div class="result-info">
+        <div class="result-item">
+          <span class="result-label">이름</span>
+          <span class="result-value" id="result-name">-</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">총 걸린시간</span>
+          <span class="result-value" id="result-time">-</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">현재 시간</span>
+          <span class="result-value" id="result-date">-</span>
+        </div>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-success" onclick="returnToStart()">재도전</button>
+        <a href="science.html" class="btn btn-secondary">단원선택</a>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ----------------------------------------------------
+    // 문제 은행 데이터 (제시된 이미지 내용만 100% 반영)
+    // 지정된 단답식 정답: 온도, 온도계, 열, 전도, 대류, 복사, 단열
+    // ----------------------------------------------------
+
+    const saBank = [
+      {
+        q: "물체의 따뜻하거나 차가운 정도를 나타낸 것으로, 단위는 ℃(섭씨도)를 사용하는 것은 무엇인가요?",
+        ans: "온도",
+        exp: "물체의 따뜻하거나 차가운 정도를 나타낸 것을 온도라고 하며, 단위는 ℃를 사용합니다."
+      },
+      {
+        q: "온도를 정확하게 측정하기 위해 사용하는 도구는 무엇인가요?",
+        ans: "온도계",
+        exp: "온도를 정확하게 측정하기 위하여 온도계를 사용합니다."
+      },
+      {
+        q: "온도가 높은 물체에서 온도가 낮은 물체로 이동하는 것을 무엇이라고 하나요?",
+        ans: "열",
+        exp: "온도가 높은 물체에서 온도가 낮은 물체로 열이 이동합니다."
+      },
+      {
+        q: "온도가 높은 부분에서 온도가 낮은 부분으로 고체 물질을 따라 열이 이동하는 방식을 무엇이라고 하나요?",
+        ans: "전도",
+        exp: "고체 물질을 따라 온도가 높은 부분에서 낮은 부분으로 열이 이동하는 방식을 전도라고 합니다."
+      },
+      {
+        q: "온도가 높아진 물질이 위로 올라가고 온도가 낮은 물질이 아래로 내려오면서 열이 이동하는 방식을 무엇이라고 하나요?",
+        ans: "대류",
+        exp: "액체나 기체에서 온도가 높아진 물질이 위로 올라가고 낮은 물질이 아래로 내려가며 열이 이동하는 방식을 대류라고 합니다."
+      },
+      {
+        q: "빛에 의해 열이 직접 이동하는 방식을 무엇이라고 하나요?",
+        ans: "복사",
+        exp: "빛에 의해 열이 직접 이동하는 방식을 복사라고 합니다."
+      },
+      {
+        q: "열의 이동을 막는 것을 무엇이라고 하나요?",
+        ans: "단열",
+        exp: "열의 이동을 막는 것을 단열이라고 합니다."
+      },
+      {
+        q: "고체 물질을 가열할 때 온도가 높은 곳에서 낮은 곳으로 고체를 따라 이동하는 에너지를 ( )이라고 합니다. 빈칸에 들어갈 알맞은 말은 무엇인가요?",
+        ans: "열",
+        exp: "고체 물질을 가열하면 온도가 높은 부분에서 낮아지는 부분으로 고체 물질을 따라 열이 이동합니다."
+      }
+    ];
+
+    const mcqBank = [
+      {
+        q: "물체의 온도에 대한 설명으로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: [
+          "온도가 높을수록 물체가 더 차갑다.",
+          "물체의 따뜻하거나 차가운 정도를 나타낸 것이다.",
+          "단위는 ℃(섭씨도)를 사용한다.",
+          "온도계를 사용하면 정확하게 측정할 수 있다."
+        ],
+        ans: 0,
+        exp: "온도가 높을수록 따뜻하고, 온도가 낮을수록 차갑습니다."
+      },
+      {
+        q: "다음 중 온도를 측정하는 온도계의 종류에 해당하지 <u>않는</u> 것은 무엇인가요?",
+        options: [
+          "돋보기",
+          "탐침 온도계",
+          "적외선 온도계",
+          "알코올 온도계"
+        ],
+        ans: 0,
+        exp: "온도계의 종류에는 탐침 온도계, 적외선 온도계, 알코올 온도계, 열화상 사진기 등이 있습니다."
+      },
+      {
+        q: "알코올 온도계로 온도를 올바르게 측정하는 방법은 무엇인가요?",
+        options: [
+          "빨간색 액체 기둥이 멈추면 액체 기둥과 눈높이를 맞춰 읽는다.",
+          "액체 기둥을 위에서 내려다보며 눈금을 읽는다.",
+          "액체 기둥을 아래에서 올려다보며 눈금을 읽는다.",
+          "빨간색 액체가 움직이는 동안 빠르게 눈금을 읽는다."
+        ],
+        ans: 0,
+        exp: "알코올 온도계는 빨간색 액체 기둥이 멈추면 액체 기둥과 눈높이를 맞춰 온도를 읽습니다."
+      },
+      {
+        q: "적외선 온도계를 사용하는 알맞은 방법은 무엇인가요?",
+        options: [
+          "전원을 켜고 레이저 빛을 물체 표면에 맞추어 측정한다.",
+          "온도계를 물체 속에 충분히 넣어서 측정한다.",
+          "빨간색 액체 기둥이 멈출 때까지 기다려 측정한다.",
+          "비커의 옆면에 바짝 붙여 설치하여 측정한다."
+        ],
+        ans: 0,
+        exp: "적외선 온도계는 전원을 켜고 온도 측정 버튼을 누르면서 레이저 빛을 물체의 표면에 맞히고 읽습니다."
+      },
+      {
+        q: "온도가 다른 두 물체가 접촉할 때 나타나는 변화로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: [
+          "온도가 낮은 물체는 온도가 점점 더 낮아진다.",
+          "온도가 높은 물체는 온도가 점점 낮아진다.",
+          "온도가 낮은 물체는 온도가 점점 높아진다.",
+          "시간이 충분히 지나면 두 물체의 온도는 같아진다."
+        ],
+        ans: 0,
+        exp: "온도가 다른 두 물체가 접촉하면 높은 물체는 낮아지고 낮은 물체는 높아져 결국 온도가 같아집니다."
+      },
+      {
+        q: "온도가 다른 두 물체가 접촉할 때 열이 이동하는 방향은 무엇인가요?",
+        options: [
+          "온도가 높은 물체에서 온도가 낮은 물체로 이동한다.",
+          "온도가 낮은 물체에서 온도가 높은 물체로 이동한다.",
+          "두 물체 사이에 열이 전혀 이동하지 않는다.",
+          "시간이 지나도 온도가 전혀 변하지 않는다."
+        ],
+        ans: 0,
+        exp: "열은 항상 온도가 높은 물체에서 온도가 낮은 물체로 이동합니다."
+      },
+      {
+        q: "접촉에 의해 열이 이동하는 예로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: [
+          "창가에 햇빛이 비치면 방 안이 따뜻해진다.",
+          "갓 삶은 뜨거운 면에서 얼음물로 열이 이동한다.",
+          "미지근한 캔에서 얼음으로 열이 이동한다.",
+          "뜨거운 이마에서 냉각 시트로 열이 이동한다."
+        ],
+        ans: 0,
+        exp: "창가에 햇빛이 비치어 방 안이 따뜻해지는 것은 복사에 의한 열의 이동입니다."
+      },
+      {
+        q: "긴 구리판에 고온용 열 변색 붙임딱지를 붙이고 한쪽 끝을 가열할 때 일어나는 현상은 무엇인가요?",
+        options: [
+          "가열한 부분에서 멀어지는 방향으로 붙임딱지 색깔이 변한다.",
+          "가열한 부분에서 멀어지는 방향과 반대로 색깔이 변한다.",
+          "구리판 전체의 색깔이 동시에 한꺼번에 변한다.",
+          "구리판의 온도는 변하지 않고 색깔만 변한다."
+        ],
+        ans: 0,
+        exp: "고체 물질을 가열하면 가열한 부분에서 멀어지는 방향으로 열이 이동하며 붙임딱지의 색깔이 변합니다."
+      },
+      {
+        q: "ㄷ자 모양 구리판을 가열할 때 끊어진 부분이 있으면 열은 어떻게 되나요?",
+        options: [
+          "끊어진 부분으로는 열이 이동하지 않는다.",
+          "끊어진 공기를 타고 더 빠르게 이동한다.",
+          "끊어진 부분을 뛰어넘어 반대편으로 이동한다.",
+          "구리판 전체로 즉시 열이 전달된다."
+        ],
+        ans: 0,
+        exp: "고체 물질을 따라 열이 이동하므로 끊어진 부분으로는 열이 이동하지 않습니다."
+      },
+      {
+        q: "전도에 대한 설명으로 올바른 것은 무엇인가요?",
+        options: [
+          "온도가 높은 부분에서 낮아지는 부분으로 고체 물질을 따라 열이 이동하는 방식이다.",
+          "액체나 기체가 위아래로 순환하면서 열이 이동하는 방식이다.",
+          "빛에 의해 열이 직접 이동하는 방식이다.",
+          "열의 이동을 완전히 막아주는 현상이다."
+        ],
+        ans: 0,
+        exp: "전도는 온도가 높은 부분에서 온도가 낮은 부분으로 고체 물질을 따라 열이 이동하는 방식입니다."
+      },
+      {
+        q: "전도에 의해 열이 이동하는 예로 알맞은 것은 무엇인가요?",
+        options: [
+          "불 위에 철판을 놓으면 철판 전체가 뜨거워진다.",
+          "전기 주전자를 켜면 물이 끓는다.",
+          "모닥불 근처에 가면 따뜻함을 느낌다.",
+          "난로 앞에 가면 따뜻해진다."
+        ],
+        ans: 0,
+        exp: "불 위에 철판을 놓거나 뜨거운 국에 금속 숟가락을 담가 놓는 것은 전도의 예입니다."
+      },
+      {
+        q: "물이 든 통 바닥에 잉크를 넣고 아래에 뜨거운 물이 든 컵을 놓았을 때 일어나는 현상은 무엇인가요?",
+        options: [
+          "온도가 높아진 물이 위로 올라가고 낮은 물이 내려오며 액체 전체로 열이 이동한다.",
+          "온도가 높아진 물이 아래로 침전하며 밑부분만 뜨거워진다.",
+          "잉크가 가만히 바닥에 가라앉아 움직이지 않는다.",
+          "물 전체의 온도가 변하지 않는다."
+        ],
+        ans: 0,
+        exp: "액체에서는 온도가 높아진 물이 위로 올라가고 온도가 낮은 물이 아래로 밀려 내려오면서 전체로 열이 이동합니다."
+      },
+      {
+        q: "구멍 뚫린 아크릴 통 한가운데 촛불을 위치시켰을 때 변화로 올바른 것은 무엇인가요?",
+        options: [
+          "아크릴 통 윗부분의 열 변색 붙임딱지 색깔이 먼저 변한다.",
+          "아크릴 통 바닥의 붙임딱지 색깔이 먼저 변한다.",
+          "아크릴 통 전체의 색깔 변화가 전혀 없다.",
+          "아크릴 통 아래쪽 공기만 따뜻해진다."
+        ],
+        ans: 0,
+        exp: "온도가 높아진 공기가 위로 올라가므로 아크릴 통 윗부분의 열 변색 붙임딱지 색깔이 먼저 변합니다."
+      },
+      {
+        q: "대류에 대한 설명으로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: [
+          "고체 물질을 따라서만 열이 전달되는 방식이다.",
+          "온도가 높아진 물질이 위로 올라가면서 열이 이동한다.",
+          "온도가 낮은 물질이 아래로 내려오는 과정을 거친다.",
+          "액체와 기체에서 열이 이동하는 방식이다."
+        ],
+        ans: 0,
+        exp: "대류는 액체와 기체에서 온도가 높아진 물질이 위로 올라가고 낮은 물질이 아래로 내려가며 열이 이동하는 방식입니다."
+      },
+      {
+        q: "대류에 의해 열이 이동하는 예로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: [
+          "손목에 얼음주머니를 대면 손목의 열이 이동한다.",
+          "물을 끓일 때 대류로 물이 순환하면서 전체가 뜨거워진다.",
+          "방안의 공기를 데울 때 대류로 공기가 순환하여 방 전체 온도가 높아진다.",
+          "찜기를 켜면 대류로 찜기 안의 음식이 익는다."
+        ],
+        ans: 0,
+        exp: "손목에 얼음주머니를 대는 것은 접촉에 의한 전도의 예입니다."
+      },
+      {
+        q: "같은 장소에서 햇빛이 비치는 곳과 비치지 않는 곳의 온도를 비교한 것으로 올바른 것은 무엇인가요?",
+        options: [
+          "햇빛이 비치는 곳의 온도가 더 높다.",
+          "햇빛이 비치지 않는 곳의 온도가 더 높다.",
+          "두 장소의 온도는 항상 완벽히 같다.",
+          "건물 벽은 햇빛에 의한 온도 차이가 없다."
+        ],
+        ans: 0,
+        exp: "같은 장소(운동장 바닥, 계단, 건물 벽)에서 햇빛이 비치는 곳의 온도가 비치지 않는 곳보다 더 높습니다."
+      },
+      {
+        q: "복사에 대한 설명으로 올바른 것은 무엇인가요?",
+        options: [
+          "빛에 의해 열이 직접 이동하는 방식이다.",
+          "고체 물질을 따라 열이 이동하는 방식이다.",
+          "액체나 기체의 순환으로 열이 이동하는 방식이다.",
+          "물질의 접촉에 의해서만 열이 이동한다."
+        ],
+        ans: 0,
+        exp: "복사는 빛에 의해 열이 직접 이동하는 방식입니다."
+      },
+      {
+        q: "복사에 의한 열의 이동 예로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: [
+          "전기 주전자를 켜면 대류로 물이 끓는다.",
+          "보온 등을 켜면 음식이 일정 시간 따뜻하게 유지된다.",
+          "난로 앞에 가면 따뜻해진다.",
+          "모닥불 근처에 가면 따뜻함을 느낀다."
+        ],
+        ans: 0,
+        exp: "전기 주전자를 켜서 물이 끓는 것은 대류의 예입니다."
+      },
+      {
+        q: "다리미를 켜면 다리미 바닥 부분이 뜨거워지는 열의 이동 방식은 무엇인가요?",
+        options: [
+          "전도",
+          "대류",
+          "복사",
+          "단열"
+        ],
+        ans: 0,
+        exp: "고체인 다리미 바닥을 따라 열이 전달되는 것은 전도입니다."
+      },
+      {
+        q: "창가에 햇빛이 비치면 방 안이 따뜻해지는 열의 이동 방식은 무엇인가요?",
+        options: [
+          "복사",
+          "전도",
+          "대류",
+          "단열"
+        ],
+        ans: 0,
+        exp: "햇빛(빛)에 의해 열이 직접 전달되므로 복사입니다."
+      },
+      {
+        q: "열 전구를 켜면 빛이 비치는 부분이 따뜻해지는 열의 이동 현상은 무엇인가요?",
+        options: [
+          "복사",
+          "전도",
+          "대류",
+          "단열"
+        ],
+        ans: 0,
+        exp: "열 전구의 빛에 의해 열이 직접 전달되므로 복사에 해당합니다."
+      },
+      {
+        q: "열이 이동하는 여러 방식의 예로 <u>옳지 않은</u> 짝은 무엇인가요?",
+        options: [
+          "전기 주전자 켜기 - 복사",
+          "다리미 바닥 뜨거워짐 - 전도",
+          "찜기 안 음식 익히기 - 대류",
+          "난로 앞의 따뜻함 - 복사"
+        ],
+        ans: 0,
+        exp: "전기 주전자로 물을 끓이는 것은 대류에 의한 열의 이동입니다."
+      },
+      {
+        q: "단열에 대한 설명으로 가장 올바른 것은 무엇인가요?",
+        options: [
+          "열의 이동을 막는 것이다.",
+          "열의 이동을 더 빠르고 원활하게 하는 것이다.",
+          "고체에서 액체로 열을 빠르게 전달하는 것이다.",
+          "빛을 모아 물체의 온도를 높이는 것이다."
+        ],
+        ans: 0,
+        exp: "단열이란 열의 이동을 막는 것을 의미합니다."
+      },
+      {
+        q: "창문을 닫아 실내 온도를 거의 일정하게 유지하는 단열 원리는 무엇을 막는 것인가요?",
+        options: [
+          "공기의 대류",
+          "고체의 전도",
+          "빛의 복사",
+          "물의 증발"
+        ],
+        ans: 0,
+        exp: "창문을 닫으면 공기의 대류를 막아 실내 온도를 유지할 수 있습니다."
+      },
+      {
+        q: "주방 장갑이나 냄비 받침대에 대한 설명으로 올바른 것은 무엇인가요?",
+        options: [
+          "전도가 잘 되지 않는 재료를 사용해 열의 이동을 막는다.",
+          "대류를 촉진시켜 손을 따뜻하게 보호한다.",
+          "복사열을 흡수하여 음식을 빨리 익힌다.",
+          "열을 손으로 더 잘 전달되도록 만든다."
+        ],
+        ans: 0,
+        exp: "주방 장갑과 냄비 받침대는 전도가 잘 되지 않는 재료를 사용하여 열의 이동을 막습니다."
+      },
+      {
+        q: "양산을 써서 햇빛을 가릴 때 막을 수 있는 열의 이동 방식은 무엇인가요?",
+        options: [
+          "복사",
+          "전도",
+          "대류",
+          "단열"
+        ],
+        ans: 0,
+        exp: "양산은 햇빛을 가려 복사에 의한 열의 이동을 막아줍니다."
+      },
+      {
+        q: "액체와 기체에서 온도가 높아진 물질의 이동 방향으로 올바른 것은 무엇인가요?",
+        options: [
+          "위로 올라간다.",
+          "아래로 내려간다.",
+          "옆으로만 이동한다.",
+          "움직이지 않는다."
+        ],
+        ans: 0,
+        exp: "대류 현상에서 온도가 높아진 액체나 기체는 위로 올라갑니다."
+      },
+      {
+        q: "고체 물질을 가열할 때 열이 이동하는 방향으로 알맞은 것은 무엇인가요?",
+        options: [
+          "온도가 높은 부분에서 온도가 낮은 부분으로 이동한다.",
+          "온도가 낮은 부분에서 온도가 높은 부분으로 이동한다.",
+          "양쪽 끝에서 중앙으로 동시에 이동한다.",
+          "온도가 높은 부분에만 멈추어 있다."
+        ],
+        ans: 0,
+        exp: "고체 물질을 가열하면 온도가 높은 부분에서 온도가 낮은 부분으로 고체 물질을 따라 열이 이동합니다."
+      },
+      {
+        q: "탐침 온도계를 올바르게 사용하는 방법은 무엇인가요?",
+        options: [
+          "탐침을 물체에 충분히 넣어 온도를 측정한다.",
+          "레이저 빛을 물체의 표면에 맞추어 읽는다.",
+          "빨간색 액체의 눈높이를 맞추어 읽는다.",
+          "공기 중에 1초 동안 들고 있는다."
+        ],
+        ans: 0,
+        exp: "탐침 온도계는 탐침을 물체에 충분히 넣어 온도를 측정합니다."
+      },
+      {
+        q: "다음 중 열의 이동 방식 세 가지에 속하지 <u>않는</u> 것은 무엇인가요?",
+        options: [
+          "단열",
+          "전도",
+          "대류",
+          "복사"
+        ],
+        ans: 0,
+        exp: "열이 이동하는 세 가지 방식은 전도, 대류, 복사이며, 단열은 열의 이동을 막는 것입니다."
+      },
+      {
+        q: "뜨거운 국에 금속 숟가락을 담가 놓았을 때 숟가락 온도가 높아지는 열의 이동 방식은 무엇인가요?",
+        options: [
+          "전도",
+          "대류",
+          "복사",
+          "단열"
+        ],
+        ans: 0,
+        exp: "뜨거운 국의 열이 금속 숟가락을 따라 이동하는 것은 전도입니다."
+      },
+      {
+        q: "손목에 얼음주머니를 대고 있을 때 일어나는 열의 이동 현상으로 올바른 것은 무엇인가요?",
+        options: [
+          "전도로 손목의 열이 얼음주머니로 이동한다.",
+          "대류로 얼음주머니의 차가움이 손목으로 올라간다.",
+          "복사로 빛이 손목으로 전달된다.",
+          "열이 전혀 이동하지 않는다."
+        ],
+        ans: 0,
+        exp: "손목에 얼음주머니를 대면 전도로 온도가 높은 손목의 열이 얼음주머니로 이동합니다."
+      }
+    ];
+
+    // ----------------------------------------------------
+    // 게임 전역 상태
+    // ----------------------------------------------------
+    let userName = "";
+    let quizQueue = [];
+    let currentIdx = 0;
+    let startTime = null;
+
+    const startScreen = document.getElementById("start-screen");
+    const quizScreen = document.getElementById("quiz-screen");
+    const wrongScreen = document.getElementById("wrong-screen");
+    const successScreen = document.getElementById("success-screen");
+
+    function shuffle(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function startQuiz() {
+      const nameInput = document.getElementById("userName").value.trim();
+      if (!nameInput) {
+        alert("이름을 입력해 주세요!");
+        return;
+      }
+      userName = nameInput;
+
+      // 1-7번 객관식 7개 무작위, 8-10번 단답식 3개 무작위
+      const selectedMCQs = shuffle(mcqBank).slice(0, 7);
+      const selectedSAs = shuffle(saBank).slice(0, 3);
+
+      const formattedMCQs = selectedMCQs.map(item => {
+        const correctText = item.options[item.ans];
+        const shuffledOptions = shuffle(item.options);
+        const newAnsIdx = shuffledOptions.indexOf(correctText);
+        return {
+          type: "MCQ",
+          q: item.q,
+          options: shuffledOptions,
+          ans: newAnsIdx,
+          exp: item.exp
+        };
+      });
+
+      const formattedSAs = selectedSAs.map(item => ({
+        type: "SA",
+        q: item.q,
+        ans: item.ans,
+        exp: item.exp
+      }));
+
+      quizQueue = [...formattedMCQs, ...formattedSAs];
+      currentIdx = 0;
+      startTime = Date.now();
+
+      startScreen.style.display = "none";
+      wrongScreen.style.display = "none";
+      successScreen.style.display = "none";
+      quizScreen.style.display = "block";
+
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const qData = quizQueue[currentIdx];
+      
+      const progressPercent = ((currentIdx + 1) / 10) * 100;
+      document.getElementById("progress-bar").style.width = progressPercent + "%";
+      document.getElementById("question-number").textContent = `문제 ${currentIdx + 1} / 10`;
+
+      const badge = document.getElementById("question-type-badge");
+      const optionsBox = document.getElementById("options-container");
+      const saBox = document.getElementById("sa-container");
+
+      document.getElementById("question-text").innerHTML = `${currentIdx + 1}. ${qData.q}`;
+
+      if (qData.type === "MCQ") {
+        badge.textContent = "객관식";
+        badge.className = "badge badge-mcq";
+        optionsBox.style.display = "flex";
+        saBox.style.display = "none";
+
+        optionsBox.innerHTML = "";
+        qData.options.forEach((optText, idx) => {
+          const btn = document.createElement("button");
+          btn.className = "option-btn";
+          btn.textContent = `${idx + 1}. ${optText}`;
+          btn.onclick = () => checkMCQAnswer(idx);
+          optionsBox.appendChild(btn);
+        });
+      } else {
+        badge.textContent = "단답식";
+        badge.className = "badge badge-sa";
+        optionsBox.style.display = "none";
+        saBox.style.display = "flex";
+
+        const saInput = document.getElementById("sa-input");
+        saInput.value = "";
+        setTimeout(() => saInput.focus(), 100);
+      }
+    }
+
+    function checkMCQAnswer(selectedIdx) {
+      const qData = quizQueue[currentIdx];
+      if (selectedIdx === qData.ans) {
+        nextQuestion();
+      } else {
+        showWrongScreen(qData.exp);
+      }
+    }
+
+    function submitSAAnswer() {
+      const qData = quizQueue[currentIdx];
+      const userInput = document.getElementById("sa-input").value.trim().replace(/\s+/g, "");
+      const targetAns = qData.ans.replace(/\s+/g, "");
+
+      if (!userInput) {
+        alert("정답을 입력해주세요.");
+        return;
+      }
+
+      if (userInput === targetAns) {
+        nextQuestion();
+      } else {
+        showWrongScreen(qData.exp);
+      }
+    }
+
+    function nextQuestion() {
+      currentIdx++;
+      if (currentIdx < 10) {
+        renderQuestion();
+      } else {
+        finishQuiz();
+      }
+    }
+
+    function showWrongScreen(explanationText) {
+      quizScreen.style.display = "none";
+      wrongScreen.style.display = "block";
+      document.getElementById("explanation-text").textContent = explanationText;
+    }
+
+    function returnToStart() {
+      wrongScreen.style.display = "none";
+      successScreen.style.display = "none";
+      quizScreen.style.display = "none";
+      startScreen.style.display = "block";
+    }
+
+    function finishQuiz() {
+      const endTime = Date.now();
+      const elapsedSeconds = Math.round((endTime - startTime) / 1000);
+
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      
+      const dateStr = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+
+      document.getElementById("result-name").textContent = userName;
+      document.getElementById("result-time").textContent = `${elapsedSeconds}초`;
+      document.getElementById("result-date").textContent = dateStr;
+
+      quizScreen.style.display = "none";
+      successScreen.style.display = "block";
+    }
+  </script>
+</body>
+</html>

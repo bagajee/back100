@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>3학년 2학기 과학 - 감염병과 건강한 생활 퀴즈</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Pretendard', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+    body {
+      background-color: #f0fdf4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 14px;
+      color: #1e293b;
+    }
+    .card {
+      background: #ffffff;
+      width: 100%;
+      max-width: 480px;
+      border-radius: 20px;
+      padding: 24px 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      text-align: center;
+      position: relative;
+    }
+    .top-nav {
+      display: flex;
+      justify-content: flex-start;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #e2e8f0;
+      color: #334155;
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .nav-btn:active {
+      background-color: #cbd5e1;
+    }
+    h1 {
+      font-size: 22px;
+      color: #15803d;
+      margin-bottom: 8px;
+    }
+    .sub-title {
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 24px;
+    }
+    .input-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    .input-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #334155;
+      font-size: 15px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 14px;
+      border: 2px solid #cbd5e1;
+      border-radius: 12px;
+      font-size: 16px;
+      text-align: center;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input[type="text"]:focus {
+      border-color: #16a34a;
+    }
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .btn {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.1s, background-color 0.2s;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+      box-sizing: border-box;
+    }
+    .btn:active {
+      transform: scale(0.98);
+    }
+    .btn-primary {
+      background-color: #16a34a;
+      color: #ffffff;
+    }
+    .btn-secondary {
+      background-color: #64748b;
+      color: #ffffff;
+    }
+    .btn-success {
+      background-color: #0284c7;
+      color: #ffffff;
+    }
+
+    /* 퀴즈 진행 화면 */
+    #quiz-screen {
+      display: none;
+      text-align: left;
+    }
+    .progress-bar-container {
+      width: 100%;
+      background-color: #e2e8f0;
+      height: 10px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background-color: #16a34a;
+      transition: width 0.3s ease;
+    }
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 14px;
+      font-weight: bold;
+    }
+    .badge {
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+    }
+    .badge-mcq { background: #dcfce7; color: #15803d; }
+    .badge-sa { background: #fef3c7; color: #92400e; }
+
+    .question-box {
+      font-size: 17px;
+      font-weight: bold;
+      line-height: 1.5;
+      color: #0f172a;
+      margin-bottom: 20px;
+      min-height: 60px;
+    }
+    .question-box u {
+      color: #dc2626;
+      text-decoration-thickness: 2px;
+    }
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .option-btn {
+      width: 100%;
+      padding: 14px 16px;
+      background-color: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      text-align: left;
+      font-size: 15px;
+      color: #334155;
+      cursor: pointer;
+      line-height: 1.4;
+      transition: all 0.2s;
+    }
+    .option-btn:active {
+      background-color: #dcfce7;
+      border-color: #16a34a;
+      color: #15803d;
+    }
+
+    .sa-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* 오답 화면 */
+    #wrong-screen {
+      display: none;
+      background-color: #fef2f2;
+      border: 2px solid #fca5a5;
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+    }
+    .wrong-title {
+      color: #dc2626;
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+    .explanation-box {
+      background: #ffffff;
+      padding: 15px;
+      border-radius: 10px;
+      border-left: 4px solid #dc2626;
+      text-align: left;
+      font-size: 14px;
+      color: #334155;
+      line-height: 1.5;
+      margin-bottom: 18px;
+    }
+
+    /* 성공 화면 */
+    #success-screen {
+      display: none;
+    }
+    .trophy {
+      font-size: 60px;
+      margin-bottom: 10px;
+    }
+    .success-title {
+      font-size: 22px;
+      color: #16a34a;
+      font-weight: bold;
+      margin-bottom: 18px;
+      line-height: 1.4;
+    }
+    .result-info {
+      background-color: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: left;
+      margin-bottom: 20px;
+    }
+    .result-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+    .result-item:last-child {
+      margin-bottom: 0;
+    }
+    .result-label {
+      color: #475569;
+      font-weight: bold;
+    }
+    .result-value {
+      color: #166534;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    
+    <!-- 1. 시작 화면 -->
+    <div id="start-screen">
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+      </div>
+      <h1>3학년 과학 퀴즈</h1>
+      <p class="sub-title">4단원. 감염병과 건강한 생활</p>
+
+      <div class="input-group">
+        <label for="userName">이름을 입력하세요</label>
+        <input type="text" id="userName" placeholder="예: 홍길동" autocomplete="off">
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="startQuiz()">시작</button>
+        <a href="science.html" class="btn btn-secondary">단원선택</a>
+      </div>
+    </div>
+
+    <!-- 2. 퀴즈 진행 화면 -->
+    <div id="quiz-screen">
+      <div class="progress-bar-container">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      
+      <div class="quiz-header">
+        <span id="question-number">문제 1 / 10</span>
+        <span id="question-type-badge" class="badge badge-mcq">객관식</span>
+      </div>
+
+      <div class="question-box" id="question-text"></div>
+
+      <!-- 객관식 영역 -->
+      <div class="options-container" id="options-container"></div>
+
+      <!-- 단답식 영역 -->
+      <div class="sa-container" id="sa-container" style="display: none;">
+        <input type="text" id="sa-input" placeholder="정답 입력" onkeydown="if(event.key==='Enter') submitSAAnswer()">
+        <button class="btn btn-primary" onclick="submitSAAnswer()">정답 제출</button>
+      </div>
+    </div>
+
+    <!-- 3. 오답 화면 -->
+    <div id="wrong-screen">
+      <div class="wrong-title">❌ 틀렸습니다!</div>
+      <div class="explanation-box">
+        <strong>💡 간단 해설:</strong>
+        <p id="explanation-text" style="margin-top: 6px;"></p>
+      </div>
+      <button class="btn btn-primary" style="width: 100%;" onclick="returnToStart()">계속</button>
+    </div>
+
+    <!-- 4. 성공 축하 화면 -->
+    <div id="success-screen">
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+      </div>
+
+      <div class="trophy">🎉</div>
+      <div class="success-title">축하합니다!<br>10문제를 모두 맞추셨습니다!</div>
+      
+      <div class="result-info">
+        <div class="result-item">
+          <span class="result-label">이름</span>
+          <span class="result-value" id="result-name">-</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">총 걸린시간</span>
+          <span class="result-value" id="result-time">-</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">현재 시간</span>
+          <span class="result-value" id="result-date">-</span>
+        </div>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-success" onclick="returnToStart()">재도전</button>
+        <a href="science.html" class="btn btn-secondary">단원선택</a>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ----------------------------------------------------
+    // 단답식 문제 은행 (총 6개)
+    // 정답 : 감염병, 병원체, 파상풍, 식중독, 예방 접종, 비말
+    // ----------------------------------------------------
+    const saBank = [
+      {
+        q: "병원체가 몸에 들어와 걸리는 질병을 무엇이라고 하나요?",
+        ans: "감염병",
+        exp: "병원체가 몸속에 들어와서 걸리는 질병을 '감염병'이라고 합니다."
+      },
+      {
+        q: "우리 몸에 들어와 감염병을 일으키는 원인이 되는 세균이나 바이러스 등을 통틀어 무엇이라고 하나요?",
+        ans: "병원체",
+        exp: "몸에 들어와 감염병을 일으키는 원인 물질을 '병원체'라고 합니다."
+      },
+      {
+        q: "흙이나 못에 상처가 오염되어 근육이 굳어지는 감염병은 무엇인가요?",
+        ans: "파상풍",
+        exp: "흙이나 못에 상처가 오염되어 근육이 굳어지는 병은 '파상풍'입니다."
+      },
+      {
+        q: "오염된 음식을 먹어 설사를 하고 배가 아픈 감염병은 무엇인가요?",
+        ans: "식중독",
+        exp: "오염된 음식을 섭취하여 설사와 복통을 일으키는 질병은 '식중독'입니다."
+      },
+      {
+        q: "감염병으로부터 안전한 사회를 만들기 위해 결핵 등 감염병을 예방하고자 주사 등을 맞는 행동을 무엇이라고 하나요?",
+        ans: "예방 접종",
+        exp: "결핵 예방 접종처럼 감염병을 예방하기 위해 약이나 백신을 투여받는 것을 '예방 접종'이라고 합니다."
+      },
+      {
+        q: "입을 가리지 않고 기침할 때 주변으로 퍼져 나가는, 병원체가 포함된 작은 침방울을 무엇이라고 하나요?",
+        ans: "비말",
+        exp: "기침이나 재채기를 할 때 나오는 병원체가 포함된 침방울을 '비말'이라고 합니다."
+      }
+    ];
+
+    // ----------------------------------------------------
+    // 객관식 문제 은행 (총 24개)
+    // ----------------------------------------------------
+    const mcqBank = [
+      {
+        q: "열이 심하게 나고, 재채기와 콧물이 나오는 감염병은 무엇인가요?",
+        options: [
+          "독감",
+          "무좀",
+          "유행 각막염",
+          "파상풍"
+        ],
+        ans: 0,
+        exp: "독감은 심한 열, 재채기, 콧물 등의 증상이 나타납니다."
+      },
+      {
+        q: "입안과 손발에 물집이 생기는 감염병은 무엇인가요?",
+        options: [
+          "수족구병",
+          "식중독",
+          "결핵",
+          "독감"
+        ],
+        ans: 0,
+        exp: "입안, 손, 발에 물집이 생기는 증상은 수족구병의 특징입니다."
+      },
+      {
+        q: "피부가 하얗게 되거나 갈라지며 간지러운 감염병은 무엇인가요?",
+        options: [
+          "무좀",
+          "유행 각막염",
+          "파상풍",
+          "수족구병"
+        ],
+        ans: 0,
+        exp: "피부가 하얗게 변하거나 갈라지고 간지러운 병은 무좀입니다."
+      },
+      {
+        q: "눈이 빨개지고 가려운 증상이 나타나는 감염병은 무엇인가요?",
+        options: [
+          "유행 각막염",
+          "독감",
+          "식중독",
+          "코로나19"
+        ],
+        ans: 0,
+        exp: "눈이 빨개지고 가려운 증상은 유행 각막염의 대표적인 특징입니다."
+      },
+      {
+        q: "발생한 지 두 달 만에 전 세계로 퍼져서 많은 사람이 아팠던 감염병은 무엇인가요?",
+        options: [
+          "코로나19",
+          "수족구병",
+          "무좀",
+          "유행 각막염"
+        ],
+        ans: 0,
+        exp: "코로나19는 발생 후 짧은 기간(두 달) 만에 전 세계로 유행했습니다."
+      },
+      {
+        q: "오랫동안 전 세계 사람의 건강을 위협해 왔으며 예방 접종을 통해 예방하는 감염병은 무엇인가요?",
+        options: [
+          "결핵",
+          "식중독",
+          "무좀",
+          "유행 각막염"
+        ],
+        ans: 0,
+        exp: "결핵은 오랫동안 사람들의 건강을 위협해 왔으며 예방 접종으로 대처합니다."
+      },
+      {
+        q: "감염병의 위험성에 대한 설명으로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: [
+          "몸이 조금 아플 뿐 생명에는 전혀 영향을 주지 않는다.",
+          "몸이 아플 뿐만 아니라 생명이 위험할 수도 있다.",
+          "다른 사람에게 병을 옮길 수 있다.",
+          "크게 유행할 경우 사회 전체에 많은 영향을 준다."
+        ],
+        ans: 0,
+        exp: "감염병에 걸리면 몸이 아플 뿐만 아니라 생명이 위험할 수 있습니다."
+      },
+      {
+        q: "감염병이 크게 유행할 때 나타나는 사회의 모습으로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: [
+          "사람이 많이 모이는 축제나 행사가 더욱 늘어난다.",
+          "아픈 사람이 많아 병원이 붐빈다.",
+          "공공시설이나 상점이 문을 닫기도 한다.",
+          "항공기 운항이 중단되기도 한다."
+        ],
+        ans: 0,
+        exp: "감염병 유행 시 사람이 많이 모이는 행사는 취소됩니다."
+      },
+      {
+        q: "감염병 유행으로 학교에 가지 못할 때 학습을 위해 실시하는 수업 방식은 무엇인가요?",
+        options: [
+          "온라인 수업",
+          "야외 체험 학습",
+          "해외 유학 수업",
+          "방문 개인 지도"
+        ],
+        ans: 0,
+        exp: "감염병 유행 시 학교에 가지 못하고 온라인 수업을 듣게 됩니다."
+      },
+      {
+        q: "병원체에 오염된 이것을 마시면 감염병에 걸릴 수 있습니다. 이것은 무엇인가요?",
+        options: [
+          "물",
+          "바람",
+          "소금",
+          "햇빛"
+        ],
+        ans: 0,
+        exp: "병원체에 오염된 물을 마시면 감염병에 걸릴 수 있습니다."
+      },
+      {
+        q: "감염병에 걸린 사람과 한 접시에 있는 음식을 같이 먹을 때 몸속으로 들어가 감염을 일으키는 것은 무엇인가요?",
+        options: [
+          "침 속의 병원체",
+          "접시의 색깔",
+          "수저의 쇠 성분",
+          "음식의 따뜻한 김"
+        ],
+        ans: 0,
+        exp: "음식을 같이 먹을 때 침 속의 병원체가 몸속으로 들어갈 수 있습니다."
+      },
+      {
+        q: "공기를 통한 감염 경로에 대한 설명으로 올바른 것은 무엇인가요?",
+        options: [
+          "공기 중에 떠다니는 병원체가 눈, 코, 입으로 들어온다.",
+          "공기 속 병원체는 손으로만 들어온다.",
+          "공기로는 절대 감염병이 전파되지 않는다.",
+          "손을 씻으면 공기 중의 병원체가 모두 파괴된다."
+        ],
+        ans: 0,
+        exp: "공기 중에 떠다니는 병원체가 눈, 코, 입으로 들어오면 감염될 수 있습니다."
+      },
+      {
+        q: "손을 통한 감염 과정 알아보기 실험에서 '형광 로션'이 의미하는 것은 무엇인가요?",
+        options: [
+          "병원체",
+          "비누",
+          "소독약",
+          "백신"
+        ],
+        ans: 0,
+        exp: "실험에서 형광 로션은 다른 사람에게 옮겨가는 병원체를 의미합니다."
+      },
+      {
+        q: "악수를 하는 과정에서 형광 로션이 다른 친구의 장갑으로 퍼진 이유로 올바른 설명은 무엇인가요?",
+        options: [
+          "손을 통해 병원체가 다른 사람에게 옮겨갔기 때문이다.",
+          "자외선 손전등이 로션을 만들어 냈기 때문이다.",
+          "공기 중의 수분이 로션으로 변했기 때문이다.",
+          "비닐장갑이 스스로 반응했기 때문이다."
+        ],
+        ans: 0,
+        exp: "악수를 할 때 형광 로션이 묻어난 것은 손을 통해 병원체가 옮겨감을 뜻합니다."
+      },
+      {
+        q: "비누로 손을 씻은 후 배지를 관찰했을 때의 결과로 올바른 것은 무엇인가요?",
+        options: [
+          "빨간 점이 거의 없다.",
+          "빨간 점이 씻기 전보다 훨씬 많아진다.",
+          "배지의 색깔이 완전히 검은색으로 변한다.",
+          "배지가 물로 녹아 없어진다."
+        ],
+        ans: 0,
+        exp: "비누로 손을 씻은 후 배지에는 빨간 점이 거의 관찰되지 않습니다."
+      },
+      {
+        q: "손 씻기 전과 후의 배지 비교 실험을 통해 알 수 있는 사실은 무엇인가요?",
+        options: [
+          "손을 씻으면 오염 물질이나 병원체가 없어진다.",
+          "비누로 씻어도 손의 병원체는 전혀 줄지 않는다.",
+          "평소 사람의 손은 항상 완벽하게 깨끗하다.",
+          "손을 씻는 것은 감염병 예방과 아무 상관이 없다."
+        ],
+        ans: 0,
+        exp: "손을 씻으면 손에 있는 오염 물질이나 병원체가 없어집니다."
+      },
+      {
+        q: "기침이나 재채기를 할 때 올바른 행동으로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: [
+          "손바닥으로 입을 가리고 아무 방향으로나 재채기한다.",
+          "휴지로 입과 코를 가린다.",
+          "옷소매로 입과 코를 가린다.",
+          "비말이 주변으로 퍼지지 않도록 주의한다."
+        ],
+        ans: 0,
+        exp: "기침이나 재채기를 할 때는 손바닥이 아닌 휴지나 옷소매로 입과 코를 가려야 합니다."
+      },
+      {
+        q: "병원체를 막거나 없애는 예방 방법으로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: [
+          "끓이지 않은 오염된 물을 그대로 마신다.",
+          "비누로 손을 꼼꼼하게 씻는다.",
+          "음식을 개인 접시에 덜어 먹는다.",
+          "문과 창문을 열어 자주 환기한다."
+        ],
+        ans: 0,
+        exp: "오염된 물은 마시면 안 되며 끓인 물을 마셔야 합니다."
+      },
+      {
+        q: "감염병이 유행할 때 착용해야 하는 예방 용품은 무엇인가요?",
+        options: [
+          "마스크",
+          "선글라스",
+          "귀마개",
+          "수영모"
+        ],
+        ans: 0,
+        exp: "감염병이 유행할 때에는 마스크를 써서 비말이나 공기 감염을 막아야 합니다."
+      },
+      {
+        q: "음식을 먹을 때 감염병을 예방하는 올바른 습관은 무엇인가요?",
+        options: [
+          "음식을 개인 접시에 덜어 먹는다.",
+          "여러 사람이 한 그릇의 음식을 함께 떠먹는다.",
+          "손을 씻지 않고 음식을 손으로 집어 먹는다.",
+          "유통기한이 지난 음식을 그냥 먹는다."
+        ],
+        ans: 0,
+        exp: "음식은 개인 접시에 덜어 먹는 것이 감염병 예방에 좋습니다."
+      },
+      {
+        q: "실내 공기를 깨끗하게 유지하여 감염병을 예방하는 방법은 무엇인가요?",
+        options: [
+          "문과 창문을 열어 자주 환기한다.",
+          "모든 창문을 며칠 동안 닫아 둔다.",
+          "방 안에서 뛰놀며 먼지를 일으킨다.",
+          "환풍기를 끌고 문을 밀폐한다."
+        ],
+        ans: 0,
+        exp: "문과 창문을 열어 자주 환기해야 공기 중 병원체를 줄일 수 있습니다."
+      },
+      {
+        q: "건강 관리를 통해 감염병을 예방하는 방법으로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: [
+          "매일 밤을 새우고 운동을 전혀 하지 않는다.",
+          "예방 접종을 한다.",
+          "몸을 따뜻하게 한다.",
+          "규칙적으로 운동하고 충분히 휴식을 취한다."
+        ],
+        ans: 0,
+        exp: "규칙적인 운동과 충분한 휴식, 몸을 따뜻하게 유지하는 것이 예방 방법입니다."
+      },
+      {
+        q: "식사 습관 중 건강 관리를 통해 감염병을 예방하는 방법은 무엇인가요?",
+        options: [
+          "음식을 골고루 먹는다.",
+          "좋아하는 패스트푸드만 많이 먹는다.",
+          "식사를 계속 굶는다.",
+          "차가운 음료수만 계속 마신다."
+        ],
+        ans: 0,
+        exp: "음식을 골고루 먹어 면역력과 건강을 유지해야 합니다."
+      },
+      {
+        q: "접촉을 통한 감염을 막기 위한 행동으로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: [
+          "씻지 않은 손으로 눈, 코, 입을 자주 만진다.",
+          "병원체가 묻은 물건을 만진 후 손을 깨끗이 씻는다.",
+          "비누를 사용하여 손을 꼼꼼하게 씻는다.",
+          "외출 후 돌아오면 즉시 손을 씻는다."
+        ],
+        ans: 0,
+        exp: "씻지 않은 손으로 눈, 코, 입을 만지면 병원체가 몸속으로 들어갈 수 있습니다."
+      }
+    ];
+
+    // ----------------------------------------------------
+    // 게임 상태 변수
+    // ----------------------------------------------------
+    let userName = "";
+    let quizQueue = [];
+    let currentIdx = 0;
+    let startTime = null;
+
+    const startScreen = document.getElementById("start-screen");
+    const quizScreen = document.getElementById("quiz-screen");
+    const wrongScreen = document.getElementById("wrong-screen");
+    const successScreen = document.getElementById("success-screen");
+
+    function shuffle(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function startQuiz() {
+      const nameInput = document.getElementById("userName").value.trim();
+      if (!nameInput) {
+        alert("이름을 입력해 주세요!");
+        return;
+      }
+      userName = nameInput;
+
+      // 1-7번: 객관식 7개 무작위 추출
+      // 8-10번: 단답식 3개 무작위 추출
+      const selectedMCQs = shuffle(mcqBank).slice(0, 7);
+      const selectedSAs = shuffle(saBank).slice(0, 3);
+
+      const formattedMCQs = selectedMCQs.map(item => {
+        const correctText = item.options[item.ans];
+        const shuffledOptions = shuffle(item.options);
+        const newAnsIdx = shuffledOptions.indexOf(correctText);
+        return {
+          type: "MCQ",
+          q: item.q,
+          options: shuffledOptions,
+          ans: newAnsIdx,
+          exp: item.exp
+        };
+      });
+
+      const formattedSAs = selectedSAs.map(item => ({
+        type: "SA",
+        q: item.q,
+        ans: item.ans,
+        exp: item.exp
+      }));
+
+      quizQueue = [...formattedMCQs, ...formattedSAs];
+      currentIdx = 0;
+      startTime = Date.now();
+
+      startScreen.style.display = "none";
+      wrongScreen.style.display = "none";
+      successScreen.style.display = "none";
+      quizScreen.style.display = "block";
+
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const qData = quizQueue[currentIdx];
+      
+      const progressPercent = ((currentIdx + 1) / 10) * 100;
+      document.getElementById("progress-bar").style.width = progressPercent + "%";
+      document.getElementById("question-number").textContent = `문제 ${currentIdx + 1} / 10`;
+
+      const badge = document.getElementById("question-type-badge");
+      const optionsBox = document.getElementById("options-container");
+      const saBox = document.getElementById("sa-container");
+
+      document.getElementById("question-text").innerHTML = `${currentIdx + 1}. ${qData.q}`;
+
+      if (qData.type === "MCQ") {
+        badge.textContent = "객관식";
+        badge.className = "badge badge-mcq";
+        optionsBox.style.display = "flex";
+        saBox.style.display = "none";
+
+        optionsBox.innerHTML = "";
+        qData.options.forEach((optText, idx) => {
+          const btn = document.createElement("button");
+          btn.className = "option-btn";
+          btn.textContent = `${idx + 1}. ${optText}`;
+          btn.onclick = () => checkMCQAnswer(idx);
+          optionsBox.appendChild(btn);
+        });
+      } else {
+        badge.textContent = "단답식";
+        badge.className = "badge badge-sa";
+        optionsBox.style.display = "none";
+        saBox.style.display = "flex";
+
+        const saInput = document.getElementById("sa-input");
+        saInput.value = "";
+        setTimeout(() => saInput.focus(), 100);
+      }
+    }
+
+    function checkMCQAnswer(selectedIdx) {
+      const qData = quizQueue[currentIdx];
+      if (selectedIdx === qData.ans) {
+        nextQuestion();
+      } else {
+        showWrongScreen(qData.exp);
+      }
+    }
+
+    function submitSAAnswer() {
+      const qData = quizQueue[currentIdx];
+      const userInput = document.getElementById("sa-input").value.trim().replace(/\s+/g, "");
+      const targetAns = qData.ans.replace(/\s+/g, "");
+
+      if (!userInput) {
+        alert("정답을 입력해주세요.");
+        return;
+      }
+
+      if (userInput === targetAns) {
+        nextQuestion();
+      } else {
+        showWrongScreen(qData.exp);
+      }
+    }
+
+    function nextQuestion() {
+      currentIdx++;
+      if (currentIdx < 10) {
+        renderQuestion();
+      } else {
+        finishQuiz();
+      }
+    }
+
+    function showWrongScreen(explanationText) {
+      quizScreen.style.display = "none";
+      wrongScreen.style.display = "block";
+      document.getElementById("explanation-text").textContent = explanationText;
+    }
+
+    function returnToStart() {
+      wrongScreen.style.display = "none";
+      successScreen.style.display = "none";
+      quizScreen.style.display = "none";
+      startScreen.style.display = "block";
+    }
+
+    function finishQuiz() {
+      const endTime = Date.now();
+      const elapsedSeconds = Math.round((endTime - startTime) / 1000);
+
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      
+      const dateStr = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+
+      document.getElementById("result-name").textContent = userName;
+      document.getElementById("result-time").textContent = `${elapsedSeconds}초`;
+      document.getElementById("result-date").textContent = dateStr;
+
+      quizScreen.style.display = "none";
+      successScreen.style.display = "block";
+    }
+  </script>
+</body>
+</html>

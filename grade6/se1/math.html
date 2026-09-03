@@ -130,6 +130,10 @@
       margin: 0;
       font-size: 1.05rem;
       padding: 16px 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
     }
     
     .progress-bar { background: #eee; height: 10px; border-radius: 5px; margin-bottom: 15px; overflow: hidden; }
@@ -174,15 +178,32 @@
       margin-bottom: 15px;
     }
 
+    /* 분수 UI 스타일 정의 */
     .frac {
-      display: inline-block;
+      display: inline-flex;
+      flex-direction: column;
       vertical-align: middle;
       text-align: center;
-      font-size: 0.95em;
-      padding: 0 2px;
+      font-size: 0.9em;
+      padding: 0 3px;
+      line-height: 1.1;
     }
     .frac > span { display: block; }
-    .frac span.bottom { border-top: 1px solid black; }
+    /* 기본 분수 막대를 하얀색으로 설정 */
+    .frac span.bottom { 
+      border-top: 2px solid #ffffff; 
+      padding-top: 1px; 
+    }
+
+    /* 문제 영역 및 해설창(밝은 배경)에서의 분수 막대 색상 처리 */
+    .question-main-text .frac span.bottom,
+    .modal-body .frac span.bottom {
+      border-top-color: #2c3e50;
+    }
+    /* 보기 버튼(파란 배경) 내부 분수 막대는 하얀색 유지 */
+    .options button .frac span.bottom {
+      border-top-color: #ffffff;
+    }
   </style>
 </head>
 <body>
@@ -339,6 +360,17 @@ function renderFracHTML(m, n, d) {
   let fracPart = `<div class="frac"><span>${n}</span><span class="bottom">${d}</span></div>`;
   if (m > 0) return `<span>${m}</span>` + fracPart;
   return fracPart;
+}
+
+// 문자열 내의 분수를 HTML 분수 태그로 변환하는 함수
+function parseFracToHTML(str) {
+  if (typeof str !== 'string') return str;
+  let res = str;
+  // 대분수 처리 (예: 1과 2/3 -> 1 <div class="frac">...)
+  res = res.replace(/(\d+)\s*과\s*(\d+)\/(\d+)/g, '$1 <div class="frac"><span>$2</span><span class="bottom">$3</span></div>');
+  // 일반 분수 처리 (예: 2/3 -> <div class="frac">...)
+  res = res.replace(/(\d+)\/(\d+)/g, '<div class="frac"><span>$1</span><span class="bottom">$2</span></div>');
+  return res;
 }
 
 function formatFracObj(num, denom) {
@@ -551,7 +583,8 @@ function loadNextQuestion() {
   optsBox.innerHTML = "";
   qData.opts.forEach(val => {
     let btn = document.createElement("button");
-    btn.innerHTML = val;
+    // 보기 내의 분수를 올바른 세로 분수 HTML 구조로 파싱
+    btn.innerHTML = parseFracToHTML(val);
     btn.onclick = () => checkAnswer(val);
     optsBox.appendChild(btn);
   });
@@ -562,8 +595,10 @@ function checkAnswer(selected) {
     correctCount++;
     loadNextQuestion();
   } else {
-    // 틀렸을 경우 해설창 띄우기
-    document.getElementById("explanation-text").innerHTML = `<b>💡 정답: ${qData.answer}</b><br><br>${qData.exp}`;
+    // 틀렸을 경우 해설창 띄우기 (해설 창 분수도 보기 좋게 파싱)
+    let formattedAns = parseFracToHTML(qData.answer);
+    let formattedExp = parseFracToHTML(qData.exp);
+    document.getElementById("explanation-text").innerHTML = `<b>💡 정답: ${formattedAns}</b><br><br>${formattedExp}`;
     let nextBtn = document.getElementById("modal-next-btn");
     nextBtn.disabled = false;
     nextBtn.innerText = "다음";

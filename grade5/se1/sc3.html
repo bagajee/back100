@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>5학년 1학기 과학 - 3. 용해와 용액 퀴즈</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Pretendard', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+    body {
+      background-color: #f0fdf4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 14px;
+      color: #166534;
+    }
+    .card {
+      background: #ffffff;
+      width: 100%;
+      max-width: 480px;
+      border-radius: 20px;
+      padding: 24px 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      text-align: center;
+      position: relative;
+    }
+    .top-nav {
+      display: flex;
+      justify-content: flex-start;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #f1f5f9;
+      color: #334155;
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 14px;
+      border: 1px solid #cbd5e1;
+    }
+    .nav-btn:active {
+      background-color: #e2e8f0;
+    }
+    h1 {
+      font-size: 22px;
+      color: #15803d;
+      margin-bottom: 8px;
+    }
+    .sub-title {
+      font-size: 14px;
+      color: #4b5563;
+      margin-bottom: 24px;
+    }
+    .input-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    .input-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #374151;
+      font-size: 15px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 14px;
+      border: 2px solid #cbd5e1;
+      border-radius: 12px;
+      font-size: 16px;
+      text-align: center;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input[type="text"]:focus {
+      border-color: #16a34a;
+    }
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .btn {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.1s, background-color 0.2s;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+      box-sizing: border-box;
+    }
+    .btn:active {
+      transform: scale(0.98);
+    }
+    .btn-primary {
+      background-color: #16a34a;
+      color: #ffffff;
+    }
+    .btn-secondary {
+      background-color: #64748b;
+      color: #ffffff;
+    }
+    .btn-success {
+      background-color: #059669;
+      color: #ffffff;
+    }
+
+    /* 퀴즈 화면 */
+    #quiz-screen {
+      display: none;
+      text-align: left;
+    }
+    .progress-bar-container {
+      width: 100%;
+      background-color: #e2e8f0;
+      height: 10px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background-color: #16a34a;
+      transition: width 0.3s ease;
+    }
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 14px;
+      font-weight: bold;
+    }
+    .badge {
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+    }
+    .badge-mcq { background: #dcfce7; color: #15803d; }
+    .badge-sa { background: #fef3c7; color: #92400e; }
+
+    .question-box {
+      font-size: 17px;
+      font-weight: bold;
+      line-height: 1.5;
+      color: #0f172a;
+      margin-bottom: 20px;
+      min-height: 60px;
+    }
+    .question-box u {
+      color: #dc2626;
+      text-decoration-thickness: 2px;
+    }
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .option-btn {
+      width: 100%;
+      padding: 14px 16px;
+      background-color: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      text-align: left;
+      font-size: 15px;
+      color: #334155;
+      cursor: pointer;
+      line-height: 1.4;
+      transition: all 0.2s;
+    }
+    .option-btn:active {
+      background-color: #dcfce7;
+      border-color: #16a34a;
+      color: #15803d;
+    }
+
+    .sa-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* 오답 화면 */
+    #wrong-screen {
+      display: none;
+      background-color: #fef2f2;
+      border: 2px solid #fca5a5;
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+    }
+    .wrong-title {
+      color: #dc2626;
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+    .explanation-box {
+      background: #ffffff;
+      padding: 15px;
+      border-radius: 10px;
+      border-left: 4px solid #dc2626;
+      text-align: left;
+      font-size: 14px;
+      color: #334155;
+      line-height: 1.5;
+      margin-bottom: 18px;
+    }
+
+    /* 성공 화면 */
+    #success-screen {
+      display: none;
+    }
+    .trophy {
+      font-size: 60px;
+      margin-bottom: 10px;
+    }
+    .success-title {
+      font-size: 22px;
+      color: #15803d;
+      font-weight: bold;
+      margin-bottom: 18px;
+      line-height: 1.4;
+    }
+    .result-info {
+      background-color: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: left;
+      margin-bottom: 20px;
+    }
+    .result-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+    .result-item:last-child {
+      margin-bottom: 0;
+    }
+    .result-label {
+      color: #475569;
+      font-weight: bold;
+    }
+    .result-value {
+      color: #16a34a;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    
+    <!-- 1. 시작 화면 -->
+    <div id="start-screen">
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+      </div>
+      <h1>5학년 과학 퀴즈</h1>
+      <p class="sub-title">3. 용해와 용액</p>
+
+      <div class="input-group">
+        <label for="userName">이름을 입력하세요</label>
+        <input type="text" id="userName" placeholder="예: 홍길동" autocomplete="off">
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="startQuiz()">시작</button>
+        <a href="science.html" class="btn btn-secondary">단원선택</a>
+      </div>
+    </div>
+
+    <!-- 2. 퀴즈 진행 화면 -->
+    <div id="quiz-screen">
+      <div class="progress-bar-container">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      
+      <div class="quiz-header">
+        <span id="question-number">문제 1 / 10</span>
+        <span id="question-type-badge" class="badge badge-mcq">객관식</span>
+      </div>
+
+      <div class="question-box" id="question-text"></div>
+
+      <!-- 객관식 영역 -->
+      <div class="options-container" id="options-container"></div>
+
+      <!-- 단답식 영역 -->
+      <div class="sa-container" id="sa-container" style="display: none;">
+        <input type="text" id="sa-input" placeholder="정답 입력" onkeydown="if(event.key==='Enter') submitSAAnswer()">
+        <button class="btn btn-primary" onclick="submitSAAnswer()">정답 제출</button>
+      </div>
+    </div>
+
+    <!-- 3. 오답 화면 -->
+    <div id="wrong-screen">
+      <div class="wrong-title">❌ 틀렸습니다!</div>
+      <div class="explanation-box">
+        <strong>💡 간단 해설:</strong>
+        <p id="explanation-text" style="margin-top: 6px;"></p>
+      </div>
+      <button class="btn btn-primary" style="width: 100%;" onclick="returnToStart()">계속</button>
+    </div>
+
+    <!-- 4. 성공 축하 화면 -->
+    <div id="success-screen">
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+      </div>
+
+      <div class="trophy">🏆</div>
+      <div class="success-title">축하합니다!<br>10문제를 모두 맞추셨습니다!</div>
+      
+      <div class="result-info">
+        <div class="result-item">
+          <span class="result-label">이름</span>
+          <span class="result-value" id="result-name">-</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">총 걸린시간</span>
+          <span class="result-value" id="result-time">-</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">현재 시간</span>
+          <span class="result-value" id="result-date">-</span>
+        </div>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-success" onclick="returnToStart()">재도전</button>
+        <a href="science.html" class="btn btn-secondary">단원선택</a>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ----------------------------------------------------
+    // 단답식 문제 은행 (지정된 정답 7개)
+    // ----------------------------------------------------
+    const saBank = [
+      {
+        q: "설탕처럼 용매에 녹는 물질을 무엇이라고 하나요?",
+        ans: "용질",
+        exp: "용질은 설탕이나 소금처럼 용매에 녹아 들어가는 물질을 말합니다."
+      },
+      {
+        q: "물처럼 다른 물질을 녹이는 물질을 무엇이라고 하나요?",
+        ans: "용매",
+        exp: "용매는 용질을 녹여 골고루 섞이게 만드는 물질(예: 물)을 말합니다."
+      },
+      {
+        q: "설탕이 물에 녹는 것처럼 어떤 물질이 다른 물질에 녹아 골고루 섞이는 현상을 무엇이라고 하나요?",
+        ans: "용해",
+        exp: "어떤 물질이 다른 물질에 골고루 녹아 섞이는 현상 전체를 용해라고 합니다."
+      },
+      {
+        q: "설탕물처럼 용매와 용질이 골고루 섞여 있는 물질을 무엇이라고 하나요?",
+        ans: "용액",
+        exp: "용매와 용질이 골고루 섞여 뜨거나 가라앉는 것이 없는 투명한 액체를 용액이라고 합니다."
+      },
+      {
+        q: "같은 조건에서 물에 용해되는 용질의 양에 영향을 주는 요인 중, 대체로 이것이 높을수록 용질이 더 많이 용해됩니다. 이것은 무엇인가요?",
+        ans: "물의 온도",
+        exp: "대체로 물의 온도가 높을수록 용질이 물에 더 많이 용해됩니다."
+      },
+      {
+        q: "같은 양의 용매에 용해된 용질의 양이 많고 적은 정도를 나타내는 말을 무엇이라고 하나요?",
+        ans: "진하기",
+        exp: "같은 양의 용매에 더 많은 용질이 녹아 있을수록 용액의 진하기가 진하다고 합니다."
+      },
+      {
+        q: "소금이 많이 녹아 있어 사람의 몸이 쉽게 떠오르는 바다(호수)의 이름은 무엇인가요?",
+        ans: "사해",
+        exp: "사해는 염분(소금)의 진하기가 매우 높아 사람의 몸이 쉽게 물 위에 뜹니다."
+      }
+    ];
+
+    // ----------------------------------------------------
+    // 객관식 문제 은행 (총 33개)
+    // ----------------------------------------------------
+    const mcqBank = [
+      {
+        q: "설탕을 물에 넣고 섞었을 때 관찰되는 모습으로 알맞은 것은 무엇인가요?",
+        options: ["투명하고, 뜨거나 가라앉은 것이 없다.", "뿌옇게 흐려지며 바닥에 가라앉는다.", "물 위에 둥둥 떠서 섞이지 않는다.", "알갱이가 그대로 남아 탁해진다."],
+        ans: 0,
+        exp: "설탕은 물에 완전히 용해되어 투명해지고 뜨거나 가라앉는 것이 없습니다."
+      },
+      {
+        q: "가루 바이타민을 물에 넣고 섞었을 때의 모습으로 알맞은 것은 무엇인가요?",
+        options: ["투명한 노란색이고 뜨거나 가라앉은 것이 없다.", "뿌옇게 흐려지며 흰색 물질이 바닥에 남는다.", "물과 섞이지 않고 기름처럼 떠오른다.", "검은색 가루가 물속에 계속 남아있다."],
+        ans: 0,
+        exp: "가루 바이타민은 물에 용해되어 투명한 노란색 용액이 됩니다."
+      },
+      {
+        q: "탄산 칼슘을 물에 넣고 섞었을 때 나타나는 현상으로 알맞은 것은 무엇인가요?",
+        options: ["뿌옇게 흐려지다가 흰색 물질이 바닥에 가라앉는다.", "투명하게 녹아 아무것도 보이지 않는다.", "투명한 노란색 용액으로 변한다.", "물과 완전히 하나가 되어 용액이 된다."],
+        ans: 0,
+        exp: "탄산 칼슘은 물에 녹지 않아 뿌옇게 흐려졌다가 바닥에 흰색 물질로 가라앉습니다."
+      },
+      {
+        q: "가루 물질을 물에 넣었을 때 일어나는 현상에 대한 설명 중 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: ["모든 가루 물질은 물에 완전히 용해되어 용액이 된다.", "물에 잘 녹는 물질도 있고 녹지 않는 물질도 있다.", "설탕은 물에 잘 녹아 투명해진다.", "탄산 칼슘은 물에 잘 녹지 않아 가라앉는다."],
+        ans: 0,
+        exp: "물에 녹는 물질(설탕, 바이타민)이 있고, 물에 녹지 않는 물질(탄산 칼슘)이 있습니다."
+      },
+      {
+        q: "다음 중 용매에 대한 설명으로 알맞은 것은 무엇인가요?",
+        options: ["물처럼 다른 물질을 녹이는 물질", "설탕처럼 용매에 녹는 물질", "물질이 녹아 골고루 섞이는 현상", "용매와 용질이 섞여 있는 물질"],
+        ans: 0,
+        exp: "용매는 다른 물질을 녹이는 물질(예: 물)을 의미합니다."
+      },
+      {
+        q: "다음 중 용질에 대한 설명으로 알맞은 것은 무엇인가요?",
+        options: ["설탕처럼 용매에 녹는 물질", "물처럼 다른 물질을 녹이는 물질", "용매와 용질이 섞여 만든 물질", "물질이 완전히 녹아드는 현상"],
+        ans: 0,
+        exp: "용질은 용매에 녹는 물질(예: 설탕, 소금)을 의미합니다."
+      },
+      {
+        q: "다음 중 용액에 해당하는 것으로 바르게 짝지어진 것은 무엇인가요?",
+        options: ["소금물, 식초", "흙탕물, 우유", "미숫가루 탄 물, 식초", "후춧가루 탄 물, 이온 음료"],
+        ans: 0,
+        exp: "소금물, 설탕물, 식초, 이온 음료, 분말주스 용액, 공기 등은 용액입니다."
+      },
+      {
+        q: "다음 중 용액이 <u>아닌 것</u>은 무엇인가요?",
+        options: ["미숫가루를 탄 물", "소금물", "식초", "분말주스 용액"],
+        ans: 0,
+        exp: "미숫가루, 후춧가루, 흙탕물, 우유 등은 물질이 뜨거나 가라앉으므로 용액이 아닙니다."
+      },
+      {
+        q: "용액의 일반적인 특징으로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: ["시간이 지나면 물질이 바닥에 가라앉는다.", "용매와 용질이 골고루 섞여 있다.", "색깔이나 맛 등의 성질이 일정하다.", "뜨거나 가라앉는 것이 없다."],
+        ans: 0,
+        exp: "용액은 완전히 골고루 섞여 있어 시간이 지나도 가라앉는 것이 없습니다."
+      },
+      {
+        q: "각설탕이 물에 용해되기 전과 용해된 후의 무게를 비교하면 어떠한가요?",
+        options: ["용해 전과 용해 후의 무게는 같다.", "용해된 후의 무게가 더 가벼워진다.", "용해된 후의 무게가 더 무거워진다.", "설탕이 사라졌으므로 물 무게만 남는다."],
+        ans: 0,
+        exp: "각설탕이 물에 용해되어 눈에 보이지 않더라도 설탕의 무게는 그대로 유지되어 용해 전후 무게는 같습니다."
+      },
+      {
+        q: "각설탕이 물에 용해될 때 눈에 보이지 않게 되는 까닭으로 알맞은 것은 무엇인가요?",
+        options: ["눈에 보이지 않을 정도의 매우 작은 크기로 변해 물속에 골고루 섞이기 때문에", "설탕이 물속에서 공기 중으로 모두 증발해버렸기 때문에", "설탕이 완전히 없어지고 사라졌기 때문에", "설탕이 물과 화학적으로 반응하여 물로 변했기 때문에"],
+        ans: 0,
+        exp: "용질은 없어지는 것이 아니라 눈에 보이지 않을 만큼 매우 작은 크기로 변해 골고루 섞입니다."
+      },
+      {
+        q: "용질이 용매에 용해되는 과정에서 일어나는 변화로 알맞은 것은 무엇인가요?",
+        options: ["용질의 크기가 점점 작아진다.", "용질의 크기가 점점 커진다.", "용질이 바닥으로 뭉쳐서 굳어진다.", "용질의 색깔이 검게 변한다."],
+        ans: 0,
+        exp: "용질을 용매에 넣으면 용질의 크기가 점점 작아지면서 물에 골고루 녹아듭니다."
+      },
+      {
+        q: "온도와 양이 같은 물에 가장 많이 용해되는 용질은 무엇인가요?",
+        options: ["설탕", "소금", "백반", "탄산 칼슘"],
+        ans: 0,
+        exp: "동일한 조건의 물에서 설탕, 소금, 백반 중 설탕이 가장 많이 용해됩니다."
+      },
+      {
+        q: "온도와 양이 같은 물에 가장 적게 용해되는 용질은 무엇인가요?",
+        options: ["백반", "소금", "설탕", "분말주스"],
+        ans: 0,
+        exp: "동일한 조건의 물에서 설탕, 소금, 백반 중 백반이 가장 적게 용해됩니다."
+      },
+      {
+        q: "물에 용해되는 용질의 양에 대한 설명으로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: ["용질의 종류에 상관없이 녹는 양은 모두 같다.", "같은 조건에서 용질의 종류에 따라 녹는 양이 다르다.", "물의 온도가 높을수록 대체로 더 많이 용해된다.", "백반은 찬물보다 따뜻한 물에 더 많이 녹는다."],
+        ans: 0,
+        exp: "물에 용해되는 용질의 양은 용질의 종류에 따라 다릅니다."
+      },
+      {
+        q: "차가운 물과 따뜻한 물에 각각 같은 양의 백반을 넣었을 때 나타나는 현상으로 알맞은 것은 무엇인가요?",
+        options: ["따뜻한 물에서는 백반이 모두 녹아 투명해진다.", "차가운 물에서 백반이 더 잘 녹는다.", "두 물 모두 백반이 전혀 녹지 않는다.", "따뜻한 물에서 백반이 덩어리로 가라앉는다."],
+        ans: 0,
+        exp: "백반은 차가운 물에서는 일부가 녹지 않고 남지만, 따뜻한 물에서는 모두 녹아 투명해집니다."
+      },
+      {
+        q: "물에 용해되는 용질의 양에 영향을 주는 요인으로 알맞게 짝지어진 것은 무엇인가요?",
+        options: ["용질의 종류, 물의 온도", "비커의 모양, 물의 색깔", "실내의 밝기, 비커의 크기", "젓는 도구의 재질, 용기 모양"],
+        ans: 0,
+        exp: "물에 용해되는 용질의 양은 용질의 종류와 물의 온도의 영향을 받습니다."
+      },
+      {
+        q: "대체로 물의 온도가 높을수록 용질이 물에 용해되는 양은 어떻게 되나요?",
+        options: ["용질이 더 많이 용해된다.", "용질이 더 적게 용해된다.", "용해되는 양에 변화가 없다.", "용질이 전혀 녹지 않게 된다."],
+        ans: 0,
+        exp: "대체로 물의 온도가 높을수록 용질이 용해되는 양이 증가합니다."
+      },
+      {
+        q: "용액의 진하기에 대한 설명으로 알맞은 것은 무엇인가요?",
+        options: ["같은 양의 용매에 용해된 용질의 양이 많고 적은 정도", "용액을 만드는 데 걸린 전체 시간", "용액의 전체 무게와 부피의 비율", "용액을 가열했을 때 증발하는 정도"],
+        ans: 0,
+        exp: "용액의 진하기란 같은 양의 용매에 녹아 있는 용질의 상대적인 양을 뜻합니다."
+      },
+      {
+        q: "용매의 양이 같을 때, 어느 용액이 더 진한 용액인가요?",
+        options: ["더 많은 양의 용질이 녹아 있는 용액", "더 적은 양의 용질이 녹아 있는 용액", "물이 더 많이 들어있는 용액", "투명하지 않고 뿌옇게 가라앉은 용액"],
+        ans: 0,
+        exp: "용매의 양이 같을 때는 녹아 있는 용질의 양이 많을수록 진합니다."
+      },
+      {
+        q: "용질의 양이 같을 때, 어느 용액이 더 진한 용액인가요?",
+        options: ["더 적은 양의 용매에 녹아 있는 용액", "더 많은 양의 용매에 녹아 있는 용액", "용매의 온도가 더 낮은 용액", "용매의 색깔이 어두운 용액"],
+        ans: 0,
+        exp: "용질의 양이 일정할 때는 용매의 양이 적을수록 용액이 진합니다."
+      },
+      {
+        q: "황색 각설탕과 같이 색깔이 있는 용액의 진하기를 비교하는 방법으로 알맞은 것은 무엇인가요?",
+        options: ["용액의 색깔이 더 진할수록 진한 용액이다.", "용액의 색깔이 연할수록 진한 용액이다.", "색깔이 완전히 투명해야 진한 용액이다.", "용액의 무게가 가벼울수록 진한 용액이다."],
+        ans: 0,
+        exp: "색깔이 있는 용액은 용액의 색이 진할수록 용질이 많이 녹아 있어 더 진한 용액입니다."
+      },
+      {
+        q: "색깔이 없는 투명한 용액의 진하기를 비교하기 위해 물체를 넣었을 때의 현상으로 알맞은 것은 무엇인가요?",
+        options: ["용액이 진할수록 띄운 물체가 더 높이 떠오른다.", "용액이 진할수록 물체가 바닥으로 깊이 가라앉는다.", "용액의 진하기와 물체의 떠오름은 상관이 없다.", "용액이 진할수록 물체의 크기가 줄어든다."],
+        ans: 0,
+        exp: "색깔이 없는 용액에서는 용액이 진할수록 물체(예: 방울토마토, 메추리알 등)가 더 높이 떠오릅니다."
+      },
+      {
+        q: "사해에서 사람의 몸이 물에 쉽게 떠오르는 까닭은 무엇인가요?",
+        options: ["소금이 많이 녹아 있어 물의 진하기가 매우 진하기 때문에", "물이 차가워서 몸을 밀어내기 때문에", "사해의 물속에 기포가 많이 들어있기 때문에", "사람의 몸이 물보다 무거워지기 때문에"],
+        ans: 0,
+        exp: "사해는 많은 양의 소금이 녹아 있어 용액의 진하기가 매우 진하므로 몸이 쉽게 뜹니다."
+      },
+      {
+        q: "음식의 염도를 측정하여 간을 맞추는 것과 관련된 과학적 개념은 무엇인가요?",
+        options: ["용액의 진하기", "용매의 증발", "물의 온도 측정", "용질의 크기 변화"],
+        ans: 0,
+        exp: "음식의 간을 맞추기 위해 염도를 측정하는 것은 용액의 진하기를 활용한 사례입니다."
+      },
+      {
+        q: "과일의 즙을 내어 과일의 당도를 측정하는 것과 관련된 설명으로 알맞은 것은 무엇인가요?",
+        options: ["과일 즙에 녹아 있는 단맛 성분(용질)의 진하기를 측정한다.", "과일의 크기와 무게를 측정한다.", "과일 즙 속 물의 온도를 측정한다.", "과일의 껍질 두께를 측정한다."],
+        ans: 0,
+        exp: "과일의 당도를 측정하는 것은 과즙에 녹아 있는 당분(용질)의 진하기를 알아내는 것입니다."
+      },
+      {
+        q: "수족관에서 생물이 살기에 적합한 환경을 유지하기 위해 측정하는 것은 무엇인가요?",
+        options: ["물의 염도", "물의 색깔", "비커의 깊이", "수족관의 무게"],
+        ans: 0,
+        exp: "수족관에서는 생물이 잘 살 수 있도록 물의 염도(용액의 진하기)를 측정 및 유지합니다."
+      },
+      {
+        q: "오염 물질을 제거하는 성분이 들어 있어 손의 청결을 유지해 주는 용액은 무엇인가요?",
+        options: ["손 세정제", "스포츠 음료", "유리 세정제", "인공 눈물"],
+        ans: 0,
+        exp: "손 세정제는 세정 성분이 용해되어 있어 손을 깨끗하게 유지해 줍니다."
+      },
+      {
+        q: "운동 후 땀으로 빠져나간 수분을 빠르게 보충해 주는 용액은 무엇인가요?",
+        options: ["스포츠 음료", "간장", "식초", "구강 청결제"],
+        ans: 0,
+        exp: "스포츠 음료는 수분과 전해질이 용해되어 있어 운동 후 수분 보충에 쓰입니다."
+      },
+      {
+        q: "신맛과 같은 음식의 맛을 낼 때 이용하는 대표적인 용액은 무엇인가요?",
+        options: ["식초", "간장", "손 세정제", "링거액"],
+        ans: 0,
+        exp: "식초는 아세트산 등이 용해되어 있어 신맛을 내는 용액입니다."
+      },
+      {
+        q: "수액이라고도 불리며, 포도당 등 영양소가 들어 있어 병을 치료할 때 이용하는 용액은 무엇인가요?",
+        options: ["링거액", "구강 청결제", "인공 눈물", "유리 세정제"],
+        ans: 0,
+        exp: "링거액(수액)은 포도당 및 염분 등이 용해되어 있어 병원에서 치료용으로 쓰입니다."
+      },
+      {
+        q: "눈에 넣으면 눈의 건조함 등을 완화시켜 주는 용액은 무엇인가요?",
+        options: ["인공 눈물", "유리 세정제", "구강 청결제", "스포츠 음료"],
+        ans: 0,
+        exp: "인공 눈물은 눈의 건조를 완화하기 위해 사용하는 안전한 용액입니다."
+      },
+      {
+        q: "생활 속에서 사용하는 용액과 그 쓰임의 연결이 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: ["구강 청결제 - 창문이나 유리를 깨끗하게 닦을 때 이용한다.", "간장 - 요리할 때 음식에 넣어 맛을 낸다.", "유리 세정제 - 유리 등을 깨끗하게 닦을 때 이용한다.", "손 세정제 - 오염 물질을 제거하여 청결을 유지한다."],
+        ans: 0,
+        exp: "창문이나 유리를 깨끗하게 닦을 때 사용하는 용액은 '유리 세정제'입니다."
+      }
+    ];
+
+    // ----------------------------------------------------
+    // 게임 상태 변수
+    // ----------------------------------------------------
+    let userName = "";
+    let quizQueue = [];
+    let currentIdx = 0;
+    let startTime = null;
+
+    const startScreen = document.getElementById("start-screen");
+    const quizScreen = document.getElementById("quiz-screen");
+    const wrongScreen = document.getElementById("wrong-screen");
+    const successScreen = document.getElementById("success-screen");
+
+    function shuffle(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function startQuiz() {
+      const nameInput = document.getElementById("userName").value.trim();
+      if (!nameInput) {
+        alert("이름을 입력해 주세요!");
+        return;
+      }
+      userName = nameInput;
+
+      // 1-7번: 객관식 33개 중 7개 무작위 추출 및 보기 셔플
+      // 8-10번: 단답식 7개 중 3개 무작위 추출
+      const selectedMCQs = shuffle(mcqBank).slice(0, 7);
+      const selectedSAs = shuffle(saBank).slice(0, 3);
+
+      const formattedMCQs = selectedMCQs.map(item => {
+        const correctText = item.options[item.ans];
+        const shuffledOptions = shuffle(item.options);
+        const newAnsIdx = shuffledOptions.indexOf(correctText);
+        return {
+          type: "MCQ",
+          q: item.q,
+          options: shuffledOptions,
+          ans: newAnsIdx,
+          exp: item.exp
+        };
+      });
+
+      const formattedSAs = selectedSAs.map(item => ({
+        type: "SA",
+        q: item.q,
+        ans: item.ans,
+        exp: item.exp
+      }));
+
+      quizQueue = [...formattedMCQs, ...formattedSAs];
+      currentIdx = 0;
+      startTime = Date.now();
+
+      startScreen.style.display = "none";
+      wrongScreen.style.display = "none";
+      successScreen.style.display = "none";
+      quizScreen.style.display = "block";
+
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const qData = quizQueue[currentIdx];
+      
+      const progressPercent = ((currentIdx + 1) / 10) * 100;
+      document.getElementById("progress-bar").style.width = progressPercent + "%";
+      document.getElementById("question-number").textContent = `문제 ${currentIdx + 1} / 10`;
+
+      const badge = document.getElementById("question-type-badge");
+      const optionsBox = document.getElementById("options-container");
+      const saBox = document.getElementById("sa-container");
+
+      document.getElementById("question-text").innerHTML = `${currentIdx + 1}. ${qData.q}`;
+
+      if (qData.type === "MCQ") {
+        badge.textContent = "객관식";
+        badge.className = "badge badge-mcq";
+        optionsBox.style.display = "flex";
+        saBox.style.display = "none";
+
+        optionsBox.innerHTML = "";
+        qData.options.forEach((optText, idx) => {
+          const btn = document.createElement("button");
+          btn.className = "option-btn";
+          btn.textContent = `${idx + 1}. ${optText}`;
+          btn.onclick = () => checkMCQAnswer(idx);
+          optionsBox.appendChild(btn);
+        });
+      } else {
+        badge.textContent = "단답식";
+        badge.className = "badge badge-sa";
+        optionsBox.style.display = "none";
+        saBox.style.display = "flex";
+
+        const saInput = document.getElementById("sa-input");
+        saInput.value = "";
+        setTimeout(() => saInput.focus(), 100);
+      }
+    }
+
+    function checkMCQAnswer(selectedIdx) {
+      const qData = quizQueue[currentIdx];
+      if (selectedIdx === qData.ans) {
+        nextQuestion();
+      } else {
+        showWrongScreen(qData.exp);
+      }
+    }
+
+    function submitSAAnswer() {
+      const qData = quizQueue[currentIdx];
+      const userInput = document.getElementById("sa-input").value.trim().replace(/\s+/g, "");
+      const targetAns = qData.ans.replace(/\s+/g, "");
+
+      if (!userInput) {
+        alert("정답을 입력해주세요.");
+        return;
+      }
+
+      if (userInput === targetAns) {
+        nextQuestion();
+      } else {
+        showWrongScreen(qData.exp);
+      }
+    }
+
+    function nextQuestion() {
+      currentIdx++;
+      if (currentIdx < 10) {
+        renderQuestion();
+      } else {
+        finishQuiz();
+      }
+    }
+
+    function showWrongScreen(explanationText) {
+      quizScreen.style.display = "none";
+      wrongScreen.style.display = "block";
+      document.getElementById("explanation-text").textContent = explanationText;
+    }
+
+    function returnToStart() {
+      wrongScreen.style.display = "none";
+      successScreen.style.display = "none";
+      quizScreen.style.display = "none";
+      startScreen.style.display = "block";
+    }
+
+    function finishQuiz() {
+      const endTime = Date.now();
+      const elapsedSeconds = Math.round((endTime - startTime) / 1000);
+
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      textSeconds = String(now.getSeconds()).padStart(2, '0');
+      
+      const dateStr = `${year}-${month}-${day} ${hours}:${minutes}:${textSeconds}`;
+
+      document.getElementById("result-name").textContent = userName;
+      document.getElementById("result-time").textContent = `${elapsedSeconds}초`;
+      document.getElementById("result-date").textContent = dateStr;
+
+      quizScreen.style.display = "none";
+      successScreen.style.display = "block";
+    }
+  </script>
+</body>
+</html>

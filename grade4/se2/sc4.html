@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>4학년 2학기 과학 - 기후변화와 우리 생활 퀴즈</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Pretendard', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+    body {
+      background-color: #f0fdf4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 14px;
+      color: #1e293b;
+    }
+    .card {
+      background: #ffffff;
+      width: 100%;
+      max-width: 480px;
+      border-radius: 20px;
+      padding: 24px 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      text-align: center;
+      position: relative;
+    }
+    .top-nav {
+      display: flex;
+      justify-content: flex-start;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #e2e8f0;
+      color: #334155;
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .nav-btn:active {
+      background-color: #cbd5e1;
+    }
+    h1 {
+      font-size: 22px;
+      color: #15803d;
+      margin-bottom: 8px;
+    }
+    .sub-title {
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 24px;
+    }
+    .input-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    .input-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #334155;
+      font-size: 15px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 14px;
+      border: 2px solid #cbd5e1;
+      border-radius: 12px;
+      font-size: 16px;
+      text-align: center;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input[type="text"]:focus {
+      border-color: #16a34a;
+    }
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .btn {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.1s, background-color 0.2s;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+      box-sizing: border-box;
+    }
+    .btn:active {
+      transform: scale(0.98);
+    }
+    .btn-primary {
+      background-color: #16a34a;
+      color: #ffffff;
+    }
+    .btn-secondary {
+      background-color: #64748b;
+      color: #ffffff;
+    }
+    .btn-success {
+      background-color: #0284c7;
+      color: #ffffff;
+    }
+
+    /* 퀴즈 진행 화면 */
+    #quiz-screen {
+      display: none;
+      text-align: left;
+    }
+    .progress-bar-container {
+      width: 100%;
+      background-color: #e2e8f0;
+      height: 10px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background-color: #16a34a;
+      transition: width 0.3s ease;
+    }
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 14px;
+      font-weight: bold;
+    }
+    .badge {
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+    }
+    .badge-mcq { background: #dcfce7; color: #15803d; }
+    .badge-sa { background: #fef3c7; color: #92400e; }
+
+    .question-box {
+      font-size: 17px;
+      font-weight: bold;
+      line-height: 1.5;
+      color: #0f172a;
+      margin-bottom: 20px;
+      min-height: 60px;
+    }
+    .question-box u {
+      color: #dc2626;
+      text-decoration-thickness: 2px;
+    }
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .option-btn {
+      width: 100%;
+      padding: 14px 16px;
+      background-color: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      text-align: left;
+      font-size: 15px;
+      color: #334155;
+      cursor: pointer;
+      line-height: 1.4;
+      transition: all 0.2s;
+    }
+    .option-btn:active {
+      background-color: #dcfce7;
+      border-color: #16a34a;
+      color: #15803d;
+    }
+
+    .sa-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* 오답 화면 */
+    #wrong-screen {
+      display: none;
+      background-color: #fef2f2;
+      border: 2px solid #fca5a5;
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+    }
+    .wrong-title {
+      color: #dc2626;
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+    .explanation-box {
+      background: #ffffff;
+      padding: 15px;
+      border-radius: 10px;
+      border-left: 4px solid #dc2626;
+      text-align: left;
+      font-size: 14px;
+      color: #334155;
+      line-height: 1.5;
+      margin-bottom: 18px;
+    }
+
+    /* 성공 화면 */
+    #success-screen {
+      display: none;
+    }
+    .trophy {
+      font-size: 60px;
+      margin-bottom: 10px;
+    }
+    .success-title {
+      font-size: 22px;
+      color: #16a34a;
+      font-weight: bold;
+      margin-bottom: 18px;
+      line-height: 1.4;
+    }
+    .result-info {
+      background-color: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: left;
+      margin-bottom: 20px;
+    }
+    .result-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+    .result-item:last-child {
+      margin-bottom: 0;
+    }
+    .result-label {
+      color: #475569;
+      font-weight: bold;
+    }
+    .result-value {
+      color: #166534;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    
+    <!-- 1. 시작 화면 -->
+    <div id="start-screen">
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+      </div>
+      <h1>4학년 과학 퀴즈</h1>
+      <p class="sub-title">4단원. 기후변화와 우리 생활</p>
+
+      <div class="input-group">
+        <label for="userName">이름을 입력하세요</label>
+        <input type="text" id="userName" placeholder="예: 홍길동" autocomplete="off">
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="startQuiz()">시작</button>
+        <a href="science.html" class="btn btn-secondary">단원선택</a>
+      </div>
+    </div>
+
+    <!-- 2. 퀴즈 진행 화면 -->
+    <div id="quiz-screen">
+      <div class="progress-bar-container">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      
+      <div class="quiz-header">
+        <span id="question-number">문제 1 / 10</span>
+        <span id="question-type-badge" class="badge badge-mcq">객관식</span>
+      </div>
+
+      <div class="question-box" id="question-text"></div>
+
+      <!-- 객관식 영역 -->
+      <div class="options-container" id="options-container"></div>
+
+      <!-- 단답식 영역 -->
+      <div class="sa-container" id="sa-container" style="display: none;">
+        <input type="text" id="sa-input" placeholder="정답 입력" onkeydown="if(event.key==='Enter') submitSAAnswer()">
+        <button class="btn btn-primary" onclick="submitSAAnswer()">정답 제출</button>
+      </div>
+    </div>
+
+    <!-- 3. 오답 화면 -->
+    <div id="wrong-screen">
+      <div class="wrong-title">❌ 틀렸습니다!</div>
+      <div class="explanation-box">
+        <strong>💡 간단 해설:</strong>
+        <p id="explanation-text" style="margin-top: 6px;"></p>
+      </div>
+      <button class="btn btn-primary" style="width: 100%;" onclick="returnToStart()">계속</button>
+    </div>
+
+    <!-- 4. 성공 축하 화면 -->
+    <div id="success-screen">
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+      </div>
+
+      <div class="trophy">🎉</div>
+      <div class="success-title">축하합니다!<br>10문제를 모두 맞추셨습니다!</div>
+      
+      <div class="result-info">
+        <div class="result-item">
+          <span class="result-label">이름</span>
+          <span class="result-value" id="result-name">-</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">총 걸린시간</span>
+          <span class="result-value" id="result-time">-</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">현재 시간</span>
+          <span class="result-value" id="result-date">-</span>
+        </div>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-success" onclick="returnToStart()">재도전</button>
+        <a href="science.html" class="btn btn-secondary">단원선택</a>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ----------------------------------------------------
+    // 단답식 문제 은행 (총 5개)
+    // 정답 : 기후, 기후변화, 한파, 홍수, 가뭄
+    // ----------------------------------------------------
+    const saBank = [
+      {
+        q: "일정한 지역에서 보통 30년 이상의 오랜 기간에 걸쳐 나타나는 날씨의 평균적인 상태를 무엇이라고 하나요?",
+        ans: "기후",
+        exp: "일정한 지역에서 보통 30년 이상 오랜 기간 동안 평균적으로 나타나는 날씨의 상태를 '기후'라고 합니다."
+      },
+      {
+        q: "오랜 기간에 걸쳐 평균적인 날씨가 변하는 현상을 무엇이라고 하나요?",
+        ans: "기후변화",
+        exp: "오랜 기간에 걸쳐 평균적인 날씨가 변해가는 현상을 '기후변화'라고 합니다."
+      },
+      {
+        q: "기온 변화로 인해 나타나는 현상 중, 기온이 갑자기 낮아지는 현상을 무엇이라고 하나요?",
+        ans: "한파",
+        exp: "기온이 갑자기 떨어져 추워지는 현상을 '한파'라고 하며, 기온 변화로 나타나는 대표적인 기후변화 현상입니다."
+      },
+      {
+        q: "강수량 변화로 인해 나타나는 현상 중, 짧은 시간 동안 비가 많이 내려서 피해가 발생하는 현상을 무엇이라고 하나요?",
+        ans: "홍수",
+        exp: "짧은 시간에 많은 비가 내려 물이 넘치는 현상을 '홍수'라고 합니다."
+      },
+      {
+        q: "강수량 변화로 인해 나타나는 현상 중, 비가 오랫동안 내리지 않아 메마르게 되는 현상을 무엇이라고 하나요?",
+        ans: "가뭄",
+        exp: "비가 오랫동안 내리지 않아 메마르는 현상을 '가뭄'이라고 합니다."
+      }
+    ];
+
+    // ----------------------------------------------------
+    // 객관식 문제 은행 (총 25개)
+    // ----------------------------------------------------
+    const mcqBank = [
+      {
+        q: "다음 중 '기후'의 정의로 올바른 것은 무엇인가요?",
+        options: [
+          "일정한 지역에서 보통 30년 이상의 오랜 기간에 걸쳐 나타나는 날씨의 평균적인 상태",
+          "하루 동안 나타나는 기온과 비의 양 변화",
+          "갑자기 찾아오는 하루 동안의 강한 소나기",
+          "계절에 따라 매일 달라지는 일기예보"
+        ],
+        ans: 0,
+        exp: "기후는 일정한 지역에서 보통 30년 이상의 오랜 기간 동안 나타나는 날씨의 평균적인 상태입니다."
+      },
+      {
+        q: "다음 중 기온 변화로 인해 나타나는 기후변화 현상으로 올바른 조합은 무엇인가요?",
+        options: [
+          "찾아진 폭염, 극심한 한파",
+          "빈번한 홍수, 심해진 가뭄",
+          "갑작스러운 폭설, 빈번한 홍수",
+          "산림 훼손, 바닷물 상승"
+        ],
+        ans: 0,
+        exp: "기온 변화로 나타나는 현상에는 폭염과 한파가 있습니다."
+      },
+      {
+        q: "다음 중 강수량 변화로 나타나는 기후변화 현상에 해당하지 <u>않는</u> 것은 무엇인가요?",
+        options: [
+          "극심한 한파",
+          "빈번한 홍수",
+          "갑작스러운 폭설",
+          "심해진 가뭄"
+        ],
+        ans: 0,
+        exp: "극심한 한파는 강수량 변화가 아니라 '기온 변화'로 나타나는 현상입니다."
+      },
+      {
+        q: "다음 중 강수량 변화로 나타나는 대표적인 기후변화 현상은 무엇인가요?",
+        options: [
+          "빈번한 홍수",
+          "찾아진 폭염",
+          "극심한 한파",
+          "지구 평균 기온 상승"
+        ],
+        ans: 0,
+        exp: "강수량 변화로는 빈번한 홍수, 갑작스러운 폭설, 심해진 가뭄 등이 나타납니다."
+      },
+      {
+        q: "다음 중 기후변화에 영향을 주는 인간의 활동으로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: [
+          "숲과 갯벌을 보존하여 자연환경을 가꾸는 활동",
+          "공장에서 많은 물건을 생산하고 소비하는 활동",
+          "땅을 개발하기 위해 나무를 베어 산림을 훼손하는 활동",
+          "자동차나 비행기와 같은 교통수단을 많이 이용하는 활동"
+        ],
+        ans: 0,
+        exp: "숲과 갯벌을 보존하는 것은 기후변화에 대응하는 긍정적인 노력입니다."
+      },
+      {
+        q: "땅을 개발하기 위해 나무를 베거나 태우는 활동은 산림을 어떻게 만드나요?",
+        options: [
+          "산림을 훼손한다.",
+          "산림을 더 무성하게 만든다.",
+          "지구의 온도를 낮춰준다.",
+          "비가 자주 내리게 돕는다."
+        ],
+        ans: 0,
+        exp: "나무를 베거나 태우는 활동은 산림을 훼손하여 기후변화를 심화시킵니다."
+      },
+      {
+        q: "기후변화에 영향을 주는 교통수단의 예로 언급된 것으로 올바른 것은 무엇인가요?",
+        options: [
+          "자동차, 비행기",
+          "자전거, 도보",
+          "인라인스케이트, 킥보드",
+          "케이블카, 엘리베이터"
+        ],
+        ans: 0,
+        exp: "자동차, 비행기와 같은 교통수단을 많이 이용하는 것은 기후변화에 영향을 줍니다."
+      },
+      {
+        q: "과거에 비해 급격하게 늘어난 인간의 활동이 지구 환경에 미친 영향으로 올바른 것은 무엇인가요?",
+        options: [
+          "지구의 평균 기온이 높아진다.",
+          "지구의 평균 기온이 점차 낮아진다.",
+          "바닷물의 온도가 차가워진다.",
+          "북극의 얼음이 더 두꺼워진다."
+        ],
+        ans: 0,
+        exp: "급격하게 늘어난 인간의 활동은 지구의 평균 기온이 높아지도록 만듭니다."
+      },
+      {
+        q: "해수면 상승 피해 모형실험에서 '물'이 의미하는 것은 무엇인가요?",
+        options: [
+          "바닷물",
+          "강물",
+          "수돗물",
+          "지하수"
+        ],
+        ans: 0,
+        exp: "해수면 상승 실험에서 부어주는 물은 '바닷물'을 의미합니다."
+      },
+      {
+        q: "해수면 상승 피해 모형실험에서 '자갈'이 의미하는 것은 무엇인가요?",
+        options: [
+          "육지",
+          "구름",
+          "빙하",
+          "바다"
+        ],
+        ans: 0,
+        exp: "실험에서 자갈은 사람들이나 동식물이 살고 있는 '육지'를 의미합니다."
+      },
+      {
+        q: "해수면 상승 모형실험에서 물을 더 부었을 때 자갈(육지)에 나타나는 변화로 올바른 것은 무엇인가요?",
+        options: [
+          "물에 닿지 않는 자갈의 면적이 점점 줄어든다.",
+          "자갈의 면적이 점점 넓어진다.",
+          "자갈의 색깔이 완전히 바뀐다.",
+          "자갈이 물 위로 가볍게 떠오른다."
+        ],
+        ans: 0,
+        exp: "물이 차오르면 물에 잠기지 않는 자갈(육지)의 면적이 점점 줄어듭니다."
+      },
+      {
+        q: "해수면 상승 피해 모형실험을 통해 알 수 있는 사실로 올바른 것은 무엇인가요?",
+        options: [
+          "해수면이 상승하면 사람과 동식물이 살 수 있는 육지 면적이 점점 줄어든다.",
+          "해수면이 상승하면 살 수 있는 땅이 늘어난다.",
+          "해수면 상승은 섬이나 집 모형에 아무런 영향을 주지 않는다.",
+          "물이 높아지면 자갈이 계속 늘어난다."
+        ],
+        ans: 0,
+        exp: "해수면이 상승하면 해안가가 물에 잠기며 육지 면적이 줄어듭니다."
+      },
+      {
+        q: "기후변화가 우리 생활과 환경에 미치는 영향으로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: [
+          "사람과 동식물이 살 수 있는 육지 면적이 확대된다.",
+          "해수면이 상승하고 해안가가 물에 잠긴다.",
+          "폭염, 한파가 길어지면서 건강을 해친다.",
+          "큰 산불이나 태풍이 자주 발생한다."
+        ],
+        ans: 0,
+        exp: "기후변화로 해수면이 상승하면 육지 면적은 줄어듭니다."
+      },
+      {
+        q: "기후변화로 인해 기상 현상이 악화될 때 자주 발생하는 자연재해로 올바른 것은 무엇인가요?",
+        options: [
+          "큰 산불이나 태풍",
+          "지진해일과 화산폭발",
+          "바다 면적의 지속적인 감소",
+          "지구 기온의 급격한 하강"
+        ],
+        ans: 0,
+        exp: "기후변화로 인해 큰 산불이나 태풍이 자주 발생합니다."
+      },
+      {
+        q: "기후변화로 인해 오랜 가뭄이 지속될 때 발생하는 문제점으로 올바른 것은 무엇인가요?",
+        options: [
+          "식량이 부족해진다.",
+          "농작물이 훨씬 더 잘 자란다.",
+          "물 공급이 원활해진다.",
+          "육지 면적이 증가한다."
+        ],
+        ans: 0,
+        exp: "오랜 가뭄이 계속되면 농작물이 자라기 어려워 식량이 부족해집니다."
+      },
+      {
+        q: "바닷물의 온도가 높아질 때 나타나는 환경적 변화로 올바른 것은 무엇인가요?",
+        options: [
+          "바다 생태계가 파괴된다.",
+          "바다 생물이 더 건강해진다.",
+          "바닷속 산소가 늘어난다.",
+          "해수면이 갑자기 낮아진다."
+        ],
+        ans: 0,
+        exp: "바닷물의 온도가 상승하면 바다 생태계가 파괴될 위험에 처합니다."
+      },
+      {
+        q: "기후변화에 적응하지 못한 생물들에게 일어나는 일로 올바른 것은 무엇인가요?",
+        options: [
+          "멸종 위기에 처한다.",
+          "개체 수가 급격히 늘어난다.",
+          "새로운 서식지를 쉽게 만든다.",
+          "수명이 크게 늘어난다."
+        ],
+        ans: 0,
+        exp: "급격한 기후변화에 적응하지 못한 생물들은 멸종 위기에 처하게 됩니다."
+      },
+      {
+        q: "국가나 사회에서 실천해야 할 기후변화 대응 방법으로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: [
+          "자연환경인 숲과 갯벌을 없애고 건물을 세운다.",
+          "숲, 갯벌과 같은 자연환경을 보존한다.",
+          "친환경 기술을 개발한다.",
+          "기후변화 현상에 사람들이 적응할 수 있도록 대비한다."
+        ],
+        ans: 0,
+        exp: "숲과 갯벌을 없애는 것은 환경을 파괴하는 행위입니다. 보존해야 합니다."
+      },
+      {
+        q: "국가나 사회가 추진해야 하는 기술적 대응 노력으로 올바른 것은 무엇인가요?",
+        options: [
+          "친환경 기술을 개발한다.",
+          "화석연료 사용 기술만 더욱 발전시킨다.",
+          "일회용품 제조 기술을 늘린다.",
+          "자연 보호구역을 해제한다."
+        ],
+        ans: 0,
+        exp: "국가나 사회는 기후변화에 대응하기 위해 친환경 기술을 개발해야 합니다."
+      },
+      {
+        q: "다음 중 우리가 실천할 수 있는 기후변화 대응 방법으로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: [
+          "편리함을 위해 일회용품을 많이 사용한다.",
+          "가까운 거리는 걷거나 자전거를 이용한다.",
+          "물과 전기를 아껴 쓴다.",
+          "지속가능한 미래를 위해 기후위기에 관심 갖는다."
+        ],
+        ans: 0,
+        exp: "일회용품 사용은 줄여야(적게 써야) 합니다."
+      },
+      {
+        q: "온실가스 배출을 줄이기 위해 생활 속에서 선택할 수 있는 바람직한 이동 방법은 무엇인가요?",
+        options: [
+          "가까운 거리는 걷거나 자전거를 이용한다.",
+          "가까운 거리도 항상 승용차를 탄다.",
+          "자가용을 자주 새로 교체한다.",
+          "대중교통 대신 개인 차량만 이용한다."
+        ],
+        ans: 0,
+        exp: "가까운 거리는 걷거나 자전거를 이용하면 온실가스 배출을 줄일 수 있습니다."
+      },
+      {
+        q: "가정에서 실천할 수 있는 기후변화 대응 행동으로 올바른 것은 무엇인가요?",
+        options: [
+          "물과 전기를 아껴 쓴다.",
+          "전기제품을 사용하지 않을 때도 켜둔다.",
+          "수돗물을 틀어놓고 씻는다.",
+          "일회용 비닐봉지를 매일 여러 개 사용한다."
+        ],
+        ans: 0,
+        exp: "물과 전기를 아껴 쓰는 것은 기후변화 대응의 중요한 실천 방법입니다."
+      },
+      {
+        q: "지속가능한 미래를 위해 개인으로서 가져야 할 올바른 태도는 무엇인가요?",
+        options: [
+          "기후위기에 꾸준히 관심을 가진다.",
+          "기후변화 문제는 나와 상관없다고 생각한다.",
+          "에너지를 최대한 많이 사용한다.",
+          "환경 보호 활동을 무시한다."
+        ],
+        ans: 0,
+        exp: "우리는 지속가능한 미래를 위해 기후위기 문제에 지속적으로 관심을 가져야 합니다."
+      },
+      {
+        q: "우리가 시민으로서 국가와 사회에 할 수 있는 기후변화 대응 역할은 무엇인가요?",
+        options: [
+          "국가와 사회가 기후변화에 대응하도록 요구한다.",
+          "정부의 환경 정책을 전혀 신경 쓰지 않는다.",
+          "기업에 환경 오염물질 배출을 더 권장한다.",
+          "자연보호 정책을 반대한다."
+        ],
+        ans: 0,
+        exp: "국가와 사회가 적극적으로 기후변화에 대응하도록 관심을 가지고 요구하는 것이 필요합니다."
+      },
+      {
+        q: "다음 중 일회용품 사용에 대한 올바른 기후변화 대응 자세는 무엇인가요?",
+        options: [
+          "일회용품을 적게 사용한다.",
+          "일회용품을 매일 늘려 사용한다.",
+          "일회용품은 기후변화와 상관없으므로 맘껏 쓴다.",
+          "재활용이 불가능한 일회용품만 골라 쓴다."
+        ],
+        ans: 0,
+        exp: "일회용품 사용을 줄이고 적게 사용하는 것이 기후변화 대응 실천 방법입니다."
+      }
+    ];
+
+    // ----------------------------------------------------
+    // 게임 상태 변수
+    // ----------------------------------------------------
+    let userName = "";
+    let quizQueue = [];
+    let currentIdx = 0;
+    let startTime = null;
+
+    const startScreen = document.getElementById("start-screen");
+    const quizScreen = document.getElementById("quiz-screen");
+    const wrongScreen = document.getElementById("wrong-screen");
+    const successScreen = document.getElementById("success-screen");
+
+    function shuffle(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function startQuiz() {
+      const nameInput = document.getElementById("userName").value.trim();
+      if (!nameInput) {
+        alert("이름을 입력해 주세요!");
+        return;
+      }
+      userName = nameInput;
+
+      // 1-7번: 객관식 7개 무작위 추출
+      // 8-10번: 단답식 3개 무작위 추출
+      const selectedMCQs = shuffle(mcqBank).slice(0, 7);
+      const selectedSAs = shuffle(saBank).slice(0, 3);
+
+      const formattedMCQs = selectedMCQs.map(item => {
+        const correctText = item.options[item.ans];
+        const shuffledOptions = shuffle(item.options);
+        const newAnsIdx = shuffledOptions.indexOf(correctText);
+        return {
+          type: "MCQ",
+          q: item.q,
+          options: shuffledOptions,
+          ans: newAnsIdx,
+          exp: item.exp
+        };
+      });
+
+      const formattedSAs = selectedSAs.map(item => ({
+        type: "SA",
+        q: item.q,
+        ans: item.ans,
+        exp: item.exp
+      }));
+
+      quizQueue = [...formattedMCQs, ...formattedSAs];
+      currentIdx = 0;
+      startTime = Date.now();
+
+      startScreen.style.display = "none";
+      wrongScreen.style.display = "none";
+      successScreen.style.display = "none";
+      quizScreen.style.display = "block";
+
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const qData = quizQueue[currentIdx];
+      
+      const progressPercent = ((currentIdx + 1) / 10) * 100;
+      document.getElementById("progress-bar").style.width = progressPercent + "%";
+      document.getElementById("question-number").textContent = `문제 ${currentIdx + 1} / 10`;
+
+      const badge = document.getElementById("question-type-badge");
+      const optionsBox = document.getElementById("options-container");
+      const saBox = document.getElementById("sa-container");
+
+      document.getElementById("question-text").innerHTML = `${currentIdx + 1}. ${qData.q}`;
+
+      if (qData.type === "MCQ") {
+        badge.textContent = "객관식";
+        badge.className = "badge badge-mcq";
+        optionsBox.style.display = "flex";
+        saBox.style.display = "none";
+
+        optionsBox.innerHTML = "";
+        qData.options.forEach((optText, idx) => {
+          const btn = document.createElement("button");
+          btn.className = "option-btn";
+          btn.textContent = `${idx + 1}. ${optText}`;
+          btn.onclick = () => checkMCQAnswer(idx);
+          optionsBox.appendChild(btn);
+        });
+      } else {
+        badge.textContent = "단답식";
+        badge.className = "badge badge-sa";
+        optionsBox.style.display = "none";
+        saBox.style.display = "flex";
+
+        const saInput = document.getElementById("sa-input");
+        saInput.value = "";
+        setTimeout(() => saInput.focus(), 100);
+      }
+    }
+
+    function checkMCQAnswer(selectedIdx) {
+      const qData = quizQueue[currentIdx];
+      if (selectedIdx === qData.ans) {
+        nextQuestion();
+      } else {
+        showWrongScreen(qData.exp);
+      }
+    }
+
+    function submitSAAnswer() {
+      const qData = quizQueue[currentIdx];
+      const userInput = document.getElementById("sa-input").value.trim().replace(/\s+/g, "");
+      const targetAns = qData.ans.replace(/\s+/g, "");
+
+      if (!userInput) {
+        alert("정답을 입력해주세요.");
+        return;
+      }
+
+      if (userInput === targetAns) {
+        nextQuestion();
+      } else {
+        showWrongScreen(qData.exp);
+      }
+    }
+
+    function nextQuestion() {
+      currentIdx++;
+      if (currentIdx < 10) {
+        renderQuestion();
+      } else {
+        finishQuiz();
+      }
+    }
+
+    function showWrongScreen(explanationText) {
+      quizScreen.style.display = "none";
+      wrongScreen.style.display = "block";
+      document.getElementById("explanation-text").textContent = explanationText;
+    }
+
+    function returnToStart() {
+      wrongScreen.style.display = "none";
+      successScreen.style.display = "none";
+      quizScreen.style.display = "none";
+      startScreen.style.display = "block";
+    }
+
+    function finishQuiz() {
+      const endTime = Date.now();
+      const elapsedSeconds = Math.round((endTime - startTime) / 1000);
+
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      
+      const dateStr = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+
+      document.getElementById("result-name").textContent = userName;
+      document.getElementById("result-time").textContent = `${elapsedSeconds}초`;
+      document.getElementById("result-date").textContent = dateStr;
+
+      quizScreen.style.display = "none";
+      successScreen.style.display = "block";
+    }
+  </script>
+</body>
+</html>

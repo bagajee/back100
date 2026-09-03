@@ -3,664 +3,877 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>초등 사회 5-2 스피드 퀴즈 - 조선</title>
+  <title>5학년 1학기 사회 - 우리나라의 기후 퀴즈</title>
   <style>
     * {
       box-sizing: border-box;
+      font-family: 'Pretendard', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      user-select: none;
     }
-
     body {
-      background-color: #f0f4f8;
+      background-color: #f0fdf4;
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      padding: 20px;
+      padding: 14px;
+      color: #1e293b;
     }
-
-    .container {
+    .card {
+      background: #ffffff;
       width: 100%;
       max-width: 480px;
-      background: #ffffff;
       border-radius: 20px;
+      padding: 24px 20px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-      padding: 32px 24px;
       text-align: center;
       position: relative;
     }
-
     .top-nav {
       display: flex;
       justify-content: flex-start;
-      margin-bottom: 16px;
+      gap: 10px;
+      margin-bottom: 20px;
     }
-
     .nav-btn {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 6px 12px;
-      background-color: #f1f5f9;
-      color: #475569;
-      text-decoration: none;
-      font-size: 13px;
-      font-weight: 600;
-      border-radius: 8px;
-      border: 1px solid #cbd5e1;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .nav-btn:hover {
+      justify-content: center;
       background-color: #e2e8f0;
-      color: #0f172a;
+      color: #334155;
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 14px;
     }
-
+    .nav-btn:active {
+      background-color: #cbd5e1;
+    }
     h1 {
       font-size: 22px;
-      color: #1e293b;
+      color: #15803d;
+      margin-bottom: 8px;
+    }
+    .sub-title {
+      font-size: 14px;
+      color: #64748b;
       margin-bottom: 24px;
-      line-height: 1.4;
     }
-
-    .badge {
-      display: inline-block;
-      background-color: #e0f2fe;
-      color: #0369a1;
-      font-size: 13px;
-      font-weight: 700;
-      padding: 4px 12px;
-      border-radius: 20px;
-      margin-bottom: 12px;
-    }
-
-    .form-group {
+    .input-group {
       margin-bottom: 20px;
       text-align: left;
     }
-
-    label {
+    .input-group label {
       display: block;
-      font-size: 14px;
-      font-weight: 600;
-      color: #475569;
+      font-weight: bold;
       margin-bottom: 8px;
+      color: #334155;
+      font-size: 15px;
     }
-
-    input {
+    input[type="text"] {
       width: 100%;
-      padding: 14px 16px;
-      border: 2px solid #e2e8f0;
+      padding: 14px;
+      border: 2px solid #cbd5e1;
       border-radius: 12px;
       font-size: 16px;
-      outline: none;
-      transition: all 0.2s ease;
-      background-color: #fff;
-    }
-
-    input:focus {
-      border-color: #0284c7;
-      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
-    }
-
-    .btn-primary {
-      width: 100%;
-      padding: 16px;
-      background-color: #0284c7;
-      color: white;
-      border: none;
-      border-radius: 12px;
-      font-size: 17px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background-color 0.2s;
-      text-decoration: none;
-      display: inline-block;
       text-align: center;
+      outline: none;
+      transition: border-color 0.2s;
     }
-
-    .btn-primary:hover {
-      background-color: #0369a1;
+    input[type="text"]:focus {
+      border-color: #16a34a;
     }
-
     .btn-group {
       display: flex;
       flex-direction: column;
       gap: 10px;
-      margin-top: 20px;
+    }
+    .btn {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.1s, background-color 0.2s;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+      box-sizing: border-box;
+    }
+    .btn:active {
+      transform: scale(0.98);
+    }
+    .btn-primary {
+      background-color: #16a34a;
+      color: #ffffff;
+    }
+    .btn-secondary {
+      background-color: #64748b;
+      color: #ffffff;
+    }
+    .btn-success {
+      background-color: #0284c7;
+      color: #ffffff;
     }
 
-    .hidden {
-      display: none !important;
+    /* 퀴즈 진행 화면 */
+    #quiz-screen {
+      display: none;
+      text-align: left;
     }
-
-    #countdown-screen h2 {
-      font-size: 84px;
-      color: #0284c7;
-      margin: 30px 0;
-      font-weight: 800;
+    .progress-bar-container {
+      width: 100%;
+      background-color: #e2e8f0;
+      height: 10px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      overflow: hidden;
     }
-
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background-color: #16a34a;
+      transition: width 0.3s ease;
+    }
     .quiz-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       font-size: 14px;
       color: #64748b;
-      margin-bottom: 16px;
-      font-weight: 600;
+      margin-bottom: 14px;
+      font-weight: bold;
     }
+    .badge {
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+    }
+    .badge-mcq { background: #dcfce7; color: #15803d; }
+    .badge-sa { background: #fef3c7; color: #92400e; }
 
     .question-box {
-      font-size: 18px;
-      font-weight: 700;
+      font-size: 17px;
+      font-weight: bold;
+      line-height: 1.5;
       color: #0f172a;
-      margin: 20px 0 24px 0;
-      word-break: keep-all;
-      line-height: 1.6;
-      text-align: left;
-      background-color: #f8fafc;
-      padding: 20px;
-      border-radius: 14px;
-      border-left: 5px solid #0284c7;
-      min-height: 110px;
+      margin-bottom: 20px;
+      min-height: 60px;
+    }
+    .question-box u {
+      color: #dc2626;
+      text-decoration-thickness: 2px;
+    }
+    .options-container {
       display: flex;
-      align-items: center;
+      flex-direction: column;
+      gap: 10px;
     }
-
-    .explanation-box {
+    .option-btn {
+      width: 100%;
+      padding: 14px 16px;
       background-color: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 14px;
-      padding: 20px;
-      margin: 20px 0;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
       text-align: left;
-      font-size: 15px;
-    }
-
-    .explanation-box p {
-      margin-bottom: 8px;
-    }
-
-    .explanation-box p:last-child {
-      margin-bottom: 0;
-    }
-
-    .result-card {
-      background-color: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 14px;
-      padding: 20px;
-      margin: 24px 0;
-      text-align: left;
-    }
-
-    .result-card p {
       font-size: 15px;
       color: #334155;
+      cursor: pointer;
+      line-height: 1.4;
+      transition: all 0.2s;
+    }
+    .option-btn:active {
+      background-color: #dcfce7;
+      border-color: #16a34a;
+      color: #15803d;
+    }
+
+    .sa-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* 오답 화면 */
+    #wrong-screen {
+      display: none;
+      background-color: #fef2f2;
+      border: 2px solid #fca5a5;
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+    }
+    .wrong-title {
+      color: #dc2626;
+      font-size: 20px;
+      font-weight: bold;
       margin-bottom: 12px;
+    }
+    .explanation-box {
+      background: #ffffff;
+      padding: 15px;
+      border-radius: 10px;
+      border-left: 4px solid #dc2626;
+      text-align: left;
+      font-size: 14px;
+      color: #334155;
+      line-height: 1.5;
+      margin-bottom: 18px;
+    }
+
+    /* 성공 화면 */
+    #success-screen {
+      display: none;
+    }
+    .trophy {
+      font-size: 60px;
+      margin-bottom: 10px;
+    }
+    .success-title {
+      font-size: 22px;
+      color: #16a34a;
+      font-weight: bold;
+      margin-bottom: 18px;
+      line-height: 1.4;
+    }
+    .result-info {
+      background-color: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: left;
+      margin-bottom: 20px;
+    }
+    .result-item {
       display: flex;
       justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 15px;
     }
-
-    .result-card p:last-child {
+    .result-item:last-child {
       margin-bottom: 0;
     }
-
-    .result-card strong {
-      color: #0f172a;
+    .result-label {
+      color: #475569;
+      font-weight: bold;
+    }
+    .result-value {
+      color: #166534;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
+  <div class="card">
+    
     <!-- 1. 시작 화면 -->
     <div id="start-screen">
       <div class="top-nav">
-        <a href="social.html" class="nav-btn">📚 단원선택</a>
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
       </div>
-      <div class="badge">[초등 사회 5-2]</div>
-      <h1>조선 전기 핵심 개념<br>스피드 퀴즈</h1>
-      <div class="form-group">
-        <label for="user-name">도전자 이름</label>
-        <input type="text" id="user-name" placeholder="이름을 입력하세요" autocomplete="off">
-      </div>
-      <button class="btn-primary" onclick="prepareQuiz()">시작하기</button>
-    </div>
+      <h1>5학년 사회 퀴즈</h1>
+      <p class="sub-title">2. 우리나라 지리 탐구 - (1) 우리나라의 기후</p>
 
-    <!-- 2. 카운트다운 화면 (단원선택 버튼 제외) -->
-    <div id="countdown-screen" class="hidden">
-      <p style="font-size: 18px; color: #64748b; font-weight: 600; margin-top: 20px;">준비하세요!</p>
-      <h2 id="countdown-number">3</h2>
-    </div>
-
-    <!-- 3. 퀴즈 실행 화면 -->
-    <div id="quiz-screen" class="hidden">
-      <div class="quiz-header">
-        <a href="social.html" class="nav-btn">📚 단원선택</a>
-        <span id="progress-display">1 / 10</span>
-      </div>
-      <div class="question-box" id="question-text"></div>
-      <div class="form-group">
-        <input type="text" id="user-answer" placeholder="정답을 입력하세요" autocomplete="off">
-      </div>
-      <button class="btn-primary" onclick="submitAnswer()">정답 제출</button>
-    </div>
-
-    <!-- 4. 해설 화면 (오답 발생 시) -->
-    <div id="explanation-screen" class="hidden">
-      <div class="top-nav">
-        <a href="social.html" class="nav-btn">📚 단원선택</a>
-      </div>
-      <h2 style="color: #e11d48; margin-bottom: 12px; font-size: 20px;">❌ 틀렸습니다!</h2>
-      <div class="explanation-box">
-        <p><strong>내가 입력한 답:</strong> <span id="exp-user-ans" style="color: #e11d48;"></span></p>
-        <p><strong>정답:</strong> <span id="exp-correct-ans" style="color: #16a34a; font-weight: bold;"></span></p>
-        <hr style="margin: 12px 0; border: none; border-top: 1px dashed #cbd5e1;">
-        <p><strong>💡 [간단 해설]</strong></p>
-        <p id="exp-text" style="margin-top: 6px; line-height: 1.5; color: #475569;"></p>
-      </div>
-      <button class="btn-primary" onclick="resetQuiz()">계속</button>
-    </div>
-
-    <!-- 5. 성공 결과 화면 -->
-    <div id="result-screen" class="hidden">
-      <div class="top-nav">
-        <a href="social.html" class="nav-btn">📚 단원선택</a>
-      </div>
-      <h1 style="color: #16a34a; margin-bottom: 8px;">🎉 미션 성공! 🎉</h1>
-      <p style="color: #64748b; font-size: 15px;">10문제를 모두 올바르게 맞추셨습니다!</p>
-      
-      <div class="result-card">
-        <p><strong>도전자:</strong> <span id="res-name"></span></p>
-        <p><strong>완료한 시각:</strong> <span id="res-date"></span></p>
-        <p><strong>걸린 시간:</strong> <span id="res-time"></span>초</p>
+      <div class="input-group">
+        <label for="userName">이름을 입력하세요</label>
+        <input type="text" id="userName" placeholder="예: 홍길동" autocomplete="off">
       </div>
 
       <div class="btn-group">
-        <button class="btn-primary" onclick="resetQuiz()">🔄 다시 도전하기</button>
+        <button class="btn btn-primary" onclick="startQuiz()">시작</button>
+        <a href="social.html" class="btn btn-secondary">단원선택</a>
       </div>
     </div>
+
+    <!-- 2. 퀴즈 진행 화면 -->
+    <div id="quiz-screen">
+      <div class="progress-bar-container">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      
+      <div class="quiz-header">
+        <span id="question-number">문제 1 / 10</span>
+        <span id="question-type-badge" class="badge badge-mcq">객관식</span>
+      </div>
+
+      <div class="question-box" id="question-text"></div>
+
+      <!-- 객관식 영역 -->
+      <div class="options-container" id="options-container"></div>
+
+      <!-- 단답식 영역 -->
+      <div class="sa-container" id="sa-container" style="display: none;">
+        <input type="text" id="sa-input" placeholder="정답 입력" onkeydown="if(event.key==='Enter') submitSAAnswer()">
+        <button class="btn btn-primary" onclick="submitSAAnswer()">정답 제출</button>
+      </div>
+    </div>
+
+    <!-- 3. 오답 화면 -->
+    <div id="wrong-screen">
+      <div class="wrong-title">❌ 틀렸습니다!</div>
+      <div class="explanation-box">
+        <strong>💡 간단 해설:</strong>
+        <p id="explanation-text" style="margin-top: 6px;"></p>
+      </div>
+      <button class="btn btn-primary" style="width: 100%;" onclick="returnToStart()">계속</button>
+    </div>
+
+    <!-- 4. 성공 축하 화면 -->
+    <div id="success-screen">
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+      </div>
+
+      <div class="trophy">🎉</div>
+      <div class="success-title">축하합니다!<br>10문제를 모두 맞추셨습니다!</div>
+      
+      <div class="result-info">
+        <div class="result-item">
+          <span class="result-label">이름</span>
+          <span class="result-value" id="result-name">-</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">총 걸린시간</span>
+          <span class="result-value" id="result-time">-</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">현재 시간</span>
+          <span class="result-value" id="result-date">-</span>
+        </div>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-success" onclick="returnToStart()">재도전</button>
+        <a href="social.html" class="btn btn-secondary">단원선택</a>
+      </div>
+    </div>
+
   </div>
 
   <script>
-    const quizData = [
+    // ----------------------------------------------------
+    // 단답식 문제 은행 (총 9개 - 요구된 지정 단답식 정답 100% 매칭)
+    // ----------------------------------------------------
+    const saBank = [
       {
-            "question": "고려 말 사회 문제를 해결하고 조선을 건국한 두 핵심 세력(인물)은 누구인가요?",
-            "answer": [
-                  "이성계, 신진 사대부",
-                  "이성계, 신진사대부",
-                  "이성계 신진사대부",
-                  "이성계,신진사대부"
-            ],
-            "explanation": "고려 말 외적 침입과 지배층 횡포, 불교 부패를 해결하고자 이성계와 신진 사대부가 조선을 건국했습니다."
+        q: "오랜 기간 한 지역에서 나타나는 평균적이며 종합적인 대기 상태를 무엇이라고 하나요?",
+        ans: "기후",
+        exp: "오랜 기간 한 지역에서 나타나는 평균적이며 종합적인 대기 상태를 '기후'라고 합니다."
       },
       {
-            "question": "조선의 새로운 수도로 정해진 곳은 어디인가요?",
-            "answer": [
-                  "한양"
-            ],
-            "explanation": "조선은 도읍을 한양으로 정하고 유교 사상을 바탕으로 국가를 다스렸습니다."
+        q: "기후변화의 영향으로 연평균 기온이 올라가면서 계절의 길이가 달라져 짧아지고 있는 계절은 무엇인가요?",
+        ans: "겨울",
+        exp: "기후변화로 인해 연평균 기온이 올라가면서 여름은 길어지고 '겨울'은 짧아지고 있습니다."
       },
       {
-            "question": "조선이 한양을 설계할 때 유교 정신('인의예지')을 반영하여 이름을 붙인 대표적인 대문 중 하나를 쓰시오.",
-            "answer": [
-                  "숭례문",
-                  "흥인지문",
-                  "돈의문"
-            ],
-            "explanation": "유교의 기본 덕목인 '인의예지'를 반영하여 한양의 대문 이름을 지었습니다."
+        q: "우리나라에서 연 강수량의 절반 이상이 내릴 만큼 비가 집중되는 계절은 무엇인가요?",
+        ans: "여름",
+        exp: "우리나라에서는 '여름'에 연 강수량의 절반 이상이 내릴 만큼 비가 많이 내립니다."
       },
       {
-            "question": "조선 시대 한양에 설치된 최고 유교 교육 기관은 어디인가요?",
-            "answer": [
-                  "성균관"
-            ],
-            "explanation": "성균관은 한양에 설치된 조선 시대 최고의 유교 교육 기관입니다."
+        q: "우리나라에서 북쪽에서 남쪽으로 갈수록 대체로 많아지며, 지형과 바람의 영향으로 지역별 차이가 나타나는 이것은 무엇인가요?",
+        ans: "강수량",
+        exp: "우리나라의 '강수량'은 북쪽에서 남쪽으로 갈수록 많아지며, 바람과 지형의 영향을 받습니다."
       },
       {
-            "question": "조선 시대 지방에 설치된 유교 교육 기관은 어디인가요?",
-            "answer": [
-                  "향교"
-            ],
-            "explanation": "향교는 조선 시대 지방 백성들과 양반 자제들을 위해 지방에 세운 국립 유교 교육 기관입니다."
+        q: "우리나라 겨울철에 북서쪽 육지에서 차갑고 건조하게 불어오는 기후 요소 중 하나는 무엇인가요?",
+        ans: "바람",
+        exp: "겨울철에는 북서쪽 육지에서 차갑고 건조한 '바람'이 불어와 날씨가 추워집니다."
       },
       {
-            "question": "글을 모르는 백성을 위해 그림과 함께 충신, 효자, 열녀 이야기를 실은 책은 무엇인가요?",
-            "answer": [
-                  "삼강행실도"
-            ],
-            "explanation": "삼강행실도는 글을 모르는 백성도 쉽게 이해할 수 있도록 그림을 함께 실어 유교 예절을 가르쳤습니다."
+        q: "홍수, 태풍, 한파 등 피할 수 없는 자연 현상으로 사람들이 입는 생명이나 재산상의 피해를 무엇이라고 하나요?",
+        ans: "자연재해",
+        exp: "피할 수 없는 자연 현상으로 사람들이 입는 생명이나 재산상의 피해를 '자연재해'라고 합니다."
       },
       {
-            "question": "유교 중심의 통치 질서를 확립하기 위해 편찬한 조선의 기본 법전은 무엇인가요?",
-            "answer": [
-                  "경국대전"
-            ],
-            "explanation": "경국대전은 유교 중심의 통치 질서와 백성의 일상생활 규범을 정리한 조선의 기본 법전입니다."
+        q: "여름과 가을에 주로 우리나라 남서쪽에서 북동쪽으로 진행하며 많은 비와 강한 바람을 몰고 오는 자연재해는 무엇인가요?",
+        ans: "태풍",
+        exp: "여름과 가을에 많은 비와 강한 바람을 몰고 오는 대표적인 자연재해는 '태풍'입니다."
       },
       {
-            "question": "조선 시대 관례, 혼례, 상례, 제사를 통틀어 부르는 유교 예절 용어는 무엇인가요?",
-            "answer": [
-                  "관혼상제"
-            ],
-            "explanation": "조선은 관례, 혼례, 상례, 제사를 관혼상제라 부르며 유교식 집안 행사의 핵심 예절로 다루었습니다."
+        q: "인간 활동으로 심해져 전 세계적으로 기후변화를 일으키는 주요 원인은 무엇인가요?",
+        ans: "지구 온난화",
+        exp: "인간 활동으로 '지구 온난화'가 심해져 전 세계적으로 기후변화가 나타나고 있습니다."
       },
       {
-            "question": "조선 시대 유교 예절 중 성인식을 뜻하는 말은 무엇인가요?",
-            "answer": [
-                  "관례"
-            ],
-            "explanation": "관례는 어른이 되었음을 상징하는 조선 시대 유교식 성인식입니다."
-      },
-      {
-            "question": "조선 시대 법적으로 구분된 두 신분은 무엇인가요?",
-            "answer": [
-                  "양인, 천인",
-                  "양인,천인",
-                  "양인 천인"
-            ],
-            "explanation": "조선은 경국대전에 따라 법적으로 백성을 양인과 천인 두 신분으로 구분했습니다."
-      },
-      {
-            "question": "조선 시대 실제 신분 중 공부를 하거나 나랏일에 참여했던 신분은 무엇인가요?",
-            "answer": [
-                  "양반"
-            ],
-            "explanation": "양반은 유교 경전을 공부하여 과거에 응시하고 나랏일에 참여한 최고 신분층입니다."
-      },
-      {
-            "question": "조선 시대 높은 관리를 돕거나 전문적인 일을 맡았던 신분은 무엇인가요?",
-            "answer": [
-                  "중인"
-            ],
-            "explanation": "중인은 의학, 통역, 관청 행정 등 전문적인 일을 맡거나 높은 관리를 도왔습니다."
-      },
-      {
-            "question": "조선 시대 농사를 짓거나 물건을 팔던 일반 백성 신분은 무엇인가요?",
-            "answer": [
-                  "상민"
-            ],
-            "explanation": "상민은 농사, 상업, 손기술 등에 종사하며 세금을 부담한 일반 백성입니다."
-      },
-      {
-            "question": "조선 시대 대부분 노비로 구성되어 허드렛일을 하던 신분은 무엇인가요?",
-            "answer": [
-                  "천민"
-            ],
-            "explanation": "천민은 대다수가 노비로 개인이나 관청에 속해 허드렛일을 담당했습니다."
-      },
-      {
-            "question": "조선 전기에는 아들과 딸이 균등하게 물려받았던 것은 무엇인가요?",
-            "answer": [
-                  "재산"
-            ],
-            "explanation": "조선 전기에는 남녀 구분 없이 아들과 딸에게 재산을 균등하게 물려주었습니다."
-      },
-      {
-            "question": "조선 후기 여성에게 강요된 규범으로 아버지, 남편, 아들의 뜻을 따라야 한다는 가르침은 무엇인가요?",
-            "answer": [
-                  "삼종지도"
-            ],
-            "explanation": "조선 후기 유교 질서가 강화되면서 여성이 평생 따라야 하는 도리로 삼종지도가 강조되었습니다."
-      },
-      {
-            "question": "세종 대에 조선의 환경에 맞는 농사법을 정리하여 펴낸 책은 무엇인가요?",
-            "answer": [
-                  "농사직설"
-            ],
-            "explanation": "세종 때 우리 기후와 환경에 맞는 농사법을 정리하여 백성에게 보급한 농서입니다."
-      },
-      {
-            "question": "세종 대에 제작된 대표적인 천문 관측 기구는 무엇인가요?",
-            "answer": [
-                  "혼천의"
-            ],
-            "explanation": "혼천의는 천체의 위치를 관측하기 위해 세종 대에 제작된 과학 기구입니다."
-      },
-      {
-            "question": "세종 대에 제작된 물시계의 이름은 무엇인가요?",
-            "answer": [
-                  "자격루"
-            ],
-            "explanation": "자격루는 정해진 시간에 종과 북을 울려 시각을 알려주는 자동 물시계입니다."
-      },
-      {
-            "question": "세종 대에 제작된 백성을 위한 오목해시계의 이름은 무엇인가요?",
-            "answer": [
-                  "앙부일구"
-            ],
-            "explanation": "앙부일구는 백성들이 쉽게 시간을 확인할 수 있도록 만든 오목한 모양의 해시계입니다."
-      },
-      {
-            "question": "세종이 백성이 쉽게 읽고 쓸 수 있도록 창제한 글자의 이름은 무엇인가요?",
-            "answer": [
-                  "훈민정음"
-            ],
-            "explanation": "세종은 글을 몰라 어려움을 겪는 백성을 위해 훈민정음을 창제했습니다."
-      },
-      {
-            "question": "조선 전기에 친선 관계를 유지하며 선진 문물을 받아들인 국가는 어디인가요?",
-            "answer": [
-                  "명"
-            ],
-            "explanation": "조선 전기에는 명나라와 친선 관계를 유지하며 선진 문물을 적극적으로 받아들였습니다."
-      },
-      {
-            "question": "세종 때 왜구의 침략을 막기 위해 공격하여 항복을 받은 일본의 섬은 어디인가요?",
-            "answer": [
-                  "쓰시마섬"
-            ],
-            "explanation": "세종 때 이종무 등을 보내 쓰시마섬을 정벌하여 왜구의 침략을 제압했습니다."
-      },
-      {
-            "question": "세종 때 북쪽 여진족을 몰아내고 영토를 확장하기 위해 설치한 지역은 무엇인가요?",
-            "answer": [
-                  "4군 6진",
-                  "4군6진",
-                  "사군육진",
-                  "사군 6진",
-                  "4군 육진"
-            ],
-            "explanation": "세종 때 최윤덕과 김종서를 파견해 여진을 몰아내고 압록강·두만강 영역에 4군 6진을 설치했습니다."
-      },
-      {
-            "question": "조선 건국 약 200년 후 일본의 침략으로 시작된 전쟁은 무엇인가요?",
-            "answer": [
-                  "임진왜란"
-            ],
-            "explanation": "조선 건국 후 약 200년이 지난 1592년, 일본의 침략으로 임진왜란이 일어났습니다."
-      },
-      {
-            "question": "임진왜란 때 일본군이 사용한 신무기는 무엇인가요?",
-            "answer": [
-                  "조총"
-            ],
-            "explanation": "일본군은 조총이라는 신무기를 바탕으로 초기 전투에서 우세를 점했습니다."
-      },
-      {
-            "question": "임진왜란 당시 바다에서 수군을 이끌며 큰 승리를 거둔 장군은 누구인가요?",
-            "answer": [
-                  "이순신"
-            ],
-            "explanation": "이순신 장군은 학익진 등 뛰어난 전술로 바다에서 왜군을 크게 무찔렀습니다."
-      },
-      {
-            "question": "여진족이 청으로 나라 이름을 바꾼 뒤 조선에 요구한 관계는 무엇인가요?",
-            "answer": [
-                  "군신 관계",
-                  "군신관계",
-                  "임금과 신하의 관계",
-                  "임금과 신하의 관계 (군신 관계)",
-                  "임금과신하의관계"
-            ],
-            "explanation": "여진족이 세운 청나라는 힘이 강해진 후 조선에 군신 관계를 요구했습니다."
-      },
-      {
-            "question": "병자호란 당시 인조가 피신하여 청군에 저항했던 성은 어디인가요?",
-            "answer": [
-                  "남한산성"
-            ],
-            "explanation": "인조는 청나라의 갑작스러운 침략을 피해 남한산성으로 들어가 항전했습니다."
-      },
-      {
-            "question": "병자호란의 결과 조선은 명나라 대신 어느 나라의 영향을 받게 되었나요?",
-            "answer": [
-                  "청"
-            ],
-            "explanation": "병자호란에서 항복한 이후 조선은 명나라 대신 청나라의 영향권 아래 놓이게 되었습니다."
+        q: "일상생활에서 에너지 절약하기, 친환경·재활용 제품 쓰기 등 기후변화를 막으려는 모든 노력을 무엇이라고 하나요?",
+        ans: "기후 행동",
+        exp: "기후변화를 막으려는 모든 노력을 '기후 행동'이라고 합니다."
       }
     ];
 
-    let currentQuestions = [];
-    let currentQuestionIndex = 0;
+    // ----------------------------------------------------
+    // 객관식 문제 은행 (총 31개 - 단답식 9개 포함 총 40개 문제 은행)
+    // ----------------------------------------------------
+    const mcqBank = [
+      {
+        q: "우리나라의 기후를 알 수 있는 요소로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: ["지진", "기온", "강수", "바람"],
+        ans: 0,
+        exp: "기후는 여러 해에 걸쳐 나타난 기온, 강수, 바람 등으로 알 수 있습니다."
+      },
+      {
+        q: "우리나라의 계절별 바람 특징에 대한 설명으로 올바른 것은 무엇인가요?",
+        options: [
+          "겨울에는 북서쪽 육지에서 차갑고 건조한 바람이 불어온다.",
+          "여름에는 북쪽 육지에서 뜨겁고 건조한 바람이 불어온다.",
+          "겨울에는 남쪽 바다에서 따뜻하고 습한 바람이 불어온다.",
+          "여름에는 동쪽 바다에서 차갑고 습한 바람이 불어온다."
+        ],
+        ans: 0,
+        exp: "겨울에는 북서쪽(육지)에서 차갑고 건조한 바람이 불고, 여름에는 남쪽(바다)에서 뜨겁고 습한 바람이 불어옵니다."
+      },
+      {
+        q: "우리나라 여름철 기후 특징으로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: [
+          "대체로 차갑고 건조한 바람이 분다.",
+          "기온이 올라 덥다.",
+          "비가 자주 온다.",
+          "남쪽 바다에서 뜨겁고 습한 바람이 불어온다."
+        ],
+        ans: 0,
+        exp: "차갑고 건조한 바람은 겨울철 기후 특징입니다."
+      },
+      {
+        q: "우리나라의 기온 특징에 대한 설명으로 올바른 것은 무엇인가요?",
+        options: [
+          "남쪽으로 갈수록 기온이 높아진다.",
+          "북쪽으로 갈수록 기온이 높아진다.",
+          "바다나 산 등의 영향에 상관없이 모든 지역의 기온이 같다.",
+          "겨울에는 전국 어디나 평균 기온이 동일하다."
+        ],
+        ans: 0,
+        exp: "우리나라는 남쪽으로 갈수록 기온이 높아지고, 북쪽으로 갈수록 기온이 낮아집니다."
+      },
+      {
+        q: "우리나라 계절별 강수량 특징에 대한 설명으로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: [
+          "겨울에 연 강수량의 절반 이상이 내린다.",
+          "여름에는 연 강수량의 절반 이상이 내린다.",
+          "겨울에는 대체로 강수량이 적다.",
+          "북쪽에서 남쪽으로 갈수록 강수량이 많아진다."
+        ],
+        ans: 0,
+        exp: "연 강수량의 절반 이상이 내릴 만큼 비가 집중되는 계절은 여름입니다."
+      },
+      {
+        q: "강수량에 차이를 만드는 영향 요소로 언급된 두 가지는 무엇인가요?",
+        options: [
+          "바람의 방향과 지형",
+          "건물 높이와 인구",
+          "도로 길이와 교통량",
+          "지하수 깊이와 갯벌"
+        ],
+        ans: 0,
+        exp: "바람의 방향과 지형의 영향으로 지역별로 강수량에 차이가 납니다."
+      },
+      {
+        q: "우리나라 봄철 기후 특징으로 올바른 것은 무엇인가요?",
+        options: [
+          "대체로 온화하고 건조하지만 날씨의 변화가 심하다.",
+          "매일 단풍놀이를 즐기며 곡식을 거둔다.",
+          "춥고 건조하여 눈이 내린다.",
+          "덥고 비가 자주 내려 피서를 간다."
+        ],
+        ans: 0,
+        exp: "봄은 대체로 온화하고 건조하지만 날씨 변화가 심하며 농사를 시작합니다."
+      },
+      {
+        q: "우리나라 가을철 기후 특징으로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: [
+          "비가 자주 오고 더위를 피해 바다나 숲을 찾는다.",
+          "맑고 건조한 날씨가 나타난다.",
+          "단풍놀이를 즐긴다.",
+          "잘 익은 곡식을 거둔다."
+        ],
+        ans: 0,
+        exp: "비가 자주 오고 더위를 피해 피서를 가는 것은 여름철 기후 특징입니다."
+      },
+      {
+        q: "우리나라 겨울철 기후 및 생활 특징으로 올바른 것은 무엇인가요?",
+        options: [
+          "춥고 건조하며, 눈이 내리기도 한다.",
+          "온화하며 농사를 시작한다.",
+          "비가 자주 내리고 더위가 심하다.",
+          "단풍놀이를 즐기며 곡식을 거둔다."
+        ],
+        ans: 0,
+        exp: "겨울은 춥고 건조하며 눈이 내리기도 하여 따뜻한 옷을 입고 겨울 스포츠를 즐깁니다."
+      },
+      {
+        q: "봄철에 발생하는 자연재해 중 중국이나 몽골의 사막에서 발생한 모래 먼지가 바람을 타고 날아오는 현상은 무엇인가요?",
+        options: ["황사", "한파", "폭설", "태풍"],
+        ans: 0,
+        exp: "중국이나 몽골의 사막 모래 먼지가 바람을 타고 날아와 가라앉는 현상은 '황사'입니다."
+      },
+      {
+        q: "봄철에 오랫동안 비가 오지 않거나 매우 적게 오는 기간이 지속되는 자연재해 현상은 무엇인가요?",
+        options: ["가뭄", "폭염", "홍수", "한파"],
+        ans: 0,
+        exp: "오랫동안 비가 오지 않거나 매우 적게 오는 현상은 '가뭄'입니다."
+      },
+      {
+        q: "여름철 일상생활을 어렵게 할 정도로 매우 심한 더위를 뜻하는 자연재해는 무엇인가요?",
+        options: ["폭염", "호우", "황사", "폭설"],
+        ans: 0,
+        exp: "여름철 매우 심한 더위는 '폭염'입니다."
+      },
+      {
+        q: "비가 많이 내려 물이 흘러넘치는 현상을 뜻하는 자연재해는 무엇인가요?",
+        options: ["홍수", "한파", "가뭄", "황사"],
+        ans: 0,
+        exp: "비가 많이 내려 물이 흘러넘치는 현상은 '홍수'입니다."
+      },
+      {
+        q: "여름과 가을에 주로 우리나라 남서쪽에서 북동쪽으로 진행하는 자연재해는 무엇인가요?",
+        options: ["태풍", "황사", "한파", "가뭄"],
+        ans: 0,
+        exp: "태풍은 대체로 우리나라 남서쪽에서 북동쪽으로 진행하며 많은 비와 강한 바람을 몰고 올 수 있습니다."
+      },
+      {
+        q: "겨울철 짧은 시간 동안 눈이 많이 내리는 현상을 일컫는 말로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: ["호우", "폭설", "대설", "많은 눈"],
+        ans: 0,
+        exp: "짧은 시간 동안 눈이 많이 내리는 현상은 '폭설' 또는 '대설'이라고 하며, '호우'는 비가 많이 내리는 현상입니다."
+      },
+      {
+        q: "겨울철 기온이 갑자기 내려가면서 발생하는 추위 현상을 무엇이라고 하나요?",
+        options: ["한파", "폭염", "가뭄", "황사"],
+        ans: 0,
+        exp: "기온이 갑자기 내려가면서 발생하는 추위는 '한파'입니다."
+      },
+      {
+        q: "자연재해에 대비하기 위한 노력으로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: [
+          "재난 대비 훈련을 전면 중단한다.",
+          "각종 시설을 마련한다.",
+          "기상 특보를 발표하거나 긴급 재난 문자를 보낸다.",
+          "국민 행동 요령에 따라 행동한다."
+        ],
+        ans: 0,
+        exp: "자연재해에 대비하기 위해서는 정기적으로 재난 대비 훈련을 실시해야 합니다."
+      },
+      {
+        q: "전 세계적으로 나타나는 기후변화의 주요 원인은 무엇인가요?",
+        options: [
+          "인간 활동으로 인한 지구 온난화",
+          "달의 모양 변화",
+          "바닷물의 밀물과 썰물",
+          "봄철 꽃가루 날림"
+        ],
+        ans: 0,
+        exp: "인간 활동으로 지구 온난화가 심해져 기후변화가 나타나고 있습니다."
+      },
+      {
+        q: "기후변화가 우리나라 기온과 계절에 미치는 영향으로 올바른 것은 무엇인가요?",
+        options: [
+          "연평균 기온이 올라가고 여름이 길어지고 있다.",
+          "연평균 기온이 내려가고 겨울이 길어지고 있다.",
+          "연평균 기온에 변화가 전혀 없다.",
+          "여름과 겨울의 길이가 완전히 같아졌다."
+        ],
+        ans: 0,
+        exp: "기후변화로 연평균 기온이 올라가고 여름은 길어지며 겨울은 짧아지고 있습니다."
+      },
+      {
+        q: "기후변화로 인해 자연재해에 나타나는 현상으로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: [
+          "자연재해를 정확히 예측하기가 매우 쉬워졌다.",
+          "자연재해의 강도가 세지고 있다.",
+          "자연재해 발생 횟수가 많아지고 있다.",
+          "인명 피해와 경제적 피해가 커지고 있다."
+        ],
+        ans: 0,
+        exp: "기후변화로 인해 자연재해를 점점 예측하기 어려워지고 있습니다."
+      },
+      {
+        q: "2015년 세계 여러 나라가 채택하여 기온 상승을 2℃ 이내로 유지하기로 약속한 협정의 이름은 무엇인가요?",
+        options: ["파리 협정", "서울 협정", "도쿄 협정", "런던 협정"],
+        ans: 0,
+        exp: "2015년 '파리 협정'을 채택하여 기온 상승을 2℃ 이내로 유지하기로 약속했습니다."
+      },
+      {
+        q: "기후변화에 대응하기 위해 '정부'가 하는 노력으로 올바른 것은 무엇인가요?",
+        options: [
+          "기후변화 대응 정부 기구를 설치하고 법과 제도를 만든다.",
+          "친환경 재료로 직접 상품을 제조해 판매한다.",
+          "개인적으로 대중교통 이용 캠페인만 벌인다.",
+          "글로벌 기업의 영업 활동을 금지한다."
+        ],
+        ans: 0,
+        exp: "정부는 기후변화 대응 정부 기구를 설치하고 법과 제도를 만들어 관련 산업 발전을 지원합니다."
+      },
+      {
+        q: "기후변화에 대응하기 위해 '기업'이 기울이는 노력으로 올바른 것은 무엇인가요?",
+        options: [
+          "친환경 재료를 이용해 제품을 만든다.",
+          "공장에서 오염 물질 배출량을 늘린다.",
+          "법과 제도를 직접 제정한다.",
+          "긴급 재난 문자를 발송한다."
+        ],
+        ans: 0,
+        exp: "기업은 친환경 재료를 이용해 제품을 만들고 생산 과정에서 발생하는 오염 물질을 줄입니다."
+      },
+      {
+        q: "기후변화에 대응하기 위해 '개인'이 기울이는 노력으로 올바른 것은 무엇인가요?",
+        options: [
+          "기후 행동을 장려하는 캠페인을 벌이거나 정책을 제안한다.",
+          "국가 간 파리 협정을 직접 체결한다.",
+          "법과 제도를 신설하여 산업 지원을 총괄한다.",
+          "기후변화 대응 정부 기구를 직접 설치한다."
+        ],
+        ans: 0,
+        exp: "개인은 기후변화 문제를 알리고, 기후 행동을 장려하는 캠페인을 벌이거나 다양한 정책을 제안합니다."
+      },
+      {
+        q: "다음 중 '기후 행동'의 예시로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: [
+          "일회용품을 과도하게 사용하기",
+          "일상생활에서 에너지 절약하기",
+          "친환경·재활용 제품 쓰기",
+          "대중교통 이용하기"
+        ],
+        ans: 0,
+        exp: "일회용품을 과도하게 사용하는 것은 기후변화를 악화시키는 행동입니다."
+      },
+      {
+        q: "우리나라 여름철 바람의 발원지와 특징으로 올바른 것은 무엇인가요?",
+        options: [
+          "남쪽 바다에서 뜨겁고 습한 바람이 불어옴",
+          "북서쪽 육지에서 차갑고 건조한 바람이 불어옴",
+          "동쪽 바다에서 차갑고 건조한 바람이 불어옴",
+          "서쪽 육지에서 따뜻하고 건조한 바람이 불어옴"
+        ],
+        ans: 0,
+        exp: "여름에는 남쪽(바다)에서 뜨겁고 습한 바람이 불어옵니다."
+      },
+      {
+        q: "우리나라 지역별 기온 특징에 대한 설명 중 올바른 것은 무엇인가요?",
+        options: [
+          "같은 계절이라도 산, 하천, 바다 등의 영향으로 지역에 따라 기온이 다르다.",
+          "산이나 바다의 영향은 기온에 아무런 영향을 주지 않는다.",
+          "북쪽으로 갈수록 기온이 높아진다.",
+          "남쪽으로 갈수록 기온이 낮아진다."
+        ],
+        ans: 0,
+        exp: "같은 계절이라도 산, 하천, 바다 등의 영향으로 지역에 따라 기온이 다릅니다."
+      },
+      {
+        q: "여름철 자연재해 중 비가 많이 내리는 현상 자체를 가리키는 용어는 무엇인가요?",
+        options: ["호우", "폭설", "황사", "한파"],
+        ans: 0,
+        exp: "비가 많이 내리는 현상은 '호우'라고 합니다."
+      },
+      {
+        q: "다음 중 겨울철 발생하는 자연재해의 조합으로 올바른 것은 무엇인가요?",
+        options: [
+          "폭설과 한파",
+          "황사와 가뭄",
+          "폭염과 홍수",
+          "태풍과 황사"
+        ],
+        ans: 0,
+        exp: "겨울철에는 폭설과 한파가 주로 발생합니다."
+      },
+      {
+        q: "재난 대비를 위한 노력으로 기상청이나 국가기관이 발송할 수 있는 정보는 무엇인가요?",
+        options: [
+          "기상 특보 발표 및 긴급 재난 문자",
+          "파리 협정서 원본",
+          "친환경 제품 무료 쿠폰",
+          "기후 행동 캠페인 광고지"
+        ],
+        ans: 0,
+        exp: "재난 대비를 위해 기상 특보를 발표하거나 긴급 재난 문자를 보냅니다."
+      },
+      {
+        q: "기후변화 대응 시 기업이 제품 생산 과정에서 줄여야 하는 것은 무엇인가요?",
+        options: ["오염 물질", "친환경 재료 사용", "에너지 절약", "기후 행동"],
+        ans: 0,
+        exp: "기업은 생산 과정에서 발생하는 오염 물질을 줄여야 합니다."
+      }
+    ];
+
+    // ----------------------------------------------------
+    // 게임 상태 변수
+    // ----------------------------------------------------
     let userName = "";
-    let startTime = 0;
-    let countdownTimer = null;
+    let quizQueue = [];
+    let currentIdx = 0;
+    let startTime = null;
 
-    window.onload = function() {
-      document.getElementById('user-answer').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') submitAnswer();
-      });
-      
-      document.getElementById('user-name').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') prepareQuiz();
-      });
-    };
+    const startScreen = document.getElementById("start-screen");
+    const quizScreen = document.getElementById("quiz-screen");
+    const wrongScreen = document.getElementById("wrong-screen");
+    const successScreen = document.getElementById("success-screen");
 
-    function prepareQuiz() {
-      userName = document.getElementById('user-name').value.trim();
-
-      if (!userName) {
-        alert("이름을 입력해주세요.");
-        return;
+    function shuffle(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
       }
-
-      if (!quizData || quizData.length < 10) {
-        alert("문제가 부족합니다. (최소 10문제 필요)");
-        return;
-      }
-
-      // 시작 위치 및 간격을 지정하여 10문제 추출
-      const startIndex = Math.floor(Math.random() * quizData.length);
-      const step = Math.floor(Math.random() * 6) + 5;
-
-      currentQuestions = [];
-      for (let i = 0; i < 10; i++) {
-        const idx = (startIndex + i * step) % quizData.length;
-        currentQuestions.push(quizData[idx]);
-      }
-
-      currentQuestionIndex = 0;
-
-      showScreen('countdown-screen');
-      startCountdown();
-    }
-
-    function startCountdown() {
-      let count = 3;
-      const countEl = document.getElementById('countdown-number');
-      countEl.textContent = count;
-
-      if (countdownTimer) clearInterval(countdownTimer);
-
-      countdownTimer = setInterval(() => {
-        count--;
-        if (count > 0) {
-          countEl.textContent = count;
-        } else {
-          clearInterval(countdownTimer);
-          startQuiz();
-        }
-      }, 1000);
+      return arr;
     }
 
     function startQuiz() {
-      showScreen('quiz-screen');
-      startTime = new Date().getTime();
-      loadQuestion();
+      const nameInput = document.getElementById("userName").value.trim();
+      if (!nameInput) {
+        alert("이름을 입력해 주세요!");
+        return;
+      }
+      userName = nameInput;
+
+      // 1-7번: 객관식 31개 중 7개 무작위 추출 및 보기 셔플
+      // 8-10번: 단답식 9개 중 3개 무작위 추출
+      const selectedMCQs = shuffle(mcqBank).slice(0, 7);
+      const selectedSAs = shuffle(saBank).slice(0, 3);
+
+      const formattedMCQs = selectedMCQs.map(item => {
+        const correctText = item.options[item.ans];
+        const shuffledOptions = shuffle(item.options);
+        const newAnsIdx = shuffledOptions.indexOf(correctText);
+        return {
+          type: "MCQ",
+          q: item.q,
+          options: shuffledOptions,
+          ans: newAnsIdx,
+          exp: item.exp
+        };
+      });
+
+      const formattedSAs = selectedSAs.map(item => ({
+        type: "SA",
+        q: item.q,
+        ans: item.ans,
+        exp: item.exp
+      }));
+
+      quizQueue = [...formattedMCQs, ...formattedSAs];
+      currentIdx = 0;
+      startTime = Date.now();
+
+      startScreen.style.display = "none";
+      wrongScreen.style.display = "none";
+      successScreen.style.display = "none";
+      quizScreen.style.display = "block";
+
+      renderQuestion();
     }
 
-    function loadQuestion() {
-      const q = currentQuestions[currentQuestionIndex];
-      document.getElementById('progress-display').textContent = `${currentQuestionIndex + 1} / 10`;
-      document.getElementById('question-text').textContent = q.question;
+    function renderQuestion() {
+      const qData = quizQueue[currentIdx];
       
-      const inputEl = document.getElementById('user-answer');
-      inputEl.value = "";
-      inputEl.focus();
+      const progressPercent = ((currentIdx + 1) / 10) * 100;
+      document.getElementById("progress-bar").style.width = progressPercent + "%";
+      document.getElementById("question-number").textContent = `문제 ${currentIdx + 1} / 10`;
+
+      const badge = document.getElementById("question-type-badge");
+      const optionsBox = document.getElementById("options-container");
+      const saBox = document.getElementById("sa-container");
+
+      document.getElementById("question-text").innerHTML = `${currentIdx + 1}. ${qData.q}`;
+
+      if (qData.type === "MCQ") {
+        badge.textContent = "객관식";
+        badge.className = "badge badge-mcq";
+        optionsBox.style.display = "flex";
+        saBox.style.display = "none";
+
+        optionsBox.innerHTML = "";
+        qData.options.forEach((optText, idx) => {
+          const btn = document.createElement("button");
+          btn.className = "option-btn";
+          btn.textContent = `${idx + 1}. ${optText}`;
+          btn.onclick = () => checkMCQAnswer(idx);
+          optionsBox.appendChild(btn);
+        });
+      } else {
+        badge.textContent = "단답식";
+        badge.className = "badge badge-sa";
+        optionsBox.style.display = "none";
+        saBox.style.display = "flex";
+
+        const saInput = document.getElementById("sa-input");
+        saInput.value = "";
+        setTimeout(() => saInput.focus(), 100);
+      }
     }
 
-    function normalize(str) {
-      return str.toString().replace(/\s+/g, '').toLowerCase();
+    function checkMCQAnswer(selectedIdx) {
+      const qData = quizQueue[currentIdx];
+      if (selectedIdx === qData.ans) {
+        nextQuestion();
+      } else {
+        showWrongScreen(qData.exp);
+      }
     }
 
-    function submitAnswer() {
-      const inputEl = document.getElementById('user-answer');
-      const userAns = normalize(inputEl.value);
+    function submitSAAnswer() {
+      const qData = quizQueue[currentIdx];
+      const userInput = document.getElementById("sa-input").value.trim().replace(/\s+/g, "");
+      const targetAns = qData.ans.replace(/\s+/g, "");
 
-      if (!userAns) {
+      if (!userInput) {
         alert("정답을 입력해주세요.");
         return;
       }
 
-      const q = currentQuestions[currentQuestionIndex];
-
-      let isCorrect = false;
-      if (Array.isArray(q.answer)) {
-        isCorrect = q.answer.some(ans => normalize(ans) === userAns);
+      if (userInput === targetAns) {
+        nextQuestion();
       } else {
-        isCorrect = normalize(q.answer) === userAns;
-      }
-
-      if (isCorrect) {
-        currentQuestionIndex++;
-        if (currentQuestionIndex < 10) {
-          loadQuestion();
-        } else {
-          showSuccess();
-        }
-      } else {
-        // 오답 발생 시 해설 화면으로 이동
-        const correctStr = Array.isArray(q.answer) ? q.answer.join(" 또는 ") : q.answer;
-        document.getElementById('exp-user-ans').textContent = inputEl.value;
-        document.getElementById('exp-correct-ans').textContent = correctStr;
-        document.getElementById('exp-text').textContent = q.explanation || "해설이 없습니다.";
-        
-        showScreen('explanation-screen');
+        showWrongScreen(qData.exp);
       }
     }
 
-    function showSuccess() {
-      const endTime = new Date().getTime();
-      const timeTaken = ((endTime - startTime) / 1000).toFixed(1);
+    function nextQuestion() {
+      currentIdx++;
+      if (currentIdx < 10) {
+        renderQuestion();
+      } else {
+        finishQuiz();
+      }
+    }
+
+    function showWrongScreen(explanationText) {
+      quizScreen.style.display = "none";
+      wrongScreen.style.display = "block";
+      document.getElementById("explanation-text").textContent = explanationText;
+    }
+
+    function returnToStart() {
+      wrongScreen.style.display = "none";
+      successScreen.style.display = "none";
+      quizScreen.style.display = "none";
+      startScreen.style.display = "block";
+    }
+
+    function finishQuiz() {
+      const endTime = Date.now();
+      const elapsedSeconds = Math.round((endTime - startTime) / 1000);
+
       const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
       
-      const timeString = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+      const dateStr = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 
-      document.getElementById('res-name').textContent = userName;
-      document.getElementById('res-date').textContent = timeString;
-      document.getElementById('res-time').textContent = timeTaken;
+      document.getElementById("result-name").textContent = userName;
+      document.getElementById("result-time").textContent = `${elapsedSeconds}초`;
+      document.getElementById("result-date").textContent = dateStr;
 
-      showScreen('result-screen');
-    }
-
-    function resetQuiz() {
-      if (countdownTimer) clearInterval(countdownTimer);
-      document.getElementById('user-answer').value = "";
-      showScreen('start-screen');
-    }
-
-    function showScreen(screenId) {
-      const screens = ['start-screen', 'countdown-screen', 'quiz-screen', 'explanation-screen', 'result-screen'];
-      screens.forEach(id => {
-        document.getElementById(id).classList.add('hidden');
-      });
-      document.getElementById(screenId).classList.remove('hidden');
+      quizScreen.style.display = "none";
+      successScreen.style.display = "block";
     }
   </script>
 </body>

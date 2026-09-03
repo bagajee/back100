@@ -54,6 +54,7 @@
       cursor: pointer;
       border: 1px solid #cbd5e1 !important;
       font-weight: bold;
+      text-decoration: none;
     }
     .btn-home:active { background: #dbe3ed !important; }
 
@@ -247,7 +248,7 @@
 <!-- 메인 화면 -->
 <div class="card" id="home-screen">
   <div class="nav-header">
-    <button class="btn-home" onclick="goHome()">🏠 홈으로</button>
+    <a href="./index.html" class="btn-home">🏠 홈으로</a>
   </div>
   <h2 style="margin-top:0; color:#2c3e50;">📐 초등 4학년 수학 퀴즈</h2>
   <p style="color:#7f8c8d; font-size: 0.85rem; margin-bottom:10px;">원하는 학습 단원을 선택하세요!</p>
@@ -287,19 +288,19 @@
 <!-- 시작 화면 -->
 <div class="card hidden" id="setup-screen">
   <div class="nav-header">
-    <button class="btn-home" onclick="goHome()">🏠 홈으로</button>
+    <a href="./index.html" class="btn-home">🏠 홈으로</a>
   </div>
   <h3 style="margin-top:0; color:#333;" id="setup-title">수학 퀴즈</h3>
   <p style="color:#777; font-size:0.9rem;" id="setup-desc">총 20문제를 맞히면 완주 성공입니다!</p>
   <input type="text" id="username" placeholder="이름을 입력하세요" autocomplete="off">
   <button onclick="startCountDown()">게임 시작</button>
-  <button onclick="goHome()" class="btn-secondary">내용 선택</button>
+  <button onclick="showHomeScreen()" class="btn-secondary">내용 선택</button>
 </div>
 
 <!-- 카운트다운 화면 -->
 <div class="card hidden" id="countdown-screen">
   <div class="nav-header">
-    <button class="btn-home" onclick="goHome()">🏠 홈으로</button>
+    <a href="./index.html" class="btn-home">🏠 홈으로</a>
   </div>
   <p style="font-size:1.1rem; color:#555; margin-top:20px;">잠시 후 퀴즈가 시작됩니다!</p>
   <h1 id="countdown-text" style="font-size: 4.5rem; color:#4a90e2; margin: 20px 0;">3</h1>
@@ -308,7 +309,7 @@
 <!-- 퀴즈 진행 화면 -->
 <div class="card hidden" id="quiz-screen">
   <div class="nav-header">
-    <button class="btn-home" onclick="goHome()">🏠 홈으로</button>
+    <a href="./index.html" class="btn-home">🏠 홈으로</a>
     <div style="font-size: 0.9rem; color: #777;"><span id="progress">0</span> / <span id="total-q-display">20</span> 문제 맞힘</div>
   </div>
   <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
@@ -330,7 +331,7 @@
 <div class="modal-overlay hidden" id="explanation-modal">
   <div class="modal-content">
     <div class="nav-header">
-      <button class="btn-home" onclick="goHome()">🏠 홈으로</button>
+      <a href="./index.html" class="btn-home">🏠 홈으로</a>
     </div>
     <div class="modal-title">❌ 오답입니다! (카운트되지 않음)</div>
     <div class="modal-body" id="explanation-text">해설 내용이 여기에 들어갑니다.</div>
@@ -341,12 +342,12 @@
 <!-- 성공 결과 화면 -->
 <div class="card hidden" id="result-screen">
   <div class="nav-header">
-    <button class="btn-home" onclick="goHome()">🏠 홈으로</button>
+    <a href="./index.html" class="btn-home">🏠 홈으로</a>
   </div>
   <h2>🎉 완주를 축하합니다!</h2>
   <p id="result-text"></p>
   <button onclick="openSetup(selectedCategory, currentSubTitle)">🔄 재도전</button>
-  <button onclick="goHome()" class="btn-secondary">내용 선택</button>
+  <button onclick="showHomeScreen()" class="btn-secondary">내용 선택</button>
 </div>
 
 <script>
@@ -360,6 +361,10 @@ let startTime, endTime;
 let qData = {};
 
 function goHome() {
+  window.location.href = "./index.html";
+}
+
+function showHomeScreen() {
   document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
   document.getElementById('explanation-modal').classList.add('hidden');
   document.getElementById('home-screen').classList.remove('hidden');
@@ -463,7 +468,6 @@ function getShapeSVG(type) {
   return svg;
 }
 
-/* 🔺 삼각형 종합 문제 생성기 (12가지 다채로운 유형) */
 function generateTriangleQuestion() {
   let qType = Math.floor(Math.random() * 12);
   let q = "", answer = "", options = [], exp = "", svg = "";
@@ -744,11 +748,10 @@ function generateSingleQuestion(cat) {
       return generateTriangleQuestion();
     }
 
-    /* 🟢 4-3. 사다리꼴, 평행사변형, 마름모 다채로운 8가지 문제 생성기 */
     if (cat === '4-3') {
       let qType = Math.floor(Math.random() * 8);
 
-      if (qType === 0) { // 평행사변형 둘레
+      if (qType === 0) {
         let a = Math.floor(Math.random() * 6) + 4;
         let b = Math.floor(Math.random() * 5) + 2;
         let peri = (a + b) * 2;
@@ -757,7 +760,7 @@ function generateSingleQuestion(cat) {
         exp = `평행사변형은 마주 보는 변의 길이가 같습니다. (${a} + ${b}) × 2 = ${peri}cm`;
         options = [`${peri}cm`, `${a + b}cm`, `${peri + 2}cm`, `${peri - 2}cm`].sort(() => Math.random() - 0.5);
       }
-      else if (qType === 1) { // 평행사변형 이웃한 각의 크기
+      else if (qType === 1) {
         let ang1 = [50, 60, 70, 80, 100, 110, 120, 130][Math.floor(Math.random() * 8)];
         let ang2 = 180 - ang1;
         q = `평행사변형에서 한 각의 크기가 <b>${ang1}°</b>일 때, 이웃한 다른 한 각의 크기는 몇 도일까요?`;
@@ -765,7 +768,7 @@ function generateSingleQuestion(cat) {
         exp = `평행사변형에서 이웃한 두 각의 크기의 합은 항상 180°입니다. 180° - ${ang1}° = ${ang2}°`;
         options = [`${ang2}°`, `${ang1}°`, `${ang2 + 10}°`, `${ang2 - 10}°`].sort(() => Math.random() - 0.5);
       }
-      else if (qType === 2) { // 마름모 둘레
+      else if (qType === 2) {
         let side = Math.floor(Math.random() * 8) + 3;
         let peri = side * 4;
         q = `한 변의 길이가 <b>${side}cm</b>인 마름모의 둘레는 몇 cm일까요?`;
@@ -773,7 +776,7 @@ function generateSingleQuestion(cat) {
         exp = `마름모는 네 변의 길이가 모두 같습니다. ${side} × 4 = ${peri}cm`;
         options = [`${peri}cm`, `${side * 2}cm`, `${side * 3}cm`, `${peri + 4}cm`].sort(() => Math.random() - 0.5);
       }
-      else if (qType === 3) { // 마름모 둘레 주고 한 변의 길이 역산
+      else if (qType === 3) {
         let side = Math.floor(Math.random() * 8) + 3;
         let peri = side * 4;
         q = `둘레가 <b>${peri}cm</b>인 마름모의 한 변의 길이는 몇 cm일까요?`;
@@ -781,13 +784,13 @@ function generateSingleQuestion(cat) {
         exp = `마름모는 네 변의 길이가 모두 같으므로 둘레를 4로 나눕니다. ${peri} ÷ 4 = ${side}cm`;
         options = [`${side}cm`, `${side + 2}cm`, `${side - 1}cm`, `${Math.floor(peri / 2)}cm`].sort(() => Math.random() - 0.5);
       }
-      else if (qType === 4) { // 사다리꼴 개념 정의
+      else if (qType === 4) {
         q = `평행한 변이 <b>한 쌍이라도 있는 사각형</b>을 무엇이라고 할까요?`;
         answer = `사다리꼴`;
         exp = `마주 보는 한 쌍 이상의 변이 평행한 사각형을 사다리꼴이라고 합니다.`;
         options = ['사다리꼴', '평행사변형', '마름모', '직사각형'].sort(() => Math.random() - 0.5);
       }
-      else if (qType === 5) { // 마름모 마주 보는 각
+      else if (qType === 5) {
         let ang1 = [40, 50, 60, 70, 110, 120, 130][Math.floor(Math.random() * 7)];
         let ang2 = 180 - ang1;
         q = `마름모에서 마주 보는 한 각의 크기가 <b>${ang1}°</b>라면, 마주 보는 다른 각의 크기는 몇 도일까요?`;
@@ -795,7 +798,7 @@ function generateSingleQuestion(cat) {
         exp = `마름모는 마주 보는 두 각의 크기가 서로 같습니다. 따라서 ${ang1}°입니다.`;
         options = [`${ang1}°`, `${ang2}°`, `${ang1 + 10}°`, `90°`].sort(() => Math.random() - 0.5);
       }
-      else if (qType === 6) { // 사각형 개념 진위 검증
+      else if (qType === 6) {
         q = `사각형에 대한 설명으로 <b>옳지 않은 것</b>은 무엇일까요?`;
         answer = `모든 사다리꼴은 평행사변형이다`;
         exp = `평행사변형은 마주 보는 두 쌍의 변이 모두 평행해야 하므로, 한 쌍만 평행한 사다리꼴은 평행사변형이 될 수 없습니다.`;
@@ -806,7 +809,7 @@ function generateSingleQuestion(cat) {
           '정사각형은 마름모라고 할 수 있다'
         ].sort(() => Math.random() - 0.5);
       }
-      else if (qType === 7) { // SVG 도형 그림 맞추기
+      else if (qType === 7) {
         let shapeList = ['사다리꼴', '평행사변형', '마름모'];
         let picked = shapeList[Math.floor(Math.random() * shapeList.length)];
         svg = getShapeSVG(picked);
@@ -817,11 +820,10 @@ function generateSingleQuestion(cat) {
       }
     }
 
-    /* 🟢 4-4. 다각형과 정다각형 동적 문제 생성기 */
     else if (cat === '4-4') {
       let qType = Math.floor(Math.random() * 6);
 
-      if (qType === 0) { // 정다각형 둘레
+      if (qType === 0) {
         let nList = [5, 6, 8];
         let n = nList[Math.floor(Math.random() * nList.length)];
         let names = {5:'정오각형', 6:'정육각형', 8:'정팔각형'};
@@ -832,7 +834,7 @@ function generateSingleQuestion(cat) {
         exp = `${names[n]}은(는) 변이 ${n}개이고 길이가 모두 같으므로 ${side} × ${n} = ${peri}cm 입니다.`;
         options = [`${peri}cm`, `${side * (n-1)}cm`, `${peri + n}cm`, `${side * 4}cm`].sort(() => Math.random() - 0.5);
       }
-      else if (qType === 1) { // 정다각형 둘레 주고 한 변 역산
+      else if (qType === 1) {
         let nList = [5, 6, 8];
         let n = nList[Math.floor(Math.random() * nList.length)];
         let names = {5:'정오각형', 6:'정육각형', 8:'정팔각형'};
@@ -843,7 +845,7 @@ function generateSingleQuestion(cat) {
         exp = `${names[n]}의 모든 변의 길이는 같으므로 ${peri} ÷ ${n} = ${side}cm 입니다.`;
         options = [`${side}cm`, `${side + 2}cm`, `${side - 1}cm`, `${Math.floor(peri/2)}cm`].sort(() => Math.random() - 0.5);
       }
-      else if (qType === 2) { // 다각형 변/꼭짓점 개수
+      else if (qType === 2) {
         let n = Math.floor(Math.random() * 5) + 5;
         let names = {5:'오각형', 6:'육각형', 7:'칠각형', 8:'팔각형', 9:'구각형'};
         let isVertex = Math.random() > 0.5;
@@ -853,13 +855,13 @@ function generateSingleQuestion(cat) {
         exp = `${names[n]}의 ${target} 개수는 ${n}개입니다.`;
         options = [`${n}개`, `${n-1}개`, `${n+1}개`, `${n+2}개`].sort(() => Math.random() - 0.5);
       }
-      else if (qType === 3) { // 정다각형 조건
+      else if (qType === 3) {
         q = `<b>"모든 변의 길이가 같고 모든 각의 크기가 같은 다각형"</b>을 무엇이라고 할까요?`;
         answer = `정다각형`;
         exp = `변의 길이와 각의 크기가 모두 같은 다각형을 정다각형이라고 합니다.`;
         options = ['정다각형', '다각형', '평행사변형', '직다각형'].sort(() => Math.random() - 0.5);
       }
-      else if (qType === 4) { // SVG 도형
+      else if (qType === 4) {
         let shapes = ['정오각형', '정육각형'];
         let picked = shapes[Math.floor(Math.random() * shapes.length)];
         svg = getShapeSVG(picked);
@@ -868,7 +870,7 @@ function generateSingleQuestion(cat) {
         exp = `제시된 그림은 변과 각이 모두 같은 <b>${picked}</b>입니다.`;
         options = ['정오각형', '정육각형', '정팔각형', '정사각형'].sort(() => Math.random() - 0.5);
       }
-      else if (qType === 5) { // 정다각형 성질 진위
+      else if (qType === 5) {
         q = `정다각형에 대한 설명으로 <b>틀린 것</b>은 무엇일까요?`;
         answer = `변의 길이만 같으면 무조건 정다각형이다`;
         exp = `정다각형이 되려면 변의 길이뿐만 아니라 **모든 각의 크기**도 같아야 합니다. (예: 마름모는 네 변의 길이가 같지만 각이 달라 정다각형이 아닙니다.)`;
@@ -881,6 +883,8 @@ function generateSingleQuestion(cat) {
       }
     }
   }
+
+  options.sort(() => Math.random() - 0.5);
 
   return { q, answer, opts: options, exp, svg };
 }

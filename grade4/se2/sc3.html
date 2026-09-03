@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>4학년 2학기 과학 - 여러 가지 기체 퀴즈</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Pretendard', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+    body {
+      background-color: #f0f8ff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 14px;
+      color: #1e293b;
+    }
+    .card {
+      background: #ffffff;
+      width: 100%;
+      max-width: 480px;
+      border-radius: 20px;
+      padding: 24px 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      text-align: center;
+      position: relative;
+    }
+    .top-nav {
+      display: flex;
+      justify-content: flex-start;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #e2e8f0;
+      color: #334155;
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .nav-btn:active {
+      background-color: #cbd5e1;
+    }
+    h1 {
+      font-size: 22px;
+      color: #0369a1;
+      margin-bottom: 8px;
+    }
+    .sub-title {
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 24px;
+    }
+    .input-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    .input-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #334155;
+      font-size: 15px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 14px;
+      border: 2px solid #cbd5e1;
+      border-radius: 12px;
+      font-size: 16px;
+      text-align: center;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input[type="text"]:focus {
+      border-color: #0284c7;
+    }
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .btn {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.1s, background-color 0.2s;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+      box-sizing: border-box;
+    }
+    .btn:active {
+      transform: scale(0.98);
+    }
+    .btn-primary {
+      background-color: #0284c7;
+      color: #ffffff;
+    }
+    .btn-secondary {
+      background-color: #64748b;
+      color: #ffffff;
+    }
+    .btn-success {
+      background-color: #16a34a;
+      color: #ffffff;
+    }
+
+    /* 퀴즈 진행 화면 */
+    #quiz-screen {
+      display: none;
+      text-align: left;
+    }
+    .progress-bar-container {
+      width: 100%;
+      background-color: #e2e8f0;
+      height: 10px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background-color: #0284c7;
+      transition: width 0.3s ease;
+    }
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 14px;
+      font-weight: bold;
+    }
+    .badge {
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+    }
+    .badge-mcq { background: #e0f2fe; color: #0369a1; }
+    .badge-sa { background: #fef3c7; color: #92400e; }
+
+    .question-box {
+      font-size: 17px;
+      font-weight: bold;
+      line-height: 1.5;
+      color: #0f172a;
+      margin-bottom: 20px;
+      min-height: 60px;
+    }
+    .question-box u {
+      color: #dc2626;
+      text-decoration-thickness: 2px;
+    }
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .option-btn {
+      width: 100%;
+      padding: 14px 16px;
+      background-color: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      text-align: left;
+      font-size: 15px;
+      color: #334155;
+      cursor: pointer;
+      line-height: 1.4;
+      transition: all 0.2s;
+    }
+    .option-btn:active {
+      background-color: #e0f2fe;
+      border-color: #0284c7;
+      color: #0369a1;
+    }
+
+    .sa-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* 오답 화면 */
+    #wrong-screen {
+      display: none;
+      background-color: #fef2f2;
+      border: 2px solid #fca5a5;
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+    }
+    .wrong-title {
+      color: #dc2626;
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+    .explanation-box {
+      background: #ffffff;
+      padding: 15px;
+      border-radius: 10px;
+      border-left: 4px solid #dc2626;
+      text-align: left;
+      font-size: 14px;
+      color: #334155;
+      line-height: 1.5;
+      margin-bottom: 18px;
+    }
+
+    /* 성공 화면 */
+    #success-screen {
+      display: none;
+    }
+    .trophy {
+      font-size: 60px;
+      margin-bottom: 10px;
+    }
+    .success-title {
+      font-size: 22px;
+      color: #16a34a;
+      font-weight: bold;
+      margin-bottom: 18px;
+      line-height: 1.4;
+    }
+    .result-info {
+      background-color: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: left;
+      margin-bottom: 20px;
+    }
+    .result-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+    .result-item:last-child {
+      margin-bottom: 0;
+    }
+    .result-label {
+      color: #475569;
+      font-weight: bold;
+    }
+    .result-value {
+      color: #166534;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    
+    <!-- 1. 시작 화면 -->
+    <div id="start-screen">
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+      </div>
+      <h1>4학년 과학 퀴즈</h1>
+      <p class="sub-title">3단원. 여러 가지 기체</p>
+
+      <div class="input-group">
+        <label for="userName">이름을 입력하세요</label>
+        <input type="text" id="userName" placeholder="예: 홍길동" autocomplete="off">
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="startQuiz()">시작</button>
+        <a href="science.html" class="btn btn-secondary">단원선택</a>
+      </div>
+    </div>
+
+    <!-- 2. 퀴즈 진행 화면 -->
+    <div id="quiz-screen">
+      <div class="progress-bar-container">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      
+      <div class="quiz-header">
+        <span id="question-number">문제 1 / 10</span>
+        <span id="question-type-badge" class="badge badge-mcq">객관식</span>
+      </div>
+
+      <div class="question-box" id="question-text"></div>
+
+      <!-- 객관식 영역 -->
+      <div class="options-container" id="options-container"></div>
+
+      <!-- 단답식 영역 -->
+      <div class="sa-container" id="sa-container" style="display: none;">
+        <input type="text" id="sa-input" placeholder="정답 입력" onkeydown="if(event.key==='Enter') submitSAAnswer()">
+        <button class="btn btn-primary" onclick="submitSAAnswer()">정답 제출</button>
+      </div>
+    </div>
+
+    <!-- 3. 오답 화면 -->
+    <div id="wrong-screen">
+      <div class="wrong-title">❌ 틀렸습니다!</div>
+      <div class="explanation-box">
+        <strong>💡 간단 해설:</strong>
+        <p id="explanation-text" style="margin-top: 6px;"></p>
+      </div>
+      <button class="btn btn-primary" style="width: 100%;" onclick="returnToStart()">계속</button>
+    </div>
+
+    <!-- 4. 성공 축하 화면 -->
+    <div id="success-screen">
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+      </div>
+
+      <div class="trophy">🎉</div>
+      <div class="success-title">축하합니다!<br>10문제를 모두 맞추셨습니다!</div>
+      
+      <div class="result-info">
+        <div class="result-item">
+          <span class="result-label">이름</span>
+          <span class="result-value" id="result-name">-</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">총 걸린시간</span>
+          <span class="result-value" id="result-time">-</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">현재 시간</span>
+          <span class="result-value" id="result-date">-</span>
+        </div>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-success" onclick="returnToStart()">재도전</button>
+        <a href="science.html" class="btn btn-secondary">단원선택</a>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ----------------------------------------------------
+    // 단답식 문제 은행 (총 8개)
+    // 정답 : 무게, 온도, 압력, 산소, 이산화탄소, 질소, 수소, 헬륨
+    // ----------------------------------------------------
+    const saBank = [
+      {
+        q: "공기를 주입하거나 빼냈을 때 측정되는 값이 달라지는 실험을 통해 알 수 있는 공기의 성질은 공기에 이것이 있다는 것입니다. 이것은 무엇인가요?",
+        ans: "무게",
+        exp: "공기를 넣으면 무게가 늘어나고 공기를 빼면 무게가 줄어들므로 공기는 무게가 있습니다."
+      },
+      {
+        q: "집기병을 뜨거운 물이나 얼음물에 넣었을 때 기체의 부피가 변하는 실험을 통해, 기체는 이것에 따라 부피가 변한다는 것을 알 수 있습니다. 이것은 무엇인가요?",
+        ans: "온도",
+        exp: "기체는 온도가 높아지면 부피가 늘어나고 온도가 낮아지면 부피가 줄어듭니다."
+      },
+      {
+        q: "주사기 피스톤을 누르거나 용기에서 공기를 빼낼 때 부피가 변하는 것을 통해, 기체는 이것에 따라 부피가 변한다는 것을 알 수 있습니다. 이것은 무엇인가요?",
+        ans: "압력",
+        exp: "기체는 압력이 높아지면 부피가 줄어들고 압력이 낮아지면 부피가 늘어납니다."
+      },
+      {
+        q: "생물이 숨 쉬는 데 필요하며, 다른 물질이 타는 것을 도와주는 기체는 무엇인가요?",
+        ans: "산소",
+        exp: "산소는 호흡에 필요하며 물질이 타는 것을 도와 휴대용 산소통, 금속 용접 등에 이용됩니다."
+      },
+      {
+        q: "공기보다 무거워 아래로 가라앉으며, 소화기, 탄산음료, 드라이아이스 등에 이용되는 기체는 무엇인가요?",
+        ans: "이산화탄소",
+        exp: "이산화탄소는 공기보다 무거우며 소화기나 탄산음료 제작 등에 활용됩니다."
+      },
+      {
+        q: "다른 물질과 잘 반응하지 않아 과자 봉지의 충전재나 자동차 에어백 등에 이용되는 기체는 무엇인가요?",
+        ans: "질소",
+        exp: "질소는 반응성이 적어 음식물이 변질되지 않게 과자 봉지 포장에 쓰입니다."
+      },
+      {
+        q: "친환경 연료로 이용되며 수소 자동차, 수소 연료 전지 드론 등에 쓰이는 기체는 무엇인가요?",
+        ans: "수소",
+        exp: "수소는 친환경 연료로 활용되어 수소 자동차 등에 사용됩니다."
+      },
+      {
+        q: "공기보다 가벼워 위로 뜨며 풍선이나 비행선 등을 띄울 때 이용되는 기체는 무엇인가요?",
+        ans: "헬륨",
+        exp: "헬륨은 공기보다 가벼워 위로 뜨는 성질이 있어 풍선이나 비행선에 쓰입니다."
+      }
+    ];
+
+    // ----------------------------------------------------
+    // 객관식 문제 은행 (총 22개)
+    // ----------------------------------------------------
+    const mcqBank = [
+      {
+        q: "공기 주입 마개를 눌러 용기에 공기를 더 넣었을 때 무게 변화로 올바른 것은 무엇인가요?",
+        options: [
+          "공기를 넣은 후의 무게는 넣기 전보다 늘어난다.",
+          "공기를 넣은 후의 무게는 넣기 전보다 줄어든다.",
+          "공기를 넣어도 무게에는 전혀 변화가 없다.",
+          "공기를 넣으면 용기가 가벼워져 위로 떠오른다."
+        ],
+        ans: 0,
+        exp: "공기를 더 넣으면 공기의 무게만큼 전체 무게가 늘어납니다."
+      },
+      {
+        q: "용기에서 공기를 빼낸 후 무게의 변화로 올바른 것은 무엇인가요?",
+        options: [
+          "공기를 뺀 후의 무게는 빼기 전보다 줄어든다.",
+          "공기를 뺀 후의 무게는 빼기 전보다 늘어난다.",
+          "공기를 빼도 무게 변화는 없다.",
+          "공기를 빼면 용기가 무거워진다."
+        ],
+        ans: 0,
+        exp: "용기 안의 공기를 빼내면 공기의 무게가 줄어들어 전체 무게가 줄어듭니다."
+      },
+      {
+        q: "고무풍선을 씌운 집기병을 뜨거운 물에 넣었을 때 일어나는 현상으로 올바른 것은 무엇인가요?",
+        options: [
+          "고무풍선이 부풀어 오른다.",
+          "고무풍선이 쪼그라든다.",
+          "고무풍선의 크기에 아무런 변화가 없다.",
+          "고무풍선이 물속으로 녹아 들어간다."
+        ],
+        ans: 0,
+        exp: "뜨거운 물에 넣으면 기체의 온도가 올라가 부피가 늘어나므로 고무풍선이 부풀어 오른다."
+      },
+      {
+        q: "온도가 높아질 때 기체의 부피 변화로 올바른 것은 무엇인가요?",
+        options: [
+          "기체의 부피가 늘어난다.",
+          "기체의 부피가 줄어든다.",
+          "기체의 부피가 일정하게 유지된다.",
+          "기체가 액체로 즉시 변한다."
+        ],
+        ans: 0,
+        exp: "기체는 온도가 높아지면 부피가 늘어납니다."
+      },
+      {
+        q: "고무풍선을 씌운 집기병을 얼음물에 넣었을 때 일어나는 현상으로 올바른 것은 무엇인가요?",
+        options: [
+          "고무풍선이 쪼그라든다.",
+          "고무풍선이 커지면서 터진다.",
+          "고무풍선이 위로 부풀어 오른다.",
+          "고무풍선 내부가 고체로 얼어붙는다."
+        ],
+        ans: 0,
+        exp: "얼음물에 넣으면 온도가 낮아져 기체의 부피가 줄어들므로 고무풍선이 쪼그라듭니다."
+      },
+      {
+        q: "온도가 낮아질 때 기체의 부피 변화로 올바른 것은 무엇인가요?",
+        options: [
+          "기체의 부피가 줄어든다.",
+          "기체의 부피가 늘어난다.",
+          "기체의 부피가 무한히 커진다.",
+          "기체의 무게가 폭발적으로 증가한다."
+        ],
+        ans: 0,
+        exp: "기체는 온도가 낮아지면 부피가 줄어듭니다."
+      },
+      {
+        q: "찌그러진 탁구공을 뜨거운 물에 넣었을 때 나타나는 변화로 올바른 것은 무엇인가요?",
+        options: [
+          "탁구공 내부 공기의 부피가 늘어나 탁구공이 펴진다.",
+          "탁구공 내부 공기가 사라져 더 찌그러진다.",
+          "탁구공의 색깔이 완전히 바뀐다.",
+          "탁구공 내부 기체의 무게가 줄어든다."
+        ],
+        ans: 0,
+        exp: "뜨거운 물에 넣으면 탁구공 안의 공기 온도가 높아져 부피가 늘어나므로 펴집니다."
+      },
+      {
+        q: "물이 조금 남은 페트병을 냉장고에 넣었을 때 나타나는 현상으로 올바른 것은 무엇인가요?",
+        options: [
+          "페트병 안 기체의 온도가 낮아져 페트병이 찌그러진다.",
+          "페트병 안 기체의 온도가 높아져 페트병이 부풀어 오른다.",
+          "페트병 내부의 압력이 높아져 페트병이 터진다.",
+          "페트병의 무게가 급격히 가벼워진다."
+        ],
+        ans: 0,
+        exp: "냉장고 속에서 온도가 낮아지면 페트병 안 기체의 부피가 줄어들어 찌그러집니다."
+      },
+      {
+        q: "다음 중 '온도에 따른 기체의 부피 변화' 예시로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: [
+          "높은 산 정상에 가면 과자 봉지가 부풀어 오른다.",
+          "열기구 속 공기를 가열하면 풍선 부분이 부풀어 오른다.",
+          "찌그러진 탁구공을 뜨거운 물에 넣으면 펴진다.",
+          "과자 봉지를 햇빛이 비치는 곳에 두면 부풀어 오른다."
+        ],
+        ans: 0,
+        exp: "높은 산 정상에서 과자 봉지가 부풀어 오르는 것은 온도가 아니라 '압력' 변화에 의한 현상입니다."
+      },
+      {
+        q: "주사기 속 공기를 피스톤으로 눌러 압력을 높일 때 일어나는 변화로 올바른 것은 무엇인가요?",
+        options: [
+          "주사기 속 공기의 부피가 줄어든다.",
+          "주사기 속 공기의 부피가 늘어난다.",
+          "주사기 속 공기의 온도가 급격히 낮아진다.",
+          "주사기 속 공기의 무게가 사라진다."
+        ],
+        ans: 0,
+        exp: "압력이 높아지면 기체의 부피는 줄어듭니다."
+      },
+      {
+        q: "기체에 더해지는 압력이 낮아질 때 기체의 부피 변화로 올바른 것은 무엇인가요?",
+        options: [
+          "기체의 부피가 늘어난다.",
+          "기체의 부피가 줄어든다.",
+          "기체의 부피가 변화 없다.",
+          "기체의 질량이 감소한다."
+        ],
+        ans: 0,
+        exp: "압력이 낮아지면 기체를 누르는 힘이 줄어들어 부피가 늘어납니다."
+      },
+      {
+        q: "운동화에 들어있는 공기 주머니는 발이 땅에 닿을 때(압력이 높아질 때) 어떻게 변하나요?",
+        options: [
+          "공기 주머니의 부피가 작아진다.",
+          "공기 주머니의 부피가 커진다.",
+          "공기 주머니의 온도가 오른다.",
+          "공기 주머니가 위로 떠오른다."
+        ],
+        ans: 0,
+        exp: "발이 땅에 닿으면서 압력이 높을 때는 공기 주머니의 부피가 작아집니다."
+      },
+      {
+        q: "고무풍선이 하늘 높이 올라갈 때 일어나는 크기 변화로 올바른 것은 무엇인가요?",
+        options: [
+          "주변 압력이 낮아지므로 고무풍선이 점점 커진다.",
+          "주변 압력이 높아지므로 고무풍선이 점점 작아진다.",
+          "온도가 올라가므로 고무풍선이 쪼그라든다.",
+          "무게가 무거워져 고무풍선이 찌그러진다."
+        ],
+        ans: 0,
+        exp: "하늘 높이 올라가면 주변 압력이 낮아져 고무풍선의 크기가 점점 커집니다."
+      },
+      {
+        q: "높은 산 정상에 올라갔을 때 과자 봉지가 부풀어 오르는 이유로 올바른 것은 무엇인가요?",
+        options: [
+          "산 위의 압력이 낮아져 과자 봉지 안 기체의 부피가 늘어나기 때문이다.",
+          "산 위의 압력이 높아져 과자 봉지를 누르기 때문이다.",
+          "산 위의 온도가 갑자기 매우 뜨거워지기 때문이다.",
+          "산 위에서 과자 봉지의 무게가 증가했기 때문이다."
+        ],
+        ans: 0,
+        exp: "높은 산에 가면 기압(압력)이 낮아지므로 과자 봉지 내부 기체의 부피가 늘어나 부풀어 오릅니다."
+      },
+      {
+        q: "다음 중 '압력에 따른 기체의 부피 변화' 예시로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: [
+          "따뜻한 음식을 담은 그릇에 비닐 랩을 씌워 냉장고에 넣으면 오목하게 들어간다.",
+          "공기가 든 공을 힘주어 누르면 공의 부피가 줄어든다.",
+          "운동화에 있는 공기 주머니는 발이 땅에 닿을 때 작아진다.",
+          "고무풍선이 하늘로 올라가면 점점 커진다."
+        ],
+        ans: 0,
+        exp: "냉장고에 넣었을 때 랩이 오목해지는 것은 '온도' 변화에 따른 기체 부피 변화의 예시입니다."
+      },
+      {
+        q: "산소의 성질 및 이용 사례에 대한 설명으로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: [
+          "공기보다 무거워 소화기 및 탄산음료에 주로 이용된다.",
+          "생물이 숨 쉬는 데 꼭 필요하다.",
+          "다른 물질이 타는 것을 도와준다.",
+          "휴대용 산소통이나 고압 산소 치료 장치에 이용된다."
+        ],
+        ans: 0,
+        exp: "소화기 및 탄산음료에 이용되는 기체는 '이산화탄소'입니다."
+      },
+      {
+        q: "다음 중 산소가 이용되는 사례로 올바른 것은 무엇인가요?",
+        options: [
+          "휴대용 산소통, 고압 산소 치료 장치, 금속 용접",
+          "과자 봉지 충전, 에어백",
+          "탄산음료, 드라이아이스, 소화기",
+          "풍선, 비행선 띄우기"
+        ],
+        ans: 0,
+        exp: "산소는 휴대용 산소통, 고압 산소 치료 장치, 산소 발생기, 금속 용접 등에 이용됩니다."
+      },
+      {
+        q: "이산화탄소의 특징에 대한 설명으로 올바른 것은 무엇인가요?",
+        options: [
+          "공기보다 무거워 아래로 가라앉는다.",
+          "공기보다 가벼워 위로 뜬다.",
+          "스스로 빛을 내며 친환경 연료로만 쓰인다.",
+          "다른 물질이 타는 것을 강력하게 도와준다."
+        ],
+        ans: 0,
+        exp: "이산화탄소는 공기보다 무거워서 아래로 가라앉는 성질이 있습니다."
+      },
+      {
+        q: "이산화탄소가 이용되는 사례로 올바르게 짝지어진 것은 무엇인가요?",
+        options: [
+          "소화기, 탄산음료, 드라이아이스",
+          "수소 자동차, 수소 연료 전지 드론",
+          "과자 봉지 충전, 자동차 에어백",
+          "풍선, 비행선"
+        ],
+        ans: 0,
+        exp: "이산화탄소는 불을 꺼주는 소화기, 톡 쏘는 탄산음료, 냉동용 드라이아이스 등에 쓰입니다."
+      },
+      {
+        q: "질소의 주요 성질과 이용 사례로 올바른 것은 무엇인가요?",
+        options: [
+          "다른 물질과 잘 반응하지 않아 과자 봉지 충전재나 에어백에 이용된다.",
+          "공기보다 가벼워 비행선을 띄우는 데 이용된다.",
+          "다른 물질이 타는 것을 도와주어 금속 용접에 이용된다.",
+          "친환경 연료로 이용되어 수소 자동차에 쓰인다."
+        ],
+        ans: 0,
+        exp: "질소는 다른 물질과 잘 반응하지 않아 식품 보관용 과자 봉지나 에어백 등에 쓰입니다."
+      },
+      {
+        q: "수소에 대한 설명으로 올바른 것은 무엇인가요?",
+        options: [
+          "친환경 연료로 이용되며 수소 자동차 등에 활용된다.",
+          "공기보다 무거워 소화기에 넣어서 불을 끈다.",
+          "과자 봉지에 넣어 내용물이 부서지지 않게 유지한다.",
+          "생물이 호흡할 때 반드시 마셔야 하는 기체이다."
+        ],
+        ans: 0,
+        exp: "수소는 친환경 연료로 이용되어 수소 자동차, 수소 연료 전지 드론 등에 사용됩니다."
+      },
+      {
+        q: "헬륨의 성질과 이용 사례에 대한 설명으로 올바른 것은 무엇인가요?",
+        options: [
+          "공기보다 가벼워 위로 뜨므로 풍선이나 비행선에 이용된다.",
+          "다른 물질이 타는 것을 도와주어 용접에 이용된다.",
+          "공기보다 무거워 바닥으로 가라앉는다.",
+          "탄산음료에 넣어 톡 쏘는 맛을 낸다."
+        ],
+        ans: 0,
+        exp: "헬륨은 공기보다 가벼워 위로 뜨기 때문에 풍선이나 비행선 등에 이용됩니다."
+      }
+    ];
+
+    // ----------------------------------------------------
+    // 게임 상태 변수
+    // ----------------------------------------------------
+    let userName = "";
+    let quizQueue = [];
+    let currentIdx = 0;
+    let startTime = null;
+
+    const startScreen = document.getElementById("start-screen");
+    const quizScreen = document.getElementById("quiz-screen");
+    const wrongScreen = document.getElementById("wrong-screen");
+    const successScreen = document.getElementById("success-screen");
+
+    function shuffle(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function startQuiz() {
+      const nameInput = document.getElementById("userName").value.trim();
+      if (!nameInput) {
+        alert("이름을 입력해 주세요!");
+        return;
+      }
+      userName = nameInput;
+
+      // 1-7번: 객관식 7개 무작위 추출
+      // 8-10번: 단답식 3개 무작위 추출
+      const selectedMCQs = shuffle(mcqBank).slice(0, 7);
+      const selectedSAs = shuffle(saBank).slice(0, 3);
+
+      const formattedMCQs = selectedMCQs.map(item => {
+        const correctText = item.options[item.ans];
+        const shuffledOptions = shuffle(item.options);
+        const newAnsIdx = shuffledOptions.indexOf(correctText);
+        return {
+          type: "MCQ",
+          q: item.q,
+          options: shuffledOptions,
+          ans: newAnsIdx,
+          exp: item.exp
+        };
+      });
+
+      const formattedSAs = selectedSAs.map(item => ({
+        type: "SA",
+        q: item.q,
+        ans: item.ans,
+        exp: item.exp
+      }));
+
+      quizQueue = [...formattedMCQs, ...formattedSAs];
+      currentIdx = 0;
+      startTime = Date.now();
+
+      startScreen.style.display = "none";
+      wrongScreen.style.display = "none";
+      successScreen.style.display = "none";
+      quizScreen.style.display = "block";
+
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const qData = quizQueue[currentIdx];
+      
+      const progressPercent = ((currentIdx + 1) / 10) * 100;
+      document.getElementById("progress-bar").style.width = progressPercent + "%";
+      document.getElementById("question-number").textContent = `문제 ${currentIdx + 1} / 10`;
+
+      const badge = document.getElementById("question-type-badge");
+      const optionsBox = document.getElementById("options-container");
+      const saBox = document.getElementById("sa-container");
+
+      document.getElementById("question-text").innerHTML = `${currentIdx + 1}. ${qData.q}`;
+
+      if (qData.type === "MCQ") {
+        badge.textContent = "객관식";
+        badge.className = "badge badge-mcq";
+        optionsBox.style.display = "flex";
+        saBox.style.display = "none";
+
+        optionsBox.innerHTML = "";
+        qData.options.forEach((optText, idx) => {
+          const btn = document.createElement("button");
+          btn.className = "option-btn";
+          btn.textContent = `${idx + 1}. ${optText}`;
+          btn.onclick = () => checkMCQAnswer(idx);
+          optionsBox.appendChild(btn);
+        });
+      } else {
+        badge.textContent = "단답식";
+        badge.className = "badge badge-sa";
+        optionsBox.style.display = "none";
+        saBox.style.display = "flex";
+
+        const saInput = document.getElementById("sa-input");
+        saInput.value = "";
+        setTimeout(() => saInput.focus(), 100);
+      }
+    }
+
+    function checkMCQAnswer(selectedIdx) {
+      const qData = quizQueue[currentIdx];
+      if (selectedIdx === qData.ans) {
+        nextQuestion();
+      } else {
+        showWrongScreen(qData.exp);
+      }
+    }
+
+    function submitSAAnswer() {
+      const qData = quizQueue[currentIdx];
+      const userInput = document.getElementById("sa-input").value.trim().replace(/\s+/g, "");
+      const targetAns = qData.ans.replace(/\s+/g, "");
+
+      if (!userInput) {
+        alert("정답을 입력해주세요.");
+        return;
+      }
+
+      if (userInput === targetAns) {
+        nextQuestion();
+      } else {
+        showWrongScreen(qData.exp);
+      }
+    }
+
+    function nextQuestion() {
+      currentIdx++;
+      if (currentIdx < 10) {
+        renderQuestion();
+      } else {
+        finishQuiz();
+      }
+    }
+
+    function showWrongScreen(explanationText) {
+      quizScreen.style.display = "none";
+      wrongScreen.style.display = "block";
+      document.getElementById("explanation-text").textContent = explanationText;
+    }
+
+    function returnToStart() {
+      wrongScreen.style.display = "none";
+      successScreen.style.display = "none";
+      quizScreen.style.display = "none";
+      startScreen.style.display = "block";
+    }
+
+    function finishQuiz() {
+      const endTime = Date.now();
+      const elapsedSeconds = Math.round((endTime - startTime) / 1000);
+
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      
+      const dateStr = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+
+      document.getElementById("result-name").textContent = userName;
+      document.getElementById("result-time").textContent = `${elapsedSeconds}초`;
+      document.getElementById("result-date").textContent = dateStr;
+
+      quizScreen.style.display = "none";
+      successScreen.style.display = "block";
+    }
+  </script>
+</body>
+</html>

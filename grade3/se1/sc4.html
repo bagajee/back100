@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>3학년 1학기 과학 - 4. 생물의 한살이</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Pretendard', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+    body {
+      background-color: #f0fdf4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 14px;
+      color: #166534;
+    }
+    .card {
+      background: #ffffff;
+      width: 100%;
+      max-width: 480px;
+      border-radius: 20px;
+      padding: 24px 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      text-align: center;
+      position: relative;
+    }
+    .top-nav {
+      display: flex;
+      justify-content: flex-start;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #f1f5f9;
+      color: #334155;
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 14px;
+      border: 1px solid #cbd5e1;
+    }
+    .nav-btn:active {
+      background-color: #e2e8f0;
+    }
+    h1 {
+      font-size: 22px;
+      color: #15803d;
+      margin-bottom: 8px;
+    }
+    .sub-title {
+      font-size: 14px;
+      color: #475569;
+      margin-bottom: 24px;
+    }
+    .input-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    .input-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #334155;
+      font-size: 15px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 14px;
+      border: 2px solid #cbd5e1;
+      border-radius: 12px;
+      font-size: 16px;
+      text-align: center;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input[type="text"]:focus {
+      border-color: #16a34a;
+    }
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .btn {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.1s, background-color 0.2s;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+      box-sizing: border-box;
+    }
+    .btn:active {
+      transform: scale(0.98);
+    }
+    .btn-primary {
+      background-color: #16a34a;
+      color: #ffffff;
+    }
+    .btn-secondary {
+      background-color: #64748b;
+      color: #ffffff;
+    }
+
+    /* 퀴즈 화면 */
+    #quiz-screen {
+      display: none;
+      text-align: left;
+    }
+    .progress-bar-container {
+      width: 100%;
+      background-color: #e2e8f0;
+      height: 10px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background-color: #16a34a;
+      transition: width 0.3s ease;
+    }
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 14px;
+      font-weight: bold;
+    }
+    .badge {
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+    }
+    .badge-mcq { background: #dcfce7; color: #15803d; }
+    .badge-sa { background: #fef3c7; color: #92400e; }
+
+    .question-box {
+      font-size: 17px;
+      font-weight: bold;
+      line-height: 1.5;
+      color: #0f172a;
+      margin-bottom: 20px;
+      min-height: 60px;
+    }
+    .question-box u {
+      color: #dc2626;
+      text-decoration-thickness: 2px;
+    }
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .option-btn {
+      width: 100%;
+      padding: 14px 16px;
+      background-color: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      text-align: left;
+      font-size: 15px;
+      color: #334155;
+      cursor: pointer;
+      line-height: 1.4;
+      transition: all 0.2s;
+    }
+    .option-btn:active {
+      background-color: #dcfce7;
+      border-color: #16a34a;
+      color: #14532d;
+    }
+
+    .sa-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* 오답 화면 */
+    #wrong-screen {
+      display: none;
+      background-color: #fef2f2;
+      border: 2px solid #fca5a5;
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+    }
+    .wrong-title {
+      color: #dc2626;
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+    .explanation-box {
+      background: #ffffff;
+      padding: 15px;
+      border-radius: 10px;
+      border-left: 4px solid #dc2626;
+      text-align: left;
+      font-size: 14px;
+      color: #334155;
+      line-height: 1.5;
+      margin-bottom: 18px;
+    }
+
+    /* 성공 화면 */
+    #success-screen {
+      display: none;
+    }
+    .trophy {
+      font-size: 60px;
+      margin-bottom: 10px;
+    }
+    .success-title {
+      font-size: 22px;
+      color: #15803d;
+      font-weight: bold;
+      margin-bottom: 18px;
+      line-height: 1.4;
+    }
+    .result-info {
+      background-color: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: left;
+      margin-bottom: 20px;
+    }
+    .result-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+    .result-item:last-child {
+      margin-bottom: 0;
+    }
+    .result-label {
+      color: #475569;
+      font-weight: bold;
+    }
+    .result-value {
+      color: #16a34a;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    
+    <!-- 1. 시작 화면 -->
+    <div id="start-screen">
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+      </div>
+      <h1>3학년 과학 퀴즈</h1>
+      <p class="sub-title">4. 생물의 한살이</p>
+
+      <div class="input-group">
+        <label for="userName">이름을 입력하세요</label>
+        <input type="text" id="userName" placeholder="예: 홍길동" autocomplete="off">
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="startQuiz()">시작</button>
+        <a href="science.html" class="btn btn-secondary">단원선택</a>
+      </div>
+    </div>
+
+    <!-- 2. 퀴즈 진행 화면 -->
+    <div id="quiz-screen">
+      <div class="progress-bar-container">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      
+      <div class="quiz-header">
+        <span id="question-number">문제 1 / 10</span>
+        <span id="question-type-badge" class="badge badge-mcq">객관식</span>
+      </div>
+
+      <div class="question-box" id="question-text"></div>
+
+      <!-- 객관식 영역 -->
+      <div class="options-container" id="options-container"></div>
+
+      <!-- 단답식 영역 -->
+      <div class="sa-container" id="sa-container" style="display: none;">
+        <input type="text" id="sa-input" placeholder="정답 입력" onkeydown="if(event.key==='Enter') submitSAAnswer()">
+        <button class="btn btn-primary" onclick="submitSAAnswer()">정답 제출</button>
+      </div>
+    </div>
+
+    <!-- 3. 오답 화면 -->
+    <div id="wrong-screen">
+      <div class="wrong-title">❌ 틀렸습니다!</div>
+      <div class="explanation-box">
+        <strong>💡 간단 해설:</strong>
+        <p id="explanation-text" style="margin-top: 6px;"></p>
+      </div>
+      <button class="btn btn-primary" style="width: 100%;" onclick="returnToStart()">계속</button>
+    </div>
+
+    <!-- 4. 성공 축하 화면 -->
+    <div id="success-screen">
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+      </div>
+
+      <div class="trophy">🏆</div>
+      <div class="success-title">축하합니다!<br>10문제를 모두 맞추셨습니다!</div>
+      
+      <div class="result-info">
+        <div class="result-item">
+          <span class="result-label">이름</span>
+          <span class="result-value" id="result-name">-</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">총 걸린시간</span>
+          <span class="result-value" id="result-time">-</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">현재 시간</span>
+          <span class="result-value" id="result-date">-</span>
+        </div>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="startQuiz()">재도전</button>
+        <a href="science.html" class="btn btn-secondary">단원선택</a>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ----------------------------------------------------
+    // 단답식 문제 은행 (정답: 한살이, 짧은, 애벌레, 번데기, 물과 알맞은 온도, 여러해살이 식물) - 총 10문제
+    // ----------------------------------------------------
+    const saBank = [
+      {
+        q: "동물이 태어나고 자라서 자손을 남기는 전체 과정을 동물의 (  )라고 합니다. 공란에 들어갈 알맞은 말은 무엇인가요?",
+        ans: ["한살이"],
+        exp: "동물이 태어나고 자라서 자손을 남기는 과정을 동물의 한살이라고 합니다."
+      },
+      {
+        q: "한살이를 관찰할 동물을 고를 때는 주변에서 쉽게 볼 수 있고 한살이 기간이 (  ) 동물을 선택해야 합니다. 공란에 들어갈 말은 무엇인가요?",
+        ans: ["짧은"],
+        exp: "한살이를 관찰할 때는 관찰이 용이하도록 기간이 짧은 동물을 선택합니다."
+      },
+      {
+        q: "배추흰나비의 한살이 과정 중 허물을 벗으며 자라나고 잎을 갉아 먹으며 이동하는 단계를 무엇이라고 하나요?",
+        ans: ["애벌레"],
+        exp: "배추흰나비 애벌레는 허물을 벗으며 자라고 잎을 갉아 먹으며 이동합니다."
+      },
+      {
+        q: "배추흰나비 한살이 중 가운데가 볼록하고 양쪽 끝이 뾰족하며 한곳에 붙어 이동하지 않는 단계를 무엇이라고 하나요?",
+        ans: ["번데기"],
+        exp: "배추흰나비 번데기는 한곳에 붙어 이동하지 않는 단계입니다."
+      },
+      {
+        q: "씨가 싹 트는 데 필요한 두 가지 기본 조건은 무엇과 알맞은 온도인가요? (예: '물과 알맞은 온도' 형식으로 입력)",
+        ans: ["물과 알맞은 온도", "물과 알맞은온도", "물과온도", "물과 온도"],
+        exp: "씨가 싹 트려면 적당한 양의 '물'과 '알맞은 온도'가 필요합니다."
+      },
+      {
+        q: "민들레, 은행나무, 사과나무처럼 여러 해 동안 죽지 않고 살아가는 식물을 무엇이라고 하나요?",
+        ans: ["여러해살이 식물", "여러해살이식물"],
+        exp: "여러 해 동안 죽지 않고 살아가는 식물을 여러해살이 식물이라고 합니다."
+      },
+      {
+        q: "동물이 태어나 자라고 자손을 남겨 대를 이어가는 일생의 과정을 무엇이라고 하나요?",
+        ans: ["한살이"],
+        exp: "동물이 태어나 자라며 자손을 남기는 과정은 한살이입니다."
+      },
+      {
+        q: "배추흰나비처럼 한살이 관찰에 적합한 동물은 한살이 기간이 (  ) 특징이 있습니다. 공란에 들어갈 말은 무엇인가요?",
+        ans: ["짧은"],
+        exp: "관찰 동물은 주변에서 구하기 쉽고 한살이 기간이 짧아야 합니다."
+      },
+      {
+        q: "배추흰나비 알에서 깨어난 후 잎을 갉아 먹고 똥을 누며 허물을 벗는 단계는 무엇인가요?",
+        ans: ["애벌레"],
+        exp: "알에서 깨어난 배추흰나비의 애벌레는 잎을 먹으며 자랍니다."
+      },
+      {
+        q: "벼, 강낭콩과 달리 겨울을 지나 여러 해 동안 살아가면서 한살이 과정의 일부를 반복하는 식물을 무엇이라고 하나요?",
+        ans: ["여러해살이 식물", "여러해살이식물"],
+        exp: "여러해살이 식물은 여러 해 동안 죽지 않고 살아가면서 한살이를 반복합니다."
+      }
+    ];
+
+    // ----------------------------------------------------
+    // 객관식 문제 은행 - 총 20문제
+    // ----------------------------------------------------
+    const mcqBank = [
+      {
+        q: "다음 중 한살이를 관찰하기에 적합한 동물의 조건으로 알맞은 것은 무엇인가요?",
+        options: ["한살이 기간이 짧고 주변에서 쉽게 볼 수 있는 동물", "한살이 기간이 매우 길고 희귀한 동물", "크기가 너무 커서 사육하기 힘든 동물", "먹이를 구하기 어려운 동물"],
+        ans: 0,
+        exp: "한살이 관찰 동물은 한살이 기간이 짧고 주변에서 쉽게 볼 수 있어야 합니다."
+      },
+      {
+        q: "배추흰나비 알의 생김새와 특징으로 알맞은 것은 무엇인가요?",
+        options: ["노란색의 길쭉하고 주름진 모양이다.", "초록색이며 계속 움직인다.", "검은색이고 동그란 모양이다.", "털로 덮여 있으며 잘 날아다닌다."],
+        ans: 0,
+        exp: "배추흰나비 알은 노란색의 길쭉하고 주름진 모양이며 움직이지 않습니다."
+      },
+      {
+        q: "배추흰나비 애벌레의 특징으로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: ["한곳에 붙어 절대 움직이지 않는다.", "몸이 여러 마디로 나누어져 있다.", "허물을 벗으면서 몸의 크기가 커진다.", "잎을 갉아 먹거나 똥을 누고 이동한다."],
+        ans: 0,
+        exp: "애벌레는 잎을 갉아 먹거나 똥을 누며 이동합니다. 움직이지 않는 것은 알과 번데기입니다."
+      },
+      {
+        q: "배추흰나비 번데기의 생김새 특징으로 알맞은 것은 무엇인가요?",
+        options: ["가운데가 볼록하고 양쪽 끝이 뾰족하다.", "몸이 여러 마디로 나누어져 있고 털로 덮여 있다.", "머리, 가슴, 배로 나뉘고 날개가 있다.", "노란색의 길쭉한 주름진 모양이다."],
+        ans: 0,
+        exp: "번데기는 가운데가 볼록하고 양쪽 끝이 뾰족하며 한곳에 붙어 이동하지 않습니다."
+      },
+      {
+        q: "다 자란 배추흰나비 어른벌레의 몸 구조로 알맞게 짝지어진 것은 무엇인가요?",
+        options: ["머리, 가슴, 배", "머리, 몸통, 다리", "가슴, 배, 꼬리", "머리, 배, 지느러미"],
+        ans: 0,
+        exp: "배추흰나비 어른벌레의 몸은 머리, 가슴, 배로 구분됩니다."
+      },
+      {
+        q: "씨가 싹 트는 데 '물'이 필요한지 알아보는 실험에서 다르게 해야 할 조건은 무엇인가요?",
+        options: ["물의 양", "씨의 종류", "온도", "용기의 크기"],
+        ans: 0,
+        exp: "물이 필요한지 알아보려면 물의 양만 다르게 하고 나머지 조건은 같게 해야 합니다."
+      },
+      {
+        q: "다음 중 씨가 싹 트는 데 필요한 조건으로 알맞은 것은 무엇인가요?",
+        options: ["물과 알맞은 온도", "햇빛과 비료", "바람과 흙", "높은 산과 어둠"],
+        ans: 0,
+        exp: "씨가 싹 트는 데는 물과 알맞은 온도가 필요합니다."
+      },
+      {
+        q: "식물이 잘 자라기 위해 필수적으로 필요한 두 가지 조건은 무엇인가요?",
+        options: ["적당한 양의 물과 햇빛", "비료와 추운 기온", "어둠과 바람", "흙과 높은 기압"],
+        ans: 0,
+        exp: "식물이 잘 자라기 위해서는 적당한 양의 물과 햇빛이 모두 필요합니다."
+      },
+      {
+        q: "식물이 자라는 데 햇빛이 필요한지 알아보는 실험에서 햇빛을 받지 못한 식물의 변화는 어떠한가요?",
+        options: ["잘 자라지 않았다.", "줄기가 굵고 튼튼하게 자랐다.", "꽃이 무성하게 피어났다.", "잎이 더욱 푸르고 싱싱해졌다."],
+        ans: 0,
+        exp: "햇빛을 받지 못한 식물은 잘 자라지 못합니다."
+      },
+      {
+        q: "다음 중 알을 낳는 동물로만 올바르게 짝지어진 것은 무엇인가요?",
+        options: ["사마귀, 바다거북, 오리, 개구리", "토끼, 코끼리, 돌고래, 개", "개, 고양이, 사자, 코끼리", "토끼, 사마귀, 개, 오리"],
+        ans: 0,
+        exp: "사마귀, 바다거북, 오리, 개구리는 알을 낳는 동물입니다."
+      },
+      {
+        q: "다음 중 새끼를 낳는 동물의 특징으로 알맞은 것은 무엇인가요?",
+        options: ["다 자란 암컷이 새끼를 낳으며, 새끼는 어미와 모습이 비슷하다.", "알에서 깨어나 부화한다.", "자라면서 모양이 완전히 다르게 변한다.", "한 번에 수만 개의 알을 낳는다."],
+        ans: 0,
+        exp: "새끼를 낳는 동물은 암컷이 새끼를 낳고 어미와 새끼의 모습이 비슷합니다."
+      },
+      {
+        q: "다음 중 새끼를 낳는 동물에 해당하는 동물은 무엇인가요?",
+        options: ["돌고래", "사마귀", "바다거북", "개구리"],
+        ans: 0,
+        exp: "토끼, 코끼리, 돌고래, 개 등은 새끼를 낳는 동물입니다."
+      },
+      {
+        q: "한해살이 식물에 대한 설명으로 알맞은 것은 무엇인가요?",
+        options: ["한 해 동안 한살이를 거치고 일생을 마친다.", "여러 해 동안 죽지 않고 살아간다.", "겨울에도 뿌리와 줄기가 살아남는다.", "한살이 과정의 일부를 평생 반복한다."],
+        ans: 0,
+        exp: "한해살이 식물은 한 해 동안 한살이를 거치고 일생을 마치는 식물입니다."
+      },
+      {
+        q: "다음 중 한해살이 식물로만 짝지어진 것은 무엇인가요?",
+        options: ["벼, 봉숭아, 나팔꽃, 강낭콩", "민들레, 은행나무, 사과나무, 비비추", "감나무, 개나리, 은행나무, 비비추", "사과나무, 강아지풀, 개나리, 벼"],
+        ans: 0,
+        exp: "벼, 봉숭아, 나팔꽃, 강낭콩, 강아지풀, 옥수수 등은 한해살이 식물입니다."
+      },
+      {
+        q: "다음 중 여러해살이 식물에 해당하는 것은 무엇인가요?",
+        options: ["은행나무", "벼", "봉숭아", "옥수수"],
+        ans: 0,
+        exp: "민들레, 은행나무, 사과나무, 비비추, 감나무, 개나리 등은 여러해살이 식물입니다."
+      },
+      {
+        q: "한해살이 식물과 여러해살이 식물의 공통점으로 알맞은 것은 무엇인가요?",
+        options: ["씨가 싹 트고 자라 꽃이 피고 열매를 맺어 씨를 만든다.", "한 해 동안만 살고 죽는다.", "겨울에도 줄기가 시들지 않는다.", "꽃이나 열매를 맺지 않는다."],
+        ans: 0,
+        exp: "두 식물 모두 씨가 싹 트고 자라 꽃이 피고 열매를 맺어 씨를 만드는 공통점이 있습니다."
+      },
+      {
+        q: "다음 중 배추흰나비의 한살이 과정이 순서대로 바르게 나열된 것은 무엇인가요?",
+        options: ["알 → 애벌레 → 번데기 → 어른벌레", "알 → 번데기 → 애벌레 → 어른벌레", "애벌레 → 알 → 번데기 → 어른벌레", "번데기 → 알 → 애벌레 → 어른벌레"],
+        ans: 0,
+        exp: "배추흰나비의 한살이는 알 → 애벌레 → 번데기 → 어른벌레 순서입니다."
+      },
+      {
+        q: "다음 중 알을 낳는 동물에 대한 설명으로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: ["모든 알을 낳는 동물은 한 번에 낳는 알의 수가 완벽히 같다.", "다 자란 암컷이 알을 낳는다.", "알에서 나온 새끼는 자라면서 점차 어미와 비슷한 모습이 된다.", "종류에 따라 알을 낳는 장소가 다르다."],
+        ans: 0,
+        exp: "알을 낳는 동물은 종류에 따라 알을 낳는 장소, 한 번에 낳는 알의 수, 자라는 기간 등이 다릅니다."
+      },
+      {
+        q: "배추흰나비 애벌레를 관찰할 때 준비해야 할 사육 환경으로 알맞은 것은 무엇인가요?",
+        options: ["애벌레의 먹이가 될 식물과 보호할 사육 망", "밀폐된 어두운 상자", "물이 가득 찬 어항", "얼음이 채워진 차가운 용기"],
+        ans: 0,
+        exp: "애벌레 먹이가 될 식물과 외부 위험으로부터 보호할 사육 망 등을 준비합니다."
+      },
+      {
+        q: "한해살이 식물과 여러해살이 식물의 차이점에 대한 설명으로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: ["한해살이 식물은 여러 해 동안 죽지 않고 계속 산다.", "한해살이 식물은 한 해 동안 씨가 싹 트고 열매를 맺고 죽는다.", "여러해살이 식물은 여러 해 동안 살아간다.", "여러해살이 식물은 한살이 과정의 일부를 반복한다."],
+        ans: 0,
+        exp: "한해살이 식물은 한 해 동안 일생을 마치며, 여러 해 동안 살아가는 것은 여러해살이 식물입니다."
+      }
+    ];
+
+    // ----------------------------------------------------
+    // 게임 상태 변수
+    // ----------------------------------------------------
+    let userName = "";
+    let quizQueue = [];
+    let currentIdx = 0;
+    let startTime = null;
+
+    const startScreen = document.getElementById("start-screen");
+    const quizScreen = document.getElementById("quiz-screen");
+    const wrongScreen = document.getElementById("wrong-screen");
+    const successScreen = document.getElementById("success-screen");
+
+    function shuffle(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function startQuiz() {
+      const nameInput = document.getElementById("userName").value.trim();
+      if (!nameInput) {
+        alert("이름을 입력해 주세요!");
+        return;
+      }
+      userName = nameInput;
+
+      // 1-7번: 객관식 20개 중 7개 무작위 추출 및 보기 셔플
+      // 8-10번: 단답식 10개 중 3개 무작위 추출
+      const selectedMCQs = shuffle(mcqBank).slice(0, 7);
+      const selectedSAs = shuffle(saBank).slice(0, 3);
+
+      const formattedMCQs = selectedMCQs.map(item => {
+        const correctText = item.options[item.ans];
+        const shuffledOptions = shuffle(item.options);
+        const newAnsIdx = shuffledOptions.indexOf(correctText);
+        return {
+          type: "MCQ",
+          q: item.q,
+          options: shuffledOptions,
+          ans: newAnsIdx,
+          exp: item.exp
+        };
+      });
+
+      const formattedSAs = selectedSAs.map(item => ({
+        type: "SA",
+        q: item.q,
+        ans: item.ans,
+        exp: item.exp
+      }));
+
+      quizQueue = [...formattedMCQs, ...formattedSAs];
+      currentIdx = 0;
+      startTime = Date.now();
+
+      startScreen.style.display = "none";
+      wrongScreen.style.display = "none";
+      successScreen.style.display = "none";
+      quizScreen.style.display = "block";
+
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const qData = quizQueue[currentIdx];
+      
+      const progressPercent = ((currentIdx + 1) / 10) * 100;
+      document.getElementById("progress-bar").style.width = progressPercent + "%";
+      document.getElementById("question-number").textContent = `문제 ${currentIdx + 1} / 10`;
+
+      const badge = document.getElementById("question-type-badge");
+      const optionsBox = document.getElementById("options-container");
+      const saBox = document.getElementById("sa-container");
+
+      document.getElementById("question-text").innerHTML = `${currentIdx + 1}. ${qData.q}`;
+
+      if (qData.type === "MCQ") {
+        badge.textContent = "객관식";
+        badge.className = "badge badge-mcq";
+        optionsBox.style.display = "flex";
+        saBox.style.display = "none";
+
+        optionsBox.innerHTML = "";
+        qData.options.forEach((optText, idx) => {
+          const btn = document.createElement("button");
+          btn.className = "option-btn";
+          btn.textContent = `${idx + 1}. ${optText}`;
+          btn.onclick = () => checkMCQAnswer(idx);
+          optionsBox.appendChild(btn);
+        });
+      } else {
+        badge.textContent = "단답식";
+        badge.className = "badge badge-sa";
+        optionsBox.style.display = "none";
+        saBox.style.display = "flex";
+
+        const saInput = document.getElementById("sa-input");
+        saInput.value = "";
+        setTimeout(() => saInput.focus(), 100);
+      }
+    }
+
+    function checkMCQAnswer(selectedIdx) {
+      const qData = quizQueue[currentIdx];
+      if (selectedIdx === qData.ans) {
+        nextQuestion();
+      } else {
+        showWrongScreen(qData.exp);
+      }
+    }
+
+    function submitSAAnswer() {
+      const qData = quizQueue[currentIdx];
+      const userInput = document.getElementById("sa-input").value.trim().replace(/\s+/g, "");
+
+      if (!userInput) {
+        alert("정답을 입력해주세요.");
+        return;
+      }
+
+      // 허용 정답 목록과 비교 (공백 제거 후 비교)
+      const isCorrect = qData.ans.some(target => target.replace(/\s+/g, "") === userInput);
+
+      if (isCorrect) {
+        nextQuestion();
+      } else {
+        showWrongScreen(qData.exp);
+      }
+    }
+
+    function nextQuestion() {
+      currentIdx++;
+      if (currentIdx < 10) {
+        renderQuestion();
+      } else {
+        finishQuiz();
+      }
+    }
+
+    function showWrongScreen(explanationText) {
+      quizScreen.style.display = "none";
+      wrongScreen.style.display = "block";
+      document.getElementById("explanation-text").textContent = explanationText;
+    }
+
+    function returnToStart() {
+      wrongScreen.style.display = "none";
+      successScreen.style.display = "none";
+      quizScreen.style.display = "none";
+      startScreen.style.display = "block";
+    }
+
+    function finishQuiz() {
+      const endTime = Date.now();
+      const elapsedSeconds = Math.round((endTime - startTime) / 1000);
+
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      
+      const dateStr = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+
+      document.getElementById("result-name").textContent = userName;
+      document.getElementById("result-time").textContent = `${elapsedSeconds}초`;
+      document.getElementById("result-date").textContent = dateStr;
+
+      quizScreen.style.display = "none";
+      successScreen.style.display = "block";
+    }
+  </script>
+</body>
+</html>

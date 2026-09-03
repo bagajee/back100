@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>5학년 1학기 과학 - 4. 우리 몸의 구조와 기능</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Pretendard', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+    body {
+      background-color: #f0f9ff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 14px;
+      color: #1e3a8a;
+    }
+    .card {
+      background: #ffffff;
+      width: 100%;
+      max-width: 480px;
+      border-radius: 20px;
+      padding: 24px 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      text-align: center;
+      position: relative;
+    }
+    .top-nav {
+      display: flex;
+      justify-content: flex-start;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #f1f5f9;
+      color: #334155;
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 14px;
+      border: 1px solid #cbd5e1;
+    }
+    .nav-btn:active {
+      background-color: #e2e8f0;
+    }
+    h1 {
+      font-size: 22px;
+      color: #1d4ed8;
+      margin-bottom: 8px;
+    }
+    .sub-title {
+      font-size: 14px;
+      color: #475569;
+      margin-bottom: 24px;
+    }
+    .input-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    .input-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #334155;
+      font-size: 15px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 14px;
+      border: 2px solid #cbd5e1;
+      border-radius: 12px;
+      font-size: 16px;
+      text-align: center;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input[type="text"]:focus {
+      border-color: #2563eb;
+    }
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .btn {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.1s, background-color 0.2s;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+      box-sizing: border-box;
+    }
+    .btn:active {
+      transform: scale(0.98);
+    }
+    .btn-primary {
+      background-color: #2563eb;
+      color: #ffffff;
+    }
+    .btn-secondary {
+      background-color: #64748b;
+      color: #ffffff;
+    }
+    .btn-success {
+      background-color: #16a34a;
+      color: #ffffff;
+    }
+
+    /* 퀴즈 화면 */
+    #quiz-screen {
+      display: none;
+      text-align: left;
+    }
+    .progress-bar-container {
+      width: 100%;
+      background-color: #e2e8f0;
+      height: 10px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background-color: #2563eb;
+      transition: width 0.3s ease;
+    }
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 14px;
+      font-weight: bold;
+    }
+    .badge {
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+    }
+    .badge-mcq { background: #dbeafe; color: #1e40af; }
+    .badge-sa { background: #fef3c7; color: #92400e; }
+
+    .question-box {
+      font-size: 17px;
+      font-weight: bold;
+      line-height: 1.5;
+      color: #0f172a;
+      margin-bottom: 20px;
+      min-height: 60px;
+    }
+    .question-box u {
+      color: #dc2626;
+      text-decoration-thickness: 2px;
+    }
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .option-btn {
+      width: 100%;
+      padding: 14px 16px;
+      background-color: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      text-align: left;
+      font-size: 15px;
+      color: #334155;
+      cursor: pointer;
+      line-height: 1.4;
+      transition: all 0.2s;
+    }
+    .option-btn:active {
+      background-color: #dbeafe;
+      border-color: #2563eb;
+      color: #1e40af;
+    }
+
+    .sa-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* 오답 화면 */
+    #wrong-screen {
+      display: none;
+      background-color: #fef2f2;
+      border: 2px solid #fca5a5;
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+    }
+    .wrong-title {
+      color: #dc2626;
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+    .explanation-box {
+      background: #ffffff;
+      padding: 15px;
+      border-radius: 10px;
+      border-left: 4px solid #dc2626;
+      text-align: left;
+      font-size: 14px;
+      color: #334155;
+      line-height: 1.5;
+      margin-bottom: 18px;
+    }
+
+    /* 성공 화면 */
+    #success-screen {
+      display: none;
+    }
+    .trophy {
+      font-size: 60px;
+      margin-bottom: 10px;
+    }
+    .success-title {
+      font-size: 22px;
+      color: #15803d;
+      font-weight: bold;
+      margin-bottom: 18px;
+      line-height: 1.4;
+    }
+    .result-info {
+      background-color: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: left;
+      margin-bottom: 20px;
+    }
+    .result-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+    .result-item:last-child {
+      margin-bottom: 0;
+    }
+    .result-label {
+      color: #475569;
+      font-weight: bold;
+    }
+    .result-value {
+      color: #16a34a;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    
+    <!-- 1. 시작 화면 -->
+    <div id="start-screen">
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+      </div>
+      <h1>5학년 과학 퀴즈</h1>
+      <p class="sub-title">4. 우리 몸의 구조와 기능</p>
+
+      <div class="input-group">
+        <label for="userName">이름을 입력하세요</label>
+        <input type="text" id="userName" placeholder="예: 홍길동" autocomplete="off">
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="startQuiz()">시작</button>
+        <a href="science.html" class="btn btn-secondary">단원선택</a>
+      </div>
+    </div>
+
+    <!-- 2. 퀴즈 진행 화면 -->
+    <div id="quiz-screen">
+      <div class="progress-bar-container">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      
+      <div class="quiz-header">
+        <span id="question-number">문제 1 / 10</span>
+        <span id="question-type-badge" class="badge badge-mcq">객관식</span>
+      </div>
+
+      <div class="question-box" id="question-text"></div>
+
+      <!-- 객관식 영역 -->
+      <div class="options-container" id="options-container"></div>
+
+      <!-- 단답식 영역 -->
+      <div class="sa-container" id="sa-container" style="display: none;">
+        <input type="text" id="sa-input" placeholder="정답 입력" onkeydown="if(event.key==='Enter') submitSAAnswer()">
+        <button class="btn btn-primary" onclick="submitSAAnswer()">정답 제출</button>
+      </div>
+    </div>
+
+    <!-- 3. 오답 화면 -->
+    <div id="wrong-screen">
+      <div class="wrong-title">❌ 틀렸습니다!</div>
+      <div class="explanation-box">
+        <strong>💡 간단 해설:</strong>
+        <p id="explanation-text" style="margin-top: 6px;"></p>
+      </div>
+      <button class="btn btn-primary" style="width: 100%;" onclick="returnToStart()">계속</button>
+    </div>
+
+    <!-- 4. 성공 축하 화면 -->
+    <div id="success-screen">
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+      </div>
+
+      <div class="trophy">🏆</div>
+      <div class="success-title">축하합니다!<br>10문제를 모두 맞추셨습니다!</div>
+      
+      <div class="result-info">
+        <div class="result-item">
+          <span class="result-label">이름</span>
+          <span class="result-value" id="result-name">-</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">총 걸린시간</span>
+          <span class="result-value" id="result-time">-</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">현재 시간</span>
+          <span class="result-value" id="result-date">-</span>
+        </div>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-success" onclick="returnToStart()">재도전</button>
+        <a href="science.html" class="btn btn-secondary">단원선택</a>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ----------------------------------------------------
+    // 단답식 문제 은행 (지정된 정답 10개)
+    // ----------------------------------------------------
+    const saBank = [
+      {
+        q: "몸의 형태를 만들고 몸을 지탱하며 심장, 폐, 뇌 등 몸속 기관을 보호하는 것은 무엇인가요?",
+        ans: "뼈",
+        exp: "뼈는 몸의 형태를 만들고 지탱하며, 몸속의 중요한 기관들을 보호합니다."
+      },
+      {
+        q: "뼈에 연결되어 줄어들거나 늘어나면서 뼈를 움직이게 하는 것은 무엇인가요?",
+        ans: "근육",
+        exp: "근육은 뼈에 연결되어 줄어들거나 늘어나면서 뼈를 움직여 몸을 움직이게 합니다."
+      },
+      {
+        q: "음식물 속의 영양소를 몸에서 흡수할 수 있도록 음식물을 잘게 쪼개는 과정을 무엇이라고 하나요?",
+        ans: "소화",
+        exp: "소화는 음식물을 잘게 쪼개어 영양소를 흡수할 수 있게 만드는 과정입니다."
+      },
+      {
+        q: "입, 식도, 위, 작은창자, 큰창자, 항문처럼 소화를 담당하는 기관을 무엇이라고 하나요?",
+        ans: "소화 기관",
+        exp: "소화 기관은 음식물의 소화를 담당하는 기관들을 통틀어 말합니다."
+      },
+      {
+        q: "우리가 살아가지 위해 혈액이 끊임없이 온몸을 도는 과정을 무엇이라고 하나요?",
+        ans: "순환",
+        exp: "혈액이 온몸을 돌며 영양소와 산소를 전달하는 과정을 순환이라고 합니다."
+      },
+      {
+        q: "심장, 혈관 등 혈액 순환을 담당하는 기관을 무엇이라고 하나요?",
+        ans: "순환 기관",
+        exp: "순환 기관은 심장과 혈관처럼 혈액 순환을 담당하는 기관입니다."
+      },
+      {
+        q: "숨을 들이마시고 내쉬는 활동을 무엇이라고 하나요?",
+        ans: "호흡",
+        exp: "호흡은 공기 중의 산소를 받아들이고 이산화 탄소를 내보내기 위해 숨을 쉬는 활동입니다."
+      },
+      {
+        q: "코, 숨관, 숨관가지, 폐처럼 호흡을 담당하는 기관을 무엇이라고 하나요?",
+        ans: "호흡 기관",
+        exp: "호흡 기관은 숨을 들이마시고 내쉬며 기체 교환을 담당하는 기관입니다."
+      },
+      {
+        q: "몸속의 노폐물을 걸러 내어 몸 밖으로 내보내는 과정을 무엇이라고 하나요?",
+        ans: "배설",
+        exp: "몸속에서 생긴 노폐물을 걸러 내어 오줌 등의 형태로 내보내는 과정을 배설이라고 합니다."
+      },
+      {
+        q: "콩팥, 방광, 오줌관처럼 배설을 담당하는 기관을 무엇이라고 하나요?",
+        ans: "배설 기관",
+        exp: "배설 기관은 혈액 속 노폐물을 걸러 몸 밖으로 배출하는 일을 담당합니다."
+      }
+    ];
+
+    // ----------------------------------------------------
+    // 객관식 문제 은행 (총 30개)
+    // ----------------------------------------------------
+    const mcqBank = [
+      {
+        q: "뼈와 근육 모형에서 손잡이를 잡아당겼을 때 일어나는 변화로 알맞은 것은 무엇인가요?",
+        options: ["팔 안쪽 근육이 줄어든다.", "팔 바깥쪽 근육이 줄어든다.", "아래팔뼈가 내려간다.", "팔이 펴진다."],
+        ans: 0,
+        exp: "손잡이를 잡아당기면 팔 안쪽 근육이 줄어들고 아래팔뼈가 올라가 팔이 구부러집니다."
+      },
+      {
+        q: "뼈와 근육 모형에서 손잡이를 밀었을 때 일어나는 변화로 알맞은 것은 무엇인가요?",
+        options: ["팔 안쪽 근육이 늘어난다.", "팔 안쪽 근육이 줄어든다.", "아래팔뼈가 올라간다.", "팔이 구부러진다."],
+        ans: 0,
+        exp: "손잡이를 밀면 팔 안쪽 근육이 늘어나고 팔 바깥쪽 근육이 줄어들며 아래팔뼈가 내려가 팔이 펴집니다."
+      },
+      {
+        q: "우리 몸이 움직이는 원리에 대한 설명으로 알맞은 것은 무엇인가요?",
+        options: ["뼈에 연결된 근육이 줄어들거나 늘어나면서 뼈를 움직인다.", "뼈가 스스로 줄어들고 늘어나면서 움직인다.", "혈액이 뼈 속으로 들어가 뼈를 민다.", "공기 주머니가 부풀어 오르면서 몸을 움직인다."],
+        ans: 0,
+        exp: "우리 몸은 뼈에 연결된 근육이 줄어들거나 늘어나며 뼈를 움직여서 작동합니다."
+      },
+      {
+        q: "다음 중 소화를 도와주는 기관에 해당하는 것으로 알맞게 짝지어진 것은 무엇인가요?",
+        options: ["간, 쓸개, 이자", "입, 식도, 위", "작은창자, 큰창자, 항문", "콩팥, 방광, 오줌관"],
+        ans: 0,
+        exp: "간, 쓸개, 이자는 음식물이 직접 지나가지는 않지만 소화를 도와주는 기관입니다."
+      },
+      {
+        q: "음식물이 몸속에서 이동하며 소화되는 순서로 알맞은 것은 무엇인가요?",
+        options: ["입 → 식도 → 위 → 작은창자 → 큰창자 → 항문", "입 → 위 → 식도 → 큰창자 → 작은창자 → 항문", "입 → 식도 → 작은창자 → 위 → 큰창자 → 항문", "입 → 위 → 식도 → 작은창자 → 항문 → 큰창자"],
+        ans: 0,
+        exp: "음식물은 입, 식도, 위, 작은창자, 큰창자를 거쳐 항문으로 이동합니다."
+      },
+      {
+        q: "소화 과정에서 영양소와 수분이 흡수된 후 남은 음식물 찌꺼기는 어디를 통해 몸 밖으로 나가나요?",
+        options: ["항문", "콩팥", "방광", "숨관"],
+        ans: 0,
+        exp: "남은 음식물 찌꺼기는 항문을 통해 몸 밖으로 배출됩니다."
+      },
+      {
+        q: "순환기관 모형실험에서 '펌프'가 나타내는 우리 몸의 기관은 무엇인가요?",
+        options: ["심장", "혈관", "혈액", "콩팥"],
+        ans: 0,
+        exp: "순환기관 모형실험에서 펌프는 펌프 작용을 하는 심장을 나타냅니다."
+      },
+      {
+        q: "순환기관 모형실험에서 '호스'가 나타내는 우리 몸의 기관은 무엇인가요?",
+        options: ["혈관", "심장", "혈액", "식도"],
+        ans: 0,
+        exp: "순환기관 모형실험에서 호스는 혈액이 이동하는 통로인 혈관을 나타냅니다."
+      },
+      {
+        q: "순환기관 모형실험에서 '붉은 색소 물'이 나타내는 것은 무엇인가요?",
+        options: ["혈액", "오줌", "소화액", "침"],
+        ans: 0,
+        exp: "붉은 색소 물은 혈관을 따라 온몸을 순환하는 혈액을 나타냅니다."
+      },
+      {
+        q: "심장의 역할에 대한 설명으로 알맞은 것은 무엇인가요?",
+        options: ["펌프 작용으로 혈액을 온몸으로 순환시킨다.", "음식물을 잘게 쪼개어 영양소를 흡수한다.", "공기 중의 산소를 받아들인다.", "혈액 속 노폐물을 걸러 내어 오줌을 만든다."],
+        ans: 0,
+        exp: "심장은 펌프 작용을 통해 혈액을 온몸으로 순환시키는 역할을 합니다."
+      },
+      {
+        q: "심장에서 나온 혈액이 이동하며 온몸으로 운반하는 것으로 알맞게 짝지어진 것은 무엇인가요?",
+        options: ["영양소, 산소", "이산화 탄소, 노폐물", "음식물 찌꺼기, 수분", "오줌, 가스"],
+        ans: 0,
+        exp: "심장에서 나온 혈액은 온몸으로 영양소와 산소를 운반합니다."
+      },
+      {
+        q: "숨을 들이마실 때 공기가 이동하는 경로로 알맞은 것은 무엇인가요?",
+        options: ["코 → 숨관 → 숨관가지 → 폐", "폐 → 숨관가지 → 숨관 → 코", "코 → 폐 → 숨관 → 숨관가지", "코 → 숨관가지 → 숨관 → 폐"],
+        ans: 0,
+        exp: "숨을 들이마실 때 공기는 코 → 숨관 → 숨관가지 → 폐 순으로 이동합니다."
+      },
+      {
+        q: "숨을 내쉴 때 공기가 이동하는 경로로 알맞은 것은 무엇인가요?",
+        options: ["폐 → 숨관가지 → 숨관 → 코", "코 → 숨관 → 숨관가지 → 폐", "폐 → 숨관 → 숨관가지 → 코", "숨관 → 코 → 폐 → 숨관가지"],
+        ans: 0,
+        exp: "숨을 내쉴 때 공기는 폐 → 숨관가지 → 숨관 → 코 순으로 이동합니다."
+      },
+      {
+        q: "호흡기관이 우리 몸에서 하는 일로 알맞은 것은 무엇인가요?",
+        options: ["몸에 필요한 산소를 받아들이고 이산화 탄소를 내보낸다.", "혈액 속 노폐물을 걸러 오줌을 만든다.", "음식물을 잘게 쪼개 영양소를 흡수한다.", "몸의 형태를 유지하고 장기를 보호한다."],
+        ans: 0,
+        exp: "호흡기관은 필요한 산소를 받아들이고 몸속에서 생긴 이산화 탄소를 내보냅니다."
+      },
+      {
+        q: "배설기관에서 혈액 속 노폐물을 걸러 내어 오줌을 만드는 곳은 어디인가요?",
+        options: ["콩팥", "방광", "오줌관", "심장"],
+        ans: 0,
+        exp: "콩팥은 혈액 속의 노폐물을 걸러 내어 오줌을 만드는 역할을 합니다."
+      },
+      {
+        q: "콩팥에서 만든 오줌이 오줌관을 지나 모이는 곳은 어디인가요?",
+        options: ["방광", "콩팥", "항문", "위"],
+        ans: 0,
+        exp: "콩팥에서 만들어진 오줌은 오줌관을 지나 방광에 모였다가 몸 밖으로 배출됩니다."
+      },
+      {
+        q: "콩팥에서 노폐물이 걸러진 혈액은 어디로 이동하나요?",
+        options: ["혈관을 통해 온몸을 다시 순환한다.", "오줌관을 통해 몸 밖으로 배출된다.", "방광에 저장된다.", "소화 기관으로 들어간다."],
+        ans: 0,
+        exp: "콩팥에서 노폐물이 걸러진 깨끗한 혈액은 다시 혈관을 통해 온몸을 순환합니다."
+      },
+      {
+        q: "운동할 때 호흡이 빨라지는 까닭으로 알맞은 것은 무엇인가요?",
+        options: ["몸에 필요한 산소를 많이 흡수하기 위해서", "체온을 빠르게 내리기 위해서", "소화를 더 잘 시키기 위해서", "노폐물을 빨리 배출하기 위해서"],
+        ans: 0,
+        exp: "운동할 때는 더 많은 에너지 작용을 위해 산소가 많이 필요하므로 호흡이 빨라집니다."
+      },
+      {
+        q: "운동할 때 심장이 빠르게 뛰는 까닭으로 알맞은 것은 무엇인가요?",
+        options: ["산소와 영양소를 온몸에 빠르게 운반하기 위해서", "공기를 폐로 직접 전달하기 위해서", "체온을 높이지 않기 위해서", "음식물을 빠르게 소화하기 위해서"],
+        ans: 0,
+        exp: "심장은 산소와 영양소를 온몸에 빠르게 운반하기 위해 운동 시 더 빠르게 뛰게 됩니다."
+      },
+      {
+        q: "운동할 때 체온이 올라가는 까닭으로 알맞은 것은 무엇인가요?",
+        options: ["뼈와 근육이 많이 움직이면서 열이 발생하기 때문에", "심장이 멈추기 때문에", "호흡 기관이 작동하지 않기 때문에", "몸속 수분이 모두 증발하기 때문에"],
+        ans: 0,
+        exp: "운동할 때 뼈와 근육이 활발하게 움직이면서 열이 발생하여 체온이 올라갑니다."
+      },
+      {
+        q: "몸을 움직이기 위해 순환기관이 하는 일로 알맞은 것은 무엇인가요?",
+        options: ["산소와 영양소를 온몸으로 운반한다.", "음식물을 소화하여 영양소를 흡수한다.", "산소를 받아들이고 이산화 탄소를 배출한다.", "노폐물을 만들어 방광에 저장한다."],
+        ans: 0,
+        exp: "순환기관은 산소와 영양소를 온몸에 운반하고 이산화 탄소와 노폐물을 운반합니다."
+      },
+      {
+        q: "소화기관 관련 질병으로 알맞게 짝지어진 것은 무엇인가요?",
+        options: ["장염, 변비", "빈혈, 심부전", "감기, 비염", "방광염, 요로 감염"],
+        ans: 0,
+        exp: "장염과 변비는 소화기관과 관련된 대표적인 질병입니다."
+      },
+      {
+        q: "어지럼증을 느끼거나 쉽게 피곤해지는 증상과 관련된 순환기관 질병으로 알맞은 것은 무엇인가요?",
+        options: ["빈혈, 심부전", "장염, 변비", "감기, 비염", "방광염, 요로 감염"],
+        ans: 0,
+        exp: "빈혈과 심부전은 혈액 순환을 담당하는 순환기관 관련 질병입니다."
+      },
+      {
+        q: "감기나 비염과 같은 질병이 발생하는 기관계는 무엇인가요?",
+        options: ["호흡기관", "소화기관", "순환기관", "배설기관"],
+        ans: 0,
+        exp: "감기(기침)와 비염(재채기, 코 가려움)은 호흡기관 관련 질병입니다."
+      },
+      {
+        q: "방광염이나 요로 감염처럼 통증을 느끼게 되는 질병과 관련된 기관은 무엇인가요?",
+        options: ["배설기관", "소화기관", "순환기관", "호흡기관"],
+        ans: 0,
+        exp: "방광염과 요로 감염은 오줌의 배출과 관련된 배설기관 질병입니다."
+      },
+      {
+        q: "우리 몸의 질병을 예방할 수 있는 올바른 생활 방식으로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: ["물을 마시지 않고 참는다.", "잠을 충분히 잔다.", "식사 후에는 양치질을 한다.", "손을 꼼꼼하게 씻는다."],
+        ans: 0,
+        exp: "질병을 예방하기 위해서는 물을 충분히 자주 마셔야 합니다."
+      },
+      {
+        q: "뼈와 근육에 대한 설명 중 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: ["근육은 뼈와 연결되어 있지 않고 혼자 움직인다.", "뼈는 몸의 형태를 만들고 몸을 지탱한다.", "뼈는 심장, 폐, 뇌 등 몸속 기관을 보호한다.", "근육이 줄어들거나 늘어나면서 뼈를 움직인다."],
+        ans: 0,
+        exp: "근육은 뼈에 연결되어 줄어들거나 늘어나면서 뼈를 움직입니다."
+      },
+      {
+        q: "우리 몸의 각 기관에 대한 설명으로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: ["각 기관은 서로 아무런 영향을 주고받지 않는다.", "소화기관은 영양소를 흡수한다.", "순환기관은 산소와 영양소를 온몸에 운반한다.", "배설기관은 혈액 속 노폐물을 걸러 낸다."],
+        ans: 0,
+        exp: "우리 몸의 각 기관은 서로 긴밀하게 영향을 주고받으며 작동합니다."
+      },
+      {
+        q: "운동할 때 일어나는 우리 몸의 변화에 대한 설명으로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: ["1분 동안의 맥박 수가 줄어든다.", "호흡이 빨라진다.", "심장이 빠르게 뛴다.", "체온이 올라간다."],
+        ans: 0,
+        exp: "운동을 하면 산소와 영양소를 온몸에 빠르게 전달하기 위해 맥박 수가 증가합니다."
+      },
+      {
+        q: "질병 예방 수칙에 대한 설명 중 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: ["햇볕을 쬐지 않고 하루 종일 어두운 곳에 있는다.", "음식을 골고루 먹는다.", "잠을 충분히 잔다.", "규칙적으로 운동한다."],
+        ans: 0,
+        exp: "질병을 예방하기 위해서는 규칙적으로 운동하고 햇볕을 쬐는 것이 좋습니다."
+      }
+    ];
+
+    // ----------------------------------------------------
+    // 게임 상태 변수
+    // ----------------------------------------------------
+    let userName = "";
+    let quizQueue = [];
+    let currentIdx = 0;
+    let startTime = null;
+
+    const startScreen = document.getElementById("start-screen");
+    const quizScreen = document.getElementById("quiz-screen");
+    const wrongScreen = document.getElementById("wrong-screen");
+    const successScreen = document.getElementById("success-screen");
+
+    function shuffle(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function startQuiz() {
+      const nameInput = document.getElementById("userName").value.trim();
+      if (!nameInput) {
+        alert("이름을 입력해 주세요!");
+        return;
+      }
+      userName = nameInput;
+
+      // 1-7번: 객관식 30개 중 7개 무작위 추출 및 보기 셔플
+      // 8-10번: 단답식 10개 중 3개 무작위 추출
+      const selectedMCQs = shuffle(mcqBank).slice(0, 7);
+      const selectedSAs = shuffle(saBank).slice(0, 3);
+
+      const formattedMCQs = selectedMCQs.map(item => {
+        const correctText = item.options[item.ans];
+        const shuffledOptions = shuffle(item.options);
+        const newAnsIdx = shuffledOptions.indexOf(correctText);
+        return {
+          type: "MCQ",
+          q: item.q,
+          options: shuffledOptions,
+          ans: newAnsIdx,
+          exp: item.exp
+        };
+      });
+
+      const formattedSAs = selectedSAs.map(item => ({
+        type: "SA",
+        q: item.q,
+        ans: item.ans,
+        exp: item.exp
+      }));
+
+      quizQueue = [...formattedMCQs, ...formattedSAs];
+      currentIdx = 0;
+      startTime = Date.now();
+
+      startScreen.style.display = "none";
+      wrongScreen.style.display = "none";
+      successScreen.style.display = "none";
+      quizScreen.style.display = "block";
+
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const qData = quizQueue[currentIdx];
+      
+      const progressPercent = ((currentIdx + 1) / 10) * 100;
+      document.getElementById("progress-bar").style.width = progressPercent + "%";
+      document.getElementById("question-number").textContent = `문제 ${currentIdx + 1} / 10`;
+
+      const badge = document.getElementById("question-type-badge");
+      const optionsBox = document.getElementById("options-container");
+      const saBox = document.getElementById("sa-container");
+
+      document.getElementById("question-text").innerHTML = `${currentIdx + 1}. ${qData.q}`;
+
+      if (qData.type === "MCQ") {
+        badge.textContent = "객관식";
+        badge.className = "badge badge-mcq";
+        optionsBox.style.display = "flex";
+        saBox.style.display = "none";
+
+        optionsBox.innerHTML = "";
+        qData.options.forEach((optText, idx) => {
+          const btn = document.createElement("button");
+          btn.className = "option-btn";
+          btn.textContent = `${idx + 1}. ${optText}`;
+          btn.onclick = () => checkMCQAnswer(idx);
+          optionsBox.appendChild(btn);
+        });
+      } else {
+        badge.textContent = "단답식";
+        badge.className = "badge badge-sa";
+        optionsBox.style.display = "none";
+        saBox.style.display = "flex";
+
+        const saInput = document.getElementById("sa-input");
+        saInput.value = "";
+        setTimeout(() => saInput.focus(), 100);
+      }
+    }
+
+    function checkMCQAnswer(selectedIdx) {
+      const qData = quizQueue[currentIdx];
+      if (selectedIdx === qData.ans) {
+        nextQuestion();
+      } else {
+        showWrongScreen(qData.exp);
+      }
+    }
+
+    function submitSAAnswer() {
+      const qData = quizQueue[currentIdx];
+      const userInput = document.getElementById("sa-input").value.trim().replace(/\s+/g, "");
+      const targetAns = qData.ans.replace(/\s+/g, "");
+
+      if (!userInput) {
+        alert("정답을 입력해주세요.");
+        return;
+      }
+
+      if (userInput === targetAns) {
+        nextQuestion();
+      } else {
+        showWrongScreen(qData.exp);
+      }
+    }
+
+    function nextQuestion() {
+      currentIdx++;
+      if (currentIdx < 10) {
+        renderQuestion();
+      } else {
+        finishQuiz();
+      }
+    }
+
+    function showWrongScreen(explanationText) {
+      quizScreen.style.display = "none";
+      wrongScreen.style.display = "block";
+      document.getElementById("explanation-text").textContent = explanationText;
+    }
+
+    function returnToStart() {
+      wrongScreen.style.display = "none";
+      successScreen.style.display = "none";
+      quizScreen.style.display = "none";
+      startScreen.style.display = "block";
+    }
+
+    function finishQuiz() {
+      const endTime = Date.now();
+      const elapsedSeconds = Math.round((endTime - startTime) / 1000);
+
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      
+      const dateStr = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+
+      document.getElementById("result-name").textContent = userName;
+      document.getElementById("result-time").textContent = `${elapsedSeconds}초`;
+      document.getElementById("result-date").textContent = dateStr;
+
+      quizScreen.style.display = "none";
+      successScreen.style.display = "block";
+    }
+  </script>
+</body>
+</html>

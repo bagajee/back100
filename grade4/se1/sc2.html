@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>4학년 1학기 과학 - 2. 물의 상태 변화</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Pretendard', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+    body {
+      background-color: #f0f9ff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 14px;
+      color: #0369a1;
+    }
+    .card {
+      background: #ffffff;
+      width: 100%;
+      max-width: 480px;
+      border-radius: 20px;
+      padding: 24px 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      text-align: center;
+      position: relative;
+    }
+    .top-nav {
+      display: flex;
+      justify-content: flex-start;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #f1f5f9;
+      color: #334155;
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 14px;
+      border: 1px solid #cbd5e1;
+    }
+    .nav-btn:active {
+      background-color: #e2e8f0;
+    }
+    h1 {
+      font-size: 22px;
+      color: #0284c7;
+      margin-bottom: 8px;
+    }
+    .sub-title {
+      font-size: 14px;
+      color: #475569;
+      margin-bottom: 24px;
+    }
+    .input-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    .input-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #334155;
+      font-size: 15px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 14px;
+      border: 2px solid #cbd5e1;
+      border-radius: 12px;
+      font-size: 16px;
+      text-align: center;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input[type="text"]:focus {
+      border-color: #0284c7;
+    }
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .btn {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.1s, background-color 0.2s;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+      box-sizing: border-box;
+    }
+    .btn:active {
+      transform: scale(0.98);
+    }
+    .btn-primary {
+      background-color: #0284c7;
+      color: #ffffff;
+    }
+    .btn-secondary {
+      background-color: #64748b;
+      color: #ffffff;
+    }
+
+    /* 퀴즈 화면 */
+    #quiz-screen {
+      display: none;
+      text-align: left;
+    }
+    .progress-bar-container {
+      width: 100%;
+      background-color: #e2e8f0;
+      height: 10px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background-color: #0284c7;
+      transition: width 0.3s ease;
+    }
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 14px;
+      font-weight: bold;
+    }
+    .badge {
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+    }
+    .badge-mcq { background: #e0f2fe; color: #0369a1; }
+    .badge-sa { background: #fef3c7; color: #92400e; }
+
+    .question-box {
+      font-size: 17px;
+      font-weight: bold;
+      line-height: 1.5;
+      color: #0f172a;
+      margin-bottom: 20px;
+      min-height: 60px;
+    }
+    .question-box u {
+      color: #dc2626;
+      text-decoration-thickness: 2px;
+    }
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .option-btn {
+      width: 100%;
+      padding: 14px 16px;
+      background-color: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      text-align: left;
+      font-size: 15px;
+      color: #334155;
+      cursor: pointer;
+      line-height: 1.4;
+      transition: all 0.2s;
+    }
+    .option-btn:active {
+      background-color: #e0f2fe;
+      border-color: #0284c7;
+      color: #0369a1;
+    }
+
+    .sa-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* 오답 화면 */
+    #wrong-screen {
+      display: none;
+      background-color: #fef2f2;
+      border: 2px solid #fca5a5;
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+    }
+    .wrong-title {
+      color: #dc2626;
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+    .explanation-box {
+      background: #ffffff;
+      padding: 15px;
+      border-radius: 10px;
+      border-left: 4px solid #dc2626;
+      text-align: left;
+      font-size: 14px;
+      color: #334155;
+      line-height: 1.5;
+      margin-bottom: 18px;
+    }
+
+    /* 성공 화면 */
+    #success-screen {
+      display: none;
+    }
+    .trophy {
+      font-size: 60px;
+      margin-bottom: 10px;
+    }
+    .success-title {
+      font-size: 22px;
+      color: #0284c7;
+      font-weight: bold;
+      margin-bottom: 18px;
+      line-height: 1.4;
+    }
+    .result-info {
+      background-color: #f0f9ff;
+      border: 1px solid #bae6fd;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: left;
+      margin-bottom: 20px;
+    }
+    .result-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+    .result-item:last-child {
+      margin-bottom: 0;
+    }
+    .result-label {
+      color: #475569;
+      font-weight: bold;
+    }
+    .result-value {
+      color: #0284c7;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    
+    <!-- 1. 시작 화면 -->
+    <div id="start-screen">
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+      </div>
+      <h1>4학년 과학 퀴즈</h1>
+      <p class="sub-title">2. 물의 상태 변화</p>
+
+      <div class="input-group">
+        <label for="userName">이름을 입력하세요</label>
+        <input type="text" id="userName" placeholder="예: 홍길동" autocomplete="off">
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="startQuiz()">시작</button>
+        <a href="science.html" class="btn btn-secondary">단원선택</a>
+      </div>
+    </div>
+
+    <!-- 2. 퀴즈 진행 화면 -->
+    <div id="quiz-screen">
+      <div class="progress-bar-container">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      
+      <div class="quiz-header">
+        <span id="question-number">문제 1 / 10</span>
+        <span id="question-type-badge" class="badge badge-mcq">객관식</span>
+      </div>
+
+      <div class="question-box" id="question-text"></div>
+
+      <!-- 객관식 영역 -->
+      <div class="options-container" id="options-container"></div>
+
+      <!-- 단답식 영역 -->
+      <div class="sa-container" id="sa-container" style="display: none;">
+        <input type="text" id="sa-input" placeholder="정답 입력" onkeydown="if(event.key==='Enter') submitSAAnswer()">
+        <button class="btn btn-primary" onclick="submitSAAnswer()">정답 제출</button>
+      </div>
+    </div>
+
+    <!-- 3. 오답 화면 -->
+    <div id="wrong-screen">
+      <div class="wrong-title">❌ 틀렸습니다!</div>
+      <div class="explanation-box">
+        <strong>💡 간단 해설:</strong>
+        <p id="explanation-text" style="margin-top: 6px;"></p>
+      </div>
+      <button class="btn btn-primary" style="width: 100%;" onclick="returnToStart()">계속</button>
+    </div>
+
+    <!-- 4. 성공 축하 화면 -->
+    <div id="success-screen">
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+      </div>
+
+      <div class="trophy">🏆</div>
+      <div class="success-title">축하합니다!<br>10문제를 모두 맞추셨습니다!</div>
+      
+      <div class="result-info">
+        <div class="result-item">
+          <span class="result-label">이름</span>
+          <span class="result-value" id="result-name">-</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">총 걸린시간</span>
+          <span class="result-value" id="result-time">-</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">현재 시간</span>
+          <span class="result-value" id="result-date">-</span>
+        </div>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="startQuiz()">재도전</button>
+        <a href="science.html" class="btn btn-secondary">단원선택</a>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ----------------------------------------------------
+    // 단답식 문제 은행 (지정 정답: 상태 변화, 증발, 끓음, 응결, 수증기) - 총 10문제
+    // ----------------------------------------------------
+    const saBank = [
+      {
+        q: "물이 얼음이나 수증기처럼 서로 다른 상태로 변하는 현상을 물의 무엇이라고 하나요?",
+        ans: ["상태 변화", "상태변화"],
+        exp: "물이 서로 다른 상태(고체, 액체, 기체)로 변하는 것을 '상태 변화'라고 합니다."
+      },
+      {
+        q: "액체인 물이 기체 상태로 변했을 때의 이름을 무엇이라고 하나요?",
+        ans: ["수증기"],
+        exp: "기체 상태의 물을 '수증기'라고 부릅니다."
+      },
+      {
+        q: "물 표면에서 액체인 물이 기체인 수증기로 상태가 변화하는 현상을 무엇이라고 하나요?",
+        ans: ["증발"],
+        exp: "물 표면에서 천천히 기체로 변하는 현상을 '증발'이라고 합니다."
+      },
+      {
+        q: "물의 표면과 물속에서 물이 수증기로 급격히 상태가 변화하는 현상을 무엇이라고 하나요?",
+        ans: ["끓음"],
+        exp: "물속에서 기포가 생기며 표면과 물속 모두에서 수증기로 변하는 현상을 '끓음'이라고 합니다."
+      },
+      {
+        q: "기체인 수증기가 차가운 물체에 닿아 액체인 물로 상태가 변화하는 현상을 무엇이라고 하나요?",
+        ans: ["응결"],
+        exp: "수증기가 차가운 기운을 만나 물방울(액체)로 변하는 것을 '응결'이라고 합니다."
+      },
+      {
+        q: "뚜껑을 열어놓은 물휴지가 마르거나 젖은 빨래가 마르는 것은 물의 어떤 현상 때문인가요?",
+        ans: ["증발"],
+        exp: "물휴지와 젖은 빨래의 물이 수증기로 변해 날아가는 것은 '증발' 현상입니다."
+      },
+      {
+        q: "차가운 음료수병 표면에 물방울이 맺히는 것은 수증기가 물로 변하는 어떤 현상 때문인가요?",
+        ans: ["응결"],
+        exp: "공기 중 수증기가 차가운 음료수병에 닿아 액체로 변하는 '응결' 현상입니다."
+      },
+      {
+        q: "비커에 담긴 물을 가열하여 물속에서 기포가 올라오며 기체로 변하는 현상을 무엇이라고 하나요?",
+        ans: ["끓음"],
+        exp: "열을 가할 때 물속과 표면 전체에서 수증기로 변하는 현상을 '끓음'이라고 합니다."
+      },
+      {
+        q: "물이 얼어 얼음이 되거나 얼음이 녹아 물이 되는 변화를 일컬어 물의 무엇이라고 하나요?",
+        ans: ["상태 변화", "상태변화"],
+        exp: "고체와 액체 사이의 형태 변화 역시 물의 '상태 변화'에 해당합니다."
+      },
+      {
+        q: "국을 끓일 때 냄비 뚜껑 안쪽에 맺히는 물방울은 공기 중의 이것이 응결한 것입니다. 이것은 무엇인가요?",
+        ans: ["수증기"],
+        exp: "냄비 안에서 끓어 올라온 기체인 '수증기'가 차가운 뚜껑에 닿아 물방울이 됩니다."
+      }
+    ];
+
+    // ----------------------------------------------------
+    // 객관식 문제 은행 - 총 20문제
+    // ----------------------------------------------------
+    const mcqBank = [
+      {
+        q: "물이 얼어 얼음이 될 때 일어나는 부피와 무게의 변화로 알맞은 것은 무엇인가요?",
+        options: [
+          "부피는 늘어나고, 무게는 변하지 않는다.",
+          "부피는 줄어들고, 무게는 늘어난다.",
+          "부피와 무게 모두 늘어난다.",
+          "부피와 무게 모두 줄어든다."
+        ],
+        ans: 0,
+        exp: "물이 얼어 얼음이 되면 부피는 늘어나지만, 무게는 변하지 않습니다."
+      },
+      {
+        q: "얼음이 녹아 물이 될 때의 변화로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: [
+          "무게가 점점 줄어든다.",
+          "부피가 줄어든다.",
+          "무게는 변하지 않는다.",
+          "고체에서 액체로 상태가 변한다."
+        ],
+        ans: 0,
+        exp: "얼음이 녹아 물이 되어도 무게는 변하지 않습니다."
+      },
+      {
+        q: "다음 중 물이 얼어 부피가 늘어나는 예로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: [
+          "얼음과자가 녹아 빈 공간이 생긴다.",
+          "겨울철 수도 계량기가 얼어서 터진다.",
+          "얼음 틀에 물을 넣어 얼리면 얼음이 틀 위로 올라온다.",
+          "주스가 얼면서 부피가 늘어나 유리병이 깨진다."
+        ],
+        ans: 0,
+        exp: "얼음과자가 녹아 빈 공간이 생기는 것은 얼음이 녹아 부피가 줄어드는 예입니다."
+      },
+      {
+        q: "다음 중 얼음이 녹아 부피가 줄어드는 예에 해당하는 것은 무엇인가요?",
+        options: [
+          "물이 얼어 부푼 페트병의 얼음이 녹아 얼기 전 모습으로 돌아온다.",
+          "겨울철 수도 계량기가 얼어서 터진다.",
+          "주스가 얼어 유리병이 깨진다.",
+          "얼음 틀 위로 얼음이 솟아오른다."
+        ],
+        ans: 0,
+        exp: "부푼 페트병의 얼음이 녹아 원래대로 돌아가는 것은 얼음이 녹아 부피가 줄어들었기 때문입니다."
+      },
+      {
+        q: "증발과 끓음의 공통점으로 알맞은 것은 무엇인가요?",
+        options: [
+          "물이 수증기로 변하고 물의 양이 줄어든다.",
+          "물속에서 기포가 터지며 빠르게 일어난다.",
+          "오직 물의 표면에서만 상태 변화가 일어난다.",
+          "가열할 때에만 일어나는 현상이다."
+        ],
+        ans: 0,
+        exp: "증발과 끓음은 모두 물이 수증기(기체)로 변하며 전체 물의 양이 줄어든다는 공통점이 있습니다."
+      },
+      {
+        q: "증발과 끓음의 차이점에 대한 설명으로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: [
+          "증발할 때가 끓을 때보다 물의 양이 더 빠르게 줄어든다.",
+          "증발은 물의 표면에서만 일어난다.",
+          "끓음은 물의 표면과 물속에서 모두 일어난다.",
+          "끓을 때는 물의 양이 매우 빠르게 줄어든다."
+        ],
+        ans: 0,
+        exp: "물이 끓을 때가 증발할 때보다 물의 양이 훨씬 빠르게 줄어듭니다."
+      },
+      {
+        q: "다음 중 물의 증발 현상을 이용한 예로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: [
+          "추운 겨울날 따뜻한 곳에 들어오면 안경알이 뿌옇게 된다.",
+          "젖은 빨래를 건조대에 넣어 말린다.",
+          "오징어, 고추, 생선 등의 음식 재료를 말린다.",
+          "과일을 말려 말린 과일을 만든다."
+        ],
+        ans: 0,
+        exp: "안경알이 뿌옇게 되는 것은 공기 중의 수증기가 차가운 안경알에 닿아 맺히는 '응결' 현상입니다."
+      },
+      {
+        q: "다음 중 수증기가 응결하여 나타나는 현상으로 알맞은 것은 무엇인가요?",
+        options: [
+          "이른 아침 차가워진 풀잎이나 거미줄에 이슬이 맺힌다.",
+          "비커에 담긴 물을 오랫동안 놓아두면 물의 높이가 낮아진다.",
+          "젖은 빨래가 해에 의해 마른다.",
+          "말린 고추를 만든다."
+        ],
+        ans: 0,
+        exp: "풀잎에 이슬이 맺히는 것은 기체인 수증기가 액체인 물방울로 변하는 '응결' 현상입니다."
+      },
+      {
+        q: "비커의 물을 가열하여 끓일 때 일어나는 현상으로 알맞은 것은 무엇인가요?",
+        options: [
+          "시간이 지나면서 물속에서 기포가 생기고 표면이 울퉁불퉁해진다.",
+          "물의 높이가 점점 높아진다.",
+          "물의 표면에서만 아주 천천히 변화가 일어난다.",
+          "물속의 기포는 시간이 지나도 크기가 변하지 않는다."
+        ],
+        ans: 0,
+        exp: "물울 가열해 끓이면 물속에서 기포가 생겨 올라와 터지면서 표면이 울퉁불퉁해집니다."
+      },
+      {
+        q: "밤에 기온이 내려갈 때 공기 중 수증기가 응결하는 성질을 이용해 물을 얻는 장치는 무엇인가요?",
+        options: ["와카워터", "솔라볼", "해수 담수화", "안개 포집기"],
+        ans: 0,
+        exp: "와카워터는 밤에 기온이 내려가면 공기 중 수증기가 응결하여 물방울이 맺히는 원리를 이용합니다."
+      },
+      {
+        q: "오염된 물을 넣고 햇볕을 쬐어 증발과 응결 과정을 통해 깨끗한 물을 얻는 장치는 무엇인가요?",
+        options: ["솔라볼", "와카워터", "해수 담수화", "안개 포집기"],
+        ans: 0,
+        exp: "솔라볼은 햇볕으로 오염된 물을 증발시킨 후 다시 응결시켜 깨끗한 물을 얻는 장치입니다."
+      },
+      {
+        q: "그물망을 설치하여 안개의 물방울을 모아 물을 얻는 장치는 무엇인가요?",
+        options: ["안개 포집기", "와카워터", "솔라볼", "해수 담수화"],
+        ans: 0,
+        exp: "안개 포집기는 그물망에 안개(물방울)를 모아 물을 얻는 장치입니다."
+      },
+      {
+        q: "바닷물 속에 들어있는 소금 성분을 제거하여 이용할 수 있는 물을 얻는 방법은 무엇인가요?",
+        options: ["해수 담수화", "와카워터", "솔라볼", "안개 포집기"],
+        ans: 0,
+        exp: "바닷물의 소금을 제거하여 단수로 만드는 과정을 '해수 담수화'라고 합니다."
+      },
+      {
+        q: "일상생활에서 물이 상태 변화하는 예와 과정이 잘못 연결된 것은 무엇인가요?",
+        options: [
+          "뚜껑을 열어둔 물휴지가 마름 : 얼음(고체) → 물(액체)",
+          "얼음 틀의 물을 냉동실에 얼림 : 물(액체) → 얼음(고체)",
+          "막대 얼음과자가 점점 녹음 : 얼음(고체) → 물(액체)",
+          "페트병에 얼린 얼음이 마실 수 있게 됨 : 얼음(고체) → 물(액체)"
+        ],
+        ans: 0,
+        exp: "물휴지가 마르는 것은 물(액체)이 수증기(기체)로 변하는 증발 현상입니다."
+      },
+      {
+        q: "다음 중 우리 생활에서 물이 이용되는 모습으로 <u>옳지 않은 것</u>은 무엇인가요?",
+        options: [
+          "자석을 만들어 철을 끌어당길 때 이용한다.",
+          "물을 이용해 전기를 얻는다.",
+          "농사를 지을 때 이용한다.",
+          "공장에서 물건을 만들 때 이용한다."
+        ],
+        ans: 0,
+        exp: "물은 전기 생산, 농사, 공장 가동, 생명 유지, 일상생활 등 다양하게 이용되지만 자석을 만드는 데 직접 사용되지는 않습니다."
+      },
+      {
+        q: "얼음이 든 비커의 바깥 면에 물방울이 맺히는 이유로 가장 알맞은 것은 무엇인가요?",
+        options: [
+          "공기 중의 수증기가 차가운 비커 표면에 닿아 응결했기 때문이다.",
+          "비커 안의 얼음물이 비커 유리 구멍을 뚫고 새어 나왔기 때문이다.",
+          "비커 표면의 유리가 녹아 물로 변했기 때문이다.",
+          "비커 내부의 물이 증발하여 밖으로 튕겨 나갔기 때문이다."
+        ],
+        ans: 0,
+        exp: "공기 중에 있던 기체 상태의 수증기가 차가운 비커 겉면에 닿아 액체(물방울)로 응결된 것입니다."
+      },
+      {
+        q: "추운 겨울날 집 안과 밖의 온도 차가 클 때 유리창 안쪽에 물방울이 맺히는 원인은 무엇인가요?",
+        options: [
+          "집 안 공기 중의 수증기가 차가운 유리창에 닿아 응결했기 때문이다.",
+          "밖의 눈이 유리창을 뚫고 들어왔기 때문이다.",
+          "유리창의 물이 증발했기 때문이다.",
+          "유리창이 얼면서 부피가 줄어들었기 때문이다."
+        ],
+        ans: 0,
+        exp: "따뜻한 집 안의 수증기가 차가워진 유리창 안쪽에 닿아 응결 현상이 일어난 것입니다."
+      },
+      {
+        q: "따뜻한 물로 목욕을 한 뒤 욕실 거울에 일어나는 현상으로 알맞은 것은 무엇인가요?",
+        options: [
+          "수증기가 응결하여 거울에 물방울이 맺힌다.",
+          "거울의 물이 증발하여 완벽하게 깨끗해진다.",
+          "거울이 얼어서 부피가 늘어난다.",
+          "거울 표면의 무게가 줄어든다."
+        ],
+        ans: 0,
+        exp: "목욕할 때 발생한 수증기가 차가운 거울 표면에 닿아 응결하여 물방울이 맺힙니다."
+      },
+      {
+        q: "물이 우리 생물에게 꼭 필요한 가장 중요한 까닭은 무엇인가요?",
+        options: [
+          "생물이 생명을 유지하는 데 필수적이기 때문이다.",
+          "물건을 단단하게 만들어 주기 때문이다.",
+          "지구의 무게를 가볍게 해주기 때문이다.",
+          "모든 물체를 얼려 보관할 수 있게 해주기 때문이다."
+        ],
+        ans: 0,
+        exp: "물은 인간을 비롯한 모든 생물이 생명을 유지하는 데 꼭 필요합니다."
+      },
+      {
+        q: "물이 얼어 얼음이 될 때 부피는 변하지만 변하지 않는 것은 무엇인가요?",
+        options: ["무게", "높이", "모양", "단단함"],
+        ans: 0,
+        exp: "물이 얼거나 얼음이 녹는 상태 변화가 일어나도 무게는 변하지 않습니다."
+      }
+    ];
+
+    // ----------------------------------------------------
+    // 게임 상태 변수
+    // ----------------------------------------------------
+    let userName = "";
+    let quizQueue = [];
+    let currentIdx = 0;
+    let startTime = null;
+
+    const startScreen = document.getElementById("start-screen");
+    const quizScreen = document.getElementById("quiz-screen");
+    const wrongScreen = document.getElementById("wrong-screen");
+    const successScreen = document.getElementById("success-screen");
+
+    function shuffle(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function startQuiz() {
+      const nameInput = document.getElementById("userName").value.trim();
+      if (!nameInput) {
+        alert("이름을 입력해 주세요!");
+        return;
+      }
+      userName = nameInput;
+
+      // 1-7번: 객관식 20개 중 7개 무작위 추출 및 보기 셔플
+      // 8-10번: 단답식 10개 중 3개 무작위 추출
+      const selectedMCQs = shuffle(mcqBank).slice(0, 7);
+      const selectedSAs = shuffle(saBank).slice(0, 3);
+
+      const formattedMCQs = selectedMCQs.map(item => {
+        const correctText = item.options[item.ans];
+        const shuffledOptions = shuffle(item.options);
+        const newAnsIdx = shuffledOptions.indexOf(correctText);
+        return {
+          type: "MCQ",
+          q: item.q,
+          options: shuffledOptions,
+          ans: newAnsIdx,
+          exp: item.exp
+        };
+      });
+
+      const formattedSAs = selectedSAs.map(item => ({
+        type: "SA",
+        q: item.q,
+        ans: item.ans,
+        exp: item.exp
+      }));
+
+      quizQueue = [...formattedMCQs, ...formattedSAs];
+      currentIdx = 0;
+      startTime = Date.now();
+
+      startScreen.style.display = "none";
+      wrongScreen.style.display = "none";
+      successScreen.style.display = "none";
+      quizScreen.style.display = "block";
+
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const qData = quizQueue[currentIdx];
+      
+      const progressPercent = ((currentIdx + 1) / 10) * 100;
+      document.getElementById("progress-bar").style.width = progressPercent + "%";
+      document.getElementById("question-number").textContent = `문제 ${currentIdx + 1} / 10`;
+
+      const badge = document.getElementById("question-type-badge");
+      const optionsBox = document.getElementById("options-container");
+      const saBox = document.getElementById("sa-container");
+
+      document.getElementById("question-text").innerHTML = `${currentIdx + 1}. ${qData.q}`;
+
+      if (qData.type === "MCQ") {
+        badge.textContent = "객관식";
+        badge.className = "badge badge-mcq";
+        optionsBox.style.display = "flex";
+        saBox.style.display = "none";
+
+        optionsBox.innerHTML = "";
+        qData.options.forEach((optText, idx) => {
+          const btn = document.createElement("button");
+          btn.className = "option-btn";
+          btn.textContent = `${idx + 1}. ${optText}`;
+          btn.onclick = () => checkMCQAnswer(idx);
+          optionsBox.appendChild(btn);
+        });
+      } else {
+        badge.textContent = "단답식";
+        badge.className = "badge badge-sa";
+        optionsBox.style.display = "none";
+        saBox.style.display = "flex";
+
+        const saInput = document.getElementById("sa-input");
+        saInput.value = "";
+        setTimeout(() => saInput.focus(), 100);
+      }
+    }
+
+    function checkMCQAnswer(selectedIdx) {
+      const qData = quizQueue[currentIdx];
+      if (selectedIdx === qData.ans) {
+        nextQuestion();
+      } else {
+        showWrongScreen(qData.exp);
+      }
+    }
+
+    function submitSAAnswer() {
+      const qData = quizQueue[currentIdx];
+      const userInput = document.getElementById("sa-input").value.trim().replace(/\s+/g, "");
+
+      if (!userInput) {
+        alert("정답을 입력해주세요.");
+        return;
+      }
+
+      // 허용 정답 목록과 비교 (공백 제거 후 비교)
+      const isCorrect = qData.ans.some(target => target.replace(/\s+/g, "") === userInput);
+
+      if (isCorrect) {
+        nextQuestion();
+      } else {
+        showWrongScreen(qData.exp);
+      }
+    }
+
+    function nextQuestion() {
+      currentIdx++;
+      if (currentIdx < 10) {
+        renderQuestion();
+      } else {
+        finishQuiz();
+      }
+    }
+
+    function showWrongScreen(explanationText) {
+      quizScreen.style.display = "none";
+      wrongScreen.style.display = "block";
+      document.getElementById("explanation-text").textContent = explanationText;
+    }
+
+    function returnToStart() {
+      wrongScreen.style.display = "none";
+      successScreen.style.display = "none";
+      quizScreen.style.display = "none";
+      startScreen.style.display = "block";
+    }
+
+    function finishQuiz() {
+      const endTime = Date.now();
+      const elapsedSeconds = Math.round((endTime - startTime) / 1000);
+
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      
+      const dateStr = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+
+      document.getElementById("result-name").textContent = userName;
+      document.getElementById("result-time").textContent = `${elapsedSeconds}초`;
+      document.getElementById("result-date").textContent = dateStr;
+
+      quizScreen.style.display = "none";
+      successScreen.style.display = "block";
+    }
+  </script>
+</body>
+</html>
