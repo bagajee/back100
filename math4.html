@@ -1,594 +1,1656 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>초등 4학년 수학 퀴즈</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-      word-break: keep-all;
-      overflow-wrap: break-word;
-    }
-    body {
-      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      background: #f1f5f9;
-      margin: 0;
-      padding: 12px;
-      color: #1e293b;
-    }
-    .card {
-      background: #ffffff;
-      padding: 1.5rem 1.25rem;
-      border-radius: 24px;
-      box-shadow: 0 10px 30px -5px rgba(0,0,0,0.05);
-      border: 1px solid #e2e8f0;
-      width: 100%;
-      max-width: 480px;
-      text-align: center;
-      max-height: 92vh;
-      overflow-y: auto;
-      position: relative;
-    }
-    .hidden { display: none !important; }
-    
-    .nav-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 14px;
-    }
-    .btn-home {
-      width: auto !important;
-      padding: 6px 14px !important;
-      margin: 0 !important;
-      background: #f1f5f9 !important;
-      color: #475569 !important;
-      font-size: 0.85rem !important;
-      border-radius: 10px !important;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      cursor: pointer;
-      border: 1px solid #cbd5e1 !important;
-      font-weight: 700;
-      text-decoration: none;
-    }
-    .btn-home:active { background: #e2e8f0 !important; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#eef2fa">
+<meta name="color-scheme" content="light">
+<title>4학년 수학</title>
+<style>
+:root{
+  --bg:#eaeff9;
+  --grid:#dae2f2;
+  --surface:#ffffff;
+  --ink:#15233f;
+  --muted:#6c7c9c;
+  --line:#dee6f3;
+  --brand:#2f57cf;
+  --brand-ink:#1c3a9c;
+  --brand-soft:#e8edff;
+  --mint:#0f9d76;
+  --mint-soft:#e2f6ef;
+  --amber:#e08600;
+  --amber-soft:#fdf0d9;
+  --coral:#e03b3b;
+  --coral-soft:#fdeaea;
+  --radius:16px;
+  --shadow:0 2px 0 rgba(21,35,63,.06), 0 12px 28px -18px rgba(21,35,63,.5);
+  --font:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',system-ui,sans-serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body.locked{overflow:hidden}
+body{
+  margin:0;
+  min-height:100dvh;
+  font-family:var(--font);
+  color:var(--ink);
+  background-color:var(--bg);
+  /* 모눈종이 배경: 수학 공책 느낌 */
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size:26px 26px;
+  font-size:16px;
+  line-height:1.55;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+.app{
+  width:100%;
+  max-width:520px;
+  margin:0 auto;
+  padding:
+    max(14px, env(safe-area-inset-top))
+    max(14px, env(safe-area-inset-left))
+    calc(24px + env(safe-area-inset-bottom))
+    max(14px, env(safe-area-inset-right));
+}
+.screen{display:none}
+.screen.active{display:block}
+.hidden{display:none !important}
 
-    button {
-      width: 100%;
-      padding: 12px 10px;
-      margin: 4px 0;
-      border: none;
-      border-radius: 14px;
-      background: #8b5cf6;
-      color: white;
-      font-size: 0.95rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.15s ease;
-      touch-action: manipulation;
-    }
-    button:active { transform: scale(0.98); }
-    button.btn-sub { background: #f5f3ff; color: #6d28d9; border: 1px solid #ddd6fe; text-align: left; padding-left: 16px; font-weight: 600; }
-    button.btn-total { background: #fffbe3; color: #b45309; border: 1px solid #fde68a; text-align: left; padding-left: 16px; font-weight: 800; }
-    button.btn-secondary { background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; margin-top: 10px; }
-    button.btn-retry { background: #fef2f2; color: #ef4444; border: 1px solid #fca5a5; margin-top: 10px; }
-    
-    input {
-      width: 100%;
-      padding: 14px;
-      margin-bottom: 14px;
-      border: 2px solid #e2e8f0;
-      border-radius: 14px;
-      font-size: 1.05rem;
-      text-align: center;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-    input:focus { border-color: #8b5cf6; }
-    
-    .grade-header {
-      background: #4c1d95;
-      color: #ffffff;
-      padding: 8px 12px;
-      border-radius: 12px;
-      font-size: 1rem;
-      font-weight: 800;
-      margin: 18px 0 10px 0;
-      text-align: center;
-    }
+/* ---------- 공통 요소 ---------- */
+.bar{
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:14px;
+}
+.bar .spacer{flex:1}
+.chip-link,.chip-btn{
+  display:inline-flex;align-items:center;gap:5px;
+  min-height:40px;padding:0 13px;
+  background:var(--surface);color:var(--ink);
+  border:1px solid var(--line);border-radius:11px;
+  font:inherit;font-size:.86rem;font-weight:700;
+  text-decoration:none;cursor:pointer;
+}
+.chip-btn:active,.chip-link:active{background:var(--brand-soft);border-color:#c6d3ff}
 
-    .chapter-title {
-      background: #f5f3ff;
-      color: #6d28d9;
-      padding: 8px 12px;
-      border-radius: 10px;
-      font-size: 0.9rem;
-      font-weight: 700;
-      margin: 12px 0 6px 0;
-      text-align: left;
-      border-left: 4px solid #8b5cf6;
-    }
+h1{font-size:1.6rem;line-height:1.25;letter-spacing:-.02em;margin:2px 0 6px;font-weight:800}
+h2{font-size:1.22rem;line-height:1.3;letter-spacing:-.02em;margin:0 0 6px;font-weight:800}
+.lede{color:var(--muted);font-size:.92rem;margin:0 0 18px}
 
-    .question-box {
-      min-height: 140px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      margin: 12px 0 16px 0;
-      padding: 18px 14px;
-      background: #f5f3ff;
-      border-radius: 16px;
-      border: 1px solid #ddd6fe;
-    }
-    .question-main-text {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: #4c1d95;
-      line-height: 1.6;
-      width: 100%;
-      text-align: center;
-    }
-    .svg-container {
-      width: 100%;
-      max-width: 180px;
-      height: 110px;
-      margin: 5px 0;
-    }
+.btn{
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  width:100%;min-height:54px;padding:14px 16px;
+  border:none;border-radius:14px;
+  background:var(--brand);color:#fff;
+  font:inherit;font-size:1.02rem;font-weight:800;letter-spacing:-.01em;
+  cursor:pointer;touch-action:manipulation;
+  transition:transform .12s ease, background .15s ease;
+}
+.btn:active{transform:scale(.985)}
+.btn[disabled]{opacity:.5;cursor:default;transform:none}
+.btn.ghost{background:var(--surface);color:var(--ink);border:1px solid var(--line);font-weight:700}
+.btn.ghost:active{background:#f2f5fc}
+.btn + .btn{margin-top:9px}
+:focus-visible{outline:3px solid #90a8ff;outline-offset:2px}
 
-    .options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-    .options button {
-      margin: 0;
-      font-size: 0.95rem;
-      padding: 10px 6px;
-      min-height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #ffffff;
-      color: #0f172a;
-      border: 2px solid #e2e8f0;
-      border-radius: 14px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-    }
-    .options button:active { background: #f5f3ff; border-color: #8b5cf6; }
-    
-    .progress-bar { background: #e2e8f0; height: 8px; border-radius: 4px; margin-bottom: 15px; overflow: hidden; }
-    .progress-fill { background: #8b5cf6; height: 100%; width: 0%; transition: width 0.3s; }
+/* ---------- 홈: 단원 아코디언 ---------- */
+.hero{
+  background:var(--surface);border:1px solid var(--line);border-radius:20px;
+  padding:20px 18px;box-shadow:var(--shadow);margin-bottom:16px;
+}
+.hero .badge{
+  display:inline-block;padding:3px 10px;border-radius:999px;
+  background:var(--brand-soft);color:var(--brand-ink);
+  font-size:.76rem;font-weight:800;margin-bottom:9px;
+}
+.hero p{margin:0;color:var(--muted);font-size:.92rem}
 
-    /* 분수 스타일링 */
-    .frac-container { display: inline-flex; align-items: center; justify-content: center; vertical-align: middle; margin: 0 3px; }
-    .whole { font-size: 1.2rem; font-weight: 800; margin-right: 3px; line-height: 1; }
-    .frac { display: inline-flex; flex-direction: column; align-items: center; justify-content: center; vertical-align: middle; font-size: 0.88rem; font-weight: 800; line-height: 1.1; }
-    .frac .num { border-bottom: 2px solid currentColor; padding: 0 3px 1px 3px; width: 100%; text-align: center; }
-    .frac .den { padding: 1px 3px 0 3px; width: 100%; text-align: center; }
+.chapter{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  margin-bottom:10px;overflow:hidden;box-shadow:var(--shadow);
+}
+.chapter summary{
+  display:flex;align-items:center;gap:12px;
+  padding:14px 15px;cursor:pointer;list-style:none;min-height:60px;
+}
+.chapter summary::-webkit-details-marker{display:none}
+.num{
+  flex:none;width:32px;height:32px;border-radius:10px;
+  background:var(--brand-soft);color:var(--brand-ink);
+  display:grid;place-items:center;font-weight:800;font-size:.98rem;
+  font-variant-numeric:tabular-nums;
+}
+.chapter summary .t{flex:1;font-weight:700;letter-spacing:-.01em;font-size:1rem}
+.chapter summary .arrow{flex:none;color:var(--muted);transition:transform .18s ease}
+.chapter[open] summary .arrow{transform:rotate(90deg)}
+.chapter[open] summary{border-bottom:1px solid var(--line)}
+.sublist{padding:9px 12px 13px}
+.sub{
+  display:flex;align-items:center;gap:10px;width:100%;
+  min-height:50px;padding:11px 12px;margin:0 0 7px;
+  background:#fbfcff;border:1px solid var(--line);border-radius:12px;
+  font:inherit;font-size:.95rem;font-weight:600;text-align:left;color:var(--ink);
+  cursor:pointer;touch-action:manipulation;
+}
+.sub .dot{flex:none;width:7px;height:7px;border-radius:50%;background:var(--mint)}
+.sub .sub-t{flex:1}
+.sub .qn{
+  flex:none;font-size:.78rem;font-weight:700;color:var(--muted);
+  background:#eef2fa;border-radius:999px;padding:2px 8px;font-variant-numeric:tabular-nums;
+}
+.sub.total .qn{background:#f6e3c0;color:#7a4a00}
+.sub:active{background:var(--mint-soft);border-color:#b7e5d5}
+.sub.total{
+  background:var(--amber-soft);border-color:#f3ddb4;color:#7a4a00;font-weight:800;margin-bottom:0;
+}
+.sub.total .dot{background:var(--amber)}
+.sub.total:active{background:#fbe6c2}
 
-    .modal-overlay {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: #f8fafc;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 2000;
-      padding: 16px;
-    }
-    .modal-content {
-      background: white;
-      padding: 22px;
-      border-radius: 20px;
-      width: 100%;
-      max-width: 440px;
-      text-align: left;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-      border: 1px solid #e2e8f0;
-    }
-    .modal-title { font-size: 1.15rem; font-weight: 800; color: #ef4444; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
-    .exp-box {
-      background: #f8fafc;
-      padding: 14px;
-      border-radius: 14px;
-      border: 1px solid #e2e8f0;
-      margin-bottom: 14px;
-    }
-    .exp-label { font-size: 0.8rem; font-weight: 800; color: #64748b; margin-bottom: 4px; text-transform: uppercase; }
-    .exp-q-text { font-size: 1rem; font-weight: 700; color: #1e293b; margin-bottom: 10px; line-height: 1.5; }
-    .exp-ans-group { display: flex; gap: 8px; margin-bottom: 10px; }
-    .exp-ans-card { flex: 1; padding: 10px; border-radius: 10px; text-align: center; }
-    .exp-ans-card.wrong { background: #fef2f2; border: 1px solid #fca5a5; color: #dc2626; }
-    .exp-ans-card.correct { background: #f0fdf4; border: 1px solid #86efac; color: #16a34a; }
-    .exp-ans-val { font-size: 1rem; font-weight: 800; margin-top: 2px; }
-    .exp-desc { font-size: 0.92rem; color: #334155; line-height: 1.5; background: #ffffff; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1; }
-  </style>
+/* ---------- 퀴즈 ---------- */
+.quizbar{padding:2px 0 4px;margin-bottom:2px}
+.meter{display:flex;align-items:baseline;gap:6px;font-size:.86rem;color:var(--muted);font-weight:700}
+.meter b{font-size:1.25rem;color:var(--brand-ink);font-variant-numeric:tabular-nums}
+.track{height:8px;border-radius:99px;background:#d7e0f0;overflow:hidden;margin-top:8px}
+.fill{height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--brand),#4a86ff);transition:width .35s cubic-bezier(.4,0,.2,1)}
+
+.qcard{
+  background:var(--surface);border:1px solid var(--line);border-radius:20px;
+  box-shadow:var(--shadow);padding:22px 18px;margin:12px 0 14px;
+  min-height:150px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:12px;text-align:center;
+}
+.qtext{font-size:1.2rem;font-weight:700;line-height:1.6;width:100%}
+.qtext b{font-weight:800}
+
+.options{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.options.stack{grid-template-columns:1fr}
+.opt{
+  display:flex;align-items:center;justify-content:center;gap:4px;
+  min-height:64px;padding:12px 10px;
+  background:var(--surface);color:var(--ink);
+  border:1.5px solid var(--line);border-radius:14px;
+  font:inherit;font-size:1.06rem;font-weight:700;line-height:1.35;
+  cursor:pointer;touch-action:manipulation;
+  transition:transform .1s ease, background .15s ease, border-color .15s ease;
+}
+.options.stack .opt{min-height:54px;font-size:1rem}
+.opt:active{transform:scale(.985);background:#f4f7ff}
+.opt.is-right{background:var(--mint-soft);border-color:var(--mint);color:#0a6b51}
+.opt.is-right::after{content:"✓";margin-left:2px;font-weight:800}
+.opt.is-wrong{background:var(--coral-soft);border-color:var(--coral);color:#a51f1f}
+
+.count-wrap{text-align:center;padding:48px 0 30px}
+.count-num{
+  font-size:6rem;line-height:1;font-weight:800;color:var(--brand);
+  font-variant-numeric:tabular-nums;margin:18px 0;
+  animation:pop .9s ease-out;
+}
+@keyframes pop{from{transform:scale(.55);opacity:0}to{transform:scale(1);opacity:1}}
+
+/* ---------- 해설 바텀시트 ---------- */
+.scrim{
+  position:fixed;inset:0;background:rgba(21,35,63,.42);
+  opacity:0;pointer-events:none;transition:opacity .2s ease;z-index:20;
+}
+.scrim.open{opacity:1;pointer-events:auto}
+.sheet{
+  position:fixed;left:0;right:0;bottom:0;z-index:21;
+  margin:0 auto;max-width:520px;
+  background:var(--surface);
+  border-radius:22px 22px 0 0;
+  border-top:4px solid var(--coral);
+  padding:18px 18px calc(18px + env(safe-area-inset-bottom));
+  box-shadow:0 -14px 40px -20px rgba(21,35,63,.6);
+  transform:translateY(102%);transition:transform .26s cubic-bezier(.32,.72,0,1);
+  max-height:82dvh;overflow-y:auto;
+}
+.sheet.open{transform:translateY(0)}
+.sheet h3{margin:0 0 12px;font-size:1.05rem;color:var(--coral);font-weight:800}
+.answer-row{
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  padding:9px 12px;border-radius:11px;margin-bottom:7px;font-size:.98rem;
+}
+.answer-row .k{font-size:.82rem;font-weight:800;color:var(--muted);flex:none}
+.answer-row.mine{background:var(--coral-soft)}
+.answer-row.right{background:var(--mint-soft)}
+.answer-row.right .k{color:#0a6b51}
+.exp{
+  border-top:1px dashed var(--line);margin-top:12px;padding-top:12px;
+  font-size:.95rem;line-height:1.65;color:#2c3c5c;
+}
+.exp b{color:var(--brand-ink)}
+.sheet .btn{margin-top:16px;background:var(--coral)}
+
+/* ---------- 결과 ---------- */
+.result-hero{
+  background:linear-gradient(160deg,#0f9d76,#0b7f5f);color:#fff;
+  border-radius:20px;padding:26px 20px;text-align:center;margin-bottom:14px;
+}
+.result-hero .big{font-size:2rem;font-weight:800;margin:6px 0 2px;letter-spacing:-.02em}
+.result-hero p{margin:0;opacity:.9;font-size:.93rem}
+.stats{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:6px 16px;margin-bottom:16px;box-shadow:var(--shadow);
+}
+.stat{display:flex;justify-content:space-between;gap:14px;align-items:baseline;padding:13px 0;border-bottom:1px solid var(--line)}
+.stat:last-child{border-bottom:none}
+.stat .k{color:var(--muted);font-size:.9rem;font-weight:600;flex:none}
+.stat .v{font-weight:800;text-align:right}
+
+/* ---------- 문제 내용 요소 ---------- */
+.frac{
+  display:inline-flex;flex-direction:column;vertical-align:middle;
+  text-align:center;font-size:.94em;padding:0 4px;line-height:1.12;
+}
+.frac>span{display:block}
+.frac .bottom{border-top:1.8px solid currentColor;padding-top:1px}
+.shape{display:block;margin:0 auto 6px;max-width:100%;height:auto}
+.term-head{
+  display:flex;align-items:center;gap:9px;
+  margin:20px 2px 10px;font-size:.88rem;font-weight:800;
+  color:var(--brand-ink);letter-spacing:-.01em;
+}
+.term-head::after{content:"";flex:1;height:1px;background:var(--line)}
+#chapter-list > .term-head:first-child{margin-top:4px}
+.eq{display:flex;align-items:center;justify-content:center;gap:5px;flex-wrap:wrap}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms !important;transition-duration:.01ms !important}
+}
+@media (max-width:360px){
+  .qtext{font-size:1.1rem}
+  .opt{font-size:1rem;min-height:58px}
+}
+</style>
 </head>
 <body>
+<div class="app">
 
-<!-- 메인 화면 -->
-<div class="card" id="home-screen">
-  <div class="nav-header">
-    <a href="./index.html" class="btn-home">🏠 홈으로</a>
+<!-- 홈 -->
+<section class="screen active" id="screen-home">
+  <div class="bar">
+    <a href="../../index.html" class="chip-link">← 홈으로</a>
   </div>
-  <h2 style="margin-top:0; color:#4c1d95;">📐 초등 4학년 수학 퀴즈</h2>
-  <p style="color:#6d28d9; font-size: 0.85rem; margin-bottom:12px;">원하는 학습 단원을 선택하세요!</p>
-  
-  <div class="grade-header">📘 4학년 1학기</div>
-  <div class="chapter-title">3. 곱셈과 나눗셈</div>
-  <button class="btn-sub" onclick="openSetup('1-1', '1) 세 자리 수에 몇십 곱하기')">🟢 1) 세 자리 수에 몇십 곱하기</button>
-  <button class="btn-sub" onclick="openSetup('1-2', '2) 세 자리 수에 몇십몇 곱하기')">🟢 2) 세 자리 수에 몇십몇 곱하기</button>
-  <button class="btn-sub" onclick="openSetup('1-3', '3) 몇십으로 나누어 보기')">🟢 3) 몇십으로 나누어 보기</button>
-  <button class="btn-sub" onclick="openSetup('1-4', '4) 몇십몇으로 나누기 (나머지 없음)')">🟢 4) 몇십몇으로 나누기(나머지 없음)</button>
-  <button class="btn-sub" onclick="openSetup('1-5', '5) 몇십몇으로 나누기 (나머지 있음)')">🟢 5) 몇십몇으로 나누기(나머지 있음)</button>
-  <button class="btn-total" onclick="openSetup('1-all', '🏆 [단원정리] 곱셈과 나눗셈')">🏆 [단원정리] 곱셈과 나눗셈</button>
-
-  <div class="grade-header">📙 4학년 2학기</div>
-  <div class="chapter-title">1. 분수의 덧셈과 뺄셈</div>
-  <button class="btn-sub" onclick="openSetup('2-1', '1) 진분수의 덧셈')">🟢 1) 진분수의 덧셈</button>
-  <button class="btn-sub" onclick="openSetup('2-2', '2) 대분수의 덧셈')">🟢 2) 대분수의 덧셈</button>
-  <button class="btn-sub" onclick="openSetup('2-3', '3) 진분수의 뺄셈')">🟢 3) 진분수의 뺄셈</button>
-  <button class="btn-sub" onclick="openSetup('2-4', '4) 자연수와 분수의 뺄셈')">🟢 4) 자연수와 분수의 뺄셈</button>
-  <button class="btn-sub" onclick="openSetup('2-5', '5) 대분수의 뺄셈')">🟢 5) 대분수의 뺄셈</button>
-  <button class="btn-total" onclick="openSetup('2-all', '🏆 [단원정리] 분수의 덧셈과 뺄셈')">🏆 [단원정리] 분수의 덧셈과 뺄셈</button>
-
-  <div class="chapter-title">2. 소수의 덧셈과 뺄셈</div>
-  <button class="btn-sub" onclick="openSetup('3-1', '1) 소수 한 자리 수의 덧셈')">🟢 1) 소수 한 자리 수의 덧셈</button>
-  <button class="btn-sub" onclick="openSetup('3-2', '2) 소수 두 자리 수의 덧셈')">🟢 2) 소수 두 자리 수의 덧셈</button>
-  <button class="btn-sub" onclick="openSetup('3-3', '3) 소수 한 자리 수의 뺄셈')">🟢 3) 소수 한 자리 수의 뺄셈</button>
-  <button class="btn-sub" onclick="openSetup('3-4', '4) 소수 두 자리 수의 뺄셈')">🟢 4) 소수 두 자리 수의 뺄셈</button>
-  <button class="btn-total" onclick="openSetup('3-all', '🏆 [단원정리] 소수의 덧셈과 뺄셈')">🏆 [단원정리] 소수의 덧셈과 뺄셈</button>
-
-  <div class="chapter-title">3. 도형</div>
-  <button class="btn-sub" onclick="openSetup('4-tri', '1) 삼각형의 성질과 각도')">🔺 1) 삼각형의 성질과 각도</button>
-  <button class="btn-sub" onclick="openSetup('4-3', '2) 사다리꼴, 평행사변형, 마름모')">🟢 2) 사다리꼴, 평행사변형, 마름모</button>
-  <button class="btn-sub" onclick="openSetup('4-4', '3) 다각형과 정다각형')">🟢 3) 다각형과 정다각형</button>
-  <button class="btn-total" onclick="openSetup('4-all', '🏆 [단원정리] 도형 종합 탐구')">🏆 [단원정리] 도형 종합 탐구</button>
-</div>
-
-<!-- 시작 화면 -->
-<div class="card hidden" id="setup-screen">
-  <div class="nav-header">
-    <a href="./index.html" class="btn-home">🏠 홈으로</a>
+  <div class="hero">
+    <span class="badge">초등 4학년</span>
+    <h1>수학 문제 풀기</h1>
+    <p>1학기와 2학기 단원이 모두 들어 있습니다. 소단원은 10문제, 단원 전체 문제는 20문제입니다.</p>
   </div>
-  <h3 style="margin-top:0; color:#4c1d95;" id="setup-title">수학 퀴즈</h3>
-  <p style="color:#6d28d9; font-size:0.9rem;" id="setup-desc">총 20문제를 맞히면 완주 성공입니다!</p>
-  <input type="text" id="username" placeholder="이름을 입력하세요" autocomplete="off">
-  <button onclick="startCountDown()">게임 시작</button>
-  <button onclick="showHomeScreen()" class="btn-secondary">내용 선택</button>
-</div>
+  <div id="chapter-list"></div>
+</section>
 
-<!-- 카운트다운 화면 -->
-<div class="card hidden" id="countdown-screen">
-  <div class="nav-header">
-    <a href="./index.html" class="btn-home">🏠 홈으로</a>
+<!-- 시작 -->
+<section class="screen" id="screen-setup">
+  <div class="bar">
+    <button class="chip-btn" onclick="goHome()">← 단원 목록</button>
   </div>
-  <p style="font-size:1.1rem; color:#6d28d9; margin-top:20px;">잠시 후 퀴즈가 시작됩니다!</p>
-  <h1 id="countdown-text" style="font-size: 4.5rem; color:#8b5cf6; margin: 20px 0;">3</h1>
-</div>
+  <div class="hero">
+    <span class="badge" id="setup-chapter">단원</span>
+    <h2 id="setup-title">수학 문제 풀기</h2>
+    <p>이름을 쓰고 시작하세요. <span data-total>10</span>문제를 맞히면 완료됩니다.</p>
+  </div>
+  <label class="lede" for="username" style="display:block;margin:0 0 8px;font-weight:700;color:var(--ink)">이름</label>
+  <input id="username" type="text" placeholder="이름을 입력하세요" autocomplete="off"
+         autocapitalize="off" enterkeyhint="go" maxlength="20"
+         style="width:100%;min-height:54px;padding:14px 16px;border:1.5px solid var(--line);
+                border-radius:14px;font:inherit;font-size:1.05rem;background:var(--surface);color:var(--ink)">
+  <p id="name-error" class="lede hidden" style="color:var(--coral);margin:8px 0 0;font-weight:700">이름을 먼저 입력하세요.</p>
+  <div style="height:14px"></div>
+  <button class="btn" onclick="startCountDown()">시작하기</button>
+</section>
 
-<!-- 퀴즈 진행 화면 -->
-<div class="card hidden" id="quiz-screen">
-  <div class="nav-header">
-    <a href="./index.html" class="btn-home">🏠 홈으로</a>
-    <div style="font-size: 0.9rem; color: #6d28d9; font-weight: bold;"><span id="progress">0</span> / <span id="total-q-display">20</span> 문제 맞힘</div>
+<!-- 카운트다운 -->
+<section class="screen" id="screen-countdown">
+  <div class="count-wrap">
+    <h2>준비하세요</h2>
+    <div class="count-num" id="countdown-text">3</div>
+    <p class="lede" style="margin:0">곧 첫 문제가 나옵니다.</p>
   </div>
-  <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
-  
-  <div class="question-box">
-    <div id="svg-box"></div>
-    <div id="question-text" class="question-main-text">문제가 여기에 표시됩니다</div>
+</section>
+
+<!-- 퀴즈 -->
+<section class="screen" id="screen-quiz">
+  <div class="quizbar">
+    <div class="bar" style="margin-bottom:8px">
+      <button class="chip-btn" onclick="restartQuiz()">← 그만하기</button>
+      <div class="spacer"></div>
+      <div class="meter"><b id="progress">0</b> / <span id="progress-total">10</span> 맞힘</div>
+    </div>
+    <div class="track"><div class="fill" id="progress-fill"></div></div>
+  </div>
+
+  <div class="qcard">
+    <div id="question-text" class="qtext">문제를 불러오는 중입니다.</div>
   </div>
 
   <div class="options" id="options-box"></div>
+</section>
 
-  <div style="margin-top: 20px; border-top: 1px solid #f1f5f9; padding-top: 10px;">
-    <button class="btn-retry" onclick="openSetup(selectedCategory, currentSubTitle)">🔄 재도전 (시작 화면으로)</button>
+<!-- 결과 -->
+<section class="screen" id="screen-result">
+  <div class="result-hero">
+    <p>모두 해냈어요</p>
+    <div class="big"><span id="res-total">10</span>문제 완료</div>
+    <p id="res-praise">끝까지 잘 풀었습니다.</p>
   </div>
+  <div class="stats">
+    <div class="stat"><span class="k">이름</span><span class="v" id="res-name">-</span></div>
+    <div class="stat"><span class="k">단원</span><span class="v" id="res-title">-</span></div>
+    <div class="stat"><span class="k">걸린 시간</span><span class="v" id="res-time" style="color:var(--amber)">-</span></div>
+    <div class="stat"><span class="k">틀린 횟수</span><span class="v" id="res-wrong">-</span></div>
+    <div class="stat"><span class="k">끝낸 시각</span><span class="v" id="res-date">-</span></div>
+  </div>
+  <button class="btn" onclick="retrySame()">같은 단원 한 번 더</button>
+  <button class="btn ghost" onclick="goHome()">다른 단원 고르기</button>
+</section>
+
 </div>
 
-<!-- 오답 해설 화면 (문제 완전 가림) -->
-<div class="modal-overlay hidden" id="explanation-modal">
-  <div class="modal-content">
-    <div class="nav-header">
-      <a href="./index.html" class="btn-home">🏠 홈으로</a>
-    </div>
-    <div class="modal-title">❌ 오답입니다! (카운트되지 않음)</div>
-    
-    <div class="exp-box">
-      <div class="exp-label">원래 문제</div>
-      <div id="exp-svg-display"></div>
-      <div class="exp-q-text" id="exp-q-display"></div>
-      
-      <div class="exp-ans-group">
-        <div class="exp-ans-card wrong">
-          <div class="exp-label">내가 선택한 답</div>
-          <div class="exp-ans-val" id="exp-user-val"></div>
-        </div>
-        <div class="exp-ans-card correct">
-          <div class="exp-label">바른 정답</div>
-          <div class="exp-ans-val" id="exp-correct-val"></div>
-        </div>
-      </div>
-
-      <div class="exp-label">상세 풀이</div>
-      <div class="exp-desc" id="exp-desc-display"></div>
-    </div>
-
-    <button id="modal-next-btn" onclick="triggerModalCountdown()">다음 문제로</button>
-  </div>
+<div class="scrim" id="scrim"></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+  <h3 id="sheet-title">아쉬워요, 다시 봅시다</h3>
+  <div class="answer-row mine"><span class="k">내 답</span><span id="sheet-mine"></span></div>
+  <div class="answer-row right"><span class="k">정답</span><span id="sheet-right"></span></div>
+  <div class="exp" id="sheet-exp"></div>
+  <button class="btn" id="btn-next" onclick="nextAfterExplanation()">다음 문제</button>
 </div>
-
-<!-- 성공 결과 화면 -->
-<div class="card hidden" id="result-screen">
-  <div class="nav-header">
-    <a href="./index.html" class="btn-home">🏠 홈으로</a>
-  </div>
-  <h2>🎉 완주를 축하합니다!</h2>
-  <div id="result-text" style="text-align: left; background:#f5f3ff; padding:15px; border-radius:14px; margin: 15px 0; line-height: 1.8; border: 1px solid #ddd6fe;"></div>
-  <button onclick="openSetup(selectedCategory, currentSubTitle)">🔄 재도전</button>
-  <button onclick="showHomeScreen()" class="btn-secondary">내용 선택</button>
-</div>
-
 <script>
+"use strict";
+
+/* ===========================================================
+   단원 데이터 (교과서 단원 번호를 그대로 쓴다)
+   =========================================================== */
+const CHAPTERS = [
+  { term:1, n:3, title:"곱셈과 나눗셈", subs:[
+    ["1-3-1","세 자리 수에 몇십 곱하기"],
+    ["1-3-2","세 자리 수에 몇십몇 곱하기"],
+    ["1-3-3","몇십으로 나누기"],
+    ["1-3-4","몇십몇으로 나누기 (나머지 없음)"],
+    ["1-3-5","몇십몇으로 나누기 (나머지 있음)"]
+  ]},
+  { term:2, n:1, title:"분수의 덧셈과 뺄셈", subs:[
+    ["2-1-1","진분수의 덧셈"],
+    ["2-1-2","대분수의 덧셈"],
+    ["2-1-3","진분수의 뺄셈"],
+    ["2-1-4","자연수와 분수의 뺄셈"],
+    ["2-1-5","대분수의 뺄셈"]
+  ]},
+  { term:2, n:2, title:"삼각형", subs:[
+    ["2-2-1","삼각형의 분류"],
+    ["2-2-2","이등변삼각형과 정삼각형"]
+  ]},
+  { term:2, n:3, title:"소수의 덧셈과 뺄셈", subs:[
+    ["2-3-1","소수 한 자리 수의 덧셈"],
+    ["2-3-2","소수 두 자리 수의 덧셈"],
+    ["2-3-3","소수 한 자리 수의 뺄셈"],
+    ["2-3-4","소수 두 자리 수의 뺄셈"]
+  ]},
+  { term:2, n:4, title:"사각형", subs:[
+    ["2-4-1","수직과 평행"],
+    ["2-4-2","사다리꼴, 평행사변형, 마름모"]
+  ]},
+  { term:2, n:6, title:"다각형", subs:[
+    ["2-6-1","다각형과 정다각형"],
+    ["2-6-2","대각선"]
+  ]}
+];
+
+const TOTAL_SUB = 10;    // 소단원
+const TOTAL_ALL = 20;    // 단원 전체 문제
+let TOTAL = TOTAL_SUB;
+
 let userName = "";
 let selectedCategory = "";
 let currentSubTitle = "";
+let currentChapterLabel = "";
 let correctCount = 0;
-let totalQuestions = 20;
-let startTime, endTime;
-let qData = {};
+let wrongCount = 0;
+let startTime = 0;
+let currentQData = null;
+let locked = false;
+const timers = [];
 
-function goHome() { window.location.href = "./index.html"; }
+/* ===========================================================
+   화면 전환 · 타이머 정리
+   =========================================================== */
+function clearTimers(){ while (timers.length) clearInterval(timers.pop()); }
 
-function showHomeScreen() {
-  document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
-  document.getElementById('explanation-modal').classList.add('hidden');
-  document.getElementById('home-screen').classList.remove('hidden');
+function showScreen(id){
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  window.scrollTo(0, 0);
 }
 
-function openSetup(catKey, subTitle) {
-  selectedCategory = catKey;
+function closeSheet(){
+  document.getElementById("sheet").classList.remove("open");
+  document.getElementById("scrim").classList.remove("open");
+  document.body.classList.remove("locked");
+}
+
+function goHome(){
+  clearTimers(); closeSheet();
+  showScreen("screen-home");
+}
+
+function syncTotals(){
+  document.getElementById("progress-total").textContent = TOTAL;
+  document.getElementById("res-total").textContent = TOTAL;
+  document.querySelectorAll("[data-total]").forEach(el => { el.textContent = TOTAL; });
+}
+
+function openSetup(cat, subTitle, chapterLabel){
+  clearTimers(); closeSheet();
+  selectedCategory = cat;
+  TOTAL = cat.endsWith("-all") ? TOTAL_ALL : TOTAL_SUB;
+  syncTotals();
   currentSubTitle = subTitle;
-  totalQuestions = (selectedCategory.startsWith('4-') && selectedCategory !== '4-all') ? 10 : 20;
-
-  document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
-  document.getElementById('explanation-modal').classList.add('hidden');
-  document.getElementById('setup-screen').classList.remove('hidden');
-  document.getElementById('setup-title').innerText = subTitle;
-  document.getElementById('setup-desc').innerText = `총 ${totalQuestions}문제를 맞히면 완주 성공입니다!`;
-  document.getElementById('total-q-display').innerText = totalQuestions;
+  currentChapterLabel = chapterLabel;
+  document.getElementById("setup-title").innerText = subTitle;
+  document.getElementById("setup-chapter").innerText = chapterLabel;
+  document.getElementById("name-error").classList.add("hidden");
+  const saved = localStorage.getItem("quiz_user_name");
+  if (saved) document.getElementById("username").value = saved;
+  showScreen("screen-setup");
 }
 
-function startCountDown() {
-  userName = document.getElementById("username").value.trim();
-  if(!userName) { alert("이름을 입력해주세요!"); return; }
-  
+/* 홈 화면 단원 목록 생성 (학기별로 묶는다) */
+(function buildHome(){
+  const wrap = document.getElementById("chapter-list");
+  [1, 2].forEach(term => {
+    const list = CHAPTERS.filter(c => c.term === term);
+    if (!list.length) return;
+
+    const h = document.createElement("div");
+    h.className = "term-head";
+    h.textContent = "4학년 " + term + "학기";
+    wrap.appendChild(h);
+
+    list.forEach(ch => {
+      const d = document.createElement("details");
+      d.className = "chapter";
+      d.setAttribute("name", "chapter");      // 한 번에 하나만 열림(지원 브라우저)
+      const chapterLabel = "4학년 " + term + "학기 " + ch.n + "단원 " + ch.title;
+
+      const s = document.createElement("summary");
+      s.innerHTML = '<span class="num">' + ch.n + '</span>' +
+                    '<span class="t"></span>' +
+                    '<span class="arrow" aria-hidden="true">\u203a</span>';
+      s.querySelector(".t").textContent = ch.title;
+      d.appendChild(s);
+
+      const sub = document.createElement("div");
+      sub.className = "sublist";
+      ch.subs.forEach(([cat, name], i) => {
+        const b = document.createElement("button");
+        b.className = "sub";
+        b.type = "button";
+        b.innerHTML = '<span class="dot"></span><span class="sub-t"></span><span class="qn">' + TOTAL_SUB + '\ubb38\uc81c</span>';
+        b.querySelector(".sub-t").textContent = (i + 1) + ") " + name;
+        b.onclick = () => openSetup(cat, name, chapterLabel);
+        sub.appendChild(b);
+      });
+      const t = document.createElement("button");
+      t.className = "sub total";
+      t.type = "button";
+      t.innerHTML = '<span class="dot"></span><span class="sub-t"></span><span class="qn">' + TOTAL_ALL + '\ubb38\uc81c</span>';
+      t.querySelector(".sub-t").textContent = "\ub2e8\uc6d0 \uc804\uccb4 \ubb38\uc81c";
+      t.onclick = () => openSetup(term + "-" + ch.n + "-all", "\ub2e8\uc6d0 \uc804\uccb4 \ubb38\uc81c", chapterLabel);
+      sub.appendChild(t);
+
+      d.appendChild(sub);
+      wrap.appendChild(d);
+    });
+  });
+  syncTotals();
+})();
+
+/* ===========================================================
+   시작 / 카운트다운
+   =========================================================== */
+const nameInput = document.getElementById("username");
+nameInput.addEventListener("keydown", e => { if (e.key === "Enter") startCountDown(); });
+nameInput.addEventListener("input", () => document.getElementById("name-error").classList.add("hidden"));
+
+function startCountDown(){
+  userName = nameInput.value.trim();
+  if (!userName){
+    document.getElementById("name-error").classList.remove("hidden");
+    nameInput.focus();
+    return;
+  }
+  localStorage.setItem("quiz_user_name", userName);
+
+  clearTimers();
   correctCount = 0;
-  document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
-  document.getElementById("countdown-screen").classList.remove("hidden");
-  
+  wrongCount = 0;
+  updateProgress();
+  showScreen("screen-countdown");
+
   let count = 3;
-  document.getElementById("countdown-text").innerText = count;
-  let timer = setInterval(() => {
+  const el = document.getElementById("countdown-text");
+  el.innerText = count;
+  const timer = setInterval(() => {
     count--;
-    if(count > 0) {
-      document.getElementById("countdown-text").innerText = count;
+    if (count > 0){
+      el.innerText = count;
+      el.style.animation = "none";
+      void el.offsetWidth;
+      el.style.animation = "";
     } else {
       clearInterval(timer);
-      document.getElementById("countdown-screen").classList.add("hidden");
-      document.getElementById("quiz-screen").classList.remove("hidden");
-      startTime = new Date().getTime();
+      showScreen("screen-quiz");
+      startTime = Date.now();
       loadNextQuestion();
     }
   }, 1000);
+  timers.push(timer);
 }
 
-function getFracHTML(whole, num, den) {
-  if (num === 0) return `<span>${whole}</span>`;
-  let fracPart = `<div class="frac"><span class="num">${num}</span><span class="den">${den}</span></div>`;
-  if (whole > 0) return `<div class="frac-container"><span class="whole">${whole}</span>${fracPart}</div>`;
-  return `<div class="frac-container">${fracPart}</div>`;
+function restartQuiz(){
+  if (correctCount > 0 && !confirm("지금까지 푼 내용이 사라집니다. 그만할까요?")) return;
+  clearTimers(); closeSheet();
+  showScreen("screen-setup");
 }
 
-function formatFracHTML(whole, num, den) {
-  if (num === 0) return `<span>${whole}</span>`;
-  if (whole === 0) {
-    if (num >= den) {
-      let q = Math.floor(num / den), r = num % den;
-      return r === 0 ? `<span>${q}</span>` : getFracHTML(q, r, den);
-    }
-    return getFracHTML(0, num, den);
+function retrySame(){ showScreen("screen-setup"); }
+
+/* ===========================================================
+   공통 유틸
+   =========================================================== */
+function gcd(a, b){ return b === 0 ? a : gcd(b, a % b); }
+function randInt(min, max){ return Math.floor(Math.random() * (max - min + 1)) + min; }
+function pick(arr){ return arr[Math.floor(Math.random() * arr.length)]; }
+
+/* Fisher-Yates (sort(()=>Math.random()-0.5) 는 분포가 치우침) */
+function shuffle(arr){
+  for (let i = arr.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
   }
-  if (num >= den) {
-    let q = Math.floor(num / den), r = num % den;
-    whole += q;
-    return r === 0 ? `<span>${whole}</span>` : getFracHTML(whole, r, den);
+  return arr;
+}
+
+/* 후보 중에서 정답보다 작은 보기 개수를 무작위로 정해 4개를 고른다.
+   → 정답이 늘 최솟값이거나 늘 특정 순위에 오는 규칙이 생기지 않는다.
+   같은 문자열은 자동으로 걸러지므로 보기가 중복되지 않는다.
+   cands: [{ s: 보기문자열, val: 크기, prio: 0이면 우선 }] */
+function chooseOptions(answer, ansVal, cands){
+  const seen = { [answer]: true };
+  const smaller = [], larger = [];
+  for (const c of cands){
+    if (c.s === undefined || seen[c.s]) continue;
+    seen[c.s] = true;
+    (c.val < ansVal ? smaller : larger).push({ s: c.s, prio: c.prio === undefined ? 1 : c.prio });
   }
-  return getFracHTML(whole, num, den);
+  const order = a => shuffle(a).sort((x, y) => x.prio - y.prio);
+  const sm = order(smaller), lg = order(larger);
+
+  let wantBelow = Math.min(3, sm.length, randInt(0, 3));
+  const wantAbove = Math.min(3 - wantBelow, lg.length);
+  wantBelow = Math.min(sm.length, 3 - wantAbove);
+  return [answer]
+    .concat(sm.slice(0, wantBelow).map(o => o.s))
+    .concat(lg.slice(0, wantAbove).map(o => o.s));
 }
 
-function getShapeSVG(type) {
-  let svg = '<svg class="svg-container" viewBox="0 0 160 110" xmlns="http://www.w3.org/2000/svg">';
-  if (type === '이등변삼각형') svg += `<polygon points="80,15 35,95 125,95" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="3"/>`;
-  else if (type === '정삼각형') svg += `<polygon points="80,15 30,97 130,97" fill="#f0fdf4" stroke="#10b981" stroke-width="3"/>`;
-  else if (type === '예각삼각형') svg += `<polygon points="70,20 25,90 135,90" fill="#fffbe3" stroke="#f59e0b" stroke-width="3"/>`;
-  else if (type === '둔각삼각형') svg += `<polygon points="15,35 50,90 145,90" fill="#fef2f2" stroke="#ef4444" stroke-width="3"/>`;
-  else if (type === '사다리꼴') svg += `<polygon points="50,25 110,25 140,90 20,90" fill="#f5f3ff" stroke="#7c3aed" stroke-width="3"/>`;
-  else if (type === '평행사변형') svg += `<polygon points="50,25 145,25 110,90 15,90" fill="#ecfeff" stroke="#06b6d4" stroke-width="3"/>`;
-  else if (type === '마름모') svg += `<polygon points="80,15 135,55 80,95 25,55" fill="#fff7ed" stroke="#f97316" stroke-width="3"/>`;
-  svg += '</svg>';
-  return svg;
-}
-
-function generateTriangleQuestion() {
-  let qType = Math.floor(Math.random() * 5);
-  let q = "", answer = "", options = [], exp = "", svg = "";
-
-  if (qType === 0) {
-    let topA = [20, 30, 40, 50, 70, 80][Math.floor(Math.random()*6)], baseA = (180 - topA) / 2;
-    q = `이등변삼각형에서 길이 같 두 변 사이 각이 <b>${topA}°</b>일 때, 밑각의 크기는?`;
-    answer = `${baseA}°`;
-    exp = `(180° - ${topA}°) ÷ 2 = ${baseA}°`;
-    options = [`${baseA}°`, `${baseA + 10}°`, `${baseA - 10}°`, `${topA}°`].sort(() => Math.random() - 0.5);
-  } else if (qType === 1) {
-    let side = Math.floor(Math.random() * 8) + 3, peri = side * 3;
-    q = `둘레가 <b>${peri}cm</b>인 정삼각형의 한 변의 길이는?`;
-    answer = `${side}cm`;
-    exp = `정삼각형은 세 변의 길이가 같으므로 ${peri} ÷ 3 = ${side}cm 입니다.`;
-    options = [`${side}cm`, `${side + 2}cm`, `${side - 1}cm`, `${peri / 2}cm`].sort(() => Math.random() - 0.5);
-  } else {
-    let shapes = ['이등변삼각형', '정삼각형', '예각삼각형', '둔각삼각형'];
-    let picked = shapes[Math.floor(Math.random() * shapes.length)];
-    svg = getShapeSVG(picked);
-    q = `그림의 도형에 알맞은 이름을 고르세요.`;
-    answer = picked;
-    exp = `특징에 따라 <b>${picked}</b>입니다.`;
-    options = [...shapes].sort(() => Math.random() - 0.5);
+function numericOptions(ansVal, unit, step, mistakes){
+  step = Math.max(1, step || Math.max(1, Math.round(Math.abs(ansVal) / 8)));
+  const cands = [];
+  (mistakes || []).forEach(v => {
+    if (v > 0 && Number.isInteger(v)) cands.push({ s: v + (unit || ""), val: v, prio: 0 });
+  });
+  for (let i = 1; i <= 12; i++){
+    const lo = ansVal - i * step, hi = ansVal + i * step;
+    if (lo > 0) cands.push({ s: lo + (unit || ""), val: lo });
+    cands.push({ s: hi + (unit || ""), val: hi });
   }
-  return { q, answer, opts: options, exp, svg };
+  return chooseOptions(ansVal + (unit || ""), ansVal, cands);
 }
 
-function generateSingleQuestion(cat) {
-  let q = "", answer = "", options = [], exp = "", svg = "";
+/* ===========================================================
+   분수 표기
+   =========================================================== */
+function formatFracObj(num, denom){
+  const g = gcd(Math.abs(num), Math.abs(denom)) || 1;
+  num /= g; denom /= g;
+  if (denom === 1) return String(num);
+  if (Math.abs(num) > denom){
+    const m = Math.floor(Math.abs(num) / denom);
+    const r = Math.abs(num) % denom;
+    const sign = num < 0 ? "-" : "";
+    if (r === 0) return sign + m;
+    return sign + m + "과 " + r + "/" + denom;
+  }
+  return num + "/" + denom;
+}
 
-  if (cat.startsWith('1-')) {
-    if (cat === '1-1') {
-      let a = Math.floor(Math.random() * 800) + 100, b = (Math.floor(Math.random() * 8) + 1) * 10;
-      q = `${a} × ${b} = ?`; answer = `${a * b}`; exp = `${a} × ${b/10} = ${a*(b/10)} 뒤에 0을 붙입니다.`;
-    } else {
-      let b = Math.floor(Math.random() * 30) + 12, qVal = Math.floor(Math.random() * 8) + 2, a = b * qVal;
-      q = `${a} ÷ ${b} = ?`; answer = `${qVal}`; exp = `${b} × ${qVal} = ${a} 이므로 몫은 ${qVal} 입니다.`;
+function renderFracHTML(m, n, d){
+  const frac = '<span class="frac"><span>' + n + '</span><span class="bottom">' + d + '</span></span>';
+  return m > 0 ? '<span>' + m + '</span>' + frac : frac;
+}
+
+function formatOptionToHTML(text){
+  if (typeof text !== "string") return text;
+  if (text.indexOf('class="frac"') !== -1 || text.indexOf("<svg") !== -1) return text;
+  text = text.replace(/(\d+)\s*과\s*(\d+)\/(\d+)/g, (m, a, b, c) => renderFracHTML(+a, +b, +c));
+  text = text.replace(/(\d+)\/(\d+)/g, (m, a, b) => renderFracHTML(0, +a, +b));
+  return text;
+}
+
+/* ===========================================================
+   소수 표기 — 부동소수점 오차를 피하려고 정수로 계산한다
+   =========================================================== */
+function decStr(intVal, digits){
+  if (digits <= 0) return String(intVal);
+  let s = (intVal / Math.pow(10, digits)).toFixed(digits);
+  if (s.indexOf(".") !== -1) s = s.replace(/0+$/, "").replace(/\.$/, "");
+  return s;
+}
+
+/* 문제에 쓸 표기 — 소수 자릿수를 그대로 남긴다 */
+function decFixed(intVal, digits){ return (intVal / Math.pow(10, digits)).toFixed(digits); }
+
+/* 소수 보기: 소수점 위치를 잘못 찍은 답을 오답으로 넣는다 */
+function decOptions(intVal, digits, mistakes){
+  const answer = decFixed(intVal, digits);
+  const ansVal = intVal / Math.pow(10, digits);
+  const cands = [];
+  const push = (v, d, prio) => {
+    if (!(v > 0)) return;
+    /* 정답과 같은 자릿수면 0을 살려 표기를 맞춘다 (5 가 아니라 5.0) */
+    const s = d === digits ? decFixed(v, d) : decStr(v, d);
+    cands.push({ s: s, val: v / Math.pow(10, d), prio: prio });
+  };
+  (mistakes || []).forEach(p => push(p[0], p[1], 0));
+  push(intVal, digits - 1, 0);          // 소수점을 한 칸 덜 옮긴 답
+  push(intVal, digits + 1, 0);          // 소수점을 한 칸 더 옮긴 답
+  for (let i = 1; i <= 9; i++){ push(intVal - i, digits, 1); push(intVal + i, digits, 1); }
+
+  const options = chooseOptions(answer, ansVal, cands);
+  let e = 10;
+  while (options.length < 4){
+    const s = decFixed(intVal + e++, digits);
+    if (!options.includes(s)) options.push(s);
+  }
+  return { answer, options };
+}
+
+/* ===========================================================
+   4학년 전용 분수 표기 — 약분하지 않는다
+   (약분은 5학년 과정이라 4/6 을 2/3 으로 고치면 안 된다)
+   =========================================================== */
+function mixedStr(num, den){
+  if (num === 0) return "0";
+  if (num < den) return num + "/" + den;
+  const w = Math.floor(num / den), r = num % den;
+  return r === 0 ? String(w) : w + "과 " + r + "/" + den;
+}
+
+function fracOptions4(num, den, mistakes){
+  const answer = mixedStr(num, den);
+  const ansVal = num / den;
+  const cands = [];
+  const push = (n, d, prio) => {
+    if (!(n > 0) || !(d > 0) || !Number.isInteger(n) || !Number.isInteger(d)) return;
+    cands.push({ s: mixedStr(n, d), val: n / d, prio: prio });
+  };
+  (mistakes || []).forEach(p => push(p[0], p[1], 0));
+  for (let i = 1; i <= 8; i++){ push(num - i, den, 1); push(num + i, den, 1); }
+  push(num, den + 1, 1); push(num, den + 2, 1);      // 정답보다 작은 보기 확보
+  const options = chooseOptions(answer, ansVal, cands);
+  let e = 9;
+  while (options.length < 4){
+    const s = mixedStr(num + e++, den);
+    if (!options.includes(s)) options.push(s);
+  }
+  return { answer, options };
+}
+
+/* 각도 보기 — 0° 보다 크고 180° 보다 작은 값만 쓴다 */
+function angleOptions(ansVal, mistakes){
+  const cands = [];
+  (mistakes || []).forEach(v => {
+    if (v > 0 && v < 180 && Number.isInteger(v)) cands.push({ s: v + "°", val: v, prio: 0 });
+  });
+  for (let i = 1; i <= 14; i++){
+    const lo = ansVal - i * 5, hi = ansVal + i * 5;
+    if (lo > 0) cands.push({ s: lo + "°", val: lo });
+    if (hi < 180) cands.push({ s: hi + "°", val: hi });
+  }
+  return chooseOptions(ansVal + "°", ansVal, cands);
+}
+
+/* ===========================================================
+   도형 그림 도구
+   좌표는 "수학 좌표"(y 가 위쪽)로 주면 화면 좌표로 바꿔 그린다.
+   items 예: {t:"poly",pts}, {t:"line",a,b}, {t:"arc",v,a,b},
+             {t:"tick",a,b,n}, {t:"right",v,a,b}, {t:"text",at,s}
+   =========================================================== */
+const SH_FILL = "#e8eeff", SH_LINE = "#2f57cf", SH_TEXT = "#15233f",
+      SH_MARK = "#e03b3b", SH_ALT = "#0f9d76";
+
+function scene(items, h){
+  h = h || 150;
+  const all = [];
+  items.forEach(it => {
+    if (it.pts) all.push.apply(all, it.pts);
+    if (it.a) all.push(it.a);
+    if (it.b) all.push(it.b);
+    if (it.v) all.push(it.v);
+    if (it.at) all.push(it.at);
+  });
+  const xs = all.map(p => p[0]), ys = all.map(p => p[1]);
+  const x0 = Math.min.apply(null, xs), x1 = Math.max.apply(null, xs);
+  const y0 = Math.min.apply(null, ys), y1 = Math.max.apply(null, ys);
+  const s = Math.min(168 / Math.max(1e-6, x1 - x0), (h - 34) / Math.max(1e-6, y1 - y0));
+  const ox = 130 - (x0 + x1) / 2 * s, oy = h / 2 + (y0 + y1) / 2 * s;
+  const X = p => p[0] * s + ox, Y = p => oy - p[1] * s;
+  const F = (n) => n.toFixed(1);
+
+  let g = "";
+  const draw = wanted => items.forEach(it => {
+    if (it.t !== wanted) return;
+    if (it.t === "poly"){
+      g += '<polygon points="' + it.pts.map(p => F(X(p)) + "," + F(Y(p))).join(" ") +
+           '" fill="' + (it.fill || SH_FILL) + '" stroke="' + (it.color || SH_LINE) +
+           '" stroke-width="2.4" stroke-linejoin="round"/>';
+    } else if (it.t === "line"){
+      g += '<line x1="' + F(X(it.a)) + '" y1="' + F(Y(it.a)) + '" x2="' + F(X(it.b)) +
+           '" y2="' + F(Y(it.b)) + '" stroke="' + (it.color || SH_LINE) + '" stroke-width="' +
+           (it.w || 2.4) + '"' + (it.dash ? ' stroke-dasharray="5 4"' : "") + ' stroke-linecap="round"/>';
+    } else if (it.t === "arc"){
+      const V = [X(it.v), Y(it.v)], A = [X(it.a), Y(it.a)], B = [X(it.b), Y(it.b)];
+      const r = it.r || 17;
+      const aA = Math.atan2(A[1] - V[1], A[0] - V[0]);
+      let da = Math.atan2(B[1] - V[1], B[0] - V[0]) - aA;
+      while (da > Math.PI) da -= 2 * Math.PI;
+      while (da < -Math.PI) da += 2 * Math.PI;
+      const p0 = [V[0] + r * Math.cos(aA), V[1] + r * Math.sin(aA)];
+      const p1 = [V[0] + r * Math.cos(aA + da), V[1] + r * Math.sin(aA + da)];
+      g += '<path d="M ' + F(p0[0]) + " " + F(p0[1]) + " A " + r + " " + r + " 0 0 " +
+           (da > 0 ? 1 : 0) + " " + F(p1[0]) + " " + F(p1[1]) +
+           '" fill="none" stroke="' + (it.color || SH_MARK) + '" stroke-width="2"/>';
+    } else if (it.t === "right"){
+      const V = [X(it.v), Y(it.v)], A = [X(it.a), Y(it.a)], B = [X(it.b), Y(it.b)];
+      const u = norm2([A[0] - V[0], A[1] - V[1]]), w = norm2([B[0] - V[0], B[1] - V[1]]);
+      const k = 11;
+      const p = [V, [V[0] + u[0] * k, V[1] + u[1] * k],
+                 [V[0] + (u[0] + w[0]) * k, V[1] + (u[1] + w[1]) * k],
+                 [V[0] + w[0] * k, V[1] + w[1] * k]];
+      g += '<polygon points="' + p.map(q => F(q[0]) + "," + F(q[1])).join(" ") +
+           '" fill="none" stroke="' + (it.color || SH_MARK) + '" stroke-width="2"/>';
+    } else if (it.t === "tick"){
+      const A = [X(it.a), Y(it.a)], B = [X(it.b), Y(it.b)];
+      const M = [(A[0] + B[0]) / 2, (A[1] + B[1]) / 2];
+      const u = norm2([B[0] - A[0], B[1] - A[1]]), nv = [-u[1], u[0]];
+      const cnt = it.n || 1;
+      for (let i = 0; i < cnt; i++){
+        const o = (i - (cnt - 1) / 2) * 5;
+        const c = [M[0] + u[0] * o, M[1] + u[1] * o];
+        g += '<line x1="' + F(c[0] - nv[0] * 5) + '" y1="' + F(c[1] - nv[1] * 5) +
+             '" x2="' + F(c[0] + nv[0] * 5) + '" y2="' + F(c[1] + nv[1] * 5) +
+             '" stroke="' + (it.color || SH_ALT) + '" stroke-width="2.2" stroke-linecap="round"/>';
+      }
+    } else if (it.t === "dot"){
+      g += '<circle cx="' + F(X(it.at)) + '" cy="' + F(Y(it.at)) + '" r="3.2" fill="' +
+           (it.color || SH_LINE) + '"/>';
+    } else if (it.t === "text"){
+      g += '<text x="' + F(X(it.at)) + '" y="' + F(Y(it.at) + 4.5) + '" font-size="' +
+           (it.size || 12.5) + '" font-weight="700" font-family="sans-serif" fill="' +
+           (it.color || SH_TEXT) + '" text-anchor="middle">' + it.s + "</text>";
     }
-    options = [answer];
-    while(options.length < 4) {
-      let rawAns = parseInt(answer), offset = (Math.floor(Math.random() * 5) + 1) * 10;
-      let dummy = `${Math.max(1, rawAns + (Math.random() > 0.5 ? offset : -offset))}`;
-      if(!options.includes(dummy)) options.push(dummy);
-    }
-  } else if (cat.startsWith('2-')) {
-    let d = Math.floor(Math.random() * 6) + 5;
-    let n1 = Math.floor(Math.random() * (d - 2)) + 1, n2 = Math.floor(Math.random() * (d - n1 - 1)) + 1;
-    q = `${getFracHTML(0, n1, d)} + ${getFracHTML(0, n2, d)} = ?`;
-    answer = formatFracHTML(0, n1 + n2, d);
-    exp = `분자끼리 더합니다 (${n1} + ${n2} = ${n1+n2}).`;
-    options = [answer];
-    while(options.length < 4) {
-      let dummy = formatFracHTML(0, Math.floor(Math.random() * (d * 2)) + 1, d);
-      if(!options.includes(dummy)) options.push(dummy);
-    }
-  } else if (cat.startsWith('3-')) {
-    let v1 = (Math.floor(Math.random() * 80) + 10) / 10, v2 = (Math.floor(Math.random() * 80) + 10) / 10;
-    q = `<span>${v1.toFixed(1)} + ${v2.toFixed(1)} = ?</span>`;
-    answer = `<span>${(v1 + v2).toFixed(1)}</span>`;
-    exp = `소수점을 맞추어 더합니다.`;
-    options = [answer];
-    while(options.length < 4) {
-      let dummy = `<span>${(v1 + v2 + (options.length * 0.2)).toFixed(1)}</span>`;
-      if(!options.includes(dummy)) options.push(dummy);
-    }
-  } else if (cat.startsWith('4-')) {
-    if (cat === '4-tri') return generateTriangleQuestion();
-    let a = Math.floor(Math.random() * 6) + 4, b = Math.floor(Math.random() * 5) + 2;
-    let peri = (a + b) * 2;
-    q = `가로 ${a}cm, 세로 ${b}cm인 평행사변형의 둘레는?`;
-    answer = `${peri}cm`;
-    exp = `(${a} + ${b}) × 2 = ${peri}cm 입니다.`;
-    options = [`${peri}cm`, `${peri+2}cm`, `${peri-2}cm`, `${a*b}cm`].sort(() => Math.random() - 0.5);
+  });
+  ["poly", "line", "arc", "right", "tick", "dot", "text"].forEach(draw);
+
+  return '<svg class="shape" width="260" height="' + h + '" viewBox="0 0 260 ' + h +
+         '" xmlns="http://www.w3.org/2000/svg" role="img">' + g + "</svg>";
+}
+
+/* 받침이 있으면 앞쪽 조사, 없으면 뒤쪽 조사를 붙인다 (마름모는 / 평행사변형은) */
+function josa(word, withBatchim, withoutBatchim){
+  const code = word.charCodeAt(word.length - 1) - 0xAC00;
+  const has = code >= 0 && code <= 11171 && code % 28 !== 0;
+  return word + (has ? withBatchim : withoutBatchim);
+}
+
+function norm2(v){ const L = Math.hypot(v[0], v[1]) || 1; return [v[0] / L, v[1] / L]; }
+function centroid(pts){
+  let x = 0, y = 0;
+  pts.forEach(p => { x += p[0]; y += p[1]; });
+  return [x / pts.length, y / pts.length];
+}
+function mid(a, b){ return [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2]; }
+function toward(p, c, t){ return [p[0] + (c[0] - p[0]) * t, p[1] + (c[1] - p[1]) * t]; }
+function away(p, c, t){ return [p[0] + (p[0] - c[0]) * t, p[1] + (p[1] - c[1]) * t]; }
+
+/* 세 변의 길이로 삼각형 좌표 (a = P0P1, b = P1P2, c = P2P0) */
+function triFromSides(a, b, c){
+  const x = (a * a + c * c - b * b) / (2 * a);
+  const y = Math.sqrt(Math.max(0.0001, c * c - x * x));
+  return [[0, 0], [a, 0], [x, y]];
+}
+/* 두 각으로 삼각형 좌표 (P0 의 각 = A, P1 의 각 = B, P2 의 각 = 180-A-B) */
+function triFromAngles(A, B){
+  const rA = A * Math.PI / 180, rB = B * Math.PI / 180;
+  const rC = Math.PI - rA - rB;
+  const bLen = Math.sin(rB) / Math.sin(rC);
+  return [[0, 0], [1, 0], [bLen * Math.cos(rA), bLen * Math.sin(rA)]];
+}
+/* 이등변삼각형: 꼭지각 t°, 두 변의 길이 1 → [밑변왼, 밑변오른, 꼭지점] */
+function triFromApex(t){
+  const r = t * Math.PI / 360;
+  return [[-Math.sin(r), 0], [Math.sin(r), 0], [0, Math.cos(r)]];
+}
+/* 평행사변형: 밑변 L, 이웃변 s, 사이각 t° */
+function paraPts(L, s, t){
+  const r = t * Math.PI / 180;
+  return [[0, 0], [L, 0], [L + s * Math.cos(r), s * Math.sin(r)], [s * Math.cos(r), s * Math.sin(r)]];
+}
+/* 사다리꼴: 아랫변 B, 윗변 T, 높이 H, 왼쪽 들여쓰기 k */
+function trapPts(B, T, H, k){
+  return [[0, 0], [B, 0], [k + T, H], [k, H]];
+}
+/* 정n각형 (밑변이 수평이 되도록 회전) */
+function regPoly(n){
+  const rot = Math.PI / 2 + (n % 2 === 0 ? Math.PI / n : 0);
+  const p = [];
+  for (let i = 0; i < n; i++){
+    const a = rot + i * 2 * Math.PI / n;
+    p.push([Math.cos(a), Math.sin(a)]);
+  }
+  return p;
+}
+
+/* ===========================================================
+   문제 생성
+   =========================================================== */
+function generateSingleQuestion(cat){
+  let q = "", answer = "", exp = "", options = [];
+
+  /* ================= 1학기 3단원. 곱셈과 나눗셈 ================= */
+  if (cat === "1-3-1"){
+    const a = randInt(102, 989);
+    const t = randInt(2, 9), b = t * 10;
+    const val = a * b;
+    q = "<b>" + a + " × " + b + " = ?</b>";
+    exp = a + " × " + t + " = " + (a * t) + " 를 구하고 끝에 0을 하나 붙입니다.<br>" +
+          "→ <b>" + val + "</b>";
+    answer = String(val);
+    options = numericOptions(val, "", Math.max(10, a), [a * t, val * 10, a * t * 100]);
   }
 
-  return { q, answer, opts: options, exp, svg };
-}
-
-function generateQuestion(cat) {
-  if (cat === '1-all') return generateSingleQuestion(`1-${Math.floor(Math.random()*5)+1}`);
-  if (cat === '2-all') return generateSingleQuestion(`2-${Math.floor(Math.random()*5)+1}`);
-  if (cat === '3-all') return generateSingleQuestion(`3-${Math.floor(Math.random()*4)+1}`);
-  if (cat === '4-all') return generateSingleQuestion(`4-tri`);
-  return generateSingleQuestion(cat);
-}
-
-function loadNextQuestion() {
-  if (correctCount >= totalQuestions) {
-    endTime = new Date().getTime();
-    let totalTime = ((endTime - startTime) / 1000).toFixed(1);
-    let now = new Date().toLocaleString('ko-KR');
-    
-    document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
-    document.getElementById("result-screen").classList.remove("hidden");
-    
-    document.getElementById("result-text").innerHTML = `
-      <b>[${currentSubTitle}]</b><br><br>
-      👤 <b>이름:</b> ${userName}<br>
-      ⏱️ <b>걸린 시간:</b> <span style="color:#8b5cf6; font-size:1.2rem; font-weight:bold;">${totalTime}초</span><br>
-      📅 <b>완료 시각:</b> <span style="font-size:0.85rem; color:#64748b;">${now}</span>
-    `;
-    return;
+  else if (cat === "1-3-2"){
+    const a = randInt(102, 989);
+    let b = randInt(12, 99);
+    while (b % 10 === 0) b = randInt(12, 99);
+    const t = Math.floor(b / 10), o = b % 10;
+    const val = a * b;
+    q = "<b>" + a + " × " + b + " = ?</b>";
+    exp = "몇십과 몇을 나누어 곱한 뒤 더합니다.<br>" +
+          a + " × " + (t * 10) + " = " + (a * t * 10) + ", " + a + " × " + o + " = " + (a * o) + "<br>" +
+          (a * t * 10) + " + " + (a * o) + " = <b>" + val + "</b>";
+    answer = String(val);
+    options = numericOptions(val, "", Math.max(10, a), [a * t * 10, a * o, a * t + a * o]);
   }
-  
+
+  else if (cat === "1-3-3"){
+    const b = randInt(2, 9) * 10;
+    const qv = randInt(2, Math.min(24, Math.floor(980 / b)));
+    const r = Math.random() < 0.6 ? 0 : randInt(1, b - 1);
+    const a = b * qv + r;
+    q = "<b>" + a + " ÷ " + b + "</b> 의 <b>몫</b>은?";
+    exp = b + " × " + qv + " = " + (b * qv) +
+          (r ? " 이고 " + a + " - " + (b * qv) + " = " + r + " 이 남습니다." : " 이므로 나누어떨어집니다.") +
+          "<br>몫은 <b>" + qv + "</b>" + (r ? ", 나머지는 " + r : "") + " 입니다.";
+    answer = String(qv);
+    options = numericOptions(qv, "", 1, [qv * 10, r > 0 ? r : qv + 10, b / 10]);
+  }
+
+  else if (cat === "1-3-4"){
+    let b = randInt(12, 99);
+    while (b % 10 === 0) b = randInt(12, 99);
+    const qv = randInt(2, Math.max(2, Math.floor(980 / b)));
+    const a = b * qv;
+    q = "<b>" + a + " ÷ " + b + " = ?</b>";
+    exp = b + " × " + qv + " = " + a + " 이므로 나누어떨어집니다.<br>몫은 <b>" + qv + "</b> 입니다.";
+    answer = String(qv);
+    options = numericOptions(qv, "", 1, [qv * 10, b, a - b]);
+  }
+
+  else if (cat === "1-3-5"){
+    let b = randInt(13, 99);
+    while (b % 10 === 0) b = randInt(13, 99);
+    const qv = randInt(2, Math.max(2, Math.floor(950 / b)));
+    const r = randInt(1, b - 1);
+    const a = b * qv + r;
+    const askQuotient = Math.random() < 0.5;
+    q = "<b>" + a + " ÷ " + b + "</b> 에서<br><b>" + (askQuotient ? "몫" : "나머지") + "</b>" +
+        (askQuotient ? "은" : "는") + " 얼마일까요?";
+    exp = b + " × " + qv + " = " + (b * qv) + " 이고, " + a + " - " + (b * qv) + " = " + r + " 이 남습니다.<br>" +
+          "몫은 " + qv + ", 나머지는 " + r + " 입니다. → <b>" + (askQuotient ? qv : r) + "</b>";
+    const ansVal = askQuotient ? qv : r;
+    answer = String(ansVal);
+    options = numericOptions(ansVal, "", 1, [askQuotient ? r : qv, b, ansVal + 10]);
+  }
+
+  /* ================= 2학기 1단원. 분수의 덧셈과 뺄셈 ================= */
+  else if (cat === "2-1-1"){                 // 진분수의 덧셈
+    const d = randInt(4, 10);
+    const n1 = randInt(1, d - 1), n2 = randInt(1, d - 1);
+    q = '<span class="eq">' + renderFracHTML(0, n1, d) + "<span>+</span>" + renderFracHTML(0, n2, d) + "<span>= ?</span></span>";
+    exp = "분모는 그대로 두고 분자끼리 더합니다.<br>" +
+          n1 + "/" + d + " + " + n2 + "/" + d + " = " + (n1 + n2) + "/" + d +
+          " = <b>" + mixedStr(n1 + n2, d) + "</b>";
+    const fo = fracOptions4(n1 + n2, d, [[n1 + n2, d + d], [n1 * n2, d]]);
+    answer = fo.answer; options = fo.options;
+  }
+
+  else if (cat === "2-1-2"){                 // 대분수의 덧셈
+    const d = randInt(4, 9);
+    const m1 = randInt(1, 3), n1 = randInt(1, d - 1);
+    const m2 = randInt(1, 3), n2 = randInt(1, d - 1);
+    const total = (m1 * d + n1) + (m2 * d + n2);
+    q = '<span class="eq">' + renderFracHTML(m1, n1, d) + "<span>+</span>" + renderFracHTML(m2, n2, d) + "<span>= ?</span></span>";
+    exp = "자연수는 자연수끼리, 분수는 분수끼리 더합니다.<br>" +
+          (m1 + m2) + "과 " + (n1 + n2) + "/" + d +
+          (n1 + n2 >= d ? " → 분수가 1보다 크므로 자연수로 올려 줍니다." : "") +
+          "<br>→ <b>" + mixedStr(total, d) + "</b>";
+    const fo = fracOptions4(total, d, [
+      [(m1 + m2) * d + n1 + n2, d + d],
+      [(m1 + m2) * d, d]
+    ]);
+    answer = fo.answer; options = fo.options;
+  }
+
+  else if (cat === "2-1-3"){                 // 진분수의 뺄셈
+    const d = randInt(4, 10);
+    const n1 = randInt(2, d - 1);
+    const n2 = randInt(1, n1 - 1);
+    q = '<span class="eq">' + renderFracHTML(0, n1, d) + "<span>−</span>" + renderFracHTML(0, n2, d) + "<span>= ?</span></span>";
+    exp = "분모는 그대로 두고 분자끼리 뺍니다.<br>" +
+          n1 + "/" + d + " − " + n2 + "/" + d + " = " + (n1 - n2) + "/" + d +
+          " = <b>" + mixedStr(n1 - n2, d) + "</b>";
+    const fo = fracOptions4(n1 - n2, d, [[n1 + n2, d], [n1 - n2, d - n2 > 0 ? d - n2 : d + 1]]);
+    answer = fo.answer; options = fo.options;
+  }
+
+  else if (cat === "2-1-4"){                 // 자연수와 분수의 뺄셈
+    const d = randInt(4, 9);
+    const w = randInt(2, 5);
+    const useMixed = Math.random() < 0.5;
+    const m2 = useMixed ? randInt(1, w - 1) : 0;
+    const n2 = randInt(1, d - 1);
+    const total = w * d - (m2 * d + n2);
+    q = '<span class="eq"><span>' + w + "</span><span>−</span>" +
+        (useMixed ? renderFracHTML(m2, n2, d) : renderFracHTML(0, n2, d)) + "<span>= ?</span></span>";
+    exp = "자연수 " + w + " 에서 1을 " + d + "/" + d + " 로 바꾸어 받아내림합니다.<br>" +
+          w + " = " + (w - 1) + "과 " + d + "/" + d + " 이므로<br>→ <b>" + mixedStr(total, d) + "</b>";
+    const fo = fracOptions4(total, d, [
+      [w * d + m2 * d + n2, d],                       // 더한 실수
+      [(w - m2) * d - n2 + d, d],                     // 받아내림을 잘못한 실수
+      [(w - m2 - 1) * d + n2, d]
+    ]);
+    answer = fo.answer; options = fo.options;
+  }
+
+  else if (cat === "2-1-5"){                 // 대분수의 뺄셈
+    const d = randInt(4, 9);
+    const m1 = randInt(2, 5), n1 = randInt(1, d - 1);
+    const m2 = randInt(1, m1 - 1), n2 = randInt(1, d - 1);
+    const g1 = m1 * d + n1, g2 = m2 * d + n2;
+    const total = g1 - g2;
+    q = '<span class="eq">' + renderFracHTML(m1, n1, d) + "<span>−</span>" + renderFracHTML(m2, n2, d) + "<span>= ?</span></span>";
+    exp = (n1 < n2
+      ? "분수끼리 뺄 수 없으므로 자연수에서 1을 " + d + "/" + d + " 로 받아내림합니다.<br>"
+      : "자연수는 자연수끼리, 분수는 분수끼리 뺍니다.<br>") +
+      g1 + "/" + d + " − " + g2 + "/" + d + " = " + total + "/" + d + " = <b>" + mixedStr(total, d) + "</b>";
+    const fo = fracOptions4(total, d, [
+      [(m1 - m2) * d + Math.abs(n1 - n2), d],         // 분수를 거꾸로 뺀 실수
+      [(m1 - m2) * d, d],                             // 분수 부분을 빠뜨린 실수
+      [g1 + g2, d]
+    ]);
+    answer = fo.answer; options = fo.options;
+  }
+
+  /* ================= 2학기 2단원. 삼각형 ================= */
+  else if (cat === "2-2-1"){                 // 삼각형의 분류
+    const type = randInt(0, 4);
+
+    /* 분류 문제는 그림을 그리면 모양만 보고 답을 알 수 있으므로 수치만 준다 */
+    if (type === 0){                          // 변의 길이로 분류
+      const kind = randInt(0, 2);
+      let a, b, c, name;
+      if (kind === 0){ a = b = c = randInt(4, 9); name = "정삼각형"; }
+      else if (kind === 1){
+        const leg = randInt(5, 9);
+        let base = randInt(3, 9);
+        while (base === leg) base = randInt(3, 9);
+        if (base >= 2 * leg) base = leg + 1;
+        a = base; b = leg; c = leg; name = "이등변삼각형";
+      } else {
+        const set = pick([[9, 7, 5], [8, 6, 4], [7, 6, 3], [9, 8, 4]]);
+        a = set[0]; b = set[1]; c = set[2]; name = "세 변의 길이가 모두 다른 삼각형";
+      }
+      const sh = shuffle([a, b, c]);
+      q = "세 변의 길이가 <b>" + sh[0] + "cm, " + sh[1] + "cm, " + sh[2] + "cm</b> 인 삼각형을<br>" +
+          "<b>변의 길이</b>에 따라 분류하면?";
+      answer = name;
+      exp = "세 변이 모두 같으면 정삼각형, 두 변만 같으면 이등변삼각형입니다.<br>→ <b>" + name + "</b>";
+      options = shuffle(["정삼각형", "이등변삼각형", "세 변의 길이가 모두 다른 삼각형", "직각삼각형"]);
+    }
+
+    else if (type === 1){                     // 세 각으로 분류
+      const kind = randInt(0, 2);
+      let a1, a2;
+      if (kind === 0){ do { a1 = randInt(50, 80); a2 = randInt(50, 80); } while (a1 + a2 <= 90); }
+      else if (kind === 1){ a1 = 90; a2 = randInt(25, 60); }
+      else { a1 = randInt(100, 135); a2 = randInt(20, 175 - a1); }
+      const a3 = 180 - a1 - a2;
+      const mx = Math.max(a1, a2, a3);
+      const name = mx === 90 ? "직각삼각형" : mx > 90 ? "둔각삼각형" : "예각삼각형";
+      const sh = shuffle([a1, a2, a3]);
+      q = "세 각의 크기가 <b>" + sh[0] + "°, " + sh[1] + "°, " + sh[2] + "°</b> 인 삼각형을<br>" +
+          "<b>각의 크기</b>에 따라 분류하면?";
+      answer = name;
+      exp = "세 각이 모두 예각이면 예각삼각형, 직각이 있으면 직각삼각형, 둔각이 있으면 둔각삼각형입니다.<br>" +
+            "가장 큰 각이 " + mx + "° 이므로 <b>" + name + "</b>입니다.";
+      options = shuffle(["예각삼각형", "직각삼각형", "둔각삼각형", "정삼각형"]);
+    }
+
+    else if (type === 2){                     // 나머지 한 각 구하기
+      /* 답이 그림에 적힌 각과 같아지면 그림만 보고 맞힐 수 있으므로 피한다 */
+      let a1, a2, a3, g = 0;
+      do {
+        a1 = randInt(25, 95); a2 = randInt(25, Math.min(120, 170 - a1));
+        a3 = 180 - a1 - a2;
+      } while ((a3 === a1 || a3 === a2 || a3 < 15) && g++ < 200);
+      const P = triFromAngles(a1, a2), C = centroid(P);
+      q = scene([{ t: "poly", pts: P },
+        { t: "arc", v: P[0], a: P[1], b: P[2] }, { t: "text", at: toward(P[0], C, 0.34), s: a1 + "°", color: SH_MARK },
+        { t: "arc", v: P[1], a: P[2], b: P[0] }, { t: "text", at: toward(P[1], C, 0.34), s: a2 + "°", color: SH_MARK },
+        { t: "arc", v: P[2], a: P[0], b: P[1], color: SH_LINE }, { t: "text", at: toward(P[2], C, 0.34), s: "?", color: SH_LINE }
+      ]) + "<b>?</b> 의 크기는 몇 도일까요?";
+      answer = a3 + "°";
+      exp = "삼각형 세 각의 크기의 합은 180° 입니다.<br>" +
+            "180° − " + a1 + "° − " + a2 + "° = <b>" + a3 + "°</b>";
+      options = angleOptions(a3, [a1, a2, 180 - a3]);
+    }
+
+    else if (type === 3){                     // 두 각을 보고 종류 판단 (그림 없음)
+      const a1 = randInt(25, 80), a2 = randInt(25, 80);
+      const a3 = 180 - a1 - a2;
+      const mx = Math.max(a1, a2, a3);
+      const name = mx === 90 ? "직각삼각형" : mx > 90 ? "둔각삼각형" : "예각삼각형";
+      q = "삼각형의 두 각의 크기가 <b>" + a1 + "°</b> 와 <b>" + a2 + "°</b> 입니다.<br>" +
+          "이 삼각형은 어떤 삼각형일까요?";
+      answer = name;
+      exp = "나머지 한 각은 180° − " + a1 + "° − " + a2 + "° = " + a3 + "° 입니다.<br>" +
+            "가장 큰 각이 " + mx + "° 이므로 <b>" + name + "</b>입니다.";
+      options = shuffle(["예각삼각형", "직각삼각형", "둔각삼각형", "정삼각형"]);
+    }
+
+    else {                                    // 직각삼각형에서 나머지 각 (그림에 답 없음)
+      let a1 = randInt(20, 70);
+      while (a1 === 45) a1 = randInt(20, 70);   // 45° 면 답도 45° 라 그림에 답이 보인다
+      const a3 = 90 - a1;
+      const P = triFromAngles(90, a1), C = centroid(P);
+      q = scene([{ t: "poly", pts: P },
+        { t: "right", v: P[0], a: P[1], b: P[2] },
+        { t: "arc", v: P[1], a: P[2], b: P[0] }, { t: "text", at: toward(P[1], C, 0.36), s: a1 + "°", color: SH_MARK },
+        { t: "arc", v: P[2], a: P[0], b: P[1], color: SH_LINE }, { t: "text", at: toward(P[2], C, 0.36), s: "?", color: SH_LINE }
+      ]) + "직각삼각형입니다. <b>?</b> 의 크기는?";
+      answer = a3 + "°";
+      exp = "직각이 90° 이므로 나머지 두 각의 합은 90° 입니다.<br>" +
+            "90° − " + a1 + "° = <b>" + a3 + "°</b>";
+      options = angleOptions(a3, [a1, 90, 180 - a1]);
+    }
+  }
+
+  else if (cat === "2-2-2"){                 // 이등변삼각형과 정삼각형
+    const type = randInt(0, 5);
+
+    if (type === 0){                          // 꼭지각 → 밑각
+      const apex = pick([20, 30, 40, 50, 70, 80, 100, 120]);
+      const base = (180 - apex) / 2;
+      const P = triFromApex(apex), C = centroid(P);
+      q = scene([{ t: "poly", pts: P },
+        { t: "tick", a: P[2], b: P[0] }, { t: "tick", a: P[1], b: P[2] },
+        { t: "arc", v: P[2], a: P[0], b: P[1] }, { t: "text", at: toward(P[2], C, 0.3), s: apex + "°", color: SH_MARK },
+        { t: "arc", v: P[0], a: P[1], b: P[2], color: SH_LINE }, { t: "text", at: toward(P[0], C, 0.34), s: "?", color: SH_LINE }
+      ]) + "이등변삼각형입니다. <b>?</b> 의 크기는?";
+      answer = base + "°";
+      exp = "두 변의 길이가 같으면 두 밑각의 크기도 같습니다.<br>" +
+            "(180° − " + apex + "°) ÷ 2 = <b>" + base + "°</b>";
+      options = angleOptions(base, [apex, 180 - apex, 90 - apex / 2]);
+    }
+
+    else if (type === 1){                     // 밑각 → 꼭지각
+      const base = pick([30, 35, 40, 45, 55, 65, 70, 75]);
+      const apex = 180 - base * 2;
+      const P = triFromApex(apex), C = centroid(P);
+      q = scene([{ t: "poly", pts: P },
+        { t: "tick", a: P[2], b: P[0] }, { t: "tick", a: P[1], b: P[2] },
+        { t: "arc", v: P[2], a: P[0], b: P[1], color: SH_LINE }, { t: "text", at: toward(P[2], C, 0.3), s: "?", color: SH_LINE },
+        { t: "arc", v: P[0], a: P[1], b: P[2] }, { t: "text", at: toward(P[0], C, 0.34), s: base + "°", color: SH_MARK }
+      ]) + "이등변삼각형입니다. <b>?</b> 의 크기는?";
+      answer = apex + "°";
+      exp = "두 밑각의 크기가 같으므로 나머지 밑각도 " + base + "° 입니다.<br>" +
+            "180° − " + base + "° − " + base + "° = <b>" + apex + "°</b>";
+      options = angleOptions(apex, [base, 180 - base, base * 2]);
+    }
+
+    else if (type === 2){                     // 둘레와 밑변 → 같은 두 변의 길이
+      const leg = randInt(5, 12);
+      let base = randInt(3, 11);
+      while (base === leg) base = randInt(3, 11);
+      if (base >= 2 * leg) base = leg + 1;
+      const peri = leg * 2 + base;
+      const P = triFromSides(base, leg, leg), C = centroid(P);
+      q = scene([{ t: "poly", pts: P },
+        { t: "tick", a: P[1], b: P[2] }, { t: "tick", a: P[2], b: P[0] },
+        { t: "text", at: away(mid(P[0], P[1]), C, 0.36), s: base + "cm" },
+        { t: "text", at: away(mid(P[1], P[2]), C, 0.36), s: "?", color: SH_LINE },
+        { t: "text", at: away(mid(P[2], P[0]), C, 0.36), s: "?", color: SH_LINE }
+      ]) + "둘레가 <b>" + peri + "cm</b> 인 이등변삼각형입니다.<br><b>?</b> 의 길이는?";
+      answer = leg + "cm";
+      exp = "길이가 같은 두 변의 합은 " + peri + " − " + base + " = " + (peri - base) + "cm 입니다.<br>" +
+            (peri - base) + " ÷ 2 = <b>" + leg + "cm</b>";
+      options = numericOptions(leg, "cm", 1, [peri - base, base, peri]);
+    }
+
+    else if (type === 3){                     // 정삼각형의 한 각
+      const P = regPoly(3), C = centroid(P);
+      q = scene([{ t: "poly", pts: P },
+        { t: "tick", a: P[0], b: P[1] }, { t: "tick", a: P[1], b: P[2] }, { t: "tick", a: P[2], b: P[0] },
+        { t: "arc", v: P[0], a: P[1], b: P[2], color: SH_LINE },
+        { t: "text", at: toward(P[0], C, 0.36), s: "?", color: SH_LINE }
+      ]) + "세 변의 길이가 모두 같은 정삼각형입니다.<br><b>?</b> 의 크기는?";
+      answer = "60°";
+      exp = "정삼각형은 세 각의 크기가 모두 같습니다.<br>180° ÷ 3 = <b>60°</b>";
+      options = angleOptions(60, [90, 45, 180, 120]);
+    }
+
+    else if (type === 4){                     // 정삼각형 둘레 ↔ 한 변
+      const side = randInt(3, 12), peri = side * 3;
+      const P = regPoly(3), C = centroid(P);
+      const askSide = Math.random() < 0.5;
+      const items = [{ t: "poly", pts: P },
+        { t: "tick", a: P[0], b: P[1] }, { t: "tick", a: P[1], b: P[2] }, { t: "tick", a: P[2], b: P[0] },
+        { t: "text", at: away(mid(P[1], P[2]), C, 0.34), s: askSide ? "?" : side + "cm",
+          color: askSide ? SH_LINE : SH_TEXT }];
+      if (askSide){
+        q = scene(items) + "둘레가 <b>" + peri + "cm</b> 인 정삼각형입니다.<br>한 변의 길이는?";
+        answer = side + "cm";
+        exp = "정삼각형은 세 변의 길이가 모두 같습니다.<br>" + peri + " ÷ 3 = <b>" + side + "cm</b>";
+        options = numericOptions(side, "cm", 1, [peri, Math.round(peri / 2), side * 3]);
+      } else {
+        q = scene(items) + "정삼각형의 <b>둘레</b>는 몇 cm일까요?";
+        answer = peri + "cm";
+        exp = "정삼각형은 세 변의 길이가 모두 같습니다.<br>" + side + " × 3 = <b>" + peri + "cm</b>";
+        options = numericOptions(peri, "cm", 3, [side, side * 2, side * 4]);
+      }
+    }
+
+    else {                                    // 이등변삼각형 둘레
+      const leg = randInt(5, 12);
+      let base = randInt(3, 11);
+      while (base === leg) base = randInt(3, 11);
+      if (base >= 2 * leg) base = leg + 1;
+      const peri = leg * 2 + base;
+      const P = triFromSides(base, leg, leg), C = centroid(P);
+      q = scene([{ t: "poly", pts: P },
+        { t: "tick", a: P[1], b: P[2] }, { t: "tick", a: P[2], b: P[0] },
+        { t: "text", at: away(mid(P[0], P[1]), C, 0.36), s: base + "cm" },
+        { t: "text", at: away(mid(P[1], P[2]), C, 0.36), s: leg + "cm" }
+      ]) + "이등변삼각형의 <b>둘레</b>는 몇 cm일까요?";
+      answer = peri + "cm";
+      exp = "길이가 같은 두 변이 각각 " + leg + "cm 입니다.<br>" +
+            leg + " + " + leg + " + " + base + " = <b>" + peri + "cm</b>";
+      options = numericOptions(peri, "cm", 2, [leg + base, leg * 3, base * 3]);
+    }
+  }
+
+  /* ================= 2학기 3단원. 소수의 덧셈과 뺄셈 ================= */
+  else if (cat.indexOf("2-3-") === 0){
+    const p = (cat === "2-3-1" || cat === "2-3-3") ? 1 : 2;
+    const isAdd = (cat === "2-3-1" || cat === "2-3-2");
+    const lo = p === 1 ? 11 : 105, hi = p === 1 ? 98 : 989;
+    let a, b, total, guard = 0;
+    do {
+      a = randInt(lo, hi); b = randInt(lo, hi);
+      if (!isAdd && a <= b){ const t = a; a = b + randInt(1, 20); b = t; }
+      total = isAdd ? a + b : a - b;
+    } while ((a % 10 === 0 || b % 10 === 0 || total % 10 === 0 || total <= 0) && guard++ < 200);
+
+    q = "<b>" + decFixed(a, p) + (isAdd ? " + " : " − ") + decFixed(b, p) + " = ?</b>";
+    exp = "소수점의 자리를 맞추어 " + (isAdd ? "더합니다" : "뺍니다") + ".<br>" +
+          decFixed(a, p) + (isAdd ? " + " : " − ") + decFixed(b, p) + " = <b>" + decFixed(total, p) + "</b>";
+    const dec = decOptions(total, p, [
+      [isAdd ? a + b : a - b, 0],                        // 소수점을 안 찍은 답
+      [isAdd ? a - b : a + b, p]                         // 덧셈과 뺄셈을 바꾼 답
+    ]);
+    answer = dec.answer; options = dec.options;
+  }
+
+  /* ================= 2학기 4단원. 사각형 ================= */
+  else if (cat === "2-4-1"){                 // 수직과 평행
+    const type = randInt(0, 4);
+
+    if (type === 0){                          // 직선 위의 두 각
+      let x = randInt(25, 155);
+      while (x === 90) x = randInt(25, 155);    // 90° 면 답도 90° 라 그림에 답이 보인다
+      const r = x * Math.PI / 180;
+      const O = [0, 0], A = [-1.15, 0], B = [1.15, 0], R = [Math.cos(r), Math.sin(r)];
+      q = scene([
+        { t: "line", a: A, b: B }, { t: "line", a: O, b: R },
+        { t: "dot", at: O },
+        { t: "arc", v: O, a: A, b: R, r: 26 },
+        { t: "text", at: [Math.cos((180 + x) / 2 * Math.PI / 180) * 0.62, Math.sin((180 + x) / 2 * Math.PI / 180) * 0.62], s: x + "°", color: SH_MARK },
+        { t: "arc", v: O, a: R, b: B, r: 40, color: SH_LINE },
+        { t: "text", at: [Math.cos(r / 2) * 0.78, Math.sin(r / 2) * 0.78], s: "?", color: SH_LINE }
+      ], 130) + "<b>?</b> 의 크기는 몇 도일까요?";
+      answer = (180 - x) + "°";
+      exp = "한 직선이 이루는 각은 180° 입니다.<br>180° − " + x + "° = <b>" + (180 - x) + "°</b>";
+      options = angleOptions(180 - x, [x, 90, Math.round(x / 2)]);
+    }
+
+    else if (type === 1){                     // 직각을 두 각으로 나누기
+      let x = randInt(15, 75);
+      while (x === 45) x = randInt(15, 75);     // 45° 면 답도 45° 라 그림에 답이 보인다
+      const r = x * Math.PI / 180;
+      const O = [0, 0], A = [1.15, 0], B = [0, 1.15], R = [Math.cos(r), Math.sin(r)];
+      q = scene([
+        { t: "line", a: [-0.25, 0], b: A }, { t: "line", a: [0, -0.25], b: B },
+        { t: "line", a: O, b: R, dash: true, color: SH_ALT },
+        { t: "right", v: O, a: A, b: B },
+        { t: "dot", at: O },
+        { t: "text", at: [Math.cos(r / 2) * 0.62, Math.sin(r / 2) * 0.62], s: x + "°", color: SH_MARK },
+        { t: "text", at: [Math.cos((90 + x) / 2 * Math.PI / 180) * 0.62, Math.sin((90 + x) / 2 * Math.PI / 180) * 0.62], s: "?", color: SH_LINE }
+      ], 130) + "두 직선이 <b>수직</b>으로 만납니다.<br><b>?</b> 의 크기는?";
+      answer = (90 - x) + "°";
+      exp = "수직인 두 직선이 이루는 각은 90° 입니다.<br>90° − " + x + "° = <b>" + (90 - x) + "°</b>";
+      options = angleOptions(90 - x, [x, 90, 180 - x]);
+    }
+
+    else if (type === 2){                     // 평행한 변이 몇 쌍인가
+      const kind = randInt(0, 2);
+      let P, n, why;
+      if (kind === 0){ P = paraPts(9, 6, 62); n = 2; why = "마주 보는 두 쌍의 변이 서로 평행합니다."; }
+      else if (kind === 1){ P = trapPts(10, 5, 6, 2.5); n = 1; why = "위아래 한 쌍만 서로 평행합니다."; }
+      else { P = [[0, 0], [10, 0], [8.5, 6], [1.2, 4.2]]; n = 0; why = "평행한 변이 한 쌍도 없습니다."; }
+      q = scene([{ t: "poly", pts: P }], 138) + "이 사각형에서 <b>서로 평행한 변</b>은 몇 쌍일까요?";
+      answer = n + "쌍";
+      exp = why + " → <b>" + n + "쌍</b>";
+      options = shuffle(["0쌍", "1쌍", "2쌍", "4쌍"]);
+    }
+
+    else if (type === 3){                     // 평행선 사이의 거리를 나타내는 선분 고르기
+      const dist = 6, W = 12;
+      const names = ["가", "나", "다"];
+      const kIdx = randInt(0, 2);                       // 수직인 선분의 위치
+      const items = [{ t: "line", a: [0, 0], b: [W, 0] }, { t: "line", a: [0, dist], b: [W, dist] }];
+      const xs = [2.2, 6, 9.8];
+      const slant = [-2.6, 3.1];
+      let si = 0;
+      xs.forEach((x, i) => {
+        const off = i === kIdx ? 0 : slant[si++];
+        items.push({ t: "line", a: [x, 0], b: [x + off, dist], color: SH_MARK, w: 2.2 });
+        items.push({ t: "text", at: [x + off / 2 + (off >= 0 ? -0.9 : 0.9), dist / 2], s: names[i], color: SH_MARK });
+      });
+      q = scene(items, 145) + "두 직선은 서로 평행합니다.<br>" +
+          "<b>두 직선 사이의 거리</b>를 나타내는 선분은 어느 것일까요?";
+      answer = "선분 " + names[kIdx];
+      exp = "평행한 두 직선 사이의 거리는 두 직선에 <b>수직인 선분</b>의 길이입니다.<br>" +
+            "기울어진 선분은 그보다 길기 때문에 거리가 될 수 없습니다. → <b>선분 " + names[kIdx] + "</b>";
+      options = shuffle(names.map(x => "선분 " + x).concat(["모두 같습니다."]));
+    }
+
+    else {                                    // 변 ㄱㄴ과 평행한 변 찾기
+      const V = ["ㄱ", "ㄴ", "ㄷ", "ㄹ"];
+      const isPara = Math.random() < 0.5;
+      const P = isPara ? paraPts(10, 6, 62) : trapPts(11, 5, 6, 3);
+      const C = centroid(P);
+      const items = [{ t: "poly", pts: P }];
+      P.forEach((p, i) => items.push({ t: "text", at: away(p, C, 0.24), s: V[i], color: SH_ALT }));
+      /* 변 ㄱㄴ (P0-P1, 아랫변) 과 평행한 변은 언제나 변 ㄷㄹ (P2-P3) 하나뿐이다 */
+      q = scene(items, 145) + "사각형 ㄱㄴㄷㄹ 입니다.<br><b>변 ㄱㄴ</b> 과 <b>평행한 변</b>은 어느 것일까요?";
+      answer = "변 ㄷㄹ";
+      exp = "변 ㄱㄴ 과 마주 보면서 아무리 늘여도 만나지 않는 변은 <b>변 ㄷㄹ</b> 입니다." +
+            (isPara ? "<br>평행사변형이므로 변 ㄴㄷ 과 변 ㄹㄱ 도 서로 평행합니다." :
+                      "<br>사다리꼴이므로 평행한 변은 이 한 쌍뿐입니다.");
+      options = shuffle(["변 ㄷㄹ", "변 ㄴㄷ", "변 ㄹㄱ", "없습니다."]);
+    }
+  }
+
+  else if (cat === "2-4-2"){                 // 사다리꼴, 평행사변형, 마름모
+    const type = randInt(0, 5);
+
+    if (type === 0){                          // 마름모 둘레 → 한 변
+      const s = randInt(3, 12), peri = s * 4;
+      const P = paraPts(1, 1, 62), C = centroid(P);
+      q = scene([{ t: "poly", pts: P },
+        { t: "tick", a: P[0], b: P[1] }, { t: "tick", a: P[1], b: P[2] },
+        { t: "tick", a: P[2], b: P[3] }, { t: "tick", a: P[3], b: P[0] },
+        { t: "text", at: away(mid(P[0], P[1]), C, 0.4), s: "?", color: SH_LINE }
+      ], 138) + "네 변의 길이가 모두 같은 <b>마름모</b>입니다.<br>둘레가 <b>" + peri + "cm</b> 일 때 한 변의 길이는?";
+      answer = s + "cm";
+      exp = "마름모는 네 변의 길이가 모두 같습니다.<br>" + peri + " ÷ 4 = <b>" + s + "cm</b>";
+      options = numericOptions(s, "cm", 1, [peri, Math.round(peri / 2), s * 4]);
+    }
+
+    else if (type === 1){                     // 평행사변형 둘레
+      let a = randInt(4, 12), b = randInt(3, 11);
+      while (a === b) b = randInt(3, 11);
+      const peri = (a + b) * 2;
+      const P = paraPts(a, b, 62), C = centroid(P);
+      q = scene([{ t: "poly", pts: P },
+        { t: "text", at: away(mid(P[0], P[1]), C, 0.34), s: a + "cm" },
+        { t: "text", at: away(mid(P[1], P[2]), C, 0.38), s: b + "cm" }
+      ], 138) + "평행사변형의 <b>둘레</b>는 몇 cm일까요?";
+      answer = peri + "cm";
+      exp = "평행사변형은 마주 보는 변의 길이가 같습니다.<br>(" + a + " + " + b + ") × 2 = <b>" + peri + "cm</b>";
+      options = numericOptions(peri, "cm", 2, [a + b, a * b, a * 4]);
+    }
+
+    else if (type === 2){                     // 평행사변형 이웃한 각
+      let x = randInt(35, 145);
+      while (x === 90) x = randInt(35, 145);    // 90° 면 답도 90° 라 그림에 답이 보인다
+      const P = paraPts(9, 6, x), C = centroid(P);
+      q = scene([{ t: "poly", pts: P },
+        { t: "arc", v: P[0], a: P[1], b: P[3] }, { t: "text", at: toward(P[0], C, 0.26), s: x + "°", color: SH_MARK },
+        { t: "arc", v: P[1], a: P[2], b: P[0], color: SH_LINE }, { t: "text", at: toward(P[1], C, 0.26), s: "?", color: SH_LINE }
+      ], 138) + "평행사변형입니다. <b>?</b> 의 크기는?";
+      answer = (180 - x) + "°";
+      exp = "평행사변형에서 이웃한 두 각의 크기의 합은 180° 입니다.<br>" +
+            "180° − " + x + "° = <b>" + (180 - x) + "°</b>";
+      options = angleOptions(180 - x, [x, 90, Math.round(x / 2)]);
+    }
+
+    else if (type === 3){                     // 마름모 한 변 → 둘레
+      const s = randInt(3, 12), peri = s * 4;
+      const P = paraPts(1, 1, 62), C = centroid(P);
+      q = scene([{ t: "poly", pts: P },
+        { t: "tick", a: P[0], b: P[1] }, { t: "tick", a: P[1], b: P[2] },
+        { t: "tick", a: P[2], b: P[3] }, { t: "tick", a: P[3], b: P[0] },
+        { t: "text", at: away(mid(P[0], P[1]), C, 0.4), s: s + "cm" }
+      ], 138) + "네 변의 길이가 모두 같은 <b>마름모</b>입니다.<br><b>둘레</b>는 몇 cm일까요?";
+      answer = peri + "cm";
+      exp = "마름모는 네 변의 길이가 모두 같습니다.<br>" + s + " × 4 = <b>" + peri + "cm</b>";
+      options = numericOptions(peri, "cm", 2, [s, s * 2, s * 3]);
+    }
+
+    else if (type === 4){                     // 마름모의 이웃한 각
+      let x = randInt(40, 140);
+      while (x === 90) x = randInt(40, 140);    // 90° 면 답도 90° 라 그림에 답이 보인다
+      const P = paraPts(6, 6, x), C = centroid(P);
+      q = scene([{ t: "poly", pts: P },
+        { t: "tick", a: P[0], b: P[1] }, { t: "tick", a: P[1], b: P[2] },
+        { t: "tick", a: P[2], b: P[3] }, { t: "tick", a: P[3], b: P[0] },
+        { t: "arc", v: P[0], a: P[1], b: P[3] }, { t: "text", at: toward(P[0], C, 0.26), s: x + "°", color: SH_MARK },
+        { t: "arc", v: P[3], a: P[0], b: P[2], color: SH_LINE }, { t: "text", at: toward(P[3], C, 0.26), s: "?", color: SH_LINE }
+      ], 138) + "네 변의 길이가 같은 <b>마름모</b>입니다. <b>?</b> 의 크기는?";
+      answer = (180 - x) + "°";
+      exp = "마름모도 평행사변형이므로 이웃한 두 각의 합이 180° 입니다.<br>" +
+            "180° − " + x + "° = <b>" + (180 - x) + "°</b>";
+      options = angleOptions(180 - x, [x, 90, Math.round(x / 2)]);
+    }
+
+    else {                                    // 도형의 뜻 (그림을 그리면 모양만 보고 답을 알 수 있어 글로만 낸다)
+      const shapes = [
+        { name: "마름모", desc: "네 변의 길이가 모두 같은 사각형" },
+        { name: "평행사변형", desc: "마주 보는 두 쌍의 변이 서로 평행한 사각형" },
+        { name: "사다리꼴", desc: "평행한 변이 한 쌍이라도 있는 사각형" },
+        { name: "직사각형", desc: "네 각이 모두 직각인 사각형" }
+      ];
+      const picked = pick(shapes);
+      q = josa(picked.name, "은", "는") + " 어떤 사각형일까요?";
+      answer = picked.desc;
+      exp = "<b>" + picked.name + "</b>" + (josa(picked.name, "은", "는").slice(-1)) +
+            " " + picked.desc + "입니다.";
+      options = shuffle(shapes.map(s => s.desc));
+    }
+  }
+
+  /* ================= 2학기 6단원. 다각형 ================= */
+  else if (cat === "2-6-1"){                 // 다각형과 정다각형
+    const names = { 3: "삼각형", 4: "사각형", 5: "오각형", 6: "육각형", 7: "칠각형", 8: "팔각형" };
+    const type = randInt(0, 3);
+    const n = randInt(3, 8);
+    const P = regPoly(n), C = centroid(P);
+
+    if (type === 0){                          // 이름 (변을 세어야 하므로 그림이 필요)
+      q = scene([{ t: "poly", pts: P }], 145) + "이 다각형의 이름은 무엇일까요?";
+      answer = names[n];
+      exp = "변이 " + n + "개인 다각형은 <b>" + names[n] + "</b> 입니다.";
+      options = shuffle([names[n]].concat(
+        shuffle(Object.keys(names).filter(k => +k !== n).map(k => names[k])).slice(0, 3)));
+    }
+
+    else if (type === 1){                     // 한 변 → 둘레
+      const side = randInt(3, 12), peri = side * n;
+      const items = [{ t: "poly", pts: P },
+        { t: "text", at: away(mid(P[0], P[1]), C, 0.3), s: side + "cm" }];
+      for (let i = 0; i < n; i++) items.push({ t: "tick", a: P[i], b: P[(i + 1) % n] });
+      q = scene(items, 148) + "변의 길이가 모두 같은 <b>정" + names[n] + "</b>입니다.<br>둘레는 몇 cm일까요?";
+      answer = peri + "cm";
+      exp = "정다각형은 모든 변의 길이가 같습니다.<br>" + side + " × " + n + " = <b>" + peri + "cm</b>";
+      options = numericOptions(peri, "cm", Math.max(2, n), [side * (n - 1), side + n, side * n * 2]);
+    }
+
+    else if (type === 2){                     // 둘레 → 한 변
+      const side = randInt(3, 12), peri = side * n;
+      const items = [{ t: "poly", pts: P },
+        { t: "text", at: away(mid(P[0], P[1]), C, 0.3), s: "?", color: SH_LINE }];
+      for (let i = 0; i < n; i++) items.push({ t: "tick", a: P[i], b: P[(i + 1) % n] });
+      q = scene(items, 148) + "둘레가 <b>" + peri + "cm</b>인 <b>정" + names[n] + "</b>입니다.<br>한 변의 길이는?";
+      answer = side + "cm";
+      exp = "정" + names[n] + "은 변이 " + n + "개이고 길이가 모두 같습니다.<br>" +
+            peri + " ÷ " + n + " = <b>" + side + "cm</b>";
+      options = numericOptions(side, "cm", 1, [peri, n, Math.round(peri / 2)]);
+    }
+
+    else {                                    // 변 / 꼭짓점의 수 (세어야 하므로 그림이 필요)
+      const askVertex = Math.random() < 0.5;
+      const items = [{ t: "poly", pts: P }];
+      if (askVertex) P.forEach(p => items.push({ t: "dot", at: p, color: SH_MARK }));
+      q = scene(items, 145) + "이 다각형의 <b>" + (askVertex ? "꼭짓점" : "변") + "</b>은 몇 개일까요?";
+      answer = n + "개";
+      exp = "다각형은 변의 수와 꼭짓점의 수가 같습니다.<br>" +
+            names[n] + " 이므로 <b>" + n + "개</b> 입니다.";
+      options = numericOptions(n, "개", 1, [n - 1, n + 1, n * 2]);
+    }
+  }
+
+  else if (cat === "2-6-2"){                 // 대각선
+    const names = { 4: "사각형", 5: "오각형", 6: "육각형", 7: "칠각형", 8: "팔각형" };
+    const type = randInt(0, 3);
+
+    if (type === 0){                          // 대각선의 총 개수 (대각선은 그리지 않는다)
+      const n = randInt(4, 8), val = n * (n - 3) / 2;
+      const P = regPoly(n);
+      q = scene([{ t: "poly", pts: P }], 148) +
+          "이 " + names[n] + "에 그을 수 있는 <b>대각선</b>은 모두 몇 개일까요?";
+      answer = val + "개";
+      exp = "한 꼭짓점에서 " + (n - 3) + "개씩 그을 수 있고 꼭짓점이 " + n + "개이지만, " +
+            "같은 대각선을 두 번 세므로 2로 나눕니다.<br>" +
+            n + " × " + (n - 3) + " ÷ 2 = <b>" + val + "개</b>";
+      options = numericOptions(val, "개", 1, [n * (n - 3), n - 3, n]);
+    }
+
+    else if (type === 1){                     // 한 꼭짓점에서 그을 수 있는 대각선 (역시 그리지 않는다)
+      const n = randInt(4, 8), val = n - 3;
+      const P = regPoly(n);
+      q = scene([{ t: "poly", pts: P }, { t: "dot", at: P[0], color: SH_MARK }], 148) +
+          "표시된 <b>한 꼭짓점</b>에서 그을 수 있는 대각선은 몇 개일까요?";
+      answer = val + "개";
+      exp = "자기 자신과 이웃한 두 꼭짓점에는 대각선을 그을 수 없습니다.<br>" +
+            n + " − 3 = <b>" + val + "개</b>";
+      options = numericOptions(val, "개", 1, [n, n * (n - 3) / 2, n - 1]);
+    }
+
+    else if (type === 2){                     // 대각선의 성질 (그림을 보면 눈으로 알 수 있어 글로만 낸다)
+      const cases = [
+        { name: "직사각형", ans: "두 대각선의 길이가 서로 같습니다.",
+          why: "직사각형은 두 대각선의 길이가 같고 서로 이등분합니다." },
+        { name: "마름모", ans: "두 대각선이 서로 수직으로 만납니다.",
+          why: "마름모는 두 대각선이 서로 수직으로 만나고 서로 이등분합니다." },
+        { name: "정사각형", ans: "두 대각선의 길이가 같고 서로 수직입니다.",
+          why: "정사각형은 직사각형이면서 마름모이므로 두 성질을 모두 가집니다." }
+      ];
+      const c = pick(cases);
+      q = "<b>" + c.name + "</b>의 두 대각선에 대한 설명으로 알맞은 것은?";
+      answer = c.ans;
+      exp = c.why;
+      options = shuffle(cases.map(x => x.ans).concat(["두 대각선이 서로 만나지 않습니다."]));
+    }
+
+    else {                                    // 대각선은 서로 이등분한다
+      const half = randInt(3, 12), full = half * 2;
+      const P = [[0, 0], [11, 0], [11, 7], [0, 7]];
+      const O = mid(P[0], P[2]);
+      q = scene([{ t: "poly", pts: P },
+        { t: "line", a: P[0], b: P[2], color: SH_MARK, w: 1.8 },
+        { t: "line", a: P[1], b: P[3], color: SH_ALT, w: 1.8, dash: true },
+        { t: "dot", at: O, color: SH_MARK },
+        { t: "text", at: mid(O, toward(P[2], O, -0.05)), s: half + "cm", color: SH_MARK }
+      ], 142) + "직사각형의 두 대각선은 서로 <b>이등분</b>합니다.<br>" +
+          "빨간 대각선 전체의 길이는 몇 cm일까요?";
+      answer = full + "cm";
+      exp = "두 대각선이 만나는 점이 각 대각선을 반으로 나눕니다.<br>" +
+            half + " × 2 = <b>" + full + "cm</b>";
+      options = numericOptions(full, "cm", 2, [half, half * 3, half * 4]);
+    }
+  }
+
+  /* 어떤 분기에도 걸리지 않았을 때의 안전장치 */
+  if (!answer || options.length < 2){
+    const a = randInt(10, 40), b = randInt(1, 9);
+    answer = String(a + b);
+    q = "<b>" + a + " + " + b + " = ?</b>";
+    exp = a + " + " + b + " = <b>" + (a + b) + "</b>";
+    options = numericOptions(a + b, "", 1);
+  }
+
+  return { q, answer, exp, opts: shuffle(options) };
+}
+
+function generateQuestion(cat){
+  const map = {
+    "1-3-all": ["1-3-1", "1-3-2", "1-3-3", "1-3-4", "1-3-5"],
+    "2-1-all": ["2-1-1", "2-1-2", "2-1-3", "2-1-4", "2-1-5"],
+    "2-2-all": ["2-2-1", "2-2-2"],
+    "2-3-all": ["2-3-1", "2-3-2", "2-3-3", "2-3-4"],
+    "2-4-all": ["2-4-1", "2-4-2"],
+    "2-6-all": ["2-6-1", "2-6-2"]
+  };
+  return generateSingleQuestion(map[cat] ? pick(map[cat]) : cat);
+}
+
+/* ===========================================================
+   진행
+   =========================================================== */
+function updateProgress(){
   document.getElementById("progress").innerText = correctCount;
-  document.getElementById("progress-fill").style.width = (correctCount / totalQuestions * 100) + "%";
-  
-  qData = generateQuestion(selectedCategory);
-  document.getElementById("svg-box").innerHTML = qData.svg || "";
-  document.getElementById("question-text").innerHTML = qData.q;
-  
-  let optsBox = document.getElementById("options-box");
-  optsBox.innerHTML = "";
-  
-  qData.opts.forEach(val => {
-    let btn = document.createElement("button");
-    btn.innerHTML = val;
-    btn.onclick = () => checkAnswer(val);
-    optsBox.appendChild(btn);
+  document.getElementById("progress-fill").style.width = (correctCount / TOTAL * 100) + "%";
+}
+
+function loadNextQuestion(){
+  closeSheet();
+  updateProgress();
+
+  currentQData = generateQuestion(selectedCategory);
+  document.getElementById("question-text").innerHTML = formatOptionToHTML(currentQData.q);
+
+  const box = document.getElementById("options-box");
+  box.innerHTML = "";
+  /* 보기가 길면 2열에서 글자가 넘치므로 1열로 바꾼다 (예: 곱셈식 보기) */
+  const longest = Math.max.apply(null, currentQData.opts.map(o => String(o).length));
+  box.classList.toggle("stack", longest > 9);
+
+  currentQData.opts.forEach(val => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "opt";
+    btn.innerHTML = formatOptionToHTML(val);
+    btn.dataset.value = val;
+    btn.onclick = () => checkAnswer(val, btn);
+    box.appendChild(btn);
   });
 }
 
-function checkAnswer(selected) {
-  if (selected === qData.answer) {
+function checkAnswer(selected, btn){
+  if (locked || document.getElementById("sheet").classList.contains("open")) return;
+
+  if (selected === currentQData.answer){
+    locked = true;
+    btn.classList.add("is-right");
     correctCount++;
-    loadNextQuestion();
-  } else {
-    document.getElementById("quiz-screen").classList.add("hidden");
-    document.getElementById("exp-svg-display").innerHTML = qData.svg || "";
-    document.getElementById("exp-q-display").innerHTML = qData.q;
-    document.getElementById("exp-user-val").innerHTML = selected;
-    document.getElementById("exp-correct-val").innerHTML = qData.answer;
-    document.getElementById("exp-desc-display").innerHTML = qData.exp;
-
-    let nextBtn = document.getElementById("modal-next-btn");
-    nextBtn.disabled = false;
-    nextBtn.innerText = "다음 문제로";
-    document.getElementById("explanation-modal").classList.remove("hidden");
+    updateProgress();
+    setTimeout(() => {
+      locked = false;
+      if (correctCount >= TOTAL) showSuccessScreen();
+      else loadNextQuestion();
+    }, 260);   // 맞았다는 표시를 잠깐 보여 준다
+    return;
   }
-}
 
-function triggerModalCountdown() {
-  let nextBtn = document.getElementById("modal-next-btn");
-  if(nextBtn.disabled) return;
-  nextBtn.disabled = true;
-  
+  wrongCount++;
+  btn.classList.add("is-wrong");
+  document.querySelectorAll(".opt").forEach(b => {
+    if (b.dataset.value === currentQData.answer) b.classList.add("is-right");
+  });
+
+  document.getElementById("sheet-mine").innerHTML = formatOptionToHTML(selected);
+  document.getElementById("sheet-right").innerHTML = formatOptionToHTML(currentQData.answer);
+  document.getElementById("sheet-exp").innerHTML = formatOptionToHTML(currentQData.exp);
+  document.getElementById("sheet").classList.add("open");
+  document.getElementById("scrim").classList.add("open");
+  document.body.classList.add("locked");
+
+  /* 해설을 읽을 시간을 주려고 3초 동안 버튼을 잠근다 */
+  const next = document.getElementById("btn-next");
   let count = 3;
-  nextBtn.innerText = `3초 후 다음 문제... (${count})`;
-  
-  let timer = setInterval(() => {
+  next.disabled = true;
+  next.innerText = "다음 문제 (" + count + ")";
+  const timer = setInterval(() => {
     count--;
-    if(count > 0) {
-      nextBtn.innerText = `3초 후 다음 문제... (${count})`;
+    if (count > 0){
+      next.innerText = "다음 문제 (" + count + ")";
     } else {
       clearInterval(timer);
-      document.getElementById("explanation-modal").classList.add("hidden");
-      document.getElementById("quiz-screen").classList.remove("hidden");
-      loadNextQuestion();
+      next.disabled = false;
+      next.innerText = "다음 문제";
     }
   }, 1000);
+  timers.push(timer);
+}
+
+function nextAfterExplanation(){
+  clearTimers();
+  loadNextQuestion();
+}
+
+function showSuccessScreen(){
+  clearTimers(); closeSheet();
+  const totalSec = Math.round((Date.now() - startTime) / 1000);
+  const min = Math.floor(totalSec / 60), sec = totalSec % 60;
+
+  document.getElementById("res-name").innerText = userName;
+  document.getElementById("res-title").innerText = currentChapterLabel + " · " + currentSubTitle;
+  document.getElementById("res-time").innerText = min > 0 ? min + "분 " + sec + "초" : sec + "초";
+  document.getElementById("res-wrong").innerText = wrongCount + "번";
+  document.getElementById("res-date").innerText = new Date().toLocaleString("ko-KR", {
+    year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit"
+  });
+  document.getElementById("res-praise").innerText =
+    wrongCount === 0 ? "한 번도 틀리지 않았습니다." :
+    wrongCount <= 3 ? "거의 다 맞혔습니다." : "끝까지 포기하지 않았습니다.";
+
+  showScreen("screen-result");
 }
 </script>
-
 </body>
 </html>

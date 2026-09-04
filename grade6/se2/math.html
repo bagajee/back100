@@ -1,649 +1,1052 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>6학년 2학기 수학</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-      word-break: keep-all;
-    }
-    body {
-      font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      background: #eef2f7;
-      margin: 0;
-      padding: 16px;
-    }
-    .card {
-      background: white;
-      padding: 1.8rem 1.5rem;
-      border-radius: 20px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-      width: 100%;
-      max-width: 480px;
-      text-align: center;
-      max-height: 90vh;
-      overflow-y: auto;
-      position: relative;
-    }
-    .hidden { display: none !important; }
-    
-    /* 상단 네비게이션 헤더 */
-    .nav-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-    }
-    .btn-home {
-      width: auto !important;
-      padding: 6px 12px !important;
-      margin: 0 !important;
-      background: #eef2f7 !important;
-      color: #2c3e50 !important;
-      font-size: 0.85rem !important;
-      border-radius: 8px !important;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      cursor: pointer;
-      border: 1px solid #cbd5e1 !important;
-      font-weight: bold;
-    }
-    .btn-home:active { background: #dbe3ed !important; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#eef2fa">
+<meta name="color-scheme" content="light">
+<title>6학년 2학기 수학</title>
+<style>
+:root{
+  --bg:#eaeff9;
+  --grid:#dae2f2;
+  --surface:#ffffff;
+  --ink:#15233f;
+  --muted:#6c7c9c;
+  --line:#dee6f3;
+  --brand:#2f57cf;
+  --brand-ink:#1c3a9c;
+  --brand-soft:#e8edff;
+  --mint:#0f9d76;
+  --mint-soft:#e2f6ef;
+  --amber:#e08600;
+  --amber-soft:#fdf0d9;
+  --coral:#e03b3b;
+  --coral-soft:#fdeaea;
+  --radius:16px;
+  --shadow:0 2px 0 rgba(21,35,63,.06), 0 12px 28px -18px rgba(21,35,63,.5);
+  --font:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',system-ui,sans-serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body.locked{overflow:hidden}
+body{
+  margin:0;
+  min-height:100dvh;
+  font-family:var(--font);
+  color:var(--ink);
+  background-color:var(--bg);
+  /* 모눈종이 배경: 수학 공책 느낌 */
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size:26px 26px;
+  font-size:16px;
+  line-height:1.55;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+.app{
+  width:100%;
+  max-width:520px;
+  margin:0 auto;
+  padding:
+    max(14px, env(safe-area-inset-top))
+    max(14px, env(safe-area-inset-left))
+    calc(24px + env(safe-area-inset-bottom))
+    max(14px, env(safe-area-inset-right));
+}
+.screen{display:none}
+.screen.active{display:block}
+.hidden{display:none !important}
 
-    button {
-      width: 100%;
-      padding: 12px 10px;
-      margin: 4px 0;
-      border: none;
-      border-radius: 10px;
-      background: #4a90e2;
-      color: white;
-      font-size: 0.95rem;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.1s;
-      touch-action: manipulation;
-    }
-    button:active { transform: scale(0.98); }
-    button.btn-sub { background: #27ae60; text-align: left; padding-left: 14px; }
-    button.btn-total { background: #e67e22; text-align: left; padding-left: 14px; font-weight: 800; }
-    button.btn-secondary { background: #95a5a6; margin-top: 10px; }
-    button.btn-retry { background: #e74c3c; margin-top: 10px; }
-    
-    input {
-      width: 100%;
-      padding: 14px;
-      margin-bottom: 14px;
-      border: 2px solid #e0e0e0;
-      border-radius: 12px;
-      font-size: 1.05rem;
-      text-align: center;
-      outline: none;
-    }
-    
-    .chapter-title {
-      margin: 18px 0 6px 0;
-      text-align: left;
-      color: #2c3e50;
-      font-size: 1.05rem;
-      border-bottom: 2px solid #eef2f7;
-      padding-bottom: 4px;
-    }
-    
-    .question-box {
-      min-height: 110px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      margin: 15px 0 20px 0;
-      gap: 8px;
-    }
-    .question-badge {
-      display: inline-block;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      font-weight: bold;
-      background: #e8f8f0; 
-      color: #27ae60; 
-      border: 1px solid #27ae60;
-    }
-    
-    .question-main-text {
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: #2c3e50;
-      line-height: 1.5;
-    }
-    
-    .options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-    .options button {
-      margin: 0;
-      font-size: 1.05rem;
-      padding: 16px 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .progress-bar { background: #eee; height: 10px; border-radius: 5px; margin-bottom: 15px; overflow: hidden; }
-    .progress-fill { background: #4a90e2; height: 100%; width: 0%; transition: width 0.3s; }
+/* ---------- 공통 요소 ---------- */
+.bar{
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:14px;
+}
+.bar .spacer{flex:1}
+.chip-link,.chip-btn{
+  display:inline-flex;align-items:center;gap:5px;
+  min-height:40px;padding:0 13px;
+  background:var(--surface);color:var(--ink);
+  border:1px solid var(--line);border-radius:11px;
+  font:inherit;font-size:.86rem;font-weight:700;
+  text-decoration:none;cursor:pointer;
+}
+.chip-btn:active,.chip-link:active{background:var(--brand-soft);border-color:#c6d3ff}
 
-    /* 모달 (해설창) 스타일 */
-    .modal-overlay {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.5);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-      padding: 16px;
-    }
-    .modal-content {
-      background: white;
-      padding: 20px;
-      border-radius: 16px;
-      width: 100%;
-      max-width: 400px;
-      text-align: left;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    }
-    .modal-title {
-      font-size: 1.15rem;
-      font-weight: bold;
-      color: #e74c3c;
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .modal-body {
-      font-size: 0.95rem;
-      color: #333;
-      line-height: 1.5;
-      background: #f8f9fa;
-      padding: 12px;
-      border-radius: 8px;
-      margin-bottom: 15px;
-    }
+h1{font-size:1.6rem;line-height:1.25;letter-spacing:-.02em;margin:2px 0 6px;font-weight:800}
+h2{font-size:1.22rem;line-height:1.3;letter-spacing:-.02em;margin:0 0 6px;font-weight:800}
+.lede{color:var(--muted);font-size:.92rem;margin:0 0 18px}
 
-    /* 분수 표현 스타일 */
-    .frac-container {
-      display: inline-flex;
-      align-items: center;
-      gap: 3px;
-      font-weight: bold;
-    }
-    .frac-whole {
-      font-size: 1.15em;
-      line-height: 1;
-      padding-right: 1px;
-    }
-    .frac {
-      display: inline-flex;
-      flex-direction: column;
-      vertical-align: middle;
-      text-align: center;
-      font-size: 0.9em;
-      line-height: 1.1;
-      padding: 0 3px;
-    }
-    .frac > span { display: block; padding: 1px 2px; }
-    .frac span.bottom { border-top: 2px solid currentColor; }
-    
-    .eq-row {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      font-size: 1.2rem;
-    }
-  </style>
+.btn{
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  width:100%;min-height:54px;padding:14px 16px;
+  border:none;border-radius:14px;
+  background:var(--brand);color:#fff;
+  font:inherit;font-size:1.02rem;font-weight:800;letter-spacing:-.01em;
+  cursor:pointer;touch-action:manipulation;
+  transition:transform .12s ease, background .15s ease;
+}
+.btn:active{transform:scale(.985)}
+.btn[disabled]{opacity:.5;cursor:default;transform:none}
+.btn.ghost{background:var(--surface);color:var(--ink);border:1px solid var(--line);font-weight:700}
+.btn.ghost:active{background:#f2f5fc}
+.btn + .btn{margin-top:9px}
+:focus-visible{outline:3px solid #90a8ff;outline-offset:2px}
+
+/* ---------- 홈: 단원 아코디언 ---------- */
+.hero{
+  background:var(--surface);border:1px solid var(--line);border-radius:20px;
+  padding:20px 18px;box-shadow:var(--shadow);margin-bottom:16px;
+}
+.hero .badge{
+  display:inline-block;padding:3px 10px;border-radius:999px;
+  background:var(--brand-soft);color:var(--brand-ink);
+  font-size:.76rem;font-weight:800;margin-bottom:9px;
+}
+.hero p{margin:0;color:var(--muted);font-size:.92rem}
+
+.chapter{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  margin-bottom:10px;overflow:hidden;box-shadow:var(--shadow);
+}
+.chapter summary{
+  display:flex;align-items:center;gap:12px;
+  padding:14px 15px;cursor:pointer;list-style:none;min-height:60px;
+}
+.chapter summary::-webkit-details-marker{display:none}
+.num{
+  flex:none;width:32px;height:32px;border-radius:10px;
+  background:var(--brand-soft);color:var(--brand-ink);
+  display:grid;place-items:center;font-weight:800;font-size:.98rem;
+  font-variant-numeric:tabular-nums;
+}
+.chapter summary .t{flex:1;font-weight:700;letter-spacing:-.01em;font-size:1rem}
+.chapter summary .arrow{flex:none;color:var(--muted);transition:transform .18s ease}
+.chapter[open] summary .arrow{transform:rotate(90deg)}
+.chapter[open] summary{border-bottom:1px solid var(--line)}
+.sublist{padding:9px 12px 13px}
+.sub{
+  display:flex;align-items:center;gap:10px;width:100%;
+  min-height:50px;padding:11px 12px;margin:0 0 7px;
+  background:#fbfcff;border:1px solid var(--line);border-radius:12px;
+  font:inherit;font-size:.95rem;font-weight:600;text-align:left;color:var(--ink);
+  cursor:pointer;touch-action:manipulation;
+}
+.sub .dot{flex:none;width:7px;height:7px;border-radius:50%;background:var(--mint)}
+.sub .sub-t{flex:1}
+.sub .qn{
+  flex:none;font-size:.78rem;font-weight:700;color:var(--muted);
+  background:#eef2fa;border-radius:999px;padding:2px 8px;font-variant-numeric:tabular-nums;
+}
+.sub.total .qn{background:#f6e3c0;color:#7a4a00}
+.sub:active{background:var(--mint-soft);border-color:#b7e5d5}
+.sub.total{
+  background:var(--amber-soft);border-color:#f3ddb4;color:#7a4a00;font-weight:800;margin-bottom:0;
+}
+.sub.total .dot{background:var(--amber)}
+.sub.total:active{background:#fbe6c2}
+
+/* ---------- 퀴즈 ---------- */
+.quizbar{padding:2px 0 4px;margin-bottom:2px}
+.meter{display:flex;align-items:baseline;gap:6px;font-size:.86rem;color:var(--muted);font-weight:700}
+.meter b{font-size:1.25rem;color:var(--brand-ink);font-variant-numeric:tabular-nums}
+.track{height:8px;border-radius:99px;background:#d7e0f0;overflow:hidden;margin-top:8px}
+.fill{height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--brand),#4a86ff);transition:width .35s cubic-bezier(.4,0,.2,1)}
+
+.qcard{
+  background:var(--surface);border:1px solid var(--line);border-radius:20px;
+  box-shadow:var(--shadow);padding:22px 18px;margin:12px 0 14px;
+  min-height:150px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:12px;text-align:center;
+}
+.qtext{font-size:1.2rem;font-weight:700;line-height:1.6;width:100%}
+.qtext b{font-weight:800}
+
+.options{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.options.stack{grid-template-columns:1fr}
+.opt{
+  display:flex;align-items:center;justify-content:center;gap:4px;
+  min-height:64px;padding:12px 10px;
+  background:var(--surface);color:var(--ink);
+  border:1.5px solid var(--line);border-radius:14px;
+  font:inherit;font-size:1.06rem;font-weight:700;line-height:1.35;
+  cursor:pointer;touch-action:manipulation;
+  transition:transform .1s ease, background .15s ease, border-color .15s ease;
+}
+.options.stack .opt{min-height:54px;font-size:1rem}
+.opt:active{transform:scale(.985);background:#f4f7ff}
+.opt.is-right{background:var(--mint-soft);border-color:var(--mint);color:#0a6b51}
+.opt.is-right::after{content:"✓";margin-left:2px;font-weight:800}
+.opt.is-wrong{background:var(--coral-soft);border-color:var(--coral);color:#a51f1f}
+
+.count-wrap{text-align:center;padding:48px 0 30px}
+.count-num{
+  font-size:6rem;line-height:1;font-weight:800;color:var(--brand);
+  font-variant-numeric:tabular-nums;margin:18px 0;
+  animation:pop .9s ease-out;
+}
+@keyframes pop{from{transform:scale(.55);opacity:0}to{transform:scale(1);opacity:1}}
+
+/* ---------- 해설 바텀시트 ---------- */
+.scrim{
+  position:fixed;inset:0;background:rgba(21,35,63,.42);
+  opacity:0;pointer-events:none;transition:opacity .2s ease;z-index:20;
+}
+.scrim.open{opacity:1;pointer-events:auto}
+.sheet{
+  position:fixed;left:0;right:0;bottom:0;z-index:21;
+  margin:0 auto;max-width:520px;
+  background:var(--surface);
+  border-radius:22px 22px 0 0;
+  border-top:4px solid var(--coral);
+  padding:18px 18px calc(18px + env(safe-area-inset-bottom));
+  box-shadow:0 -14px 40px -20px rgba(21,35,63,.6);
+  transform:translateY(102%);transition:transform .26s cubic-bezier(.32,.72,0,1);
+  max-height:82dvh;overflow-y:auto;
+}
+.sheet.open{transform:translateY(0)}
+.sheet h3{margin:0 0 12px;font-size:1.05rem;color:var(--coral);font-weight:800}
+.answer-row{
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  padding:9px 12px;border-radius:11px;margin-bottom:7px;font-size:.98rem;
+}
+.answer-row .k{font-size:.82rem;font-weight:800;color:var(--muted);flex:none}
+.answer-row.mine{background:var(--coral-soft)}
+.answer-row.right{background:var(--mint-soft)}
+.answer-row.right .k{color:#0a6b51}
+.exp{
+  border-top:1px dashed var(--line);margin-top:12px;padding-top:12px;
+  font-size:.95rem;line-height:1.65;color:#2c3c5c;
+}
+.exp b{color:var(--brand-ink)}
+.sheet .btn{margin-top:16px;background:var(--coral)}
+
+/* ---------- 결과 ---------- */
+.result-hero{
+  background:linear-gradient(160deg,#0f9d76,#0b7f5f);color:#fff;
+  border-radius:20px;padding:26px 20px;text-align:center;margin-bottom:14px;
+}
+.result-hero .big{font-size:2rem;font-weight:800;margin:6px 0 2px;letter-spacing:-.02em}
+.result-hero p{margin:0;opacity:.9;font-size:.93rem}
+.stats{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:6px 16px;margin-bottom:16px;box-shadow:var(--shadow);
+}
+.stat{display:flex;justify-content:space-between;gap:14px;align-items:baseline;padding:13px 0;border-bottom:1px solid var(--line)}
+.stat:last-child{border-bottom:none}
+.stat .k{color:var(--muted);font-size:.9rem;font-weight:600;flex:none}
+.stat .v{font-weight:800;text-align:right}
+
+/* ---------- 문제 내용 요소 ---------- */
+.frac{
+  display:inline-flex;flex-direction:column;vertical-align:middle;
+  text-align:center;font-size:.94em;padding:0 4px;line-height:1.12;
+}
+.frac>span{display:block}
+.frac .bottom{border-top:1.8px solid currentColor;padding-top:1px}
+.shape{display:block;margin:0 auto 6px;max-width:100%;height:auto}
+.eq{display:flex;align-items:center;justify-content:center;gap:5px;flex-wrap:wrap}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms !important;transition-duration:.01ms !important}
+}
+@media (max-width:360px){
+  .qtext{font-size:1.1rem}
+  .opt{font-size:1rem;min-height:58px}
+}
+</style>
 </head>
 <body>
+<div class="app">
 
-<!-- 메인 홈 화면 (단원/소단원 선택) -->
-<div class="card" id="home-screen">
-  <div class="nav-header">
-    <button class="btn-home" onclick="location.href='../../index.html'">🏠 홈으로</button>
+<!-- 홈 -->
+<section class="screen active" id="screen-home">
+  <div class="bar">
+    <a href="../../index.html" class="chip-link">← 홈으로</a>
   </div>
-  <h2 style="margin-top:0; color:#2c3e50;">🎓 6학년 2학기 수학</h2>
-  <p style="color:#7f8c8d; font-size: 0.88rem; margin-bottom:15px;">학습할 세부 단원을 선택하세요! (총 20문제)</p>
-  
-  <div class="chapter-title">01단원. 분수의 나눗셈</div>
-  <button class="btn-sub" onclick="openSetup('1-1', '1) (분수) ÷ (분수)')">🟢 1) (분수) ÷ (분수)</button>
-  <button class="btn-sub" onclick="openSetup('1-2', '2) (자연수) ÷ (분수)')">🟢 2) (자연수) ÷ (분수)</button>
-  <button class="btn-sub" onclick="openSetup('1-3', '3) (대분수) ÷ (분수)')">🟢 3) (대분수) ÷ (분수)</button>
-  <button class="btn-total" onclick="openSetup('1-all', '🏆 01단원 종합 테스트')">🏆 [단원정리] 01. 분수의 나눗셈</button>
-
-  <div class="chapter-title">02단원. 소수의 나눗셈</div>
-  <button class="btn-sub" onclick="openSetup('2-1', '1) (소수 한 자리) ÷ (소수 한 자리)')">🟢 1) (소수 한 자리) ÷ (소수 한 자리)</button>
-  <button class="btn-sub" onclick="openSetup('2-2', '2) (소수 두 자리) ÷ (소수 두 자리)')">🟢 2) (소수 두 자리) ÷ (소수 두 자리)</button>
-  <button class="btn-sub" onclick="openSetup('2-3', '3) (소수 두 자리) ÷ (소수 한 자리)')">🟢 3) (소수 두 자리) ÷ (소수 한 자리)</button>
-  <button class="btn-sub" onclick="openSetup('2-4', '4) (자연수) ÷ (소수)')">🟢 4) (자연수) ÷ (소수)</button>
-  <button class="btn-total" onclick="openSetup('2-all', '🏆 02단원 종합 테스트')">🏆 [단원정리] 02. 소수의 나눗셈</button>
-
-  <div class="chapter-title">04단원. 비례식과 비례배분</div>
-  <button class="btn-sub" onclick="openSetup('4-1', '1) 비의 성질')">🟢 1) 비의 성질</button>
-  <button class="btn-sub" onclick="openSetup('4-2', '2) 간단한 자연수의 비')">🟢 2) 간단한 자연수의 비</button>
-  <button class="btn-sub" onclick="openSetup('4-3', '3) 비례배분')">🟢 3) 비례배분</button>
-  <button class="btn-total" onclick="openSetup('4-all', '🏆 04단원 종합 테스트')">🏆 [단원정리] 04. 비례식과 비례배분</button>
-
-  <div class="chapter-title">05단원. 원의 둘레와 넓이</div>
-  <button class="btn-sub" onclick="openSetup('5-1', '1) 원주와 지름')">🟢 1) 원주와 지름</button>
-  <button class="btn-sub" onclick="openSetup('5-2', '2) 원의 넓이')">🟢 2) 원의 넓이</button>
-  <button class="btn-total" onclick="openSetup('5-all', '🏆 05단원 종합 테스트')">🏆 [단원정리] 05. 원의 둘레와 넓이</button>
-</div>
-
-<!-- 문제 시작 화면 (게임 설정) -->
-<div class="card hidden" id="setup-screen">
-  <div class="nav-header">
-    <button class="btn-home" onclick="location.href='../../index.html'">🏠 홈으로</button>
+  <div class="hero">
+    <span class="badge">초등 6학년 2학기</span>
+    <h1>수학 문제 풀기</h1>
+    <p>단원을 열고 공부할 내용을 고르세요. 소단원은 10문제, 단원 전체 문제는 20문제입니다.</p>
   </div>
-  <h3 style="margin-top:0; color:#333;" id="setup-title">수학 퀴즈</h3>
-  <p style="color:#777; font-size:0.9rem;">20문제를 맞히면 완주 성공입니다!</p>
-  <input type="text" id="username" placeholder="이름을 입력하세요" autocomplete="off">
-  <button onclick="startCountDown()">게임 시작</button>
-  <button onclick="goHome()" class="btn-secondary">내용 선택</button>
-</div>
+  <div id="chapter-list"></div>
+</section>
 
-<!-- 카운트다운 화면 -->
-<div class="card hidden" id="countdown-screen">
-  <div class="nav-header">
-    <button class="btn-home" onclick="location.href='../../index.html'">🏠 홈으로</button>
+<!-- 시작 -->
+<section class="screen" id="screen-setup">
+  <div class="bar">
+    <button class="chip-btn" onclick="goHome()">← 단원 목록</button>
   </div>
-  <p style="font-size:1.1rem; color:#555; margin-top:20px;">잠시 후 퀴즈가 시작됩니다!</p>
-  <h1 id="countdown-text" style="font-size: 4.5rem; color:#4a90e2; margin: 20px 0;">3</h1>
-</div>
+  <div class="hero">
+    <span class="badge" id="setup-chapter">단원</span>
+    <h2 id="setup-title">수학 문제 풀기</h2>
+    <p>이름을 쓰고 시작하세요. <span data-total>10</span>문제를 맞히면 완료됩니다.</p>
+  </div>
+  <label class="lede" for="username" style="display:block;margin:0 0 8px;font-weight:700;color:var(--ink)">이름</label>
+  <input id="username" type="text" placeholder="이름을 입력하세요" autocomplete="off"
+         autocapitalize="off" enterkeyhint="go" maxlength="20"
+         style="width:100%;min-height:54px;padding:14px 16px;border:1.5px solid var(--line);
+                border-radius:14px;font:inherit;font-size:1.05rem;background:var(--surface);color:var(--ink)">
+  <p id="name-error" class="lede hidden" style="color:var(--coral);margin:8px 0 0;font-weight:700">이름을 먼저 입력하세요.</p>
+  <div style="height:14px"></div>
+  <button class="btn" onclick="startCountDown()">시작하기</button>
+</section>
 
-<!-- 퀴즈 진행 화면 -->
-<div class="card hidden" id="quiz-screen">
-  <div class="nav-header">
-    <button class="btn-home" onclick="location.href='../../index.html'">🏠 홈으로</button>
-    <div style="font-size: 0.9rem; color: #777;"><span id="progress">0</span> / 20 문제 맞힘</div>
+<!-- 카운트다운 -->
+<section class="screen" id="screen-countdown">
+  <div class="count-wrap">
+    <h2>준비하세요</h2>
+    <div class="count-num" id="countdown-text">3</div>
+    <p class="lede" style="margin:0">곧 첫 문제가 나옵니다.</p>
   </div>
-  <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
-  
-  <div class="question-box">
-    <div class="question-badge">[정답을 선택하세요]</div>
-    <div id="question-text" class="question-main-text">문제가 여기에 표시됩니다</div>
+</section>
+
+<!-- 퀴즈 -->
+<section class="screen" id="screen-quiz">
+  <div class="quizbar">
+    <div class="bar" style="margin-bottom:8px">
+      <button class="chip-btn" onclick="restartQuiz()">← 그만하기</button>
+      <div class="spacer"></div>
+      <div class="meter"><b id="progress">0</b> / <span id="progress-total">10</span> 맞힘</div>
+    </div>
+    <div class="track"><div class="fill" id="progress-fill"></div></div>
+  </div>
+
+  <div class="qcard">
+    <div id="question-text" class="qtext">문제를 불러오는 중입니다.</div>
   </div>
 
   <div class="options" id="options-box"></div>
+</section>
 
-  <!-- 하단 재도전 버튼 (퀴즈 시작 화면으로 이동) -->
-  <div style="margin-top: 25px; border-top: 1px solid #eee; padding-top: 12px;">
-    <button class="btn-retry" onclick="openSetup(selectedCategory, currentSubTitle)">🔄 재도전 (시작 화면으로)</button>
+<!-- 결과 -->
+<section class="screen" id="screen-result">
+  <div class="result-hero">
+    <p>모두 해냈어요</p>
+    <div class="big"><span id="res-total">10</span>문제 완료</div>
+    <p id="res-praise">끝까지 잘 풀었습니다.</p>
   </div>
+  <div class="stats">
+    <div class="stat"><span class="k">이름</span><span class="v" id="res-name">-</span></div>
+    <div class="stat"><span class="k">단원</span><span class="v" id="res-title">-</span></div>
+    <div class="stat"><span class="k">걸린 시간</span><span class="v" id="res-time" style="color:var(--amber)">-</span></div>
+    <div class="stat"><span class="k">틀린 횟수</span><span class="v" id="res-wrong">-</span></div>
+    <div class="stat"><span class="k">끝낸 시각</span><span class="v" id="res-date">-</span></div>
+  </div>
+  <button class="btn" onclick="retrySame()">같은 단원 한 번 더</button>
+  <button class="btn ghost" onclick="goHome()">다른 단원 고르기</button>
+</section>
+
 </div>
 
-<!-- 오답 해설 모달 창 -->
-<div class="modal-overlay hidden" id="explanation-modal">
-  <div class="modal-content">
-    <div class="nav-header">
-      <button class="btn-home" onclick="location.href='../../index.html'">🏠 홈으로</button>
-    </div>
-    <div class="modal-title">❌ 오답입니다! (카운팅 되지 않음)</div>
-    <div class="modal-body" id="explanation-text">해설 내용이 여기에 들어갑니다.</div>
-    <button id="modal-next-btn" onclick="triggerModalCountdown()">다음</button>
-  </div>
+<div class="scrim" id="scrim"></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+  <h3 id="sheet-title">아쉬워요, 다시 봅시다</h3>
+  <div class="answer-row mine"><span class="k">내 답</span><span id="sheet-mine"></span></div>
+  <div class="answer-row right"><span class="k">정답</span><span id="sheet-right"></span></div>
+  <div class="exp" id="sheet-exp"></div>
+  <button class="btn" id="btn-next" onclick="nextAfterExplanation()">다음 문제</button>
 </div>
-
-<!-- 성공 결과 화면 -->
-<div class="card hidden" id="result-screen">
-  <div class="nav-header">
-    <button class="btn-home" onclick="location.href='../../index.html'">🏠 홈으로</button>
-  </div>
-  <h2>🎉 완주를 축하합니다!</h2>
-  <p id="result-text"></p>
-  <button onclick="openSetup(selectedCategory, currentSubTitle)">🔄 재도전</button>
-  <button onclick="goHome()" class="btn-secondary">내용 선택</button>
-</div>
-
 <script>
+"use strict";
+
+/* ===========================================================
+   단원 데이터
+   =========================================================== */
+const CHAPTERS = [
+  { n:1, title:"분수의 나눗셈", subs:[
+    ["1-1","(분수) ÷ (분수)"],
+    ["1-2","(자연수) ÷ (분수)"],
+    ["1-3","(대분수) ÷ (분수)"]
+  ]},
+  { n:2, title:"소수의 나눗셈", subs:[
+    ["2-1","(소수 한 자리) ÷ (소수 한 자리)"],
+    ["2-2","(소수 두 자리) ÷ (소수 두 자리)"],
+    ["2-3","(소수 두 자리) ÷ (소수 한 자리)"],
+    ["2-4","(자연수) ÷ (소수)"]
+  ]},
+  { n:4, title:"비례식과 비례배분", subs:[
+    ["4-1","비의 성질"],
+    ["4-2","간단한 자연수의 비"],
+    ["4-3","비례배분"]
+  ]},
+  { n:5, title:"원의 둘레와 넓이", subs:[
+    ["5-1","원주와 지름"],
+    ["5-2","원의 넓이"]
+  ]}
+];
+
+const TOTAL_SUB = 10;    // 소단원
+const TOTAL_ALL = 20;    // 단원 전체 문제
+let TOTAL = TOTAL_SUB;
+
 let userName = "";
 let selectedCategory = "";
 let currentSubTitle = "";
+let currentChapterLabel = "";
 let correctCount = 0;
-const totalQuestions = 20;
-let startTime, endTime;
-let qData = {};
+let wrongCount = 0;
+let startTime = 0;
+let currentQData = null;
+let locked = false;
+const timers = [];
 
-function gcd(a, b) { return b === 0 ? a : gcd(b, a % b); }
+/* ===========================================================
+   화면 전환 · 타이머 정리
+   =========================================================== */
+function clearTimers(){ while (timers.length) clearInterval(timers.pop()); }
 
-function goHome() {
-  document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
-  document.getElementById('explanation-modal').classList.add('hidden');
-  document.getElementById('home-screen').classList.remove('hidden');
+function showScreen(id){
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  window.scrollTo(0, 0);
 }
 
-function openSetup(catKey, subTitle) {
-  selectedCategory = catKey;
+function closeSheet(){
+  document.getElementById("sheet").classList.remove("open");
+  document.getElementById("scrim").classList.remove("open");
+  document.body.classList.remove("locked");
+}
+
+function goHome(){
+  clearTimers(); closeSheet();
+  showScreen("screen-home");
+}
+
+function syncTotals(){
+  document.getElementById("progress-total").textContent = TOTAL;
+  document.getElementById("res-total").textContent = TOTAL;
+  document.querySelectorAll("[data-total]").forEach(el => { el.textContent = TOTAL; });
+}
+
+function openSetup(cat, subTitle, chapterLabel){
+  clearTimers(); closeSheet();
+  selectedCategory = cat;
+  TOTAL = cat.endsWith("-all") ? TOTAL_ALL : TOTAL_SUB;
+  syncTotals();
   currentSubTitle = subTitle;
-  document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
-  document.getElementById('explanation-modal').classList.add('hidden');
-  document.getElementById('setup-screen').classList.remove('hidden');
-  document.getElementById('setup-title').innerText = subTitle;
+  currentChapterLabel = chapterLabel;
+  document.getElementById("setup-title").innerText = subTitle;
+  document.getElementById("setup-chapter").innerText = chapterLabel;
+  document.getElementById("name-error").classList.add("hidden");
+  const saved = localStorage.getItem("quiz_user_name");
+  if (saved) document.getElementById("username").value = saved;
+  showScreen("screen-setup");
 }
 
-function startCountDown() {
-  userName = document.getElementById("username").value.trim();
-  if(!userName) { alert("이름을 입력해주세요!"); return; }
-  
+/* 홈 화면 단원 목록 생성 */
+(function buildHome(){
+  const wrap = document.getElementById("chapter-list");
+  CHAPTERS.forEach(ch => {
+    const d = document.createElement("details");
+    d.className = "chapter";
+    d.setAttribute("name", "chapter");        // 한 번에 하나만 열림(지원 브라우저)
+    const chapterLabel = ch.n + "단원 " + ch.title;
+
+    const s = document.createElement("summary");
+    s.innerHTML = '<span class="num">' + ch.n + '</span>' +
+                  '<span class="t"></span>' +
+                  '<span class="arrow" aria-hidden="true">›</span>';
+    s.querySelector(".t").textContent = ch.title;
+    d.appendChild(s);
+
+    const list = document.createElement("div");
+    list.className = "sublist";
+    ch.subs.forEach(([cat, name], i) => {
+      const b = document.createElement("button");
+      b.className = "sub";
+      b.type = "button";
+      b.innerHTML = '<span class="dot"></span><span class="sub-t"></span><span class="qn">' + TOTAL_SUB + '문제</span>';
+      b.querySelector(".sub-t").textContent = (i + 1) + ") " + name;
+      b.onclick = () => openSetup(cat, name, chapterLabel);
+      list.appendChild(b);
+    });
+    const t = document.createElement("button");
+    t.className = "sub total";
+    t.type = "button";
+    t.innerHTML = '<span class="dot"></span><span class="sub-t"></span><span class="qn">' + TOTAL_ALL + '문제</span>';
+    t.querySelector(".sub-t").textContent = "단원 전체 문제";
+    t.onclick = () => openSetup(ch.n + "-all", "단원 전체 문제", chapterLabel);
+    list.appendChild(t);
+
+    d.appendChild(list);
+    wrap.appendChild(d);
+  });
+  syncTotals();
+})();
+
+/* ===========================================================
+   시작 / 카운트다운
+   =========================================================== */
+const nameInput = document.getElementById("username");
+nameInput.addEventListener("keydown", e => { if (e.key === "Enter") startCountDown(); });
+nameInput.addEventListener("input", () => document.getElementById("name-error").classList.add("hidden"));
+
+function startCountDown(){
+  userName = nameInput.value.trim();
+  if (!userName){
+    document.getElementById("name-error").classList.remove("hidden");
+    nameInput.focus();
+    return;
+  }
+  localStorage.setItem("quiz_user_name", userName);
+
+  clearTimers();
   correctCount = 0;
-  document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
-  document.getElementById("countdown-screen").classList.remove("hidden");
-  
+  wrongCount = 0;
+  updateProgress();
+  showScreen("screen-countdown");
+
   let count = 3;
-  document.getElementById("countdown-text").innerText = count;
-  let timer = setInterval(() => {
+  const el = document.getElementById("countdown-text");
+  el.innerText = count;
+  const timer = setInterval(() => {
     count--;
-    if(count > 0) {
-      document.getElementById("countdown-text").innerText = count;
+    if (count > 0){
+      el.innerText = count;
+      el.style.animation = "none";
+      void el.offsetWidth;
+      el.style.animation = "";
     } else {
       clearInterval(timer);
-      document.getElementById("countdown-screen").classList.add("hidden");
-      document.getElementById("quiz-screen").classList.remove("hidden");
-      startTime = new Date().getTime();
+      showScreen("screen-quiz");
+      startTime = Date.now();
       loadNextQuestion();
     }
   }, 1000);
+  timers.push(timer);
 }
 
-// 분수 HTML UI 표현 함수
-function formatFracHTML(num, denom) {
-  let g = gcd(num, denom);
+function restartQuiz(){
+  if (correctCount > 0 && !confirm("지금까지 푼 내용이 사라집니다. 그만할까요?")) return;
+  clearTimers(); closeSheet();
+  showScreen("screen-setup");
+}
+
+function retrySame(){ showScreen("screen-setup"); }
+
+/* ===========================================================
+   공통 유틸
+   =========================================================== */
+function gcd(a, b){ return b === 0 ? a : gcd(b, a % b); }
+function randInt(min, max){ return Math.floor(Math.random() * (max - min + 1)) + min; }
+function pick(arr){ return arr[Math.floor(Math.random() * arr.length)]; }
+
+/* 분모 d 와 서로소인 분자 → 문제에 기약분수만 나오게 한다 */
+function coprimeNum(d){
+  const c = [];
+  for (let i = 1; i < d; i++) if (gcd(i, d) === 1) c.push(i);
+  return pick(c);
+}
+
+/* Fisher-Yates (sort(()=>Math.random()-0.5) 는 분포가 치우침) */
+function shuffle(arr){
+  for (let i = arr.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+/* 후보 중에서 정답보다 작은 보기 개수를 무작위로 정해 4개를 고른다.
+   → 정답이 늘 최솟값이거나 늘 특정 순위에 오는 규칙이 생기지 않는다.
+   같은 문자열은 자동으로 걸러지므로 보기가 중복되지 않는다.
+   cands: [{ s: 보기문자열, val: 크기, prio: 0이면 우선 }] */
+function chooseOptions(answer, ansVal, cands){
+  const seen = { [answer]: true };
+  const smaller = [], larger = [];
+  for (const c of cands){
+    if (c.s === undefined || seen[c.s]) continue;
+    seen[c.s] = true;
+    (c.val < ansVal ? smaller : larger).push({ s: c.s, prio: c.prio === undefined ? 1 : c.prio });
+  }
+  const order = a => shuffle(a).sort((x, y) => x.prio - y.prio);
+  const sm = order(smaller), lg = order(larger);
+
+  let wantBelow = Math.min(3, sm.length, randInt(0, 3));
+  const wantAbove = Math.min(3 - wantBelow, lg.length);
+  wantBelow = Math.min(sm.length, 3 - wantAbove);
+  return [answer]
+    .concat(sm.slice(0, wantBelow).map(o => o.s))
+    .concat(lg.slice(0, wantAbove).map(o => o.s));
+}
+
+function numericOptions(ansVal, unit, step, mistakes){
+  step = Math.max(1, step || Math.max(1, Math.round(Math.abs(ansVal) / 8)));
+  const cands = [];
+  (mistakes || []).forEach(v => {
+    if (v > 0 && Number.isInteger(v)) cands.push({ s: v + (unit || ""), val: v, prio: 0 });
+  });
+  for (let i = 1; i <= 12; i++){
+    const lo = ansVal - i * step, hi = ansVal + i * step;
+    if (lo > 0) cands.push({ s: lo + (unit || ""), val: lo });
+    cands.push({ s: hi + (unit || ""), val: hi });
+  }
+  return chooseOptions(ansVal + (unit || ""), ansVal, cands);
+}
+
+/* ===========================================================
+   분수 표기
+   =========================================================== */
+function formatFracObj(num, denom){
+  const g = gcd(Math.abs(num), Math.abs(denom)) || 1;
   num /= g; denom /= g;
-  if (denom === 1) return `<span>${num}</span>`;
-  if (num > denom) {
-    let m = Math.floor(num / denom);
-    let r = num % denom;
-    return renderFracHTML(m, r, denom);
+  if (denom === 1) return String(num);
+  if (Math.abs(num) > denom){
+    const m = Math.floor(Math.abs(num) / denom);
+    const r = Math.abs(num) % denom;
+    const sign = num < 0 ? "-" : "";
+    if (r === 0) return sign + m;
+    return sign + m + "과 " + r + "/" + denom;
   }
-  return renderFracHTML(0, num, denom);
+  return num + "/" + denom;
 }
 
-function renderFracHTML(m, n, d) {
-  let fracPart = `<div class="frac"><span>${n}</span><span class="bottom">${d}</span></div>`;
-  if (m > 0) return `<div class="frac-container"><span class="frac-whole">${m}</span>${fracPart}</div>`;
-  return `<div class="frac-container">${fracPart}</div>`;
+function renderFracHTML(m, n, d){
+  const frac = '<span class="frac"><span>' + n + '</span><span class="bottom">' + d + '</span></span>';
+  return m > 0 ? '<span>' + m + '</span>' + frac : frac;
 }
 
-// 6학년 2학기 문제 및 해설 생성 함수
-function generateSingleQuestion(cat) {
-  let q = "", answer = "", options = [], exp = "";
+function formatOptionToHTML(text){
+  if (typeof text !== "string") return text;
+  if (text.indexOf('class="frac"') !== -1 || text.indexOf("<svg") !== -1) return text;
+  text = text.replace(/(\d+)\s*과\s*(\d+)\/(\d+)/g, (m, a, b, c) => renderFracHTML(+a, +b, +c));
+  text = text.replace(/(\d+)\/(\d+)/g, (m, a, b) => renderFracHTML(0, +a, +b));
+  return text;
+}
 
-  // 01단원: 분수의 나눗셈
-  if (cat.startsWith('1-')) {
-    let n1 = 1, d1 = 1, m1 = 0, n2 = 1, d2 = 1;
-    if (cat === '1-1') { // (분수) ÷ (분수)
-      d1 = Math.floor(Math.random() * 6) + 3; n1 = Math.floor(Math.random() * (d1 - 1)) + 1;
-      d2 = Math.floor(Math.random() * 6) + 2; n2 = Math.floor(Math.random() * (d2 - 1)) + 1;
-      q = `<div class="eq-row">${renderFracHTML(0,n1,d1)} <span>÷</span> ${renderFracHTML(0,n2,d2)} <span>= ?</span></div>`;
-      answer = formatFracHTML(n1 * d2, d1 * n2);
-      exp = `분수의 나눗셈은 나누는 분수의 분모와 분자를 바꾸어 곱셈으로 계산합니다.`;
-    } else if (cat === '1-2') { // (자연수) ÷ (분수)
-      let k = Math.floor(Math.random() * 8) + 2;
-      d2 = Math.floor(Math.random() * 6) + 2; n2 = Math.floor(Math.random() * (d2 - 1)) + 1;
-      q = `<div class="eq-row"><span>${k} ÷ </span> ${renderFracHTML(0,n2,d2)} <span>= ?</span></div>`;
-      answer = formatFracHTML(k * d2, n2);
-      exp = `자연수 나누기 분수는 자연수에 나누는 분수의 분모를 곱하고 분자로 나누어 계산합니다. (${k} × ${d2}/${n2})`;
-    } else if (cat === '1-3') { // (대분수) ÷ (분수)
-      d1 = Math.floor(Math.random() * 4) + 2; n1 = Math.floor(Math.random() * (d1 - 1)) + 1; m1 = Math.floor(Math.random() * 2) + 1;
-      d2 = Math.floor(Math.random() * 5) + 2; n2 = Math.floor(Math.random() * (d2 - 1)) + 1;
-      let totalN1 = m1 * d1 + n1;
-      q = `<div class="eq-row">${renderFracHTML(m1,n1,d1)} <span>÷</span> ${renderFracHTML(0,n2,d2)} <span>= ?</span></div>`;
-      answer = formatFracHTML(totalN1 * d2, d1 * n2);
-      exp = `대분수를 가분수로 바꾼 뒤(${totalN1}/${d1}), 나누는 분수를 역수로 바꾸어 곱해줍니다.`;
+/* 분수 보기: 자주 하는 실수를 먼저 쓰고, 정답보다 크고 작은 값을 섞는다 */
+function fracOptions(num, den, mistakes){
+  const answer = formatFracObj(num, den);
+  const ansVal = num / den;
+  const cands = [];
+  const push = (n, d, prio) => {
+    if (!(n > 0) || !(d > 0) || !Number.isInteger(n) || !Number.isInteger(d)) return;
+    cands.push({ s: formatFracObj(n, d), val: n / d, prio: prio });
+  };
+  (mistakes || []).forEach(p => push(p[0], p[1], 0));
+  for (let i = 1; i <= 8; i++){ push(num - i, den, 1); push(num + i, den, 1); }
+  push(num, den + 1, 1); push(num, den + 2, 1);
+
+  const options = chooseOptions(answer, ansVal, cands);
+  let e = 9;
+  while (options.length < 4){
+    const s = formatFracObj(num + e++, den);
+    if (!options.includes(s)) options.push(s);
+  }
+  return { answer, options };
+}
+
+/* ===========================================================
+   소수 표기 — 부동소수점 오차를 피하려고 정수로 계산한다
+   =========================================================== */
+function decStr(intVal, digits){
+  if (digits <= 0) return String(intVal);
+  let s = (intVal / Math.pow(10, digits)).toFixed(digits);
+  if (s.indexOf(".") !== -1) s = s.replace(/0+$/, "").replace(/\.$/, "");
+  return s;
+}
+
+/* 문제에 쓸 표기 — 소수 자릿수를 그대로 남긴다 (3.50 을 3.5 로 줄이지 않음) */
+function decFixed(intVal, digits){ return (intVal / Math.pow(10, digits)).toFixed(digits); }
+
+/* 소수 보기: 소수점 위치를 잘못 찍은 답을 오답으로 넣는다 */
+function decOptions(intVal, digits, mistakes){
+  const answer = decStr(intVal, digits);
+  const ansVal = intVal / Math.pow(10, digits);
+  const cands = [];
+  const push = (v, d, prio) => {
+    if (!(v > 0)) return;
+    cands.push({ s: decStr(v, d), val: v / Math.pow(10, d), prio: prio });
+  };
+  (mistakes || []).forEach(p => push(p[0], p[1], 0));
+  push(intVal, digits - 1, 0);          // 소수점을 한 칸 덜 옮긴 답
+  push(intVal, digits + 1, 0);          // 소수점을 한 칸 더 옮긴 답
+  for (let i = 1; i <= 9; i++){ push(intVal - i, digits, 1); push(intVal + i, digits, 1); }
+
+  const options = chooseOptions(answer, ansVal, cands);
+  let e = 10;
+  while (options.length < 4){
+    const s = decStr(intVal + e++, digits);
+    if (!options.includes(s)) options.push(s);
+  }
+  return { answer, options };
+}
+
+/* ===========================================================
+   원 그림
+   =========================================================== */
+function getCircleSVG(label, isDiameter){
+  const cx = 130, cy = 66, R = 46;
+  const L = "#2f57cf", F = "#e8eeff", M = "#e03b3b", T = "#15233f";
+  const x1 = isDiameter ? cx - R : cx;
+  let g = '<circle cx="' + cx + '" cy="' + cy + '" r="' + R + '" fill="' + F +
+          '" stroke="' + L + '" stroke-width="2.5"/>' +
+          '<line x1="' + x1 + '" y1="' + cy + '" x2="' + (cx + R) + '" y2="' + cy +
+          '" stroke="' + M + '" stroke-width="2.2"/>' +
+          '<circle cx="' + cx + '" cy="' + cy + '" r="3" fill="' + M + '"/>' +
+          '<text x="' + (cx + (isDiameter ? 0 : R / 2)) + '" y="' + (cy - 9) +
+          '" font-size="12.5" font-weight="700" font-family="sans-serif" fill="' + M +
+          '" text-anchor="middle">' + label + '</text>';
+  return '<svg class="shape" width="260" height="132" viewBox="0 0 260 132" ' +
+         'xmlns="http://www.w3.org/2000/svg" role="img">' + g + '</svg>';
+}
+
+/* ===========================================================
+   문제 생성
+   =========================================================== */
+function generateSingleQuestion(cat){
+  let q = "", answer = "", exp = "", options = [];
+
+  /* ---------- 1단원. 분수의 나눗셈 ---------- */
+  if (cat === "1-1"){
+    const d1 = randInt(3, 8), n1 = coprimeNum(d1);
+    const d2 = randInt(2, 7), n2 = coprimeNum(d2);
+    q = '<span class="eq">' + renderFracHTML(0, n1, d1) + "<span>÷</span>" + renderFracHTML(0, n2, d2) + "<span>= ?</span></span>";
+    exp = "나누는 분수의 분모와 분자를 바꾸어 곱셈으로 계산합니다.<br>" +
+          n1 + "/" + d1 + " ÷ " + n2 + "/" + d2 + " = " + n1 + "/" + d1 + " × " + d2 + "/" + n2 +
+          " = " + (n1 * d2) + "/" + (d1 * n2) + " = <b>" + formatFracObj(n1 * d2, d1 * n2) + "</b>";
+    /* 역수로 바꾸지 않고 그냥 곱한 실수 / 통째로 뒤집은 실수 */
+    const fo = fracOptions(n1 * d2, d1 * n2, [[n1 * n2, d1 * d2], [d1 * n2, n1 * d2]]);
+    answer = fo.answer; options = fo.options;
+  }
+
+  else if (cat === "1-2"){
+    const k = randInt(2, 9);
+    const d2 = randInt(2, 7), n2 = coprimeNum(d2);
+    q = '<span class="eq"><span>' + k + " ÷</span>" + renderFracHTML(0, n2, d2) + "<span>= ?</span></span>";
+    exp = "나누는 분수를 역수로 바꾸어 곱합니다.<br>" +
+          k + " ÷ " + n2 + "/" + d2 + " = " + k + " × " + d2 + "/" + n2 +
+          " = " + (k * d2) + "/" + n2 + " = <b>" + formatFracObj(k * d2, n2) + "</b>";
+    const fo = fracOptions(k * d2, n2, [[k * n2, d2], [d2, k * n2]]);
+    answer = fo.answer; options = fo.options;
+  }
+
+  else if (cat === "1-3"){
+    const d1 = randInt(2, 5), n1 = coprimeNum(d1), m1 = randInt(1, 3);
+    const d2 = randInt(2, 6), n2 = coprimeNum(d2);
+    const g = m1 * d1 + n1;
+    q = '<span class="eq">' + renderFracHTML(m1, n1, d1) + "<span>÷</span>" + renderFracHTML(0, n2, d2) + "<span>= ?</span></span>";
+    exp = "대분수를 가분수로 고친 뒤, 나누는 분수를 역수로 바꾸어 곱합니다.<br>" +
+          m1 + "과 " + n1 + "/" + d1 + " = " + g + "/" + d1 + " → " +
+          g + "/" + d1 + " × " + d2 + "/" + n2 + " = " + (g * d2) + "/" + (d1 * n2) +
+          " = <b>" + formatFracObj(g * d2, d1 * n2) + "</b>";
+    const fo = fracOptions(g * d2, d1 * n2, [[g * n2, d1 * d2], [d1 * n2, g * d2]]);
+    answer = fo.answer; options = fo.options;
+  }
+
+  /* ---------- 2단원. 소수의 나눗셈 (모두 정수로 계산해 오차를 없앤다) ---------- */
+  else if (cat === "2-1"){
+    /* 나누는 수: 소수 한 자리, 몫: 자연수 */
+    let dv = Math.random() < 0.5 ? randInt(2, 9) : randInt(12, 48);
+    while (dv % 10 === 0) dv = randInt(12, 48);
+    const qt = randInt(2, 19);
+    const dividend = dv * qt;                       // 10분의 1 단위
+    q = "<b>" + decFixed(dividend, 1) + " ÷ " + decFixed(dv, 1) + "</b> 의 값은?";
+    exp = "두 수의 소수점을 똑같이 오른쪽으로 한 칸씩 옮겨 자연수의 나눗셈으로 바꿉니다.<br>" +
+          dividend + " ÷ " + dv + " = <b>" + qt + "</b>";
+    const dec = decOptions(qt, 0, [[qt * 10, 0]]);   // 소수점을 한쪽만 옮긴 실수
+    answer = dec.answer; options = dec.options;
+  }
+
+  else if (cat === "2-2"){
+    let dv = randInt(12, 95);
+    while (dv % 10 === 0) dv = randInt(12, 95);
+    const qt = randInt(2, 19);
+    const dividend = dv * qt;                       // 100분의 1 단위
+    q = "<b>" + decFixed(dividend, 2) + " ÷ " + decFixed(dv, 2) + "</b> 의 값은?";
+    exp = "두 수의 소수점을 똑같이 오른쪽으로 두 칸씩 옮겨 자연수의 나눗셈으로 바꿉니다.<br>" +
+          dividend + " ÷ " + dv + " = <b>" + qt + "</b>";
+    const dec = decOptions(qt, 0, [[qt * 10, 0], [qt * 100, 0]]);
+    answer = dec.answer; options = dec.options;
+  }
+
+  else if (cat === "2-3"){
+    let dv, qt, dividend, guard = 0;
+    do {
+      dv = Math.random() < 0.5 ? randInt(2, 9) : randInt(12, 48);   // 소수 한 자리
+      qt = randInt(11, 99);                                          // 몫도 소수 한 자리
+      dividend = dv * qt;                                            // 100분의 1 단위
+    } while ((dv % 10 === 0 || qt % 10 === 0 || dividend % 10 === 0) && guard++ < 200);
+    q = "<b>" + decFixed(dividend, 2) + " ÷ " + decFixed(dv, 1) + "</b> 의 값은?";
+    exp = "나누는 수의 소수점을 오른쪽으로 한 칸 옮기면 나누어지는 수도 한 칸 옮깁니다.<br>" +
+          decFixed(dividend, 1) + " ÷ " + dv + " = <b>" + decStr(qt, 1) + "</b>";
+    const dec = decOptions(qt, 1, [[qt, 0], [qt, 2]]);
+    answer = dec.answer; options = dec.options;
+  }
+
+  else if (cat === "2-4"){
+    /* 나누어지는 수가 자연수가 되도록 몫을 고른다 (원본은 반올림해서 답이 어긋났음) */
+    const dv = pick([2, 4, 5, 6, 8, 12, 15, 16, 25, 35, 45]);
+    const step = 10 / gcd(dv, 10);
+    const qt = step * randInt(1, Math.max(1, Math.floor(60 / step)));
+    const dividend = dv * qt / 10;                  // 자연수
+    q = "<b>" + dividend + " ÷ " + decFixed(dv, 1) + "</b> 의 값은?";
+    exp = "나누는 수의 소수점을 오른쪽으로 한 칸 옮겨 자연수로 만들고, " +
+          "나누어지는 수에도 0을 하나 붙입니다.<br>" +
+          (dividend * 10) + " ÷ " + dv + " = <b>" + qt + "</b>";
+    const dec = decOptions(qt, 0, [[qt * 10, 0], [dividend, 0]]);
+    answer = dec.answer; options = dec.options;
+  }
+
+  /* ---------- 4단원. 비례식과 비례배분 ---------- */
+  else if (cat === "4-1"){
+    const a = randInt(2, 9);
+    let b = randInt(3, 11);
+    while (gcd(a, b) > 1) b = randInt(3, 11);
+    const mult = randInt(2, 5);
+    let ansVal;
+    if (Math.random() < 0.5){
+      q = "<b>" + a + " : " + b + " = □ : " + (b * mult) + "</b><br>□ 에 알맞은 수는?";
+      ansVal = a * mult;
+      exp = "후항이 " + b + " 에서 " + (b * mult) + " 로 " + mult + "배가 되었으므로 전항도 " + mult + "배 합니다.<br>" +
+            a + " × " + mult + " = <b>" + ansVal + "</b>";
+      options = numericOptions(ansVal, "", Math.max(1, a), [b * mult, a + (b * mult - b), a * b]);
+    } else {
+      q = "<b>" + a + " : " + b + " = " + (a * mult) + " : □</b><br>□ 에 알맞은 수는?";
+      ansVal = b * mult;
+      exp = "전항이 " + a + " 에서 " + (a * mult) + " 로 " + mult + "배가 되었으므로 후항도 " + mult + "배 합니다.<br>" +
+            b + " × " + mult + " = <b>" + ansVal + "</b>";
+      options = numericOptions(ansVal, "", Math.max(1, b), [a * mult, b + (a * mult - a), a * b]);
     }
-    
-    options = [answer];
-    let dummyOffset = 1;
+    answer = String(ansVal);
+  }
+
+  else if (cat === "4-2"){
+    const baseA = randInt(2, 7);
+    let baseB = randInt(2, 9);
     let guard = 0;
-    while(options.length < 4 && guard < 50) {
-      guard++;
-      let dummy = formatFracHTML((n1)*d2 + dummyOffset, (d1)*(n2));
-      if (!options.includes(dummy)) options.push(dummy);
-      dummyOffset += 2;
+    while ((baseA === baseB || gcd(baseA, baseB) > 1) && guard++ < 60) baseB = randInt(2, 9);
+    if (gcd(baseA, baseB) > 1 || baseA === baseB){ baseB = baseA + 1; }
+    answer = baseA + " : " + baseB;
+
+    const type = randInt(0, 2);
+    let k = randInt(2, 6);
+    if (type === 0){
+      q = "비 <b>" + (baseA * k) + " : " + (baseB * k) + "</b> 를<br>가장 간단한 자연수의 비로 나타내면?";
+      exp = "전항과 후항을 최대공약수 " + k + " 로 나눕니다.<br>" +
+            (baseA * k) + " ÷ " + k + " : " + (baseB * k) + " ÷ " + k + " = <b>" + answer + "</b>";
+    } else if (type === 1){
+      while (baseB * k > 99) k--;
+      if (k < 1) k = 1;
+      q = "비 <b>" + decStr(baseA * k, 1) + " : " + decStr(baseB * k, 1) + "</b> 를<br>가장 간단한 자연수의 비로 나타내면?";
+      exp = "두 항에 10을 곱해 자연수로 만든 뒤 최대공약수로 나눕니다.<br>" +
+            (baseA * k) + " : " + (baseB * k) + " → <b>" + answer + "</b>";
+    } else {
+      q = '<span class="eq"><span>비</span>' + renderFracHTML(0, 1, baseB) + "<span>:</span>" +
+          renderFracHTML(0, 1, baseA) + "</span><span>를 가장 간단한 자연수의 비로 나타내면?</span>";
+      exp = "두 항에 분모의 최소공배수 " + (baseA * baseB) + " 를 곱합니다.<br>" +
+            "1/" + baseB + " × " + (baseA * baseB) + " : 1/" + baseA + " × " + (baseA * baseB) +
+            " = <b>" + answer + "</b>";
     }
+
+    /* val 은 화면에서 비교되는 '앞의 수' 로 둔다 */
+    const cands = [
+      { s: baseB + " : " + baseA, val: baseB, prio: 0 },                      // 앞뒤를 바꾼 실수
+      { s: (baseA * 2) + " : " + (baseB * 2), val: baseA * 2, prio: 0 },      // 끝까지 약분하지 않은 답
+      { s: (baseA + 1) + " : " + (baseB + 1), val: baseA + 1, prio: 0 }       // 같은 수를 더한 실수
+    ];
+    if (baseA > 1) cands.push({ s: (baseA - 1) + " : " + baseB, val: baseA - 1, prio: 0 });
+    if (baseB - baseA > 0) cands.push({ s: (baseB - baseA) + " : " + baseB, val: baseB - baseA });
+    for (let i = 1; i <= 5; i++){
+      if (baseA - i > 0) cands.push({ s: (baseA - i) + " : " + (baseB + i), val: baseA - i });
+      cands.push({ s: (baseA + i) + " : " + baseB, val: baseA + i });
+    }
+    options = chooseOptions(answer, baseA, cands);
   }
 
-  // 02단원: 소수의 나눗셈
-  else if (cat.startsWith('2-')) {
-    if (cat === '2-1') { // (소수 한 자리) ÷ (소수 한 자리)
-      let divisor = (Math.floor(Math.random() * 8) + 2) / 10;
-      let quotient = Math.floor(Math.random() * 15) + 2;
-      let dividend = Number((divisor * quotient).toFixed(1));
-      q = `<b>${dividend} ÷ ${divisor.toFixed(1)}</b> 계산 결과는?`;
-      answer = quotient.toString();
-      exp = `나누는 수와 나누어지는 수의 소수점을 똑같이 오른쪽으로 1칸씩 이동하여 자연수의 나눗셈으로 계산합니다.`;
-    } else if (cat === '2-2') { // (소수 두 자리) ÷ (소수 두 자리)
-      let divisor = (Math.floor(Math.random() * 25) + 5) / 100;
-      let quotient = Math.floor(Math.random() * 18) + 2;
-      let dividend = Number((divisor * quotient).toFixed(2));
-      q = `<b>${dividend} ÷ ${divisor.toFixed(2)}</b> 계산 결과는?`;
-      answer = quotient.toString();
-      exp = `나누는 수와 나누어지는 수의 소수점을 똑같이 오른쪽으로 2칸씩 이동하여 계산합니다.`;
-    } else if (cat === '2-3') { // (소수 두 자리) ÷ (소수 한 자리)
-      let divisor = (Math.floor(Math.random() * 8) + 2) / 10;
-      let quotient = (Math.floor(Math.random() * 40) + 11) / 10;
-      let dividend = Number((divisor * quotient).toFixed(2));
-      q = `<b>${dividend} ÷ ${divisor.toFixed(1)}</b> 계산 결과는?`;
-      answer = quotient.toString();
-      exp = `나누는 수의 소수점을 1칸 이동할 때 나누어지는 수의 소수점도 1칸 이동하여 소수의 나눗셈을 합니다.`;
-    } else if (cat === '2-4') { // (자연수) ÷ (소수)
-      let divisor = (Math.floor(Math.random() * 8) + 2) / 10;
-      let quotient = (Math.floor(Math.random() * 20) + 5) * 5;
-      let dividend = Math.round(divisor * quotient);
-      q = `<b>${dividend} ÷ ${divisor.toFixed(1)}</b> 계산 결과는?`;
-      answer = quotient.toString();
-      exp = `나누는 수의 소수점을 이동시켜 자연수로 만든 만큼 나누어지는 수에도 0을 붙여 계산합니다.`;
-    }
+  else if (cat === "4-3"){
+    const m = randInt(2, 6);
+    let n = randInt(2, 6);
+    while (m === n) n = randInt(2, 6);
+    const parts = m + n;
+    const unit = randInt(2, 9) * 100;
+    const total = unit * parts;
+    const big = Math.max(m, n) * unit, small = Math.min(m, n) * unit;
+    const wantBig = Math.random() < 0.5;
 
-    options = [answer];
-    let numAns = parseFloat(answer);
-    let step = 1;
-    while(options.length < 4 && step < 50) {
-      let diff = (step % 2 === 1) ? Math.ceil(step / 2) : -Math.floor(step / 2);
-      let scale = (numAns % 1 !== 0) ? 0.3 : 2;
-      let w = Number((numAns + diff * scale).toFixed(1)).toString();
-      if (parseFloat(w) > 0 && !options.includes(w)) {
-        options.push(w);
-      }
-      step++;
-    }
+    q = "<b>" + total + "</b> 을(를) <b>" + m + " : " + n + "</b> 으로 비례배분할 때,<br>" +
+        (wantBig ? "<b>더 큰 몫</b>은?" : "<b>더 작은 몫</b>은?");
+    const ansVal = wantBig ? big : small;
+    exp = "비의 합이 " + m + " + " + n + " = " + parts + " 이므로 1만큼의 값은 " +
+          total + " ÷ " + parts + " = " + unit + " 입니다.<br>" +
+          (wantBig ? Math.max(m, n) : Math.min(m, n)) + " × " + unit + " = <b>" + ansVal + "</b>";
+    answer = String(ansVal);
+    options = numericOptions(ansVal, "", unit, [wantBig ? small : big, total, unit, total / 2]);
   }
 
-  // 04단원: 비례식과 비례배분
-  else if (cat.startsWith('4-')) {
-    if (cat === '4-1') { // 비의 성질
-      let a = Math.floor(Math.random() * 5) + 2;
-      let b = Math.floor(Math.random() * 7) + 3;
-      while(gcd(a,b) > 1) { b++; }
-      let mult = Math.floor(Math.random() * 4) + 2;
-      let isUnknownA = Math.random() < 0.5;
-      
-      if(isUnknownA) {
-        q = `<b>${a} : ${b} = □ : ${b * mult}</b> 에서 <b>□</b>에 들어갈 수는?`;
-        answer = (a * mult).toString();
-      } else {
-        q = `<b>${a} : ${b} = ${a * mult} : □</b> 에서 <b>□</b>에 들어갈 수는?`;
-        answer = (b * mult).toString();
-      }
-      exp = `비의 전항과 후항에 0이 아닌 같은 수를 곱하거나 나누어도 비율은 같습니다. (외항의 곱 = 내항의 곱)`;
-    } else if (cat === '4-2') { // 간단한 자연수의 비
-      let baseA = Math.floor(Math.random() * 6) + 2;
-      let baseB = Math.floor(Math.random() * 6) + 2;
-      while(baseA === baseB || gcd(baseA, baseB) > 1) { baseB = Math.floor(Math.random() * 6) + 2; }
-      let k = Math.floor(Math.random() * 5) + 2;
-      
-      q = `비 <b>${baseA * k} : ${baseB * k}</b>를 가장 간단한 자연수의 비로 나타내면?`;
-      answer = `${baseA} : ${baseB}`;
-      exp = `비의 전항과 후항을 두 수의 최대공약수(${k})로 나누어 가장 간단한 자연수의 비로 나타냅니다.`;
-    } else if (cat === '4-3') { // 비례배분
-      let m = Math.floor(Math.random() * 4) + 2;
-      let n = Math.floor(Math.random() * 4) + 2;
-      while(m === n) n++;
-      let totalParts = m + n;
-      let unit = (Math.floor(Math.random() * 8) + 2) * 100;
-      let totalValue = unit * totalParts;
-
-      q = `<b>${totalValue}</b>를 <b>${m} : ${n}</b>으로 비례배분할 때, 더 큰 값은?`;
-      answer = (Math.max(m, n) * unit).toString();
-      exp = `전체 수량을 두 비의 합(${totalParts})으로 나누어 1부분의 값(${unit})을 구한 뒤, 더 큰 비의 값(${Math.max(m, n)})을 곱해줍니다.`;
-    }
-
-    options = [answer];
-    let step = 1;
-    while(options.length < 4 && step < 50) {
-      if (cat === '4-2') {
-        let dummyA = Math.floor(Math.random() * 5) + 1;
-        let dummyB = Math.floor(Math.random() * 5) + 1;
-        if(dummyA !== dummyB) {
-          let dummyStr = `${dummyA} : ${dummyB}`;
-          if (!options.includes(dummyStr)) options.push(dummyStr);
-        }
-      } else {
-        let numAns = parseInt(answer);
-        let dummyVal = numAns + (step * 3);
-        if (dummyVal > 0 && !options.includes(dummyVal.toString())) {
-          options.push(dummyVal.toString());
-        }
-      }
-      step++;
-    }
+  /* ---------- 5단원. 원의 둘레와 넓이 (원주율 3.14, 1/100 단위 정수 계산) ---------- */
+  else if (cat === "5-1"){
+    const r = randInt(2, 12);
+    const d = r * 2;
+    const byRadius = Math.random() < 0.5;
+    const cents = d * 314;
+    q = getCircleSVG(byRadius ? "반지름 " + r + "cm" : "지름 " + d + "cm", !byRadius) +
+        "이 원의 <b>원주</b>는 몇 cm일까요? <span style='color:var(--muted);font-size:.86rem'>(원주율 3.14)</span>";
+    answer = decStr(cents, 2) + "cm";
+    exp = "원주 = 지름 × 원주율<br>" +
+          (byRadius ? "지름은 " + r + " × 2 = " + d + "cm 이므로<br>" : "") +
+          d + " × 3.14 = <b>" + decStr(cents, 2) + "cm</b>";
+    options = chooseOptions(answer, cents, [
+      { s: decStr(r * 314, 2) + "cm", val: r * 314, prio: 0 },            // 반지름에 곱한 실수
+      { s: decStr(r * r * 314, 2) + "cm", val: r * r * 314, prio: 0 },    // 넓이 공식을 쓴 실수
+      { s: decStr(d * d * 314, 2) + "cm", val: d * d * 314, prio: 0 },
+      { s: decStr(d * 100, 2) + "cm", val: d * 100 },
+      { s: decStr(cents + 314, 2) + "cm", val: cents + 314 },
+      { s: decStr(cents - 314, 2) + "cm", val: cents - 314 },
+      { s: decStr(cents + 628, 2) + "cm", val: cents + 628 }
+    ]);
   }
 
-  // 05단원: 원의 둘레와 넓이
-  else if (cat.startsWith('5-')) {
-    let pi = 3.14;
-    let r = Math.floor(Math.random() * 8) + 2;
-    
-    if (cat === '5-1') {
-      let d = r * 2;
-      q = `반지름이 <b>${r}cm</b>인 원의 둘레(원주)는 몇 cm일까요?<br><span style="font-size:0.85rem; color:#777;">(원주율: 3.14)</span>`;
-      answer = (d * pi).toFixed(2);
-      exp = `원주 = 지름 × 원주율 = (${r} × 2) × 3.14 = ${answer}cm 입니다.`;
-    } else if (cat === '5-2') {
-      q = `반지름이 <b>${r}cm</b>인 원의 넓이는 몇 cm²일까요?<br><span style="font-size:0.85rem; color:#777;">(원주율: 3.14)</span>`;
-      answer = (r * r * pi).toFixed(2);
-      exp = `원의 넓이 = 반지름 × 반지름 × 원주율 = ${r} × ${r} × 3.14 = ${answer}cm² 입니다.`;
-    }
-
-    options = [answer];
-    let numAns = parseFloat(answer);
-    let step = 1;
-    while(options.length < 4 && step < 50) {
-      let mult = (step % 2 === 1) ? Math.ceil(step / 2) : -Math.floor(step / 2);
-      let offset = mult * 3.14;
-      let dummyVal = Number((numAns + offset).toFixed(2)).toString();
-      if (parseFloat(dummyVal) > 0 && !options.includes(dummyVal)) {
-        options.push(dummyVal);
-      }
-      step++;
-    }
+  else if (cat === "5-2"){
+    const r = randInt(2, 11);
+    const d = r * 2;
+    const byRadius = Math.random() < 0.6;
+    const cents = r * r * 314;
+    q = getCircleSVG(byRadius ? "반지름 " + r + "cm" : "지름 " + d + "cm", !byRadius) +
+        "이 원의 <b>넓이</b>는 몇 cm²일까요? <span style='color:var(--muted);font-size:.86rem'>(원주율 3.14)</span>";
+    answer = decStr(cents, 2) + "cm²";
+    exp = "원의 넓이 = 반지름 × 반지름 × 원주율<br>" +
+          (byRadius ? "" : "반지름은 " + d + " ÷ 2 = " + r + "cm 이므로<br>") +
+          r + " × " + r + " × 3.14 = <b>" + decStr(cents, 2) + "cm²</b>";
+    options = chooseOptions(answer, cents, [
+      { s: decStr(d * 314, 2) + "cm²", val: d * 314, prio: 0 },           // 원주를 구한 실수
+      { s: decStr(d * d * 314, 2) + "cm²", val: d * d * 314, prio: 0 },   // 지름을 제곱한 실수
+      { s: decStr(r * 314, 2) + "cm²", val: r * 314, prio: 0 },
+      { s: decStr(r * r * 100, 2) + "cm²", val: r * r * 100 },
+      { s: decStr(cents + 314, 2) + "cm²", val: cents + 314 },
+      { s: decStr(cents - 314, 2) + "cm²", val: cents - 314 },
+      { s: decStr(cents + 942, 2) + "cm²", val: cents + 942 }
+    ]);
   }
 
-  options.sort(() => Math.random() - 0.5);
-  return { q, answer, opts: options, exp };
+  /* 어떤 분기에도 걸리지 않았을 때의 안전장치 */
+  if (!answer || options.length < 2){
+    const a = randInt(10, 40), b = randInt(1, 9);
+    answer = String(a + b);
+    q = "<b>" + a + " + " + b + " = ?</b>";
+    exp = a + " + " + b + " = <b>" + (a + b) + "</b>";
+    options = numericOptions(a + b, "", 1);
+  }
+
+  return { q, answer, exp, opts: shuffle(options) };
 }
 
-function generateQuestion(cat) {
-  if (cat === '1-all') {
-    let sub = ['1-1', '1-2', '1-3'];
-    return generateSingleQuestion(sub[Math.floor(Math.random() * sub.length)]);
-  } else if (cat === '2-all') {
-    let sub = ['2-1', '2-2', '2-3', '2-4'];
-    return generateSingleQuestion(sub[Math.floor(Math.random() * sub.length)]);
-  } else if (cat === '4-all') {
-    let sub = ['4-1', '4-2', '4-3'];
-    return generateSingleQuestion(sub[Math.floor(Math.random() * sub.length)]);
-  } else if (cat === '5-all') {
-    let sub = ['5-1', '5-2'];
-    return generateSingleQuestion(sub[Math.floor(Math.random() * sub.length)]);
-  } else {
-    return generateSingleQuestion(cat);
-  }
+function generateQuestion(cat){
+  const map = {
+    "1-all": ["1-1", "1-2", "1-3"],
+    "2-all": ["2-1", "2-2", "2-3", "2-4"],
+    "4-all": ["4-1", "4-2", "4-3"],
+    "5-all": ["5-1", "5-2"]
+  };
+  return generateSingleQuestion(map[cat] ? pick(map[cat]) : cat);
 }
 
-function loadNextQuestion() {
-  if (correctCount >= totalQuestions) {
-    endTime = new Date().getTime();
-    let totalTime = ((endTime - startTime) / 1000).toFixed(1);
-    let now = new Date().toLocaleString('ko-KR');
-    
-    document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
-    document.getElementById("result-screen").classList.remove("hidden");
-    
-    document.getElementById("result-text").innerHTML = `
-      <b>[${currentSubTitle}]</b> 완주 성공!<br><br>
-      👤 <b>이름:</b> ${userName}<br>
-      ⏱️ <b>소요 시간:</b> <span style="color:#27ae60; font-size:1.3rem; font-weight:bold;">${totalTime}초</span><br>
-      📅 <b>완료 시각:</b> <span style="font-size:0.85rem; color:#7f8c8d;">${now}</span>
-    `;
-    return;
-  }
-  
+/* ===========================================================
+   진행
+   =========================================================== */
+function updateProgress(){
   document.getElementById("progress").innerText = correctCount;
-  document.getElementById("progress-fill").style.width = (correctCount / totalQuestions * 100) + "%";
-  
-  qData = generateQuestion(selectedCategory);
-  document.getElementById("question-text").innerHTML = qData.q;
-  
-  let optsBox = document.getElementById("options-box");
-  optsBox.innerHTML = "";
-  qData.opts.forEach(val => {
-    let btn = document.createElement("button");
-    btn.innerHTML = val;
-    btn.onclick = () => checkAnswer(val);
-    optsBox.appendChild(btn);
+  document.getElementById("progress-fill").style.width = (correctCount / TOTAL * 100) + "%";
+}
+
+function loadNextQuestion(){
+  closeSheet();
+  updateProgress();
+
+  currentQData = generateQuestion(selectedCategory);
+  document.getElementById("question-text").innerHTML = formatOptionToHTML(currentQData.q);
+
+  const box = document.getElementById("options-box");
+  box.innerHTML = "";
+  /* 보기가 길면 2열에서 글자가 넘치므로 1열로 바꾼다 (예: 곱셈식 보기) */
+  const longest = Math.max.apply(null, currentQData.opts.map(o => String(o).length));
+  box.classList.toggle("stack", longest > 9);
+
+  currentQData.opts.forEach(val => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "opt";
+    btn.innerHTML = formatOptionToHTML(val);
+    btn.dataset.value = val;
+    btn.onclick = () => checkAnswer(val, btn);
+    box.appendChild(btn);
   });
 }
 
-function checkAnswer(selected) {
-  if (selected === qData.answer) {
-    correctCount++;
-    loadNextQuestion();
-  } else {
-    // 오답일 경우 해설 모달 표시
-    document.getElementById("explanation-text").innerHTML = `<b>💡 정답: ${qData.answer}</b><br><br>${qData.exp}`;
-    let nextBtn = document.getElementById("modal-next-btn");
-    nextBtn.disabled = false;
-    nextBtn.innerText = "다음";
-    document.getElementById("explanation-modal").classList.remove("hidden");
-  }
-}
+function checkAnswer(selected, btn){
+  if (locked || document.getElementById("sheet").classList.contains("open")) return;
 
-function triggerModalCountdown() {
-  let nextBtn = document.getElementById("modal-next-btn");
-  if(nextBtn.disabled) return;
-  nextBtn.disabled = true;
-  
+  if (selected === currentQData.answer){
+    locked = true;
+    btn.classList.add("is-right");
+    correctCount++;
+    updateProgress();
+    setTimeout(() => {
+      locked = false;
+      if (correctCount >= TOTAL) showSuccessScreen();
+      else loadNextQuestion();
+    }, 260);   // 맞았다는 표시를 잠깐 보여 준다
+    return;
+  }
+
+  wrongCount++;
+  btn.classList.add("is-wrong");
+  document.querySelectorAll(".opt").forEach(b => {
+    if (b.dataset.value === currentQData.answer) b.classList.add("is-right");
+  });
+
+  document.getElementById("sheet-mine").innerHTML = formatOptionToHTML(selected);
+  document.getElementById("sheet-right").innerHTML = formatOptionToHTML(currentQData.answer);
+  document.getElementById("sheet-exp").innerHTML = formatOptionToHTML(currentQData.exp);
+  document.getElementById("sheet").classList.add("open");
+  document.getElementById("scrim").classList.add("open");
+  document.body.classList.add("locked");
+
+  /* 해설을 읽을 시간을 주려고 3초 동안 버튼을 잠근다 */
+  const next = document.getElementById("btn-next");
   let count = 3;
-  nextBtn.innerText = `3초 후 다음 문제... (${count})`;
-  
-  let timer = setInterval(() => {
+  next.disabled = true;
+  next.innerText = "다음 문제 (" + count + ")";
+  const timer = setInterval(() => {
     count--;
-    if(count > 0) {
-      nextBtn.innerText = `3초 후 다음 문제... (${count})`;
+    if (count > 0){
+      next.innerText = "다음 문제 (" + count + ")";
     } else {
       clearInterval(timer);
-      document.getElementById("explanation-modal").classList.add("hidden");
-      loadNextQuestion(); // 정답 수 카운팅 없이 다른 문제 제시
+      next.disabled = false;
+      next.innerText = "다음 문제";
     }
   }, 1000);
+  timers.push(timer);
+}
+
+function nextAfterExplanation(){
+  clearTimers();
+  loadNextQuestion();
+}
+
+function showSuccessScreen(){
+  clearTimers(); closeSheet();
+  const totalSec = Math.round((Date.now() - startTime) / 1000);
+  const min = Math.floor(totalSec / 60), sec = totalSec % 60;
+
+  document.getElementById("res-name").innerText = userName;
+  document.getElementById("res-title").innerText = currentChapterLabel + " · " + currentSubTitle;
+  document.getElementById("res-time").innerText = min > 0 ? min + "분 " + sec + "초" : sec + "초";
+  document.getElementById("res-wrong").innerText = wrongCount + "번";
+  document.getElementById("res-date").innerText = new Date().toLocaleString("ko-KR", {
+    year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit"
+  });
+  document.getElementById("res-praise").innerText =
+    wrongCount === 0 ? "한 번도 틀리지 않았습니다." :
+    wrongCount <= 3 ? "거의 다 맞혔습니다." : "끝까지 포기하지 않았습니다.";
+
+  showScreen("screen-result");
 }
 </script>
-
 </body>
 </html>
