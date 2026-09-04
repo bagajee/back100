@@ -385,7 +385,7 @@ function generateSingleQuestion(cat) {
 
   // 01단원: 분수의 나눗셈
   if (cat.startsWith('1-')) {
-    let n1, d1, m1 = 0, n2, d2;
+    let n1 = 1, d1 = 1, m1 = 0, n2 = 1, d2 = 1;
     if (cat === '1-1') { // (분수) ÷ (분수)
       d1 = Math.floor(Math.random() * 6) + 3; n1 = Math.floor(Math.random() * (d1 - 1)) + 1;
       d2 = Math.floor(Math.random() * 6) + 2; n2 = Math.floor(Math.random() * (d2 - 1)) + 1;
@@ -409,8 +409,10 @@ function generateSingleQuestion(cat) {
     
     options = [answer];
     let dummyOffset = 1;
-    while(options.length < 4) {
-      let dummy = formatFracHTML((n1||2)*d2 + dummyOffset, (d1||3)*(n2||1));
+    let guard = 0;
+    while(options.length < 4 && guard < 50) {
+      guard++;
+      let dummy = formatFracHTML((n1)*d2 + dummyOffset, (d1)*(n2));
       if (!options.includes(dummy)) options.push(dummy);
       dummyOffset += 2;
     }
@@ -450,10 +452,15 @@ function generateSingleQuestion(cat) {
 
     options = [answer];
     let numAns = parseFloat(answer);
-    while(options.length < 4) {
-      let diff = (options.length % 2 === 1) ? options.length : -options.length;
-      let w = Number((numAns + diff * (numAns % 1 !== 0 ? 0.3 : 2)).toFixed(1)).toString();
-      if (parseFloat(w) > 0 && !options.includes(w)) options.push(w);
+    let step = 1;
+    while(options.length < 4 && step < 50) {
+      let diff = (step % 2 === 1) ? Math.ceil(step / 2) : -Math.floor(step / 2);
+      let scale = (numAns % 1 !== 0) ? 0.3 : 2;
+      let w = Number((numAns + diff * scale).toFixed(1)).toString();
+      if (parseFloat(w) > 0 && !options.includes(w)) {
+        options.push(w);
+      }
+      step++;
     }
   }
 
@@ -497,17 +504,23 @@ function generateSingleQuestion(cat) {
     }
 
     options = [answer];
-    while(options.length < 4) {
+    let step = 1;
+    while(options.length < 4 && step < 50) {
       if (cat === '4-2') {
         let dummyA = Math.floor(Math.random() * 5) + 1;
         let dummyB = Math.floor(Math.random() * 5) + 1;
-        let dummyStr = `${dummyA} : ${dummyB}`;
-        if (!options.includes(dummyStr)) options.push(dummyStr);
+        if(dummyA !== dummyB) {
+          let dummyStr = `${dummyA} : ${dummyB}`;
+          if (!options.includes(dummyStr)) options.push(dummyStr);
+        }
       } else {
         let numAns = parseInt(answer);
-        let dummyVal = numAns + (options.length * 5 - 2);
-        if (dummyVal > 0 && !options.includes(dummyVal.toString())) options.push(dummyVal.toString());
+        let dummyVal = numAns + (step * 3);
+        if (dummyVal > 0 && !options.includes(dummyVal.toString())) {
+          options.push(dummyVal.toString());
+        }
       }
+      step++;
     }
   }
 
@@ -529,10 +542,15 @@ function generateSingleQuestion(cat) {
 
     options = [answer];
     let numAns = parseFloat(answer);
-    while(options.length < 4) {
-      let offset = (options.length % 2 === 1) ? options.length * 3.14 : -options.length * 3.14;
+    let step = 1;
+    while(options.length < 4 && step < 50) {
+      let mult = (step % 2 === 1) ? Math.ceil(step / 2) : -Math.floor(step / 2);
+      let offset = mult * 3.14;
       let dummyVal = Number((numAns + offset).toFixed(2)).toString();
-      if (parseFloat(dummyVal) > 0 && !options.includes(dummyVal)) options.push(dummyVal);
+      if (parseFloat(dummyVal) > 0 && !options.includes(dummyVal)) {
+        options.push(dummyVal);
+      }
+      step++;
     }
   }
 
