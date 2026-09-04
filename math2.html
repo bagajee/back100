@@ -9,22 +9,25 @@
       box-sizing: border-box;
       -webkit-tap-highlight-color: transparent;
       word-break: keep-all;
+      overflow-wrap: break-word;
     }
     body {
-      font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      background: #eef2f7;
+      background: #f1f5f9;
       margin: 0;
       padding: 12px;
+      color: #1e293b;
     }
     .card {
-      background: white;
-      padding: 1.5rem 1.2rem;
-      border-radius: 20px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      background: #ffffff;
+      padding: 1.5rem 1.25rem;
+      border-radius: 24px;
+      box-shadow: 0 10px 30px -5px rgba(0,0,0,0.05);
+      border: 1px solid #e2e8f0;
       width: 100%;
       max-width: 480px;
       text-align: center;
@@ -34,111 +37,107 @@
     }
     .hidden { display: none !important; }
     
-    /* 상단 Header & 홈 버튼 */
     .nav-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
     .btn-home {
       width: auto !important;
       padding: 6px 14px !important;
       margin: 0 !important;
-      background: #e2e8f0 !important;
-      color: #2d3748 !important;
+      background: #f1f5f9 !important;
+      color: #475569 !important;
       font-size: 0.85rem !important;
-      border-radius: 8px !important;
+      border-radius: 10px !important;
       display: inline-flex;
       align-items: center;
       gap: 4px;
       cursor: pointer;
       border: 1px solid #cbd5e1 !important;
-      font-weight: bold;
+      font-weight: 700;
+      text-decoration: none;
     }
-    .btn-home:active { background: #cbd5e1 !important; }
+    .btn-home:active { background: #e2e8f0 !important; }
 
     button {
       width: 100%;
       padding: 12px 10px;
       margin: 4px 0;
       border: none;
-      border-radius: 12px;
+      border-radius: 14px;
       background: #3b82f6;
       color: white;
       font-size: 0.95rem;
-      font-weight: bold;
+      font-weight: 700;
       cursor: pointer;
-      transition: background 0.2s, transform 0.1s;
+      transition: all 0.15s ease;
       touch-action: manipulation;
     }
     button:active { transform: scale(0.98); }
-    button.btn-sub { background: #60a5fa; text-align: left; padding-left: 14px; font-weight: normal; }
-    button.btn-total { background: #f59e0b; text-align: left; padding-left: 14px; font-weight: 800; }
-    button.btn-secondary { background: #94a3b8; margin-top: 10px; }
-    button.btn-retry { background: #ef4444; margin-top: 10px; }
+    button.btn-sub { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; text-align: left; padding-left: 16px; font-weight: 600; }
+    button.btn-total { background: #fffbe3; color: #b45309; border: 1px solid #fde68a; text-align: left; padding-left: 16px; font-weight: 800; }
+    button.btn-secondary { background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; margin-top: 10px; }
+    button.btn-retry { background: #fef2f2; color: #ef4444; border: 1px solid #fca5a5; margin-top: 10px; }
     
     input {
       width: 100%;
       padding: 14px;
       margin-bottom: 14px;
       border: 2px solid #e2e8f0;
-      border-radius: 12px;
+      border-radius: 14px;
       font-size: 1.05rem;
       text-align: center;
       outline: none;
+      transition: border-color 0.2s;
     }
     input:focus { border-color: #3b82f6; }
     
     .semester-header {
-      background: #0f172a;
-      color: #f8fafc;
-      padding: 10px;
-      border-radius: 10px;
-      font-size: 1.05rem;
-      font-weight: bold;
+      background: #1e3a8a;
+      color: #ffffff;
+      padding: 8px 12px;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 800;
       margin: 18px 0 10px 0;
       text-align: center;
     }
 
     .chapter-header {
-      background: #1e293b;
-      color: white;
+      background: #eff6ff;
+      color: #1d4ed8;
       padding: 8px 12px;
-      border-radius: 8px;
-      font-size: 0.92rem;
-      font-weight: bold;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 700;
       margin: 12px 0 6px 0;
       text-align: left;
+      border-left: 4px solid #3b82f6;
     }
 
-    /* 문제 영역 */
     .question-box {
-      min-height: 120px;
+      min-height: 140px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      margin: 10px 0 15px 0;
-      gap: 10px;
-      background: #f8fafc;
-      padding: 15px;
-      border-radius: 12px;
-      border: 1px solid #e2e8f0;
+      margin: 12px 0 16px 0;
+      padding: 18px 14px;
+      background: #eff6ff;
+      border-radius: 16px;
+      border: 1px solid #bfdbfe;
     }
     .question-main-text {
       font-size: 1.15rem;
       font-weight: 700;
-      color: #1e293b;
-      line-height: 1.5;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 6px;
+      color: #1e3a8a;
+      line-height: 1.6;
+      width: 100%;
+      text-align: center;
     }
 
-    /* 보기 버튼 레이아웃 */
     .options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
     .options button {
       margin: 0;
@@ -148,46 +147,53 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #3b82f6;
-      color: #ffffff;
+      background: #ffffff;
+      color: #0f172a;
+      border: 2px solid #e2e8f0;
+      border-radius: 14px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
     }
+    .options button:active { background: #eff6ff; border-color: #3b82f6; }
     
-    .progress-bar { background: #e2e8f0; height: 10px; border-radius: 5px; margin-bottom: 15px; overflow: hidden; }
-    .progress-fill { background: #10b981; height: 100%; width: 0%; transition: width 0.3s; }
+    .progress-bar { background: #e2e8f0; height: 8px; border-radius: 4px; margin-bottom: 15px; overflow: hidden; }
+    .progress-fill { background: #3b82f6; height: 100%; width: 0%; transition: width 0.3s; }
 
-    /* 해설 모달 */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.5);
+      background: #f8fafc;
       display: flex;
       justify-content: center;
       align-items: center;
-      z-index: 1000;
+      z-index: 2000;
       padding: 16px;
     }
     .modal-content {
       background: white;
-      padding: 20px;
-      border-radius: 16px;
+      padding: 22px;
+      border-radius: 20px;
       width: 100%;
-      max-width: 400px;
+      max-width: 440px;
       text-align: left;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      border: 1px solid #e2e8f0;
     }
-    .modal-title { font-size: 1.1rem; font-weight: bold; color: #ef4444; margin-bottom: 10px; }
-    .modal-body {
-      font-size: 0.95rem;
-      color: #333;
-      line-height: 1.5;
+    .modal-title { font-size: 1.15rem; font-weight: 800; color: #ef4444; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+    .exp-box {
       background: #f8fafc;
-      padding: 12px;
-      border-radius: 8px;
-      margin-bottom: 15px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
+      padding: 14px;
+      border-radius: 14px;
+      border: 1px solid #e2e8f0;
+      margin-bottom: 14px;
     }
+    .exp-label { font-size: 0.8rem; font-weight: 800; color: #64748b; margin-bottom: 4px; text-transform: uppercase; }
+    .exp-q-text { font-size: 1rem; font-weight: 700; color: #1e293b; margin-bottom: 10px; line-height: 1.5; }
+    .exp-ans-group { display: flex; gap: 8px; margin-bottom: 10px; }
+    .exp-ans-card { flex: 1; padding: 10px; border-radius: 10px; text-align: center; }
+    .exp-ans-card.wrong { background: #fef2f2; border: 1px solid #fca5a5; color: #dc2626; }
+    .exp-ans-card.correct { background: #f0fdf4; border: 1px solid #86efac; color: #16a34a; }
+    .exp-ans-val { font-size: 1rem; font-weight: 800; margin-top: 2px; }
+    .exp-desc { font-size: 0.92rem; color: #334155; line-height: 1.5; background: #ffffff; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1; }
   </style>
 </head>
 <body>
@@ -195,14 +201,12 @@
 <!-- 1. 메인 화면 -->
 <div class="card" id="home-screen">
   <div class="nav-header">
-    <button class="btn-home" onclick="location.href='index.html'">🏠 홈으로</button>
+    <a href="index.html" class="btn-home">🏠 홈으로</a>
   </div>
-  <h2 style="margin-top:0; color:#1e293b;">📐 초등 2학년 수학 퀴즈</h2>
-  <p style="color:#64748b; font-size: 0.85rem; margin-bottom:10px;">학습할 단원과 소단원을 선택하세요!</p>
+  <h2 style="margin-top:0; color:#1e3a8a;">📐 초등 2학년 수학 퀴즈</h2>
+  <p style="color:#1d4ed8; font-size: 0.85rem; margin-bottom:12px;">학습할 단원과 소단원을 선택하세요!</p>
 
-  <!-- 2학년 1학기 -->
   <div class="semester-header">📚 2학년 1학기</div>
-  
   <div class="chapter-header">1. 덧셈과 뺄셈</div>
   <button class="btn-sub" onclick="openSetup('2_1_1_1', '1) (두 자리 수)+(두 자리 수)')">1) (두 자리 수)+(두 자리 수)</button>
   <button class="btn-sub" onclick="openSetup('2_1_1_2', '2) (두 자리 수)-(두 자리 수)')">2) (두 자리 수)-(두 자리 수)</button>
@@ -212,10 +216,7 @@
   <div class="chapter-header">2. 곱셈</div>
   <button class="btn-sub" onclick="openSetup('2_1_2_1', '1) 더하기를 곱셈으로 나타내기')">1) 더하기를 곱셈으로 나타내기</button>
 
-
-  <!-- 2학년 2학기 -->
   <div class="semester-header">📘 2학년 2학기</div>
-
   <div class="chapter-header">1. 네 자리 수</div>
   <button class="btn-sub" onclick="openSetup('2_2_1_1', '1) 각 자리의 숫자는 얼마')">1) 각 자리의 숫자는 얼마</button>
   <button class="btn-sub" onclick="openSetup('2_2_1_2', '2) 네 자리 수 크기 비교')">2) 네 자리 수 크기 비교</button>
@@ -233,13 +234,13 @@
   <button class="btn-total" onclick="openSetup('2_2_2_all', '🏆 [단원정리] 곱셈구구 종합')">🏆 [단원정리] 곱셈구구 종합</button>
 </div>
 
-<!-- 2. 문제 시작 설정 화면 -->
+<!-- 2. 시작 화면 -->
 <div class="card hidden" id="setup-screen">
   <div class="nav-header">
-    <button class="btn-home" onclick="location.href='index.html'">🏠 홈으로</button>
+    <a href="index.html" class="btn-home">🏠 홈으로</a>
   </div>
-  <h3 style="margin-top:10px; color:#1e293b;" id="setup-title">수학 퀴즈</h3>
-  <p style="color:#64748b; font-size:0.9rem;">총 20문제를 맞히면 완주 성공입니다!</p>
+  <h3 style="margin-top:10px; color:#1e3a8a;" id="setup-title">수학 퀴즈</h3>
+  <p style="color:#1d4ed8; font-size:0.9rem;">총 20문제를 맞히면 완주 성공입니다!</p>
   <input type="text" id="username" placeholder="이름을 입력하세요" autocomplete="off">
   <button onclick="startCountDown()">게임 시작</button>
   <button onclick="goHome()" class="btn-secondary">내용 선택</button>
@@ -248,17 +249,17 @@
 <!-- 3. 카운트다운 화면 -->
 <div class="card hidden" id="countdown-screen">
   <div class="nav-header">
-    <button class="btn-home" onclick="location.href='index.html'">🏠 홈으로</button>
+    <a href="index.html" class="btn-home">🏠 홈으로</a>
   </div>
-  <p style="font-size:1.1rem; color:#64748b; margin-top:20px;">준비하세요! 잠시 후 시작됩니다.</p>
+  <p style="font-size:1.1rem; color:#1d4ed8; margin-top:20px;">준비하세요! 잠시 후 시작됩니다.</p>
   <h1 id="countdown-text" style="font-size: 4.5rem; color:#3b82f6; margin: 20px 0;">3</h1>
 </div>
 
 <!-- 4. 퀴즈 진행 화면 -->
 <div class="card hidden" id="quiz-screen">
   <div class="nav-header">
-    <button class="btn-home" onclick="location.href='index.html'">🏠 홈으로</button>
-    <div style="font-size: 0.9rem; color: #64748b; font-weight: bold;"><span id="progress">0</span> / 20 문제 맞힘</div>
+    <a href="index.html" class="btn-home">🏠 홈으로</a>
+    <div style="font-size: 0.9rem; color: #1d4ed8; font-weight: bold;"><span id="progress">0</span> / 20 문제 맞힘</div>
   </div>
   <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
   
@@ -268,31 +269,49 @@
 
   <div class="options" id="options-box"></div>
 
-  <!-- 하단 재도전 버튼 -->
   <div style="margin-top: 20px; border-top: 1px solid #f1f5f9; padding-top: 10px;">
     <button class="btn-retry" onclick="openSetup(selectedCategory, currentSubTitle)">🔄 재도전 (시작 화면으로)</button>
   </div>
 </div>
 
-<!-- 5. 오답 해설 모달 -->
+<!-- 5. 오답 해설 화면 (문제 완전 가림) -->
 <div class="modal-overlay hidden" id="explanation-modal">
   <div class="modal-content">
     <div class="nav-header">
-      <button class="btn-home" onclick="location.href='index.html'">🏠 홈으로</button>
+      <a href="index.html" class="btn-home">🏠 홈으로</a>
     </div>
     <div class="modal-title">❌ 오답입니다! (카운트되지 않음)</div>
-    <div class="modal-body" id="explanation-text">해설 내용이 여기에 들어갑니다.</div>
-    <button id="modal-next-btn" onclick="triggerModalCountdown()">다음</button>
+    
+    <div class="exp-box">
+      <div class="exp-label">원래 문제</div>
+      <div class="exp-q-text" id="exp-q-display"></div>
+      
+      <div class="exp-ans-group">
+        <div class="exp-ans-card wrong">
+          <div class="exp-label">내가 선택한 답</div>
+          <div class="exp-ans-val" id="exp-user-val"></div>
+        </div>
+        <div class="exp-ans-card correct">
+          <div class="exp-label">바른 정답</div>
+          <div class="exp-ans-val" id="exp-correct-val"></div>
+        </div>
+      </div>
+
+      <div class="exp-label">상세 풀이</div>
+      <div class="exp-desc" id="exp-desc-display"></div>
+    </div>
+
+    <button id="modal-next-btn" onclick="triggerModalCountdown()">다음 문제로</button>
   </div>
 </div>
 
 <!-- 6. 성공 결과 화면 -->
 <div class="card hidden" id="result-screen">
   <div class="nav-header">
-    <button class="btn-home" onclick="location.href='index.html'">🏠 홈으로</button>
+    <a href="index.html" class="btn-home">🏠 홈으로</a>
   </div>
   <h2>🎉 완주를 축하합니다!</h2>
-  <div id="result-text" style="text-align: left; background:#f8fafc; padding:15px; border-radius:12px; margin: 15px 0; line-height: 1.8;"></div>
+  <div id="result-text" style="text-align: left; background:#eff6ff; padding:15px; border-radius:14px; margin: 15px 0; line-height: 1.8; border: 1px solid #bfdbfe;"></div>
   <button onclick="openSetup(selectedCategory, currentSubTitle)">🔄 재도전</button>
   <button onclick="goHome()" class="btn-secondary">내용 선택</button>
 </div>
@@ -358,182 +377,116 @@ function shuffleAndPick(arr, correctAns, count = 4) {
   return result;
 }
 
-/* 2학년 문제 생성 엔진 */
 function generateSingleQuestion(cat) {
   let q = "", answer = "", options = [], exp = "";
 
-  // ===== 2학년 1학기 =====
-  // 1단원 : 덧셈과 뺄셈
-  if (cat === '2_1_1_1') { // (두 자리 수)+(두 자리 수)
-    let n1 = rand(11, 89);
-    let n2 = rand(11, 89);
-    let ans = n1 + n2;
+  if (cat === '2_1_1_1') {
+    let n1 = rand(11, 89), n2 = rand(11, 89), ans = n1 + n2;
     q = `${n1} + ${n2} = ?`;
     answer = `${ans}`;
     exp = `각 자릿수를 맞춰서 더해줍니다. (${n1} + ${n2} = ${ans})`;
     options = shuffleAndPick([answer, `${ans+10}`, `${ans-10}`, `${ans+2}`], answer, 4);
 
-  } else if (cat === '2_1_1_2') { // (두 자리 수)-(두 자리 수)
-    let n1 = rand(25, 99);
-    let n2 = rand(11, n1 - 5);
-    let ans = n1 - n2;
+  } else if (cat === '2_1_1_2') {
+    let n1 = rand(25, 99), n2 = rand(11, n1 - 5), ans = n1 - n2;
     q = `${n1} - ${n2} = ?`;
     answer = `${ans}`;
     exp = `각 자릿수를 맞춰서 빼줍니다. (${n1} - ${n2} = ${ans})`;
     options = shuffleAndPick([answer, `${ans+10}`, `${ans-10}`, `${ans+2}`], answer, 4);
 
-  } else if (cat === '2_1_1_3') { // 세 수의 덧셈과 뺄셈
-    let type = rand(1, 4);
-    let a, b, c, ans;
-    if (type === 1) { // a + b + c
-      a = rand(10, 30); b = rand(10, 30); c = rand(10, 30);
-      ans = a + b + c;
+  } else if (cat === '2_1_1_3') {
+    let type = rand(1, 4), a, b, c, ans;
+    if (type === 1) {
+      a = rand(10, 30); b = rand(10, 30); c = rand(10, 30); ans = a + b + c;
       q = `${a} + ${b} + ${c} = ?`;
       exp = `앞에서부터 차례대로 더해줍니다. (${a} + ${b} = ${a+b}, ${a+b} + ${c} = ${ans})`;
-    } else if (type === 2) { // a - b + c
-      a = rand(40, 80); b = rand(10, a - 10); c = rand(10, 30);
-      ans = a - b + c;
+    } else if (type === 2) {
+      a = rand(40, 80); b = rand(10, a - 10); c = rand(10, 30); ans = a - b + c;
       q = `${a} - ${b} + ${c} = ?`;
       exp = `앞에서부터 차례대로 계산합니다. (${a} - ${b} = ${a-b}, ${a-b} + ${c} = ${ans})`;
-    } else if (type === 3) { // a + b - c
-      a = rand(15, 40); b = rand(15, 40); c = rand(10, a + b - 5);
-      ans = a + b - c;
+    } else if (type === 3) {
+      a = rand(15, 40); b = rand(15, 40); c = rand(10, a + b - 5); ans = a + b - c;
       q = `${a} + ${b} - ${c} = ?`;
       exp = `앞에서부터 차례대로 계산합니다. (${a} + ${b} = ${a+b}, ${a+b} - ${c} = ${ans})`;
-    } else { // a - b - c
-      a = rand(50, 90); b = rand(10, 25); c = rand(10, a - b - 5);
-      ans = a - b - c;
+    } else {
+      a = rand(50, 90); b = rand(10, 25); c = rand(10, a - b - 5); ans = a - b - c;
       q = `${a} - ${b} - ${c} = ?`;
       exp = `앞에서부터 차례대로 빼줍니다. (${a} - ${b} = ${a-b}, ${a-b} - ${c} = ${ans})`;
     }
     answer = `${ans}`;
     options = shuffleAndPick([answer, `${ans+10}`, `${ans-10}`, `${ans+2}`], answer, 4);
 
-  } else if (cat === '2_1_2_1') { // 더하기를 곱셈으로 나타내기
-    let num = rand(2, 9);
-    let count = rand(2, 8);
-    let type = rand(1, 2);
-    
+  } else if (cat === '2_1_2_1') {
+    let num = rand(2, 9), count = rand(2, 8), type = rand(1, 2);
     if (type === 1) {
       let addArr = Array(count).fill(num).join(" + ");
       q = `${addArr} 를 곱셈식으로 나타내면?`;
       answer = `${num} × ${count}`;
       exp = `${num}을(를) ${count}번 더한 것은 곱셈식으로 ${num} × ${count} 입니다.`;
-      
-      let o1 = answer;
-      let o2 = `${num} + ${count}`;
-      let o3 = `${num} × ${count + 1}`;
-      let o4 = `${num + 1} × ${count}`;
-      options = shuffleAndPick([o1, o2, o3, o4], answer, 4);
+      options = shuffleAndPick([answer, `${num} + ${count}`, `${num} × ${count + 1}`, `${num + 1} × ${count}`], answer, 4);
     } else {
       q = `${num}를 ${count}번 더한 것을 곱셈식으로 나타내면?`;
       answer = `${num} × ${count}`;
       exp = `${num}를 ${count}번 더한 것은 ${num} × ${count} 로 나타냅니다.`;
-      
-      let o1 = answer;
-      let o2 = `${num} + ${count}`;
-      let o3 = `${num} × ${count - 1 < 1 ? count + 2 : count - 1}`;
-      let o4 = `${num} ÷ ${count}`;
-      options = shuffleAndPick([o1, o2, o3, o4], answer, 4);
+      options = shuffleAndPick([answer, `${num} + ${count}`, `${num} × ${count - 1 < 1 ? count + 2 : count - 1}`, `${num} ÷ ${count}`], answer, 4);
     }
 
-  }
-  // ===== 2학년 2학기 =====
-  // 1단원 : 네 자리 수
-  else if (cat === '2_2_1_1') { // 각 자리의 숫자는 얼마
-    let thousand = rand(1, 9);
-    let hundred = rand(0, 9);
-    let ten = rand(0, 9);
-    let one = rand(0, 9);
+  } else if (cat === '2_2_1_1') {
+    let thousand = rand(1, 9), hundred = rand(0, 9), ten = rand(0, 9), one = rand(0, 9);
     let num = thousand * 1000 + hundred * 100 + ten * 10 + one;
-    
-    let target = rand(1, 2); // 1: 자릿수 숫자, 2: 숫자가 나타내는 값
+    let target = rand(1, 2);
     if (target === 1) {
       let posChoice = rand(1, 4);
-      if (posChoice === 1) {
-        q = `${num} 에서 <b>천의 자리</b> 숫자는 얼마일까요?`;
-        answer = `${thousand}`;
-        exp = `${num} 의 천의 자리 숫자는 ${thousand} 입니다.`;
-      } else if (posChoice === 2) {
-        q = `${num} 에서 <b>백의 자리</b> 숫자는 얼마일까요?`;
-        answer = `${hundred}`;
-        exp = `${num} 의 백의 자리 숫자는 ${hundred} 입니다.`;
-      } else if (posChoice === 3) {
-        q = `${num} 에서 <b>십의 자리</b> 숫자는 얼마일까요?`;
-        answer = `${ten}`;
-        exp = `${num} 의 십의 자리 숫자는 ${ten} 입니다.`;
-      } else {
-        q = `${num} 에서 <b>일의 자리</b> 숫자는 얼마일까요?`;
-        answer = `${one}`;
-        exp = `${num} 의 일의 자리 숫자는 ${one} 입니다.`;
-      }
+      if (posChoice === 1) { q = `${num} 에서 <b>천의 자리</b> 숫자는?`; answer = `${thousand}`; exp = `${num} 의 천의 자리 숫자는 ${thousand} 입니다.`; }
+      else if (posChoice === 2) { q = `${num} 에서 <b>백의 자리</b> 숫자는?`; answer = `${hundred}`; exp = `${num} 의 백의 자리 숫자는 ${hundred} 입니다.`; }
+      else if (posChoice === 3) { q = `${num} 에서 <b>십의 자리</b> 숫자는?`; answer = `${ten}`; exp = `${num} 의 십의 자리 숫자는 ${ten} 입니다.`; }
+      else { q = `${num} 에서 <b>일의 자리</b> 숫자는?`; answer = `${one}`; exp = `${num} 의 일의 자리 숫자는 ${one} 입니다.`; }
       options = shuffleAndPick([answer, `${(parseInt(answer)+1)%10}`, `${(parseInt(answer)+2)%10}`, `${(parseInt(answer)+3)%10}`], answer, 4);
     } else {
       let posChoice = rand(1, 3);
       if (posChoice === 1 && thousand > 0) {
-        q = `${num} 에서 숫자 <b>${thousand}</b>가 나타내는 값은 얼마일까요?`;
+        q = `${num} 에서 숫자 <b>${thousand}</b>가 나타내는 값은?`;
         answer = `${thousand * 1000}`;
         exp = `천의 자리에 있는 숫자 ${thousand}는 ${thousand * 1000}을 나타냅니다.`;
       } else if (posChoice === 2 && hundred > 0) {
-        q = `${num} 에서 숫자 <b>${hundred}</b>가 나타내는 값은 얼마일까요?`;
+        q = `${num} 에서 숫자 <b>${hundred}</b>가 나타내는 값은?`;
         answer = `${hundred * 100}`;
         exp = `백의 자리에 있는 숫자 ${hundred}는 ${hundred * 100}을 나타냅니다.`;
       } else {
-        q = `${num} 에서 숫자 <b>${ten === 0 ? 5 : ten}</b>가 나타내는 값은 얼마일까요?`;
         if(ten === 0) ten = 5;
         num = thousand * 1000 + hundred * 100 + ten * 10 + one;
-        q = `${num} 에서 숫자 <b>${ten}</b>가 나타내는 값은 얼마일까요?`;
+        q = `${num} 에서 숫자 <b>${ten}</b>가 나타내는 값은?`;
         answer = `${ten * 10}`;
         exp = `십의 자리에 있는 숫자 ${ten}는 ${ten * 10}을 나타냅니다.`;
       }
       options = shuffleAndPick([answer, `${parseInt(answer)/10}`, `${parseInt(answer)*10}`, `${parseInt(answer)+10}`], answer, 4);
     }
 
-  } else if (cat === '2_2_1_2') { // 네 자리 수 크기 비교
-    let n1 = rand(1000, 9999);
-    let n2 = rand(1000, 9999);
+  } else if (cat === '2_2_1_2') {
+    let n1 = rand(1000, 9999), n2 = rand(1000, 9999);
     while (n1 === n2) n2 = rand(1000, 9999);
-    
     let isBig = rand(0, 1) === 1;
     let target = isBig ? Math.max(n1, n2) : Math.min(n1, n2);
-    
     q = `두 수 (${n1}, ${n2}) 중 더 <b>${isBig ? '큰' : '작은'}</b> 수는?`;
     answer = `${target}`;
     exp = `천의 자리부터 차례로 비교합니다. (${n1}과 ${n2} 중 더 ${isBig ? '큰' : '작은'} 수는 ${target}입니다)`;
     options = shuffleAndPick([`${n1}`, `${n2}`], answer, 2);
 
-  } else if (cat.startsWith('2_2_2_') && cat !== '2_2_2_all') { // 곱셈구구 개별 단 (2~9단)
-    let dan = parseInt(cat.replace('2_2_2_', ''));
-    let mul = rand(1, 9);
-    let ans = dan * mul;
+  } else if (cat.startsWith('2_2_2_') && cat !== '2_2_2_all') {
+    let dan = parseInt(cat.replace('2_2_2_', '')), mul = rand(1, 9), ans = dan * mul;
     q = `${dan} × ${mul} = ?`;
     answer = `${ans}`;
     exp = `${dan}의 단 곱셈구구: ${dan} × ${mul} = ${ans}`;
-    
-    let o1 = answer;
-    let o2 = `${ans + dan}`;
-    let o3 = `${ans - dan < 1 ? ans + 2 : ans - dan}`;
-    let o4 = `${ans + 1}`;
-    options = shuffleAndPick([o1, o2, o3, o4], answer, 4);
-
+    options = shuffleAndPick([answer, `${ans + dan}`, `${ans - dan < 1 ? ans + 2 : ans - dan}`, `${ans + 1}`], answer, 4);
   }
 
   return { q, answer, opts: options, exp };
 }
 
 function generateQuestion(cat) {
-  if (cat === '2_1_1_all') {
-    let sub = rand(1, 3);
-    return generateSingleQuestion(`2_1_1_${sub}`);
-  }
-  if (cat === '2_2_1_all') {
-    let sub = rand(1, 2);
-    return generateSingleQuestion(`2_2_1_${sub}`);
-  }
-  if (cat === '2_2_2_all') {
-    let dan = rand(2, 9);
-    return generateSingleQuestion(`2_2_2_${dan}`);
-  }
+  if (cat === '2_1_1_all') return generateSingleQuestion(`2_1_1_${rand(1, 3)}`);
+  if (cat === '2_2_1_all') return generateSingleQuestion(`2_2_1_${rand(1, 2)}`);
+  if (cat === '2_2_2_all') return generateSingleQuestion(`2_2_2_${rand(2, 9)}`);
   return generateSingleQuestion(cat);
 }
 
@@ -549,7 +502,7 @@ function loadNextQuestion() {
     document.getElementById("result-text").innerHTML = `
       <b>[${currentSubTitle}]</b><br><br>
       👤 <b>이름:</b> ${userName}<br>
-      ⏱️ <b>걸린 시간:</b> <span style="color:#10b981; font-size:1.2rem; font-weight:bold;">${totalTime}초</span><br>
+      ⏱️ <b>걸린 시간:</b> <span style="color:#3b82f6; font-size:1.2rem; font-weight:bold;">${totalTime}초</span><br>
       📅 <b>완료 시각:</b> <span style="font-size:0.85rem; color:#64748b;">${now}</span>
     `;
     return;
@@ -559,12 +512,10 @@ function loadNextQuestion() {
   document.getElementById("progress-fill").style.width = (correctCount / totalQuestions * 100) + "%";
   
   qData = generateQuestion(selectedCategory);
-  
   document.getElementById("question-text").innerHTML = qData.q;
   
   let optsBox = document.getElementById("options-box");
   optsBox.innerHTML = "";
-  optsBox.style.gridTemplateColumns = (qData.opts.length === 2) ? "1fr 1fr" : "1fr 1fr";
   
   qData.opts.forEach(val => {
     let btn = document.createElement("button");
@@ -579,13 +530,15 @@ function checkAnswer(selected) {
     correctCount++;
     loadNextQuestion();
   } else {
-    document.getElementById("explanation-text").innerHTML = `
-      <div><b>💡 정답:</b> ${qData.answer}</div>
-      <div style="margin-top:6px;">${qData.exp}</div>
-    `;
+    document.getElementById("quiz-screen").classList.add("hidden");
+    document.getElementById("exp-q-display").innerHTML = qData.q;
+    document.getElementById("exp-user-val").innerHTML = selected;
+    document.getElementById("exp-correct-val").innerHTML = qData.answer;
+    document.getElementById("exp-desc-display").innerHTML = qData.exp;
+
     let nextBtn = document.getElementById("modal-next-btn");
     nextBtn.disabled = false;
-    nextBtn.innerText = "다음";
+    nextBtn.innerText = "다음 문제로";
     document.getElementById("explanation-modal").classList.remove("hidden");
   }
 }
@@ -605,6 +558,7 @@ function triggerModalCountdown() {
     } else {
       clearInterval(timer);
       document.getElementById("explanation-modal").classList.add("hidden");
+      document.getElementById("quiz-screen").classList.remove("hidden");
       loadNextQuestion();
     }
   }, 1000);
