@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>5학년 2학기 과학 - 혼합물의 분리 퀴즈</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Pretendard', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+    body {
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 14px;
+      color: #1e293b;
+    }
+    .card {
+      background: #ffffff;
+      width: 100%;
+      max-width: 480px;
+      border-radius: 20px;
+      padding: 24px 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      text-align: center;
+      position: relative;
+    }
+    .top-nav {
+      display: flex;
+      justify-content: flex-start;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #e2e8f0;
+      color: #334155;
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .nav-btn:active {
+      background-color: #cbd5e1;
+    }
+    h1 {
+      font-size: 22px;
+      color: #1e3a8a;
+      margin-bottom: 8px;
+    }
+    .sub-title {
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 24px;
+    }
+    .input-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    .input-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #334155;
+      font-size: 15px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 14px;
+      border: 2px solid #cbd5e1;
+      border-radius: 12px;
+      font-size: 16px;
+      text-align: center;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input[type="text"]:focus {
+      border-color: #2563eb;
+    }
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .btn {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.1s, background-color 0.2s;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+      box-sizing: border-box;
+    }
+    .btn:active {
+      transform: scale(0.98);
+    }
+    .btn-primary {
+      background-color: #2563eb;
+      color: #ffffff;
+    }
+    .btn-secondary {
+      background-color: #64748b;
+      color: #ffffff;
+    }
+    .btn-success {
+      background-color: #16a34a;
+      color: #ffffff;
+    }
+
+    /* 퀴즈 진행 화면 */
+    #quiz-screen {
+      display: none;
+      text-align: left;
+    }
+    .progress-bar-container {
+      width: 100%;
+      background-color: #e2e8f0;
+      height: 10px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background-color: #2563eb;
+      transition: width 0.3s ease;
+    }
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 14px;
+      font-weight: bold;
+    }
+    .badge {
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+    }
+    .badge-mcq { background: #dbeafe; color: #1e40af; }
+    .badge-sa { background: #fef3c7; color: #92400e; }
+
+    .question-box {
+      font-size: 17px;
+      font-weight: bold;
+      line-height: 1.5;
+      color: #0f172a;
+      margin-bottom: 20px;
+      min-height: 60px;
+    }
+    .question-box u {
+      color: #dc2626;
+      text-decoration-thickness: 2px;
+    }
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .option-btn {
+      width: 100%;
+      padding: 14px 16px;
+      background-color: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      text-align: left;
+      font-size: 15px;
+      color: #334155;
+      cursor: pointer;
+      line-height: 1.4;
+      transition: all 0.2s;
+    }
+    .option-btn:active {
+      background-color: #dbeafe;
+      border-color: #2563eb;
+      color: #1e40af;
+    }
+
+    .sa-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* 오답 화면 */
+    #wrong-screen {
+      display: none;
+      background-color: #fef2f2;
+      border: 2px solid #fca5a5;
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+    }
+    .wrong-title {
+      color: #dc2626;
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+    .explanation-box {
+      background: #ffffff;
+      padding: 15px;
+      border-radius: 10px;
+      border-left: 4px solid #dc2626;
+      text-align: left;
+      font-size: 14px;
+      color: #334155;
+      line-height: 1.5;
+      margin-bottom: 18px;
+    }
+
+    /* 성공 화면 */
+    #success-screen {
+      display: none;
+    }
+    .trophy {
+      font-size: 60px;
+      margin-bottom: 10px;
+    }
+    .success-title {
+      font-size: 22px;
+      color: #16a34a;
+      font-weight: bold;
+      margin-bottom: 18px;
+      line-height: 1.4;
+    }
+    .result-info {
+      background-color: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: left;
+      margin-bottom: 20px;
+    }
+    .result-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+    .result-item:last-child {
+      margin-bottom: 0;
+    }
+    .result-label {
+      color: #475569;
+      font-weight: bold;
+    }
+    .result-value {
+      color: #166534;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    
+    <!-- 1. 시작 화면 (규칙 4 반영) -->
+    <div id="start-screen">
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+      </div>
+      <h1>5학년 과학 퀴즈</h1>
+      <p class="sub-title">1단원. 혼합물의 분리</p>
+
+      <div class="input-group">
+        <label for="userName">이름을 입력하세요</label>
+        <input type="text" id="userName" placeholder="예: 홍길동" autocomplete="off">
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="startQuiz()">시작</button>
+        <a href="science.html" class="btn btn-secondary">단원선택</a>
+      </div>
+    </div>
+
+    <!-- 2. 퀴즈 진행 화면 -->
+    <div id="quiz-screen">
+      <div class="progress-bar-container">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      
+      <div class="quiz-header">
+        <span id="question-number">문제 1 / 10</span>
+        <span id="question-type-badge" class="badge badge-mcq">객관식</span>
+      </div>
+
+      <div class="question-box" id="question-text"></div>
+
+      <!-- 객관식 영역 -->
+      <div class="options-container" id="options-container"></div>
+
+      <!-- 단답식 영역 -->
+      <div class="sa-container" id="sa-container" style="display: none;">
+        <input type="text" id="sa-input" placeholder="정답 입력" onkeydown="if(event.key==='Enter') submitSAAnswer()">
+        <button class="btn btn-primary" onclick="submitSAAnswer()">정답 제출</button>
+      </div>
+    </div>
+
+    <!-- 3. 오답 화면 (규칙 7 반영) -->
+    <div id="wrong-screen">
+      <div class="wrong-title">❌ 틀렸습니다!</div>
+      <div class="explanation-box">
+        <strong>💡 간단 해설:</strong>
+        <p id="explanation-text" style="margin-top: 6px;"></p>
+      </div>
+      <button class="btn btn-primary" style="width: 100%;" onclick="returnToStart()">계속</button>
+    </div>
+
+    <!-- 4. 성공 축하 화면 (규칙 8 반영) -->
+    <div id="success-screen">
+      <div class="top-nav">
+        <a href="../../index.html" class="nav-btn">🏠 홈으로</a>
+      </div>
+
+      <div class="trophy">🎉</div>
+      <div class="success-title">축하합니다!<br>10문제를 모두 맞추셨습니다!</div>
+      
+      <div class="result-info">
+        <div class="result-item">
+          <span class="result-label">이름</span>
+          <span class="result-value" id="result-name">-</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">총 걸린시간</span>
+          <span class="result-value" id="result-time">-</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">현재 시간</span>
+          <span class="result-value" id="result-date">-</span>
+        </div>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-success" onclick="returnToStart()">재도전</button>
+        <a href="science.html" class="btn btn-secondary">단원선택</a>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ----------------------------------------------------
+    // 문제 은행 데이터 (제시된 이미지 내용만 100% 반영)
+    // 총 40문제 (객관식 32개 + 단답식 8개)
+    // ----------------------------------------------------
+
+    // 단답식 문제 8개 (요청받은 정답어 exact match)
+    const saBank = [
+      {
+        q: "두 가지 이상의 물질이 각각의 성질이 변하지 않은 채 섞여 있는 것을 무엇이라고 하나요?",
+        ans: "혼합물",
+        exp: "두 가지 이상의 물질이 각각의 성질이 변하지 않은 채 섞여 있는 것을 혼합물이라고 합니다."
+      },
+      {
+        q: "소금물을 가열하여 물을 날려 보내고 소금만 남기는 혼합물 분리 방법을 무엇이라고 하나요?",
+        ans: "증발",
+        exp: "소금물에서 물을 가열하여 날려 보내는 현상을 증발이라고 합니다."
+      },
+      {
+        q: "물과 기름처럼 섞이지 않는 액체 혼합물에서 위층의 액체를 뽑아내어 분리할 때 사용하는 도구는 무엇인가요?",
+        ans: "스포이트",
+        exp: "층이 나누어진 액체 혼합물에서 위층의 액체를 뽑아낼 때 스포이트를 사용합니다."
+      },
+      {
+        q: "기름을 흡수하는 종이로, 바다에 유출된 기름을 제거하는 데 이용하는 재료는 무엇인가요?",
+        ans: "흡착포",
+        exp: "흡착포는 기름을 흡수하는 종이로 바다에 유출된 기름을 제거할 때 사용합니다."
+      },
+      {
+        q: "소금과 모래 혼합물을 물에 녹인 후 걸러낼 때, 깔때기 안에 고깔 모양으로 접어 넣는 종이는 무엇인가요?",
+        ans: "거름종이",
+        exp: "거름 장치를 꾸밀 때 깔때기 안에 두 번 접은 거름종이를 넣습니다."
+      },
+      {
+        q: "우유, 공기, 바닷물처럼 두 가지 이상의 물질이 성질 변화 없이 섞여 있는 물질 상태를 무엇이라고 하나요?",
+        ans: "혼합물",
+        exp: "각 물질의 성질이 변하지 않은 채 섞여 있는 것을 혼합물이라고 합니다."
+      },
+      {
+        q: "염전에서 바닷물을 가열하거나 햇빛으로 물을 날려 보내 소금을 얻는 원리는 무엇인가요?",
+        ans: "증발",
+        exp: "염전에서는 바닷물의 물을 증발시켜 소금을 얻습니다."
+      },
+      {
+        q: "섞이지 않는 액체 혼합물이 층을 이룰 때, 위층의 적은 양의 액체를 뽑아낼 때 쓰는 도구는 무엇인가요?",
+        ans: "스포이트",
+        exp: "위층의 액체를 뽑아내어 분리할 때 스포이트를 사용합니다."
+      }
+    ];
+
+    // 객관식 문제 32개 (부정형 문항 <u>옳지 않은</u> 표기 반영)
+    const mcqBank = [
+      {
+        q: "혼합물에 대한 설명으로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: [
+          "섞인 물질들의 고유한 성질이 완전히 변한다.",
+          "두 가지 이상의 물질이 섞여 있는 것이다.",
+          "바닷물과 공기는 혼합물의 예이다.",
+          "우유와 설탕물은 혼합물의 예이다."
+        ],
+        ans: 0,
+        exp: "혼합물은 두 가지 이상의 물질이 각각의 성질이 변하지 않은 채 섞여 있는 것입니다."
+      },
+      {
+        q: "다음 중 혼합물을 분리하여 얻은 물질의 예로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: [
+          "사탕수수에서 소금을 분리한다.",
+          "사탕수수에서 설탕을 분리한다.",
+          "콩에서 콩기름을 분리한다.",
+          "목화에서 목화솜을 분리한다."
+        ],
+        ans: 0,
+        exp: "사탕수수에서는 설탕을 분리해 냅니다."
+      },
+      {
+        q: "혼합물을 분리하는 까닭으로 가장 알맞은 것은 무엇인가요?",
+        options: [
+          "분리해 얻은 물질을 필요한 곳에 다양하게 이용하기 위해",
+          "물질의 무게를 더 가볍게 만들기 위해",
+          "섞여 있는 물질의 색깔을 바꾸기 위해",
+          "물질의 원래 성질을 완전히 없애기 위해"
+        ],
+        ans: 0,
+        exp: "혼합물을 분리해 얻은 물질은 필요한 곳에 다양하게 이용할 수 있습니다."
+      },
+      {
+        q: "모래와 자갈 혼합물을 분리할 때 이용하는 성질은 무엇인가요?",
+        options: [
+          "알갱이의 크기 차이",
+          "물에 녹는 성질 차이",
+          "기름을 흡수하는 성질",
+          "물에 뜨는 성질 차이"
+        ],
+        ans: 0,
+        exp: "모래와 자갈은 알갱이의 크기 차이를 이용하여 분리합니다."
+      },
+      {
+        q: "모래와 자갈을 분리할 때 사용하는 체의 눈 크기로 알맞은 것은 무엇인가요?",
+        options: [
+          "모래 알갱이보다 크고 자갈 알갱이보다 작은 크기",
+          "자갈 알갱이보다 더 큰 크기",
+          "모래 알갱이보다 더 작은 크기",
+          "모래와 자갈이 모두 통과하는 크기"
+        ],
+        ans: 0,
+        exp: "체의 눈 크기는 모래 알갱이보다는 크고 자갈 알갱이보다는 작아야 모래만 통과합니다."
+      },
+      {
+        q: "알갱이의 크기 차이를 이용해 혼합물을 분리하는 예로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: [
+          "바다에 유출된 기름을 흡착포로 제거하기",
+          "공사장에서 모래와 자갈을 분리할 때 체 사용하기",
+          "마스크를 사용해 황사를 걸러내고 공기 통과시키기",
+          "해변 쓰레기 수거 장비로 모래와 쓰레기 분리하기"
+        ],
+        ans: 0,
+        exp: "바다에 유출된 기름을 제거하는 것은 흡착포를 이용하는 방법입니다."
+      },
+      {
+        q: "물과 기름을 섞었을 때의 위치 관계로 올바른 것은 무엇인가요?",
+        options: [
+          "기름은 위쪽에, 물은 아래쪽에 위치한다.",
+          "물은 위쪽에, 기름은 아래쪽에 위치한다.",
+          "물과 기름이 서로 완전히 섞여 구분이 안 된다.",
+          "기름이 비커 바닥으로 가라앉는다."
+        ],
+        ans: 0,
+        exp: "물과 기름을 섞으면 기름은 위쪽에, 물은 아래쪽에 위치합니다."
+      },
+      {
+        q: "물과 기름처럼 섞이지 않는 액체 혼합물에서 위층에 떠 있는 물질의 양이 적을 때 분리하는 도구는 무엇인가요?",
+        options: [
+          "흡착포",
+          "거름종이",
+          "체",
+          "유리 막대"
+        ],
+        ans: 0,
+        exp: "위층에 떠 있는 물질의 양이 적을 때는 흡착포를 사용하여 분리할 수 있습니다."
+      },
+      {
+        q: "섞이지 않는 액체 혼합물의 분리 예로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: [
+          "염전에서 바닷물로 소금을 만드는 것",
+          "국이나 찌개 위에 떠 있는 기름을 숟가락이나 국자로 떠내는 것",
+          "바다에 기름이 유출되었을 때 흡착포를 던져 기름을 제거하는 것",
+          "마블링 물감이 물에 뜨는 성질을 이용해 작품을 만드는 것"
+        ],
+        ans: 0,
+        exp: "염전에서 소금을 얻는 것은 증발을 이용한 분리 방법입니다."
+      },
+      {
+        q: "소금과 모래 혼합물을 분리할 때 이용하는 소금의 성질은 무엇인가요?",
+        options: [
+          "물에 녹는 성질",
+          "알갱이가 자갈보다 큰 성질",
+          "물 위에 떠오르는 성질",
+          "기름을 흡수하는 성질"
+        ],
+        ans: 0,
+        exp: "소금과 모래의 혼합물은 소금이 물에 녹는 성질을 이용합니다."
+      },
+      {
+        q: "거름 장치를 꾸밀 때 깔때기 안에 거름종이를 고정하기 위해 사용하는 방법은 무엇인가요?",
+        options: [
+          "스포이트를 이용해 물을 묻힌다.",
+          "풀을 발라 붙인다.",
+          "테이프로 깔때기에 붙인다.",
+          "기름을 발라 고정한다."
+        ],
+        ans: 0,
+        exp: "거름종이를 깔때기 안에 넣고 스포이트를 이용해 물을 묻혀 고정합니다."
+      },
+      {
+        q: "거름 장치를 설치할 때 깔때기 끝의 긴 부분은 어떻게 위치시켜야 하나요?",
+        options: [
+          "비커의 옆면에 닿게 설치한다.",
+          "비커 중앙 공중에 떠 있게 설치한다.",
+          "비커 바닥에 바짝 붙여 설치한다.",
+          "비커 바깥쪽으로 빼내어 설치한다."
+        ],
+        ans: 0,
+        exp: "깔때기 끝의 긴 부분을 비커의 옆면에 닿게 설치합니다."
+      },
+      {
+        q: "거름 장치에 소금과 모래 혼합물을 녹인 물을 부을 때 사용하는 도구는 무엇인가요?",
+        options: [
+          "유리 막대",
+          "스포이트",
+          "국자",
+          "체"
+        ],
+        ans: 0,
+        exp: "혼합물이 유리 막대를 타고 흐르도록 깔때기에 천천히 붓습니다."
+      },
+      {
+        q: "소금과 모래 혼합물을 물에 녹인 후 거름 장치로 걸렀을 때, 거름종이 위에 남는 물질은 무엇인가요?",
+        options: [
+          "모래",
+          "소금물",
+          "소금 알갱이",
+          "물"
+        ],
+        ans: 0,
+        exp: "물에 녹지 않은 모래는 거름종이 위에 남습니다."
+      },
+      {
+        q: "소금과 모래 혼합물을 물에 녹인 후 거름 장치로 걸렀을 때, 거름종이를 빠져나가는 물질은 무엇인가요?",
+        options: [
+          "소금물",
+          "모래",
+          "자갈",
+          "콩기름"
+        ],
+        ans: 0,
+        exp: "물에 녹은 소금물은 거름종이를 빠져나가 비커에 모입니다."
+      },
+      {
+        q: "거름종이를 빠져나온 소금물에서 소금을 분리하기 위해 가열할 때 일어나는 현상은 무엇인가요?",
+        options: [
+          "물이 증발한다.",
+          "소금이 증발한다.",
+          "모래가 녹아 나온다.",
+          "소금이 물로 변한다."
+        ],
+        ans: 0,
+        exp: "소금물을 가열하면 물이 증발하여 소금만 남게 됩니다."
+      },
+      {
+        q: "메주로 된장과 간장을 만들 때, 소금물에 넣어 발효시킨 후 건져 낸 메주로 만드는 것은 무엇인가요?",
+        options: [
+          "된장",
+          "간장",
+          "두부",
+          "치즈"
+        ],
+        ans: 0,
+        exp: "소금물에서 건져 낸 메주로는 된장을 만듭니다."
+      },
+      {
+        q: "전통 장 만들기에서 메주를 건져내고 천을 빠져나간 물질을 끓여서 만드는 것은 무엇인가요?",
+        options: [
+          "간장",
+          "된장",
+          "소금",
+          "두부"
+        ],
+        ans: 0,
+        exp: "천을 빠져나간 물질을 끓여서 간장을 만듭니다."
+      },
+      {
+        q: "거름과 증발을 이용해 혼합물을 분리하는 예로 <u>옳지 않은</u> 것은 무엇인가요?",
+        options: [
+          "마스크로 황사 걸러내기",
+          "염전에서 바닷물을 증발시켜 소금 얻기",
+          "물에 불린 콩물을 천으로 걸러 두부 만들기",
+          "과일을 건조하여 말린 과일 만들기"
+        ],
+        ans: 0,
+        exp: "마스크로 황사를 걸러내는 것은 알갱이 크기 차이를 이용한 거름의 예입니다."
+      },
+      {
+        q: "휴대용 정수 장치가 물속의 오염 물질을 걸러내기 위해 갖추고 있는 것은 무엇인가요?",
+        options: [
+          "여러 겹의 거름망",
+          "흡착포",
+          "유리 막대",
+          "인공지능 감지기"
+        ],
+        ans: 0,
+        exp: "휴대용 정수 장치에는 여러 겹의 거름망이 있어 오염 물질을 걸러냅니다."
+      },
+      {
+        q: "공기 정화 장치가 수행하는 역할로 올바른 것은 무엇인가요?",
+        options: [
+          "공기 속에 포함된 오염 물질을 제거한다.",
+          "공기 중의 물을 증발시켜 소금을 만든다.",
+          "공기를 물과 기름으로 분리한다.",
+          "공기 속 모래를 체로 걸러낸다."
+        ],
+        ans: 0,
+        exp: "공기 정화 장치는 공기 속에 포함된 오염 물질을 제거하여 깨끗한 공기를 공급합니다."
+      },
+      {
+        q: "재활용할 수 있는 물질을 판별하고 분류하여 종류별로 모으는 장치는 무엇인가요?",
+        options: [
+          "인공지능 폐기물 선별 장치",
+          "하수 처리 시설",
+          "해수 담수화 장치",
+          "휴대용 정수 장치"
+        ],
+        ans: 0,
+        exp: "인공지능 폐기물 선별 장치는 재활용 물질을 판별하고 분류하여 모읍니다."
+      },
+      {
+        q: "바닷물 속 소금 등 몸에 해로운 물질을 걸러 내어 마시거나 생활에 사용할 수 있는 물로 만드는 장치는 무엇인가요?",
+        options: [
+          "해수 담수화 장치",
+          "공기 정화 장치",
+          "하수 처리 시설",
+          "휴대용 정수 장치"
+        ],
+        ans: 0,
+        exp: "바닷물 속 해로운 물질을 걸러 깨끗한 물로 만드는 장치는 해수 담수화 장치입니다."
+      },
+      {
+        q: "강에서 모래 속에 있는 작은 조개를 잡을 때 사용하는 도구와 이용하는 성질은 무엇인가요?",
+        options: [
+          "체를 사용하며, 알갱이 크기 차이를 이용한다.",
+          "스포이트를 사용하며, 액체 층 차이를 이용한다.",
+          "거름종이를 사용하며, 물에 녹는 성질을 이용한다.",
+          "흡착포를 사용하며, 기름을 흡수하는 성질을 이용한다."
+        ],
+        ans: 0,
+        exp: "강에서 조개를 잡을 때는 체를 사용하여 모래와 조개 알갱이의 크기 차이를 이용합니다."
+      },
+      {
+        q: "거름 장치 꾸미기 순서 중 <u>옳지 않은</u> 설명은 무엇인가요?",
+        options: [
+          "거름종이를 세 번 접어 고깔 모양으로 접는다.",
+          "거름종이를 두 번 접어 고깔 모양으로 접는다.",
+          "깔때기 안에 거름종이를 넣고 스포이트로 물을 묻혀 고정한다.",
+          "깔때기 끝의 긴 부분을 비커의 옆면에 닿게 설치한다."
+        ],
+        ans: 0,
+        exp: "거름종이는 두 번 접어 고깔 모양으로 접어야 합니다."
+      },
+      {
+        q: "치즈를 만들 때 혼합물을 걸러내기 위해 사용하는 것은 무엇인가요?",
+        options: [
+          "천",
+          "흡착포",
+          "스포이트",
+          "체"
+        ],
+        ans: 0,
+        exp: "치즈를 만들 때에는 천으로 걸러 냅니다."
+      },
+      {
+        q: "마블링 물감이 물에 뜨는 성질을 이용해 작품을 만드는 것은 어떤 혼합물 분리 예에 해당하나요?",
+        options: [
+          "섞이지 않는 액체 혼합물의 분리 예",
+          "알갱이 크기가 다른 고체 혼합물의 분리 예",
+          "물에 녹는 성질을 이용한 분리 예",
+          "가열하여 증발시키는 분리 예"
+        ],
+        ans: 0,
+        exp: "마블링 물감이 물에 뜨는 성질을 이용하는 것은 섞이지 않는 액체 혼합물의 분리 예입니다."
+      },
+      {
+        q: "국이나 찌개 위에 떠 있는 기름을 떠내어 분리할 때 사용하는 도구는 무엇인가요?",
+        options: [
+          "숟가락이나 국자",
+          "거름종이",
+          "체",
+          "스포이트"
+        ],
+        ans: 0,
+        exp: "국이나 찌개 위에 떠 있는 기름은 숟가락이나 국자로 떠내어 분리합니다."
+      },
+      {
+        q: "흡착포에 대한 설명으로 올바른 것은 무엇인가요?",
+        options: [
+          "기름을 흡수하는 종이로, 바다에 유출된 기름을 제거할 때 이용한다.",
+          "물에 녹는 소금을 걸러내는 금속망이다.",
+          "모래와 자갈을 분리할 때 사용하는 구멍 뚫린 기구이다.",
+          "공기 속 오염 물질을 흡수하는 먼지 필터이다."
+        ],
+        ans: 0,
+        exp: "흡착포는 기름을 흡수하는 종이로 바다에 유출된 기름을 제거하는 데 이용됩니다."
+      },
+      {
+        q: "가정과 공장에서 나온 오염된 물을 여러 단계에 걸쳐 걸러 내어 깨끗하게 만드는 시설은 무엇인가요?",
+        options: [
+          "하수 처리 시설",
+          "해수 담수화 장치",
+          "공기 정화 장치",
+          "인공지능 폐기물 선별 장치"
+        ],
+        ans: 0,
+        exp: "가정과 공장에서 나온 오염된 물은 하수 처리 시설에서 여러 단계로 걸러 냅니다."
+      },
+      {
+        q: "혈액을 분리해 얻을 수 있는 것에 대한 설명으로 올바른 것은 무엇인가요?",
+        options: [
+          "혈액을 분리하여 여러 성분 물질을 얻는다.",
+          "혈액을 분리하여 설탕과 소금을 얻는다.",
+          "혈액을 분리하여 콩기름을 얻는다.",
+          "혈액을 분리하여 목화솜을 얻는다."
+        ],
+        ans: 0,
+        exp: "혈액을 분리하면 여러 성분 물질을 얻을 수 있습니다."
+      },
+      {
+        q: "다음 중 콩에서 분리하여 얻는 물질은 무엇인가요?",
+        options: [
+          "콩기름",
+          "목화솜",
+          "설탕",
+          "소금"
+        ],
+        ans: 0,
+        exp: "콩에서는 콩기름을 분리해 얻습니다."
+      }
+    ];
+
+    // ----------------------------------------------------
+    // 게임 전역 상태
+    // ----------------------------------------------------
+    let userName = "";
+    let quizQueue = [];
+    let currentIdx = 0;
+    let startTime = null;
+
+    // DOM 요소
+    const startScreen = document.getElementById("start-screen");
+    const quizScreen = document.getElementById("quiz-screen");
+    const wrongScreen = document.getElementById("wrong-screen");
+    const successScreen = document.getElementById("success-screen");
+
+    // 배열 무작위 셔플
+    function shuffle(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    // 퀴즈 시작 (규칙 5 반영)
+    function startQuiz() {
+      const nameInput = document.getElementById("userName").value.trim();
+      if (!nameInput) {
+        alert("이름을 입력해 주세요!");
+        return;
+      }
+      userName = nameInput;
+
+      // 규칙 6 반영: 1-7번 객관식 7개 무작위, 8-10번 단답식 3개 무작위
+      const selectedMCQs = shuffle(mcqBank).slice(0, 7);
+      const selectedSAs = shuffle(saBank).slice(0, 3);
+
+      // 객관식 선택지 셔플
+      const formattedMCQs = selectedMCQs.map(item => {
+        const correctText = item.options[item.ans];
+        const shuffledOptions = shuffle(item.options);
+        const newAnsIdx = shuffledOptions.indexOf(correctText);
+        return {
+          type: "MCQ",
+          q: item.q,
+          options: shuffledOptions,
+          ans: newAnsIdx,
+          exp: item.exp
+        };
+      });
+
+      // 단답식 문제 정리
+      const formattedSAs = selectedSAs.map(item => ({
+        type: "SA",
+        q: item.q,
+        ans: item.ans,
+        exp: item.exp
+      }));
+
+      quizQueue = [...formattedMCQs, ...formattedSAs];
+      currentIdx = 0;
+      startTime = Date.now();
+
+      startScreen.style.display = "none";
+      wrongScreen.style.display = "none";
+      successScreen.style.display = "none";
+      quizScreen.style.display = "block";
+
+      renderQuestion();
+    }
+
+    // 문제 출력
+    function renderQuestion() {
+      const qData = quizQueue[currentIdx];
+      
+      // 진행 바 및 문제 번호
+      const progressPercent = ((currentIdx + 1) / 10) * 100;
+      document.getElementById("progress-bar").style.width = progressPercent + "%";
+      document.getElementById("question-number").textContent = `문제 ${currentIdx + 1} / 10`;
+
+      const badge = document.getElementById("question-type-badge");
+      const optionsBox = document.getElementById("options-container");
+      const saBox = document.getElementById("sa-container");
+
+      // 문제 제목 (밑줄 u 태그 강조 반영)
+      document.getElementById("question-text").innerHTML = `${currentIdx + 1}. ${qData.q}`;
+
+      if (qData.type === "MCQ") {
+        badge.textContent = "객관식";
+        badge.className = "badge badge-mcq";
+        optionsBox.style.display = "flex";
+        saBox.style.display = "none";
+
+        optionsBox.innerHTML = "";
+        qData.options.forEach((optText, idx) => {
+          const btn = document.createElement("button");
+          btn.className = "option-btn";
+          btn.textContent = `${idx + 1}. ${optText}`;
+          btn.onclick = () => checkMCQAnswer(idx);
+          optionsBox.appendChild(btn);
+        });
+      } else {
+        badge.textContent = "단답식";
+        badge.className = "badge badge-sa";
+        optionsBox.style.display = "none";
+        saBox.style.display = "flex";
+
+        const saInput = document.getElementById("sa-input");
+        saInput.value = "";
+        setTimeout(() => saInput.focus(), 100);
+      }
+    }
+
+    // 객관식 정답 검사
+    function checkMCQAnswer(selectedIdx) {
+      const qData = quizQueue[currentIdx];
+      if (selectedIdx === qData.ans) {
+        nextQuestion();
+      } else {
+        showWrongScreen(qData.exp);
+      }
+    }
+
+    // 단답식 정답 검사
+    function submitSAAnswer() {
+      const qData = quizQueue[currentIdx];
+      const userInput = document.getElementById("sa-input").value.trim().replace(/\s+/g, "");
+      const targetAns = qData.ans.replace(/\s+/g, "");
+
+      if (!userInput) {
+        alert("정답을 입력해주세요.");
+        return;
+      }
+
+      if (userInput === targetAns) {
+        nextQuestion();
+      } else {
+        showWrongScreen(qData.exp);
+      }
+    }
+
+    // 다음 문제 이동
+    function nextQuestion() {
+      currentIdx++;
+      if (currentIdx < 10) {
+        renderQuestion();
+      } else {
+        finishQuiz();
+      }
+    }
+
+    // 오답 화면 (규칙 7 반영)
+    function showWrongScreen(explanationText) {
+      quizScreen.style.display = "none";
+      wrongScreen.style.display = "block";
+      document.getElementById("explanation-text").textContent = explanationText;
+    }
+
+    // 이름 입력 시작 단계로 돌아가기 (규칙 7 반영)
+    function returnToStart() {
+      wrongScreen.style.display = "none";
+      successScreen.style.display = "none";
+      quizScreen.style.display = "none";
+      startScreen.style.display = "block";
+    }
+
+    // 10문제 모두 맞춘 경우 (규칙 8 반영)
+    function finishQuiz() {
+      const endTime = Date.now();
+      const elapsedSeconds = Math.round((endTime - startTime) / 1000);
+
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      
+      const dateStr = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+
+      document.getElementById("result-name").textContent = userName;
+      document.getElementById("result-time").textContent = `${elapsedSeconds}초`;
+      document.getElementById("result-date").textContent = dateStr;
+
+      quizScreen.style.display = "none";
+      successScreen.style.display = "block";
+    }
+  </script>
+</body>
+</html>
